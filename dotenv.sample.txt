@@ -1,0 +1,14 @@
+# Modify and save this file as ".env"
+API_ENV=dev
+APP_NAME=MembershipApi
+
+# Node.js server configuration
+SERVER_PORT=8083
+
+# MySql configuration
+DB_HOST=localhost
+DB_DATABASE=membership
+DB_USER=root
+DB_PASSWORD=
+
+JWT_SECRET_KEY=this is a test key that is a sentence

@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS `households`;
+
+CREATE TABLE `households` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `churchId` int(11) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `churchId` (`churchId`)
+) ENGINE=InnoDB AUTO_INCREMENT=613 DEFAULT CHARSET=latin1;
