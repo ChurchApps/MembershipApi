@@ -1,0 +1,3 @@
+[submodule "src/apiBase"]
+	path = src/apiBase
+	url = https://github.com/LiveChurchSolutions/ApiBase
