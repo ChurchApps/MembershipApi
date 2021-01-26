@@ -14,6 +14,7 @@ export class ChurchController extends MembershipBaseController {
             const promises: Promise<any>[] = [];
             promises.push(this.createPerson(req.body.user.displayName, au.churchId, au.id, au.email));
             promises.push(this.createGroup(au.churchId));
+            await Promise.all(promises);
             return {};
         });
     }
