@@ -5,6 +5,7 @@ import { Person, Household } from "../models"
 import { FormSubmission, Form } from "../apiBase/models"
 import { AwsHelper } from "../helpers"
 import { RoleContentType, RoleAction } from '../constants'
+import { Permissions } from '../helpers/Permissions'
 
 
 @controller("/people")
@@ -29,7 +30,7 @@ export class PersonController extends MembershipBaseController {
     @httpPost("/household/:householdId")
     public async saveMembers(@requestParam("householdId") householdId: number, req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess("Households", "Edit")) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.households.edit)) return this.json({}, 401);
             else {
                 // save submitted
                 const promises: Promise<Person>[] = [];
@@ -78,7 +79,7 @@ export class PersonController extends MembershipBaseController {
     @httpGet("/attendance")
     public async loadAttendees(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess("People", "Edit")) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
             else {
                 const campusId = (req.query.campusId === undefined) ? 0 : parseInt(req.query.campusId.toString(), 0);
                 const serviceId = (req.query.serviceId === undefined) ? 0 : parseInt(req.query.serviceId.toString(), 0);
@@ -174,7 +175,7 @@ export class PersonController extends MembershipBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess("People", "Edit")) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
             else {
                 const promises: Promise<Person>[] = [];
                 req.body.forEach(person => {
@@ -197,7 +198,7 @@ export class PersonController extends MembershipBaseController {
     @httpDelete("/:id")
     public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess("People", "Edit")) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
             else await this.repositories.person.delete(au.churchId, id);
         });
     }
