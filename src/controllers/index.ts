@@ -1,4 +1,4 @@
-export { CustomBaseController, ErrorController, FormController, FormSubmissionController, NoteController, QuestionController, } from "../apiBase"
+export { CustomBaseController, ErrorController, FormController, FormSubmissionController, NoteController, QuestionController, AnswerController } from "../apiBase"
 export { ChurchController } from "./ChurchController";
 export { GroupController } from "./GroupController";
 export { GroupMemberController } from "./GroupMemberController";
