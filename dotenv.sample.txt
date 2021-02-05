@@ -12,3 +12,8 @@ DB_USER=root
 DB_PASSWORD=
 
 JWT_SECRET_KEY=this is a test key that is a sentence
+
+AMAZON_REGION=us-east-2
+AMAZON_S3_BUCKET=membership
+AMAZON_ACCESS_KEY_ID=
+AMAZON_SECRET_ACCESS_KEY=
