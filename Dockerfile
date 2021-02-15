@@ -5,13 +5,11 @@ RUN apk update && \
 
 WORKDIR /app
 
-COPY ./package.json . 
+COPY . . 
 
 RUN git submodule init && git submodule update
 
 RUN npm install
-
-COPY . .
 
 CMD npm run initdb && npm run start
 
