@@ -20,7 +20,7 @@ export class PersonController extends MembershipBaseController {
     }
 
     @httpGet("/household/:householdId")
-    public async getHouseholdMembers(@requestParam("householdId") householdId: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async getHouseholdMembers(@requestParam("householdId") householdId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             return this.repositories.person.convertAllToModel(au.churchId, await this.repositories.person.loadByHousehold(au.churchId, householdId));
         });
@@ -28,7 +28,7 @@ export class PersonController extends MembershipBaseController {
 
 
     @httpPost("/household/:householdId")
-    public async saveMembers(@requestParam("householdId") householdId: number, req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async saveMembers(@requestParam("householdId") householdId: string, req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.households.edit)) return this.json({}, 401);
             else {
@@ -69,8 +69,8 @@ export class PersonController extends MembershipBaseController {
     public async getByUserIds(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const userIdList = req.query.userIds.toString().split(',');
-            const userIds: number[] = [];
-            userIdList.forEach(userId => userIds.push(parseInt(userId, 0)));
+            const userIds: string[] = [];
+            userIdList.forEach(userId => userIds.push(userId));
             const data = await this.repositories.person.loadByUserIds(au.churchId, userIds);
             return this.repositories.person.convertAllToModel(au.churchId, data);
         });
@@ -81,10 +81,10 @@ export class PersonController extends MembershipBaseController {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
             else {
-                const campusId = (req.query.campusId === undefined) ? 0 : parseInt(req.query.campusId.toString(), 0);
-                const serviceId = (req.query.serviceId === undefined) ? 0 : parseInt(req.query.serviceId.toString(), 0);
-                const serviceTimeId = (req.query.serviceTimeId === undefined) ? 0 : parseInt(req.query.serviceTimeId.toString(), 0);
-                const groupId = (req.query.groupId === undefined) ? 0 : parseInt(req.query.groupId.toString(), 0);
+                const campusId = (req.query.campusId === undefined) ? "" : req.query.campusId.toString();
+                const serviceId = (req.query.serviceId === undefined) ? "" : req.query.serviceId.toString();
+                const serviceTimeId = (req.query.serviceTimeId === undefined) ? "" : req.query.serviceTimeId.toString();
+                const groupId = (req.query.groupId === undefined) ? "" : req.query.groupId.toString();
                 const categoryName = (req.query.categoryName === undefined) ? "" : req.query.categoryName.toString();
                 const startDate = (req.query.startDate === undefined) ? null : new Date(req.query.startDate.toString());
                 const endDate = (req.query.endDate === undefined) ? null : new Date(req.query.endDate.toString());
@@ -97,8 +97,8 @@ export class PersonController extends MembershipBaseController {
     @httpGet("/search/phone")
     public async searchPhone(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            const phoneNumber: string = req.query.number.toString();
-            const data = await this.repositories.person.searchPhone(au.churchId, phoneNumber);
+            const phonestring: string = req.query.string.toString();
+            const data = await this.repositories.person.searchPhone(au.churchId, phonestring);
             return this.repositories.person.convertAllToModel(au.churchId, data);
         });
     }
@@ -124,8 +124,8 @@ export class PersonController extends MembershipBaseController {
     public async getMultiple(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const idList = req.query.ids.toString().split(',');
-            const ids: number[] = [];
-            idList.forEach(id => ids.push(parseInt(id, 0)));
+            const ids: string[] = [];
+            idList.forEach(id => ids.push(id));
             const data = await this.repositories.person.loadByIds(au.churchId, ids);
             const result = this.repositories.person.convertAllToModel(au.churchId, data)
             return result;
@@ -133,7 +133,7 @@ export class PersonController extends MembershipBaseController {
     }
 
     @httpGet("/:id")
-    public async get(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const data = await this.repositories.person.load(au.churchId, id);
             const result = this.repositories.person.convertToModel(au.churchId, data)
@@ -143,7 +143,7 @@ export class PersonController extends MembershipBaseController {
     }
 
     @httpPost("/:id/claim")
-    public async claim(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async claim(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const data = await this.repositories.person.load(au.churchId, id);
             const person = this.repositories.person.convertToModel(au.churchId, data)
@@ -156,7 +156,7 @@ export class PersonController extends MembershipBaseController {
     }
 
     @httpGet("/userid/:userId")
-    public async getByUserId(@requestParam("userId") userId: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async getByUserId(@requestParam("userId") userId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const data = await this.repositories.person.loadByUserId(au.churchId, userId);
             return this.repositories.person.convertToModel(au.churchId, data);
@@ -196,7 +196,7 @@ export class PersonController extends MembershipBaseController {
     }
 
     @httpDelete("/:id")
-    public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
             else await this.repositories.person.delete(au.churchId, id);
@@ -204,7 +204,7 @@ export class PersonController extends MembershipBaseController {
     }
 
 
-    private async savePhoto(churchId: number, person: Person) {
+    private async savePhoto(churchId: string, person: Person) {
         // console.log("SAVE PHOTO");
         const base64 = person.photo.split(',')[1];
         const key = "content/c/" + churchId + "/p/" + person.id + ".png";
@@ -215,10 +215,10 @@ export class PersonController extends MembershipBaseController {
         });
     }
 
-    private async appendFormSubmissions(churchId: number, person: Person) {
+    private async appendFormSubmissions(churchId: string, person: Person) {
         const submissions: FormSubmission[] = this.baseRepositories.formSubmission.convertAllToModel(churchId, await this.baseRepositories.formSubmission.loadForContent(churchId, "person", person.id));
         if (submissions.length > 0) {
-            const formIds: number[] = [];
+            const formIds: string[] = [];
             submissions.forEach(s => { if (formIds.indexOf(s.formId) === -1) formIds.push(s.formId) });
             const forms: Form[] = this.baseRepositories.form.convertAllToModel(churchId, await this.baseRepositories.form.loadByIds(churchId, formIds));
 

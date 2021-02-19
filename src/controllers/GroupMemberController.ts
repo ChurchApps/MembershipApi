@@ -9,7 +9,7 @@ import { Permissions } from '../helpers/Permissions'
 export class GroupMemberController extends MembershipBaseController {
 
     @httpGet("/:id")
-    public async get(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.groupMembers.view)) return this.json({}, 401);
             else return this.repositories.groupMember.convertToModel(au.churchId, await this.repositories.groupMember.load(au.churchId, id));
@@ -22,8 +22,8 @@ export class GroupMemberController extends MembershipBaseController {
             if (!au.checkAccess(Permissions.groupMembers.view)) return this.json({}, 401);
             else {
                 let result = null;
-                if (req.query.groupId !== undefined) result = await this.repositories.groupMember.loadForGroup(au.churchId, parseInt(req.query.groupId.toString(), 0));
-                else if (req.query.personId !== undefined) result = await this.repositories.groupMember.loadForPerson(au.churchId, parseInt(req.query.personId.toString(), 0));
+                if (req.query.groupId !== undefined) result = await this.repositories.groupMember.loadForGroup(au.churchId, req.query.groupId.toString());
+                else if (req.query.personId !== undefined) result = await this.repositories.groupMember.loadForPerson(au.churchId, req.query.personId.toString());
                 else result = await this.repositories.groupMember.loadAll(au.churchId);
                 return this.repositories.groupMember.convertAllToModel(au.churchId, result);
             }
@@ -44,7 +44,7 @@ export class GroupMemberController extends MembershipBaseController {
     }
 
     @httpDelete("/:id")
-    public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.groupMembers.edit)) return this.json({}, 401);
             else await this.repositories.groupMember.delete(au.churchId, id);

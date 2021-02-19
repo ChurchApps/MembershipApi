@@ -8,7 +8,7 @@ import { Permissions } from '../helpers/Permissions'
 export class HouseholdController extends MembershipBaseController {
 
     @httpGet("/:id")
-    public async get(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             return this.repositories.household.convertToModel(au.churchId, await this.repositories.household.load(au.churchId, id));
         });
@@ -35,7 +35,7 @@ export class HouseholdController extends MembershipBaseController {
     }
 
     @httpDelete("/:id")
-    public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.households.edit)) return this.json({}, 401);
             else await this.repositories.household.delete(au.churchId, id);

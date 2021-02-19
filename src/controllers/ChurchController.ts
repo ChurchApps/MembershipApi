@@ -19,7 +19,7 @@ export class ChurchController extends MembershipBaseController {
         });
     }
 
-    async createGroup(churchId: number) {
+    async createGroup(churchId: string) {
         const groups = await this.repositories.group.loadAll(churchId);
         if (groups.length === 0) {
             const group: Group = { churchId, name: "Worship Service", categoryName: "Worship Service", trackAttendance: true, parentPickup: false };
@@ -27,7 +27,7 @@ export class ChurchController extends MembershipBaseController {
         }
     }
 
-    async createPerson(displayName: string, churchId: number, userId: number, email: string) {
+    async createPerson(displayName: string, churchId: string, userId: string, email: string) {
         const p = await this.repositories.person.loadByUserId(churchId, userId);
         if (p === null) {
             const nameParts = displayName.split(' ');
