@@ -12,10 +12,11 @@ export class GroupMemberRepository {
     }
 
     public async create(groupMember: GroupMember) {
+        groupMember.id = UniqueIdHelper.shortId();
         return DB.query(
             "INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate) VALUES (?, ?, ?, ?, NOW());",
-            [UniqueIdHelper.shortId(), groupMember.churchId, groupMember.groupId, groupMember.personId]
-        ).then((row: any) => { groupMember.id = row.insertId; return groupMember; });
+            [groupMember.id, groupMember.churchId, groupMember.groupId, groupMember.personId]
+        ).then(() => { return groupMember; });
     }
 
     public async update(groupMember: GroupMember) {

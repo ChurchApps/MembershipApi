@@ -11,10 +11,11 @@ export class GroupRepository {
     }
 
     public async create(group: Group) {
+        group.id = UniqueIdHelper.shortId();
         return DB.query(
             "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, removed) VALUES (?, ?, ?, ?, ?, ?, 0);",
-            [UniqueIdHelper.shortId(), group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup]
-        ).then((row: any) => { group.id = row.insertId; return group; });
+            [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup]
+        ).then(() => { return group; });
     }
 
     public async update(group: Group) {

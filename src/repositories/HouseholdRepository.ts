@@ -11,10 +11,11 @@ export class HouseholdRepository {
     }
 
     public async create(household: Household) {
+        household.id = UniqueIdHelper.shortId();
         return DB.query(
             "INSERT INTO households (id, churchId, name) VALUES (?, ?, ?);",
-            [UniqueIdHelper.shortId(), household.churchId, household.name]
-        ).then((row: any) => { household.id = row.insertId; return household; });
+            [household.id, household.churchId, household.name]
+        ).then(() => { return household; });
     }
 
     public async update(household: Household) {
