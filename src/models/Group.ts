@@ -1,6 +1,6 @@
 export class Group {
-    public id?: number;
-    public churchId?: number;
+    public id?: string;
+    public churchId?: string;
     public categoryName?: string;
     public name?: string;
     public trackAttendance?: boolean;

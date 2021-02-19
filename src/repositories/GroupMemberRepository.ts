@@ -2,19 +2,21 @@ import { injectable } from "inversify";
 import { DB } from "../apiBase/db";
 import { GroupMember } from "../models";
 import { PersonHelper } from "../helpers"
+import { UniqueIdHelper } from "../helpers";
 
 @injectable()
 export class GroupMemberRepository {
 
     public async save(groupMember: GroupMember) {
-        if (groupMember.id > 0) return this.update(groupMember); else return this.create(groupMember);
+        if (UniqueIdHelper.isMissing(groupMember.id)) return this.create(groupMember); else return this.update(groupMember);
     }
 
     public async create(groupMember: GroupMember) {
+        groupMember.id = UniqueIdHelper.shortId();
         return DB.query(
-            "INSERT INTO groupMembers (churchId, groupId, personId, joinDate) VALUES (?, ?, ?, NOW());",
-            [groupMember.churchId, groupMember.groupId, groupMember.personId]
-        ).then((row: any) => { groupMember.id = row.insertId; return groupMember; });
+            "INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate) VALUES (?, ?, ?, ?, NOW());",
+            [groupMember.id, groupMember.churchId, groupMember.groupId, groupMember.personId]
+        ).then(() => { return groupMember; });
     }
 
     public async update(groupMember: GroupMember) {
@@ -24,19 +26,19 @@ export class GroupMemberRepository {
         ).then(() => { return groupMember });
     }
 
-    public async delete(churchId: number, id: number) {
+    public async delete(churchId: string, id: string) {
         DB.query("DELETE FROM groupMembers WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async load(churchId: number, id: number) {
+    public async load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM groupMembers WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async loadAll(churchId: number) {
+    public async loadAll(churchId: string) {
         return DB.query("SELECT * FROM groupMembers WHERE churchId=?;", [churchId]);
     }
 
-    public async loadForGroup(churchId: number, groupId: number) {
+    public async loadForGroup(churchId: string, groupId: string) {
         const sql = "SELECT gm.*, p.photoUpdated, p.displayName, p.email"
             + " FROM groupMembers gm"
             + " INNER JOIN people p on p.id=gm.personId"
@@ -45,7 +47,7 @@ export class GroupMemberRepository {
         return DB.query(sql, [churchId, groupId]);
     }
 
-    public async loadForPerson(churchId: number, personId: number) {
+    public async loadForPerson(churchId: string, personId: string) {
         const sql = "SELECT gm.*, g.name as groupName"
             + " FROM groupMembers gm"
             + " INNER JOIN `groups` g on g.Id=gm.groupId"
@@ -55,7 +57,7 @@ export class GroupMemberRepository {
     }
 
 
-    public convertToModel(churchId: number, data: any) {
+    public convertToModel(churchId: string, data: any) {
         const result: GroupMember = { id: data.id, groupId: data.groupId, personId: data.personId, joinDate: data.joinDate }
         if (data.displayName !== undefined) {
             result.person = { id: result.personId, photoUpdated: data.photoUpdated, name: { display: data.displayName }, contactInfo: { email: data.email } };
@@ -66,7 +68,7 @@ export class GroupMemberRepository {
         return result;
     }
 
-    public convertAllToModel(churchId: number, data: any[]) {
+    public convertAllToModel(churchId: string, data: any[]) {
         const result: GroupMember[] = [];
         data.forEach(d => result.push(this.convertToModel(churchId, d)));
         return result;

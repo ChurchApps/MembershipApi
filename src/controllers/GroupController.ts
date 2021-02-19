@@ -10,15 +10,15 @@ export class GroupController extends MembershipBaseController {
     @httpGet("/search")
     public async search(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            const campusId = parseInt(req.query.campusId.toString(), 0);
-            const serviceId = parseInt(req.query.serviceId.toString(), 0);
-            const serviceTimeId = parseInt(req.query.serviceTimeId.toString(), 0);
+            const campusId = req.query.campusId.toString();
+            const serviceId = req.query.serviceId.toString();
+            const serviceTimeId = req.query.serviceTimeId.toString();
             return this.repositories.group.convertAllToModel(au.churchId, await this.repositories.group.search(au.churchId, campusId, serviceId, serviceTimeId));
         });
     }
 
     @httpGet("/:id")
-    public async get(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.groups.view)) return this.json({}, 401);
             else return this.repositories.group.convertToModel(au.churchId, await this.repositories.group.load(au.churchId, id));
@@ -47,7 +47,7 @@ export class GroupController extends MembershipBaseController {
     }
 
     @httpDelete("/:id")
-    public async delete(@requestParam("id") id: number, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.groups.edit)) return this.json({}, 401);
             else await this.repositories.group.delete(au.churchId, id);

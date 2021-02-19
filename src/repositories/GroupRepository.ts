@@ -1,19 +1,21 @@
 import { injectable } from "inversify";
 import { DB } from "../apiBase/db";
 import { Group } from "../models";
+import { UniqueIdHelper } from "../helpers";
 
 @injectable()
 export class GroupRepository {
 
     public async save(group: Group) {
-        if (group.id > 0) return this.update(group); else return this.create(group);
+        if (UniqueIdHelper.isMissing(group.id)) return this.create(group); else return this.update(group);
     }
 
     public async create(group: Group) {
+        group.id = UniqueIdHelper.shortId();
         return DB.query(
-            "INSERT INTO `groups` (churchId, categoryName, name, trackAttendance, parentPickup, removed) VALUES (?, ?, ?, ?, ?, 0);",
-            [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup]
-        ).then((row: any) => { group.id = row.insertId; return group; });
+            "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, removed) VALUES (?, ?, ?, ?, ?, ?, 0);",
+            [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup]
+        ).then(() => { return group; });
     }
 
     public async update(group: Group) {
@@ -23,24 +25,24 @@ export class GroupRepository {
         ).then(() => { return group });
     }
 
-    public async delete(churchId: number, id: number) {
+    public async delete(churchId: string, id: string) {
         DB.query("UPDATE `groups` SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async load(churchId: number, id: number) {
+    public async load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM `groups` WHERE id=? AND churchId=? AND removed=0;", [id, churchId]);
     }
 
-    public async loadAll(churchId: number) {
+    public async loadAll(churchId: string) {
         return DB.query("SELECT *, (SELECT COUNT(*) FROM groupMembers gm WHERE gm.groupId=g.id) AS memberCount FROM `groups` g WHERE churchId=? AND removed=0 ORDER by categoryName, name;", [churchId]);
     }
 
-    public async loadByIds(churchId: number, ids: number[]) {
+    public async loadByIds(churchId: string, ids: string[]) {
         const sql = "SELECT * FROM `groups` WHERE churchId=? AND removed=0 AND id IN (" + ids.join(",") + ") ORDER by name";
         return DB.query(sql, [churchId]);
     }
 
-    public async search(churchId: number, campusId: number, serviceId: number, serviceTimeId: number) {
+    public async search(churchId: string, campusId: string, serviceId: string, serviceTimeId: string) {
         const sql = "SELECT g.id, g.categoryName, g.name"
             + " FROM `groups` g"
             + " LEFT OUTER JOIN groupServiceTimes gst on gst.groupId=g.id"
@@ -51,12 +53,12 @@ export class GroupRepository {
         return DB.query(sql, [churchId, serviceTimeId, serviceTimeId, serviceId, serviceId, campusId, campusId]);
     }
 
-    public convertToModel(churchId: number, data: any) {
+    public convertToModel(churchId: string, data: any) {
         const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, memberCount: data.memberCount };
         return result;
     }
 
-    public convertAllToModel(churchId: number, data: any[]) {
+    public convertAllToModel(churchId: string, data: any[]) {
         const result: Group[] = [];
         data.forEach(d => result.push(this.convertToModel(churchId, d)));
         return result;

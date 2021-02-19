@@ -3,9 +3,9 @@ import { Name } from './'
 import { FormSubmission } from '../apiBase/models';
 
 export class Person {
-    public id?: number;
-    public churchId?: number;
-    public userId?: number;
+    public id?: string;
+    public churchId?: string;
+    public userId?: string;
     public name?: Name;
     public contactInfo?: ContactInfo;
     public birthDate?: Date;
@@ -13,7 +13,7 @@ export class Person {
     public maritalStatus?: string;
     public anniversary?: Date;
     public membershipStatus?: string;
-    public householdId?: number;
+    public householdId?: string;
     public householdRole?: string;
     public photoUpdated?: Date;
     public photo?: string;

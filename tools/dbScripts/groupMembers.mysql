@@ -1,13 +1,14 @@
 DROP TABLE IF EXISTS `groupMembers`;
 
 CREATE TABLE `groupMembers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `churchId` int(11) DEFAULT NULL,
-  `groupId` int(11) DEFAULT NULL,
-  `personId` int(11) DEFAULT NULL,
+  `id` char(11) NOT NULL,
+  `churchId` char(11) DEFAULT NULL,
+  `groupId` char(11) DEFAULT NULL,
+  `personId` char(11) DEFAULT NULL,
   `joinDate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`),
   KEY `groupId` (`groupId`),
   KEY `personId` (`personId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1395 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
