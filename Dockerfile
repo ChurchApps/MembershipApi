@@ -5,7 +5,7 @@ RUN apk update && \
 
 WORKDIR /app
 
-COPY . . 
+RUN git clone https://github.com/LiveChurchSolutions/MembershipApi.git .
 
 RUN git submodule init && git submodule update
 
