@@ -97,8 +97,8 @@ export class PersonController extends MembershipBaseController {
     @httpGet("/search/phone")
     public async searchPhone(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            const phonestring: string = req.query.string.toString();
-            const data = await this.repositories.person.searchPhone(au.churchId, phonestring);
+            const phoneNumber: string = req.query.number.toString();
+            const data = await this.repositories.person.searchPhone(au.churchId, phoneNumber);
             return this.repositories.person.convertAllToModel(au.churchId, data);
         });
     }
