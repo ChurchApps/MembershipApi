@@ -2,8 +2,8 @@ import { Person } from "../models"
 
 export class PersonHelper {
     public static getPhotoUrl(churchId: string, person: Person) {
-        if (person.photoUpdated === null || person.photoUpdated === undefined) return "/images/sample-profile.png";
-        else return "/content/c/" + churchId + "/p/" + person.id + ".png" + "?dt=" + person.photoUpdated.getTime().toString();
+        if (person.photoUpdated === null || person.photoUpdated === undefined) return "";
+        else return "/" + churchId + "/membership/people/" + person.id + ".png?dt=" + person.photoUpdated.getTime().toString();
     }
 
     public static getDisplayName(person: Person) {

@@ -3,8 +3,7 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Person, Household } from "../models"
 import { FormSubmission, Form } from "../apiBase/models"
-import { AwsHelper } from "../helpers"
-import { RoleContentType, RoleAction } from '../constants'
+import { FileHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
 
 
@@ -207,10 +206,10 @@ export class PersonController extends MembershipBaseController {
     private async savePhoto(churchId: string, person: Person) {
         // console.log("SAVE PHOTO");
         const base64 = person.photo.split(',')[1];
-        const key = "content/c/" + churchId + "/p/" + person.id + ".png";
-        return AwsHelper.S3Upload(key, "image/png", Buffer.from(base64, 'base64')).then(async () => {
+        const key = "/" + churchId + "/membership/people/" + person.id + ".png";
+        return FileHelper.store(key, "image/png", Buffer.from(base64, 'base64')).then(async () => {
             person.photoUpdated = new Date();
-            person.photo = "/" + key + "?dt=" + person.photoUpdated.getTime().toString();
+            person.photo = key + "?dt=" + person.photoUpdated.getTime().toString();
             await this.repositories.person.save(person);
         });
     }

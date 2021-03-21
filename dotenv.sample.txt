@@ -13,6 +13,9 @@ DB_PASSWORD=
 
 JWT_SECRET_KEY=this is a test key that is a sentence
 
+# disk or S3
+FILE_STORE=disk
+
 AMAZON_REGION=us-east-2
 AMAZON_S3_BUCKET=membership
 AMAZON_ACCESS_KEY_ID=
