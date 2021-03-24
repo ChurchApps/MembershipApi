@@ -60,7 +60,8 @@ export class PersonRepository {
     }
 
     public async loadByIds(churchId: string, ids: string[]) {
-        return DB.query("SELECT * FROM people WHERE id IN (" + ids.join(",") + ") AND churchId=?;", [churchId]);
+        const quotedAndCommaSeparated = ids.length === 0 ? "" : "'" + ids.join("','") + "'";
+        return DB.query("SELECT * FROM people WHERE id IN (" + quotedAndCommaSeparated + ") AND churchId=?;", [churchId]);
     }
 
     public async loadByUserId(churchId: string, userId: string) {
