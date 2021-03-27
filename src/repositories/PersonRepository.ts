@@ -81,7 +81,7 @@ export class PersonRepository {
     }
 
     public async loadByUserIds(churchId: string, userIds: string[]) {
-        return DB.query("SELECT * FROM people WHERE userId IN (" + userIds.join(",") + ") AND churchId=? AND removed=0;", [churchId]);
+        return DB.query("SELECT * FROM people WHERE userId IN (" + "'" + userIds.join("','") + "'" + ") AND churchId=? AND removed=0;", [churchId]);
     }
 
     public async search(churchId: string, term: string) {
