@@ -7,38 +7,38 @@ import { UniqueIdHelper } from "../helpers";
 @injectable()
 export class GroupMemberRepository {
 
-    public async save(groupMember: GroupMember) {
+    public save(groupMember: GroupMember) {
         if (UniqueIdHelper.isMissing(groupMember.id)) return this.create(groupMember); else return this.update(groupMember);
     }
 
     public async create(groupMember: GroupMember) {
         groupMember.id = UniqueIdHelper.shortId();
-        return DB.query(
-            "INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate) VALUES (?, ?, ?, ?, NOW());",
-            [groupMember.id, groupMember.churchId, groupMember.groupId, groupMember.personId]
-        ).then(() => { return groupMember; });
+        const sql = "INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate) VALUES (?, ?, ?, ?, NOW());";
+        const params = [groupMember.id, groupMember.churchId, groupMember.groupId, groupMember.personId];
+        await DB.query(sql, params);
+        return groupMember;
     }
 
     public async update(groupMember: GroupMember) {
-        return DB.query(
-            "UPDATE groupMembers SET  groupId=?, personId=? WHERE id=? and churchId=?",
-            [groupMember.groupId, groupMember.personId, groupMember.id, groupMember.churchId]
-        ).then(() => { return groupMember });
+        const sql = "UPDATE groupMembers SET  groupId=?, personId=? WHERE id=? and churchId=?";
+        const params = [groupMember.groupId, groupMember.personId, groupMember.id, groupMember.churchId];
+        await DB.query(sql, params);
+        return groupMember;
     }
 
-    public async delete(churchId: string, id: string) {
-        DB.query("DELETE FROM groupMembers WHERE id=? AND churchId=?;", [id, churchId]);
+    public delete(churchId: string, id: string) {
+        return DB.query("DELETE FROM groupMembers WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async load(churchId: string, id: string) {
+    public load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM groupMembers WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async loadAll(churchId: string) {
+    public loadAll(churchId: string) {
         return DB.query("SELECT * FROM groupMembers WHERE churchId=?;", [churchId]);
     }
 
-    public async loadForGroup(churchId: string, groupId: string) {
+    public loadForGroup(churchId: string, groupId: string) {
         const sql = "SELECT gm.*, p.photoUpdated, p.displayName, p.email"
             + " FROM groupMembers gm"
             + " INNER JOIN people p on p.id=gm.personId"
@@ -47,7 +47,7 @@ export class GroupMemberRepository {
         return DB.query(sql, [churchId, groupId]);
     }
 
-    public async loadForPerson(churchId: string, personId: string) {
+    public loadForPerson(churchId: string, personId: string) {
         const sql = "SELECT gm.*, g.name as groupName"
             + " FROM groupMembers gm"
             + " INNER JOIN `groups` g on g.Id=gm.groupId"

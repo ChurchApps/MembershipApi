@@ -6,38 +6,38 @@ import { UniqueIdHelper } from "../helpers";
 @injectable()
 export class HouseholdRepository {
 
-    public async save(household: Household) {
+    public save(household: Household) {
         if (UniqueIdHelper.isMissing(household.id)) return this.create(household); else return this.update(household);
     }
 
     public async create(household: Household) {
         household.id = UniqueIdHelper.shortId();
-        return DB.query(
-            "INSERT INTO households (id, churchId, name) VALUES (?, ?, ?);",
-            [household.id, household.churchId, household.name]
-        ).then(() => { return household; });
+        const sql = "INSERT INTO households (id, churchId, name) VALUES (?, ?, ?);";
+        const params = [household.id, household.churchId, household.name];
+        await DB.query(sql, params);
+        return household;
     }
 
     public async update(household: Household) {
-        return DB.query(
-            "UPDATE households SET name=? WHERE id=? and churchId=?",
-            [household.name, household.id, household.churchId]
-        ).then(() => { return household });
+        const sql = "UPDATE households SET name=? WHERE id=? and churchId=?";
+        const params = [household.name, household.id, household.churchId];
+        await DB.query(sql, params);
+        return household;
     }
 
-    public async deleteUnused(churchId: string) {
+    public deleteUnused(churchId: string) {
         return DB.query("DELETE FROM households WHERE churchId=? AND id not in (SELECT householdId FROM people WHERE churchId=? AND householdId IS NOT NULL group by householdId)", [churchId, churchId]);
     }
 
-    public async delete(churchId: string, id: string) {
-        DB.query("DELETE FROM households WHERE id=? AND churchId=?;", [id, churchId]);
+    public delete(churchId: string, id: string) {
+        return DB.query("DELETE FROM households WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async load(churchId: string, id: string) {
+    public load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM households WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async loadAll(churchId: string) {
+    public loadAll(churchId: string) {
         return DB.query("SELECT * FROM households WHERE churchId=?;", [churchId]);
     }
 

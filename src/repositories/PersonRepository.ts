@@ -7,7 +7,7 @@ import { UniqueIdHelper } from "../helpers";
 @injectable()
 export class PersonRepository {
 
-    public async save(person: Person) {
+    public save(person: Person) {
         person.name.display = PersonHelper.getDisplayName(person);
         if (UniqueIdHelper.isMissing(person.id)) return this.create(person); else return this.update(person);
     }
@@ -17,81 +17,83 @@ export class PersonRepository {
         const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
         const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
         const photoUpdated = DateTimeHelper.toMysqlDate(person.photoUpdated);
-        return DB.query(
-            "INSERT INTO people (id, churchId, userId, displayName, firstName, middleName, lastName, nickName, prefix, suffix, birthDate, gender, maritalStatus, anniversary, membershipStatus, homePhone, mobilePhone, workPhone, email, address1, address2, city, state, zip, photoUpdated, householdId, householdRole, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);",
-            [
-                person.id,
-                person.churchId, person.userId,
-                person.name.display, person.name.first, person.name.middle, person.name.last, person.name.nick, person.name.prefix, person.name.suffix,
-                birthDate, person.gender, person.maritalStatus, anniversary, person.membershipStatus,
-                person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
-                photoUpdated, person.householdId, person.householdRole
-            ]
-        ).then(() => { return person; });
+        const sql = "INSERT INTO people (id, churchId, userId, displayName, firstName, middleName, lastName, nickName, prefix, suffix, birthDate, gender, maritalStatus, anniversary, membershipStatus, homePhone, mobilePhone, workPhone, email, address1, address2, city, state, zip, photoUpdated, householdId, householdRole, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+        const params = [
+            person.id,
+            person.churchId, person.userId,
+            person.name.display, person.name.first, person.name.middle, person.name.last, person.name.nick, person.name.prefix, person.name.suffix,
+            birthDate, person.gender, person.maritalStatus, anniversary, person.membershipStatus,
+            person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
+            photoUpdated, person.householdId, person.householdRole
+        ];
+        await DB.query(sql, params);
+        return person;
     }
 
     public async update(person: Person) {
         const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
         const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
         const photoUpdated = DateTimeHelper.toMysqlDate(person.photoUpdated);
-        return DB.query(
-            "UPDATE people SET userId=?, displayName=?, firstName=?, middleName=?, lastName=?, nickName=?, prefix=?, suffix=?, birthDate=?, gender=?, maritalStatus=?, anniversary=?, membershipStatus=?, homePhone=?, mobilePhone=?, workPhone=?, email=?, address1=?, address2=?, city=?, state=?, zip=?, photoUpdated=?, householdId=?, householdRole=? WHERE id=? and churchId=?",
-            [
-                person.userId,
-                person.name.display, person.name.first, person.name.middle, person.name.last, person.name.nick, person.name.prefix, person.name.suffix,
-                birthDate, person.gender, person.maritalStatus, anniversary, person.membershipStatus,
-                person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
-                photoUpdated, person.householdId, person.householdRole, person.id, person.churchId
-            ]
-        ).then(() => { return person });
+        const sql = "UPDATE people SET userId=?, displayName=?, firstName=?, middleName=?, lastName=?, nickName=?, prefix=?, suffix=?, birthDate=?, gender=?, maritalStatus=?, anniversary=?, membershipStatus=?, homePhone=?, mobilePhone=?, workPhone=?, email=?, address1=?, address2=?, city=?, state=?, zip=?, photoUpdated=?, householdId=?, householdRole=? WHERE id=? and churchId=?";
+        const params = [
+            person.userId,
+            person.name.display, person.name.first, person.name.middle, person.name.last, person.name.nick, person.name.prefix, person.name.suffix,
+            birthDate, person.gender, person.maritalStatus, anniversary, person.membershipStatus,
+            person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
+            photoUpdated, person.householdId, person.householdRole, person.id, person.churchId
+        ];
+        await DB.query(sql, params);
+        return person;
     }
 
     public async updateHousehold(person: Person) {
-        return DB.query("UPDATE people SET householdId=?, householdRole=? WHERE id=? and churchId=?", [person.householdId, person.householdRole, person.id, person.churchId])
-            .then(() => { return person });
+        const sql = "UPDATE people SET householdId=?, householdRole=? WHERE id=? and churchId=?";
+        const params = [person.householdId, person.householdRole, person.id, person.churchId];
+        await DB.query(sql, params);
+        return person;
     }
 
-    public async delete(churchId: string, id: string) {
-        DB.query("UPDATE people SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
+    public delete(churchId: string, id: string) {
+        return DB.query("UPDATE people SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public async load(churchId: string, id: string) {
+    public load(churchId: string, id: string) {
         return DB.queryOne("SELECT * FROM people WHERE id=? AND churchId=? AND removed=0;", [id, churchId]);
     }
 
-    public async loadByIds(churchId: string, ids: string[]) {
+    public loadByIds(churchId: string, ids: string[]) {
         const quotedAndCommaSeparated = ids.length === 0 ? "" : "'" + ids.join("','") + "'";
         return DB.query("SELECT * FROM people WHERE id IN (" + quotedAndCommaSeparated + ") AND churchId=?;", [churchId]);
     }
 
-    public async loadByUserId(churchId: string, userId: string) {
+    public loadByUserId(churchId: string, userId: string) {
         return DB.queryOne("SELECT * FROM people WHERE userId=? AND churchId=? AND removed=0;", [userId, churchId]);
     }
 
-    public async loadAll(churchId: string) {
+    public loadAll(churchId: string) {
         return DB.query("SELECT * FROM people WHERE churchId=? AND removed=0;", [churchId]);
     }
 
-    public async loadRecent(churchId: string) {
+    public loadRecent(churchId: string) {
         return DB.query("SELECT * FROM (SELECT * FROM people WHERE churchId=? AND removed=0 order by id desc limit 25) people ORDER BY lastName, firstName;", [churchId]);
     }
 
-    public async loadByHousehold(churchId: string, householdId: string) {
+    public loadByHousehold(churchId: string, householdId: string) {
         return DB.query("SELECT * FROM people WHERE churchId=? and householdId=? AND removed=0;", [churchId, householdId]);
     }
 
-    public async loadByUserIds(churchId: string, userIds: string[]) {
+    public loadByUserIds(churchId: string, userIds: string[]) {
         return DB.query("SELECT * FROM people WHERE userId IN (" + "'" + userIds.join("','") + "'" + ") AND churchId=? AND removed=0;", [churchId]);
     }
 
-    public async search(churchId: string, term: string) {
+    public search(churchId: string, term: string) {
         return DB.query(
             "SELECT * FROM people WHERE churchId=? AND concat(IFNULL(FirstName,''), ' ', IFNULL(MiddleName,''), ' ', IFNULL(NickName,''), ' ', IFNULL(LastName,'')) LIKE ? AND removed=0 LIMIT 100;",
             [churchId, "%" + term.replace(" ", "%") + "%"]
         );
     }
 
-    public async searchPhone(churchId: string, phonestring: string) {
+    public searchPhone(churchId: string, phonestring: string) {
         const phoneSearch = "%" + phonestring.replace(" ", "%") + "%";
         return DB.query(
             "SELECT * FROM people WHERE churchId=? AND (REPLACE(HomePhone,'-','') LIKE ? OR REPLACE(WorkPhone,'-','') LIKE ? OR REPLACE(MobilePhone,'-','') LIKE ?) AND removed=0 LIMIT 100;",
@@ -100,11 +102,11 @@ export class PersonRepository {
     }
 
 
-    public async searchEmail(churchId: string, email: string) {
+    public searchEmail(churchId: string, email: string) {
         return DB.query("SELECT * FROM people WHERE churchId=? AND email like ? AND removed=0 LIMIT 100;", [churchId, "%" + email + "%"]);
     }
 
-    public async loadAttendees(churchId: string, campusId: string, serviceId: string, serviceTimeId: string, categoryName: string, groupId: string, startDate: Date, endDate: Date) {
+    public loadAttendees(churchId: string, campusId: string, serviceId: string, serviceTimeId: string, categoryName: string, groupId: string, startDate: Date, endDate: Date) {
         const params = [];
         params.push(churchId);
         params.push(startDate);
