@@ -107,14 +107,12 @@ export class PersonController extends MembershipBaseController {
         return this.actionWrapper(req, res, async (au) => {
             let data = null;
             const email: string = req.query.email?.toString();
-            console.log(email);
             if (email) data = await this.repositories.person.searchEmail(au.churchId, email);
             else {
                 let term: string = req.query.term.toString();
                 if (term === null) term = "";
                 data = await this.repositories.person.search(au.churchId, term);
             }
-            console.log(JSON.stringify(data));
             return this.repositories.person.convertAllToModel(au.churchId, data);
         });
     }
@@ -174,7 +172,11 @@ export class PersonController extends MembershipBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
+            let isSelfPermissionValid: boolean = false;
+            if (au.checkAccess(Permissions.people.editSelf)) {
+                isSelfPermissionValid = req.body[0].userId === au.id;
+            }
+            if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid ) return this.json({}, 401);
             else {
                 const promises: Promise<Person>[] = [];
                 req.body.forEach(person => {

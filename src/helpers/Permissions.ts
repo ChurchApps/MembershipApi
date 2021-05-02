@@ -11,6 +11,7 @@ export class Permissions {
         edit: { contentType: "Households", action: "Edit" }
     };
     static people = {
-        edit: { contentType: "People", action: "Edit" }
+        edit: { contentType: "People", action: "Edit" },
+        editSelf: { contentType: "People", action: "Edit Self" }
     }
 }
