@@ -1,8 +1,14 @@
-import { QueryPersonsArgs, ReqContext, SortDirection } from '../types'
+import { QueryPersonsArgs, ReqContext, SortDirection, Person } from '../types'
 
 export default {
   Query: {
-    persons: async (root: any, args: QueryPersonsArgs, ctx: ReqContext): Promise<any[]> => {
+    person: (): Promise<Person> => {
+      return Promise.resolve({
+        churchId: 'test',
+        id: 'test-id'
+      })
+    },
+    persons: async (root: any, args: QueryPersonsArgs, ctx: ReqContext): Promise<Person[]> => {
       const { from = 0, size = 12, sort = SortDirection.Desc } = args
 
       return []

@@ -3,3 +3,7 @@ type Person {
   id: String
   churchId: String
 }
+
+type Query {
+  person: Person
+}

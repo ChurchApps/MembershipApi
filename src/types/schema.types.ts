@@ -26,6 +26,7 @@ export type Person = {
 
 export type Query = {
   __typename?: 'Query';
+  person?: Maybe<Person>;
   persons?: Maybe<Person[]>;
 };
 
