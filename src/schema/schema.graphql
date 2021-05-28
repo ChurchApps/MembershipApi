@@ -1,0 +1,17 @@
+# import * from 'person.graphql'
+
+scalar Date
+
+type Query {
+  # User
+  persons(from: Int, size: Int, sort: SortDirection): [Person!]
+}
+
+type Mutation {
+  test: Boolean
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}

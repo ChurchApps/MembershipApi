@@ -7,6 +7,11 @@ import { bindings } from "./inversify.config";
 import express from "express";
 import { CustomAuthProvider } from "./apiBase/auth";
 import cors from "cors"
+import { ApolloServer } from 'apollo-server-express'
+import depthLimit from 'graphql-depth-limit'
+import { importSchema } from 'graphql-import';
+import resolvers from './resolvers'
+import { ReqContext } from './types/server.types';
 
 export const init = async () => {
     /*
@@ -32,5 +37,26 @@ export const init = async () => {
     };
 
     const server = app.setConfig(configFunction).build();
+    const graphQLServer = new ApolloServer({
+      typeDefs: importSchema('src/schema/schema.graphql'),
+      resolvers,
+      validationRules: [depthLimit(5)],
+      context: (ctx: ReqContext) => {
+        // ctx.log = ctx.req.log
+
+        // const { authorization } = ctx.req.headers
+        // if (authorization && typeof authorization === 'string') {
+        //   const me: IMe = validateToken(authorization)
+        //   ctx.me = me
+        // }
+
+        return ctx
+      },
+    })
+
+    graphQLServer.applyMiddleware({
+      app: server,
+      path: '/graphql',
+    })
     return server;
 }

@@ -1,0 +1,7 @@
+schema: src/schema/*.graphql
+config:
+  addTypename: false
+generates:
+  ./src/types/schema.types.ts:
+    plugins:
+      - typescript
