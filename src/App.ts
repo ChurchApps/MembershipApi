@@ -12,7 +12,6 @@ import depthLimit from 'graphql-depth-limit'
 import { importSchema } from 'graphql-import';
 import resolvers from './resolvers'
 import { ReqContext } from './types/server.types';
-import fs from 'fs'
 
 export const init = async () => {
     /*

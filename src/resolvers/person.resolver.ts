@@ -1,17 +1,32 @@
-import { QueryPersonsArgs, ReqContext, SortDirection, Person } from '../types'
+import _ from 'lodash'
+import { UserInputError } from 'apollo-server'
+import { prisma } from '../prisma'
+import { QueryPersonsArgs, QueryPersonArgs, ReqContext, SortDirection, Person, PersonsResult } from '../types'
+import { initPagination } from '../helpers'
 
 export default {
   Query: {
-    person: (): Promise<Person> => {
-      return Promise.resolve({
-        churchId: 'test',
-        id: 'test-id'
-      })
+    person: async (root: unknown, args: QueryPersonArgs, ctx: ReqContext): Promise<Person | null> => {
+      const { id } = args.where
+      if (!id) {
+        throw new UserInputError('user_id is required')
+      }
+      const person = await prisma.people.findFirst({ where: {
+        id
+      }})
+      return person
     },
-    persons: async (root: any, args: QueryPersonsArgs, ctx: ReqContext): Promise<Person[]> => {
-      const { from = 0, size = 12, sort = SortDirection.Desc } = args
+    persons: async (root: any, args: QueryPersonsArgs, ctx: ReqContext): Promise<PersonsResult> => {
+      const { from, size } = initPagination(args.pagination)
+      const [ persons, total ] = await Promise.all([
+        prisma.people.findMany({ skip: from, take: size }),
+        prisma.people.count()
+      ])
 
-      return []
+      return {
+        edges: persons,
+        total
+      }
     },
   },
   Mutation: {

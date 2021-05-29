@@ -1,0 +1,25 @@
+# import * from 'schema.graphql'
+
+type Group {
+  id: ID!
+  churchId: String
+  categoryName: String
+  name: String
+  trackAttendance: Boolean
+  parentPickup: Boolean
+  removed: Boolean
+}
+
+type Query {
+  groups(pagination: CorePagination): GroupsResult!
+  group(where: GroupWhereInput): Group
+}
+
+type GroupsResult {
+  edges: [Group!]!
+  total: Int!
+}
+
+input GroupWhereInput {
+  id: ID!
+}

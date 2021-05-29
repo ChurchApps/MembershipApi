@@ -9,9 +9,36 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: any;
+  DateTime: any;
 };
 
+export type CorePagination = {
+  from?: Maybe<Scalars['Int']>;
+  size?: Maybe<Scalars['Int']>;
+  sort?: Maybe<SortDirection>;
+};
+
+
+export type Group = {
+  __typename?: 'Group';
+  categoryName?: Maybe<Scalars['String']>;
+  churchId?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  parentPickup?: Maybe<Scalars['Boolean']>;
+  removed?: Maybe<Scalars['Boolean']>;
+  trackAttendance?: Maybe<Scalars['Boolean']>;
+};
+
+export type GroupWhereInput = {
+  id: Scalars['ID'];
+};
+
+export type GroupsResult = {
+  __typename?: 'GroupsResult';
+  edges: Array<Group>;
+  total: Scalars['Int'];
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -20,21 +47,73 @@ export type Mutation = {
 
 export type Person = {
   __typename?: 'Person';
+  address1?: Maybe<Scalars['String']>;
+  address2?: Maybe<Scalars['String']>;
+  anniversary?: Maybe<Scalars['DateTime']>;
+  birthDate?: Maybe<Scalars['DateTime']>;
   churchId?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  gender?: Maybe<Scalars['String']>;
+  homePhone?: Maybe<Scalars['String']>;
+  householdId?: Maybe<Scalars['String']>;
+  householdRole?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  lastName?: Maybe<Scalars['String']>;
+  maritalStatus?: Maybe<Scalars['String']>;
+  membershipStatus?: Maybe<Scalars['String']>;
+  middleName?: Maybe<Scalars['String']>;
+  mobilePhone?: Maybe<Scalars['String']>;
+  nickName?: Maybe<Scalars['String']>;
+  photoUpdated?: Maybe<Scalars['DateTime']>;
+  prefix?: Maybe<Scalars['String']>;
+  removed?: Maybe<Scalars['Boolean']>;
+  state?: Maybe<Scalars['String']>;
+  suffix?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+  workPhone?: Maybe<Scalars['String']>;
+  zip?: Maybe<Scalars['String']>;
+};
+
+export type PersonWhereInput = {
+  id: Scalars['ID'];
+};
+
+export type PersonsResult = {
+  __typename?: 'PersonsResult';
+  edges: Array<Person>;
+  total: Scalars['Int'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  group?: Maybe<Group>;
+  groups: GroupsResult;
   person?: Maybe<Person>;
-  persons?: Maybe<Person[]>;
+  persons: PersonsResult;
+  q?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGroupArgs = {
+  where?: Maybe<GroupWhereInput>;
+};
+
+
+export type QueryGroupsArgs = {
+  pagination?: Maybe<CorePagination>;
+};
+
+
+export type QueryPersonArgs = {
+  where: PersonWhereInput;
 };
 
 
 export type QueryPersonsArgs = {
-  from?: Maybe<Scalars['Int']>;
-  size?: Maybe<Scalars['Int']>;
-  sort?: Maybe<SortDirection>;
+  pagination?: Maybe<CorePagination>;
 };
 
 export enum SortDirection {

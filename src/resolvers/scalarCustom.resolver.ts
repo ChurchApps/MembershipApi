@@ -2,9 +2,9 @@ import { GraphQLScalarType } from 'graphql'
 import { Kind } from 'graphql/language'
 
 const resolverMap = {
-  Date: new GraphQLScalarType({
-    name: 'Date',
-    description: 'Date custom scalar type',
+  DateTime: new GraphQLScalarType({
+    name: 'DateTime',
+    description: 'DateTime custom scalar type',
     parseValue(value: any) {
       return new Date(value) // value from the client
     },
