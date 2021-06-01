@@ -16,17 +16,12 @@ export default {
       }})
       return group
     },
-    groups: async (root: any, args: QueryGroupsArgs, ctx: ReqContext): Promise<GroupsResult> => {
+    groups: async (root: any, args: QueryGroupsArgs, ctx: ReqContext): Promise<Group[] | null> => {
       const { from, size } = initPagination(args.pagination)
-      const [ groups, total ] = await Promise.all([
-        prisma.groups.findMany({ skip: from, take: size }),
-        prisma.groups.count()
-      ])
+      const groups  = await prisma.groups.findMany({ skip: from, take: size })
 
-      return {
-        edges: groups,
-        total
-      }
+
+      return groups
     },
   },
 }

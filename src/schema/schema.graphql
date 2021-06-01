@@ -21,3 +21,28 @@ enum SortDirection {
   ASC
   DESC
 }
+
+input StringNullableFilter {
+  equals: String
+  in: String
+  notIn: String
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: String
+}
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  in: DateTime
+  notIn: DateTime
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: DateTime
+}

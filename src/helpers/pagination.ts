@@ -9,6 +9,7 @@ type Pagination = {
   from: number
   size: number
 }
+const MAX_SIZE = 50
 
 export function initPagination<T extends PartialList>(arg?: T): Pagination & T {
   let size = arg?.size;
@@ -23,8 +24,8 @@ export function initPagination<T extends PartialList>(arg?: T): Pagination & T {
       size = 5;
       break;
     }
-    case size > 25: {
-      size = 25;
+    case size > MAX_SIZE: {
+      size = MAX_SIZE;
       break;
     }
   }

@@ -20,3 +20,5 @@ AMAZON_REGION=us-east-2
 AMAZON_S3_BUCKET=membership
 AMAZON_ACCESS_KEY_ID=
 AMAZON_SECRET_ACCESS_KEY=
+# Prisma
+DATABASE_URL="mysql://root:123456@localhost:3306/membership?schema=public"

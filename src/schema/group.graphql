@@ -11,7 +11,7 @@ type Group {
 }
 
 type Query {
-  groups(pagination: CorePagination): GroupsResult!
+  groups(pagination: CorePagination): [Group!]
   group(where: GroupWhereInput): Group
 }
 

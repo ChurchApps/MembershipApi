@@ -19,6 +19,17 @@ export type CorePagination = {
 };
 
 
+export type DateTimeNullableFilter = {
+  equals?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  gte?: Maybe<Scalars['DateTime']>;
+  in?: Maybe<Scalars['DateTime']>;
+  lt?: Maybe<Scalars['DateTime']>;
+  lte?: Maybe<Scalars['DateTime']>;
+  not?: Maybe<Scalars['DateTime']>;
+  notIn?: Maybe<Scalars['DateTime']>;
+};
+
 export type Group = {
   __typename?: 'Group';
   categoryName?: Maybe<Scalars['String']>;
@@ -43,6 +54,11 @@ export type GroupsResult = {
 export type Mutation = {
   __typename?: 'Mutation';
   test?: Maybe<Scalars['Boolean']>;
+};
+
+export type PeopleWhereInput = {
+  birthDate?: Maybe<DateTimeNullableFilter>;
+  lastName?: Maybe<StringNullableFilter>;
 };
 
 export type Person = {
@@ -90,9 +106,9 @@ export type PersonsResult = {
 export type Query = {
   __typename?: 'Query';
   group?: Maybe<Group>;
-  groups: GroupsResult;
+  groups?: Maybe<Array<Group>>;
+  people: Array<Maybe<Person>>;
   person?: Maybe<Person>;
-  persons: PersonsResult;
   q?: Maybe<Scalars['String']>;
 };
 
@@ -107,16 +123,31 @@ export type QueryGroupsArgs = {
 };
 
 
-export type QueryPersonArgs = {
-  where: PersonWhereInput;
+export type QueryPeopleArgs = {
+  pagination?: Maybe<CorePagination>;
+  where?: Maybe<PeopleWhereInput>;
 };
 
 
-export type QueryPersonsArgs = {
-  pagination?: Maybe<CorePagination>;
+export type QueryPersonArgs = {
+  where: PersonWhereInput;
 };
 
 export enum SortDirection {
   Asc = 'ASC',
   Desc = 'DESC'
 }
+
+export type StringNullableFilter = {
+  contains?: Maybe<Scalars['String']>;
+  endsWith?: Maybe<Scalars['String']>;
+  equals?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  in?: Maybe<Scalars['String']>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  not?: Maybe<Scalars['String']>;
+  notIn?: Maybe<Scalars['String']>;
+  startsWith?: Maybe<Scalars['String']>;
+};

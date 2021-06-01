@@ -32,7 +32,7 @@ type Person {
 }
 
 type Query {
-  persons(pagination: CorePagination): PersonsResult!
+  people(pagination: CorePagination, where: PeopleWhereInput): [Person]!
   person(where: PersonWhereInput!): Person
 }
 
@@ -43,4 +43,9 @@ type PersonsResult {
 
 input PersonWhereInput {
   id: ID!
+}
+
+input PeopleWhereInput {
+  lastName: StringNullableFilter
+  birthDate: DateTimeNullableFilter
 }
