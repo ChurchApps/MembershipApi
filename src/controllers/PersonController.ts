@@ -156,7 +156,8 @@ export class PersonController extends MembershipBaseController {
     public async getByUserId(@requestParam("userId") userId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const data = await this.repositories.person.loadByUserId(au.churchId, userId);
-            return this.repositories.person.convertToModel(au.churchId, data);
+            if (data === null) return {};
+            else return this.repositories.person.convertToModel(au.churchId, data);
         });
     }
 
@@ -176,7 +177,7 @@ export class PersonController extends MembershipBaseController {
             if (au.checkAccess(Permissions.people.editSelf)) {
                 isSelfPermissionValid = req.body[0].userId === au.id;
             }
-            if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid ) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid) return this.json({}, 401);
             else {
                 const promises: Promise<Person>[] = [];
                 req.body.forEach(person => {
