@@ -18,12 +18,29 @@ export default {
     },
     groups: async (root: any, args: QueryGroupsArgs, ctx: ReqContext): Promise<Group[] | null> => {
       const { from, size } = initPagination(args.pagination)
-      const groups = await prisma.groups.findMany({
+      let groups = await prisma.groups.findMany({
         skip: from,
         take: size,
         include: {
-          users: true,
+          users: {
+            include: {
+              person: true
+            }
+          },
         },
+      })
+      groups = groups.map(group => {
+        const people: any[] = []
+        group.users.forEach(user => {
+          if (user.person) {
+            people.push(user.person)
+          }
+        })
+
+        return {
+          ...group,
+          people
+        }
       })
 
 

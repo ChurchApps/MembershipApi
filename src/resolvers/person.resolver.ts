@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { UserInputError } from 'apollo-server'
 import { prisma } from '../prisma'
-import { QueryPeopleArgs, QueryPersonArgs, ReqContext, SortDirection, Person, PersonsResult } from '../types'
+import { QueryPeopleArgs, QueryPersonArgs, ReqContext, SortDirection, Person, PersonsResult, Group } from '../types'
 import { initPagination } from '../helpers'
 
 export default {
@@ -18,15 +18,29 @@ export default {
     },
     people: async (root: any, args: QueryPeopleArgs, ctx: ReqContext): Promise<Person[] | null> => {
       const { from, size } = initPagination(args.pagination)
-      const people = await prisma.people.findMany({
+      let people = await prisma.people.findMany({
         skip: from,
         take: size,
         where: {
           ...args.where,
         },
         include: {
-          groups: true,
+          groups: {
+            include: {
+              group: true
+            }
+          },
         },
+      })
+      people = people.map(person => {
+        const groups: any[] = []
+        person.groups.forEach(g => {
+          if (g.group) {
+            groups.push(g.group)
+          }
+        })
+        person.groups = groups
+        return person
       })
 
       return people
