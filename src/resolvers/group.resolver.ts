@@ -18,7 +18,13 @@ export default {
     },
     groups: async (root: any, args: QueryGroupsArgs, ctx: ReqContext): Promise<Group[] | null> => {
       const { from, size } = initPagination(args.pagination)
-      const groups  = await prisma.groups.findMany({ skip: from, take: size })
+      const groups = await prisma.groups.findMany({
+        skip: from,
+        take: size,
+        include: {
+          users: true,
+        },
+      })
 
 
       return groups

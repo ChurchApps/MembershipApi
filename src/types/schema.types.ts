@@ -37,6 +37,7 @@ export type Group = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   parentPickup?: Maybe<Scalars['Boolean']>;
+  people?: Maybe<Array<Person>>;
   removed?: Maybe<Scalars['Boolean']>;
   trackAttendance?: Maybe<Scalars['Boolean']>;
 };
