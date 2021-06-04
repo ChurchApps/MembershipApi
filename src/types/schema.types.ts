@@ -52,6 +52,18 @@ export type GroupsResult = {
   total: Scalars['Int'];
 };
 
+export type HouseHold = {
+  __typename?: 'HouseHold';
+  churchId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  person?: Maybe<Person>;
+};
+
+export type HouseHoldWhereInput = {
+  id?: Maybe<Scalars['ID']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   test?: Maybe<Scalars['Boolean']>;
@@ -76,6 +88,7 @@ export type Person = {
   gender?: Maybe<Scalars['String']>;
   groups?: Maybe<Array<Group>>;
   homePhone?: Maybe<Scalars['String']>;
+  household?: Maybe<HouseHold>;
   householdId?: Maybe<Scalars['String']>;
   householdRole?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
@@ -109,6 +122,8 @@ export type Query = {
   __typename?: 'Query';
   group?: Maybe<Group>;
   groups?: Maybe<Array<Group>>;
+  household?: Maybe<HouseHold>;
+  households?: Maybe<Array<HouseHold>>;
   people: Array<Maybe<Person>>;
   person?: Maybe<Person>;
   q?: Maybe<Scalars['String']>;
@@ -121,6 +136,16 @@ export type QueryGroupArgs = {
 
 
 export type QueryGroupsArgs = {
+  pagination?: Maybe<CorePagination>;
+};
+
+
+export type QueryHouseholdArgs = {
+  where: HouseHoldWhereInput;
+};
+
+
+export type QueryHouseholdsArgs = {
   pagination?: Maybe<CorePagination>;
 };
 

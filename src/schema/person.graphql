@@ -1,5 +1,6 @@
 # import * from 'schema.graphql'
 # import * from 'group.graphql'
+# import * from 'household.graphql'
 
 type Person {
   id: ID!
@@ -32,6 +33,7 @@ type Person {
   removed: Boolean
 
   groups: [Group!]
+  household: HouseHold
 }
 
 type Query {

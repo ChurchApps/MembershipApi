@@ -1,0 +1,19 @@
+# import * from 'schema.graphql'
+# import * from 'person.graphql'
+
+type HouseHold {
+  id: ID
+  churchId: String
+  name: String
+
+  person: Person
+}
+
+type Query {
+  households(pagination: CorePagination): [HouseHold!]
+  household(where: HouseHoldWhereInput!): HouseHold
+}
+
+input HouseHoldWhereInput {
+  id: ID
+}

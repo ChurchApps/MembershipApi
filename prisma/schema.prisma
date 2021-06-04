@@ -78,6 +78,7 @@ model households {
   churchId String? @db.Char(11)
   name     String? @db.VarChar(50)
 
+  people people?
   @@index([churchId], name: "churchId")
 }
 
@@ -124,6 +125,7 @@ model people {
   householdRole    String?        @db.VarChar(10)
   removed          Boolean?       @db.Bit(1)
   groups           groupMembers[]
+  household        households?    @relation(fields: [householdId], references: [id])
 
   @@index([churchId], name: "churchId")
   @@index([householdId], name: "householdId")

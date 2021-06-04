@@ -1,5 +1,6 @@
 # import * from 'person.graphql'
 # import * from 'group.graphql'
+# import * from 'household.graphql'
 
 scalar DateTime
 

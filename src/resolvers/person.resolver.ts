@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { UserInputError } from 'apollo-server'
 import { prisma } from '../prisma'
-import { QueryPeopleArgs, QueryPersonArgs, ReqContext, SortDirection, Person, PersonsResult, Group } from '../types'
+import { QueryPeopleArgs, QueryPersonArgs, ReqContext, SortDirection, Person, PersonsResult, Group, HouseHold } from '../types'
 import { initPagination } from '../helpers'
 
 export default {
@@ -30,6 +30,7 @@ export default {
               group: true
             }
           },
+          household: true
         },
       })
       people = people.map(person => {
@@ -46,7 +47,18 @@ export default {
       return people
     },
   },
-  Mutation: {
-    test: () => true
+  Person: {
+    household: async (root: Person, args: null, ctx: ReqContext): Promise<HouseHold | null> => {
+      // TODO: add data-loader here
+      if (!root.household) {
+        return prisma.households.findFirst({
+          where: {
+            id: root.householdId
+          }
+        })
+      }
+
+      return root.household
+    }
   }
 }
