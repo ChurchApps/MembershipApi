@@ -1,4 +1,5 @@
 # import * from 'schema.graphql'
+# import * from 'group.graphql'
 
 type Person {
   id: ID!
@@ -29,6 +30,8 @@ type Person {
   householdId: String
   householdRole: String
   removed: Boolean
+
+  groups: [Group!]
 }
 
 type Query {

@@ -21,6 +21,7 @@
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:gen": "prisma generate",
+    "prisma:introspect": "prisma introspect",
     "serverless-local": "serverless invoke local -f api"
   },
   "keywords": [],

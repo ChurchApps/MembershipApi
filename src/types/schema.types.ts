@@ -73,6 +73,7 @@ export type Person = {
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
   gender?: Maybe<Scalars['String']>;
+  groups?: Maybe<Array<Group>>;
   homePhone?: Maybe<Scalars['String']>;
   householdId?: Maybe<Scalars['String']>;
   householdRole?: Maybe<Scalars['String']>;

@@ -18,11 +18,11 @@ export default {
     },
     people: async (root: any, args: QueryPeopleArgs, ctx: ReqContext): Promise<Person[] | null> => {
       const { from, size } = initPagination(args.pagination)
-      const persons =  await prisma.people.findMany({ skip: from, take: size, where: {
-        ...args.where
+      const people =  await prisma.people.findMany({ skip: from, take: size, where: {
+        ...args.where,
       }})
 
-      return persons
+      return people
     },
   },
   Mutation: {
