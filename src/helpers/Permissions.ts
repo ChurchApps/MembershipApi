@@ -1,6 +1,5 @@
 export class Permissions {
     static groups = {
-        view: { contentType: "Groups", action: "View" },
         edit: { contentType: "Groups", action: "Edit" }
     };
     static groupMembers = {
@@ -11,6 +10,8 @@ export class Permissions {
         edit: { contentType: "Households", action: "Edit" }
     };
     static people = {
+        view: { contentType: "People", action: "View" },
+        viewMembers: { contentType: "People", action: "View Members" },
         edit: { contentType: "People", action: "Edit" },
         editSelf: { contentType: "People", action: "Edit Self" }
     }

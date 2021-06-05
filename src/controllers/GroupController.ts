@@ -20,16 +20,14 @@ export class GroupController extends MembershipBaseController {
     @httpGet("/:id")
     public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.groups.view)) return this.json({}, 401);
-            else return this.repositories.group.convertToModel(au.churchId, await this.repositories.group.load(au.churchId, id));
+            return this.repositories.group.convertToModel(au.churchId, await this.repositories.group.load(au.churchId, id));
         });
     }
 
     @httpGet("/")
     public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.groups.view)) return this.json({}, 401);
-            else return this.repositories.group.convertAllToModel(au.churchId, await this.repositories.group.loadAll(au.churchId));
+            return this.repositories.group.convertAllToModel(au.churchId, await this.repositories.group.loadAll(au.churchId));
         });
     }
 
