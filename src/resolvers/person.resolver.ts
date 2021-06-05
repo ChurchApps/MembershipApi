@@ -30,7 +30,6 @@ export default {
               group: true
             }
           },
-          household: true
         },
       })
       people = people.map(person => {
@@ -49,13 +48,13 @@ export default {
   },
   Person: {
     household: async (root: Person, args: null, ctx: ReqContext): Promise<HouseHold | null> => {
-      // TODO: add data-loader here
       if (!root.household) {
-        return prisma.households.findFirst({
-          where: {
-            id: root.householdId
-          }
-        })
+        return ctx.householdLoader.load(root.householdId)
+        // return prisma.households.findFirst({
+        //   where: {
+        //     id: root.householdId
+        //   }
+        // })
       }
 
       return root.household

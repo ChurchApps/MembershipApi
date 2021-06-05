@@ -12,6 +12,7 @@ import depthLimit from 'graphql-depth-limit'
 import { importSchema } from 'graphql-import';
 import resolvers from './resolvers'
 import { ReqContext } from './types/server.types';
+import { peopleFromHouseholdLoader, householdLoader } from './loader'
 
 export const init = async () => {
     /*
@@ -49,6 +50,8 @@ export const init = async () => {
         //   const me: IMe = validateToken(authorization)
         //   ctx.me = me
         // }
+        ctx.peopleFromHouseHoldLoader = peopleFromHouseholdLoader()
+        ctx.householdLoader = householdLoader()
 
         return ctx
       },

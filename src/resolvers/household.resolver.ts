@@ -7,7 +7,7 @@ import { initPagination } from '../helpers'
 export default {
   Query: {
     household: async (root: unknown, args: QueryHouseholdArgs, ctx: ReqContext): Promise<HouseHold | null> => {
-      return prisma.households.findFirst({
+      const household = await prisma.households.findFirst({
         where: {
           id: args.where.id,
         },
@@ -15,28 +15,37 @@ export default {
           people: true,
         },
       })
+      return {
+        ...household,
+        person: household.people
+      }
     },
     households: async (root: any, args: QueryHouseholdsArgs, ctx: ReqContext): Promise<HouseHold[] | null> => {
       const { from, size } = initPagination(args.pagination)
-
-      return prisma.households.findMany({
+      const households = await prisma.households.findMany({
         skip: from,
         take: size,
         include: {
           people: true
         },
       })
+      return households.map(h => ({
+        ...h,
+        person: h.people
+      }))
     },
   },
   HouseHold: {
     person: async (root: HouseHold, args: null, ctx: ReqContext): Promise<Person | null> => {
-      // TODO: add data-loader here
       if (!root.person) {
-        return prisma.people.findFirst({
-          where: {
-            householdId: root.id
-          }
-        })
+        // this is dataloader approach
+        // https://www.npmjs.com/package/dataloader
+        return ctx.peopleFromHouseHoldLoader.load(root.id)
+        // return prisma.people.findFirst({
+        //   where: {
+        //     householdId: root.id
+        //   }
+        // })
       }
 
       return root.person
