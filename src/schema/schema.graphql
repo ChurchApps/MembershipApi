@@ -25,8 +25,6 @@ enum SortDirection {
 
 input StringNullableFilter {
   equals: String
-  in: String
-  notIn: String
   lt: String
   lte: String
   gt: String

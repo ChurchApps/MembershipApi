@@ -1,7 +1,7 @@
 import { ExpressContext } from 'apollo-server-express';
-import { HouseholdLoader, PeopleLoader } from '../loader';
+import { HouseholdLoader, PeopleFromHouseholdLoader } from '../loader';
 
 export type ReqContext = ExpressContext & {
-  peopleFromHouseHoldLoader: PeopleLoader
+  peopleFromHouseHoldLoader: PeopleFromHouseholdLoader
   householdLoader: HouseholdLoader
 }

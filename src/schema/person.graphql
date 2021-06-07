@@ -51,6 +51,7 @@ input PersonWhereInput {
 }
 
 input PeopleWhereInput {
+  firstName: StringNullableFilter
   lastName: StringNullableFilter
   birthDate: DateTimeNullableFilter
 }

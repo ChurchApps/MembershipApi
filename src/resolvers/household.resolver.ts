@@ -11,44 +11,26 @@ export default {
         where: {
           id: args.where.id,
         },
-        include: {
-          people: true,
-        },
       })
-      return {
-        ...household,
-        person: household.people
-      }
+      return household
     },
     households: async (root: any, args: QueryHouseholdsArgs, ctx: ReqContext): Promise<HouseHold[] | null> => {
       const { from, size } = initPagination(args.pagination)
       const households = await prisma.households.findMany({
         skip: from,
         take: size,
-        include: {
-          people: true
-        },
       })
-      return households.map(h => ({
-        ...h,
-        person: h.people
-      }))
+      return households
     },
   },
   HouseHold: {
-    person: async (root: HouseHold, args: null, ctx: ReqContext): Promise<Person | null> => {
-      if (!root.person) {
-        // this is dataloader approach
-        // https://www.npmjs.com/package/dataloader
-        return ctx.peopleFromHouseHoldLoader.load(root.id)
-        // return prisma.people.findFirst({
-        //   where: {
-        //     householdId: root.id
-        //   }
-        // })
+    people: async (root: HouseHold, args: null, ctx: ReqContext): Promise<Person[] | null> => {
+      if (!root.people) {
+        const householdPeople = await ctx.peopleFromHouseHoldLoader.load(root.id)
+        return householdPeople.people
       }
 
-      return root.person
+      return root.people
     }
   }
 }

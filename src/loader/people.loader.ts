@@ -3,6 +3,11 @@ import _ from 'lodash'
 import { prisma } from '../prisma'
 import { Person } from '../types/schema.types'
 
+interface IHouseholdPerson {
+  householdId: string
+  people: Person[]
+}
+
 const getPeopleFromHousehold = async (args: string[]) => {
   try {
     const ids = _.uniq(args)
@@ -14,13 +19,16 @@ const getPeopleFromHousehold = async (args: string[]) => {
       }
     })
 
-    return args.map((id) => people.find(r => r.householdId === id));
+    return args.map((id) => ({
+      householdId: id,
+      people: people.filter(r => r.householdId === id)
+    }));
   } catch (error) {
     console.error(error);
     return args.map(() => null);
   }
 };
 
-export type PeopleLoader = DataLoader<string, Person | null>;
+export type PeopleFromHouseholdLoader = DataLoader<string, IHouseholdPerson | null>;
 
-export const peopleFromHouseholdLoader = (): PeopleLoader => new DataLoader<string, Person | null>(getPeopleFromHousehold);
+export const peopleFromHouseholdLoader = (): PeopleFromHouseholdLoader => new DataLoader<string, IHouseholdPerson | null>(getPeopleFromHousehold);

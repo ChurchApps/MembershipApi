@@ -59,5 +59,6 @@ export default {
 
       return root.household
     }
+    // TODO: groups should be resolved here rather than in SQL
   }
 }

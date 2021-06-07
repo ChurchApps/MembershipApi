@@ -6,7 +6,7 @@ type HouseHold {
   churchId: String
   name: String
 
-  person: Person
+  people: [Person!]
 }
 
 type Query {

@@ -57,7 +57,7 @@ export type HouseHold = {
   churchId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
-  person?: Maybe<Person>;
+  people?: Maybe<Array<Person>>;
 };
 
 export type HouseHoldWhereInput = {
@@ -71,6 +71,7 @@ export type Mutation = {
 
 export type PeopleWhereInput = {
   birthDate?: Maybe<DateTimeNullableFilter>;
+  firstName?: Maybe<StringNullableFilter>;
   lastName?: Maybe<StringNullableFilter>;
 };
 
@@ -171,10 +172,8 @@ export type StringNullableFilter = {
   equals?: Maybe<Scalars['String']>;
   gt?: Maybe<Scalars['String']>;
   gte?: Maybe<Scalars['String']>;
-  in?: Maybe<Scalars['String']>;
   lt?: Maybe<Scalars['String']>;
   lte?: Maybe<Scalars['String']>;
   not?: Maybe<Scalars['String']>;
-  notIn?: Maybe<Scalars['String']>;
   startsWith?: Maybe<Scalars['String']>;
 };
