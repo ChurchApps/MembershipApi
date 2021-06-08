@@ -1,2 +1,2 @@
-export * from './people.loader'
+export * from './peopleHousehold.loader'
 export * from './household.loader'
