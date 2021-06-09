@@ -13,6 +13,7 @@ import { importSchema } from 'graphql-import';
 import resolvers from './resolvers'
 import { ReqContext } from './types/server.types';
 import { peopleFromHouseholdLoader, householdLoader } from './loader'
+import { validateToken } from './helpers/account';
 
 export const init = async () => {
     /*
@@ -43,13 +44,12 @@ export const init = async () => {
       resolvers,
       validationRules: [depthLimit(5)],
       context: (ctx: ReqContext) => {
-        // ctx.log = ctx.req.log
-
-        // const { authorization } = ctx.req.headers
-        // if (authorization && typeof authorization === 'string') {
-        //   const me: IMe = validateToken(authorization)
-        //   ctx.me = me
-        // }
+        const { authorization } = ctx.req.headers
+        if (authorization && typeof authorization === 'string' && authorization.startsWith('Bearer ')) {
+          const token = authorization.substr(7)
+          const me = validateToken(token)
+          ctx.me = me
+        }
         ctx.peopleFromHouseHoldLoader = peopleFromHouseholdLoader()
         ctx.householdLoader = householdLoader()
 
