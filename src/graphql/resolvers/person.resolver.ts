@@ -2,9 +2,8 @@ import _ from 'lodash'
 import { UserInputError } from 'apollo-server'
 import { prisma } from '../prisma'
 import { QueryPeopleArgs, QueryPersonArgs, ReqContext, SortDirection, Person, PersonsResult, Group, HouseHold } from '../types'
-import { initPagination } from '../helpers'
+import { initPagination, isAuthenticated } from '../../helpers'
 import { combineResolvers } from 'graphql-resolvers'
-import { isAuthenticated } from '../helpers/authorization'
 
 export default {
   Query: {

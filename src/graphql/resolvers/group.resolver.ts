@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { UserInputError } from 'apollo-server'
 import { prisma } from '../prisma'
 import { QueryGroupsArgs, ReqContext, SortDirection, QueryGroupArgs, GroupsResult, Group } from '../types'
-import { initPagination } from '../helpers'
+import { initPagination } from '../../helpers'
 
 export default {
   Query: {
