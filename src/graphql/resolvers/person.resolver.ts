@@ -1,14 +1,21 @@
 import _ from 'lodash'
-import { UserInputError } from 'apollo-server'
+import { ForbiddenError, UserInputError } from 'apollo-server'
 import { prisma } from '../prisma'
 import { QueryPeopleArgs, QueryPersonArgs, ReqContext, SortDirection, Person, PersonsResult, Group, HouseHold } from '../types'
-import { initPagination, isAuthenticated } from '../../helpers'
-import { combineResolvers } from 'graphql-resolvers'
+import { initPagination, isAuthenticated, requireAccess } from '../../helpers'
+import { combineResolvers, resolveDependee, resolveDependees } from 'graphql-resolvers'
+import { Permissions } from '../../helpers/Permissions'
 
 export default {
   Query: {
     person: combineResolvers(
       isAuthenticated,
+      (root, args, ctx: ReqContext) => {
+        const { au } = ctx
+        if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) {
+          throw new ForbiddenError('You are not authenticated for this resources')
+        }
+      },
       async (root: unknown, args: QueryPersonArgs, ctx: ReqContext): Promise<Person | null> => {
         const { id } = args.where
         if (!id) {
@@ -26,6 +33,12 @@ export default {
     ),
     people: combineResolvers(
       isAuthenticated,
+      (root, args, ctx: ReqContext) => {
+        const { au } = ctx
+        if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) {
+          throw new ForbiddenError('You are not authenticated for this resources')
+        }
+      },
       async (root: any, args: QueryPeopleArgs, ctx: ReqContext): Promise<Person[] | null> => {
         const { from, size } = initPagination(args.pagination)
         // adding churchId filter
