@@ -1,13 +1,12 @@
 import _ from 'lodash'
-import { prisma } from '../prisma'
 import { QueryHouseholdArgs, QueryHouseholdsArgs, ReqContext, HouseHold, Person } from '../types'
-import { initPagination } from '../helpers'
+import { initPagination, PrismaHelper } from '../helpers'
 import { combineResolvers } from 'graphql-resolvers'
 
 export class HouseholdResolver {
 
   private static householdQuery = async (root: unknown, args: QueryHouseholdArgs, ctx: ReqContext): Promise<HouseHold | null> => {
-    const household = await prisma.households.findFirst({
+    const household = await PrismaHelper.getClient().households.findFirst({
       where: { id: args.where.id, },
     });
     return household;
@@ -15,7 +14,7 @@ export class HouseholdResolver {
 
   private static householdsQuery = async (root: any, args: QueryHouseholdsArgs, ctx: ReqContext): Promise<HouseHold[] | null> => {
     const { from, size } = initPagination(args.pagination);
-    const households = await prisma.households.findMany({
+    const households = await PrismaHelper.getClient().households.findMany({
       skip: from,
       take: size,
     });

@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader'
 import _ from 'lodash'
-import { prisma } from '../prisma'
+import { PrismaHelper } from '../helpers'
 import { HouseHold } from '../types/schema.types'
 
 export type HouseholdLoaderType = DataLoader<string, HouseHold | null>;
@@ -9,7 +9,7 @@ export class HouseholdLoader {
   private static getHousehold = async (args: string[]) => {
     try {
       const ids = _.uniq(args)
-      const households = await prisma.households.findMany({
+      const households = await PrismaHelper.getClient().households.findMany({
         where: {
           id: {
             in: ids

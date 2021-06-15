@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import { ForbiddenError, UserInputError } from 'apollo-server'
-import { prisma } from '../prisma'
 import { QueryPeopleArgs, QueryPersonArgs, ReqContext, Person, HouseHold } from '../types'
-import { initPagination, isAuthenticated } from '../helpers'
+import { initPagination, isAuthenticated, PrismaHelper } from '../helpers'
 import { combineResolvers } from 'graphql-resolvers'
 import { Permissions } from '../../helpers/Permissions'
 
@@ -12,7 +11,7 @@ export class PersonResolver {
     const { id } = args.where;
     if (!id) throw new UserInputError('user_id is required');
     const churchId = ctx.me?.churchId;
-    const person = await prisma.people.findFirst({
+    const person = await PrismaHelper.getClient().people.findFirst({
       where: { id, churchId, }
     });
     return person;
@@ -21,7 +20,7 @@ export class PersonResolver {
   private static peopleQuery = async (root: any, args: QueryPeopleArgs, ctx: ReqContext): Promise<Person[] | null> => {
     const { from, size } = initPagination(args.pagination);
     const churchId = ctx.me?.churchId;
-    let people = await prisma.people.findMany({
+    let people = await PrismaHelper.getClient().people.findMany({
       skip: from,
       take: size,
       where: { ...args.where, churchId, },
