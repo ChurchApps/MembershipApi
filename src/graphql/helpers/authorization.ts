@@ -1,8 +1,8 @@
 import { AuthenticationError } from 'apollo-server'
 import { combineResolvers, skip } from 'graphql-resolvers'
-import { Permissions } from '../helpers/Permissions';
-import { AuthenticatedUser, Principal } from '../apiBase/auth';
-import { ReqContext } from "../graphql/types";
+import { Permissions } from '../../helpers/Permissions';
+import { AuthenticatedUser, Principal } from '../../apiBase/auth';
+import { ReqContext } from "../types";
 
 export const isAuthenticated = (parent: null, args: any, ctx: ReqContext) => {
   const { me } = ctx

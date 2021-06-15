@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { ForbiddenError, UserInputError } from 'apollo-server'
 import { prisma } from '../prisma'
 import { QueryPeopleArgs, QueryPersonArgs, ReqContext, SortDirection, Person, PersonsResult, Group, HouseHold } from '../types'
-import { initPagination, isAuthenticated, requireAccess } from '../../helpers'
+import { initPagination, isAuthenticated, requireAccess } from '../helpers'
 import { combineResolvers, resolveDependee, resolveDependees } from 'graphql-resolvers'
 import { Permissions } from '../../helpers/Permissions'
 
@@ -12,9 +12,7 @@ export default {
       isAuthenticated,
       (root, args, ctx: ReqContext) => {
         const { au } = ctx
-        if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) {
-          throw new ForbiddenError('You are not authenticated for this resources')
-        }
+        if (!au.checkAccess(Permissions.people.view)) throw new ForbiddenError('You are not authenticated for this resources')
       },
       async (root: unknown, args: QueryPersonArgs, ctx: ReqContext): Promise<Person | null> => {
         const { id } = args.where
@@ -24,10 +22,12 @@ export default {
         // adding churchId filter
         // TODO: in case admin want to see all people without churchId filter?
         const churchId = ctx.me?.churchId
-        const person = await prisma.people.findFirst({ where: {
-          id,
-          churchId,
-        }})
+        const person = await prisma.people.findFirst({
+          where: {
+            id,
+            churchId,
+          }
+        })
         return person
       }
     ),
@@ -35,9 +35,7 @@ export default {
       isAuthenticated,
       (root, args, ctx: ReqContext) => {
         const { au } = ctx
-        if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) {
-          throw new ForbiddenError('You are not authenticated for this resources')
-        }
+        if (!au.checkAccess(Permissions.people.view)) throw new ForbiddenError('You are not authenticated for this resources')
       },
       async (root: any, args: QueryPeopleArgs, ctx: ReqContext): Promise<Person[] | null> => {
         const { from, size } = initPagination(args.pagination)
