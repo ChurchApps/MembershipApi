@@ -1,0 +1,57 @@
+# import * from 'schema.graphql'
+# import * from 'group.graphql'
+# import * from 'household.graphql'
+
+type Person {
+  id: ID!
+  churchId: String
+  userId: String
+  displayName: String
+  firstName: String
+  middleName: String
+  lastName: String
+  nickName: String
+  prefix: String
+  suffix: String
+  birthDate: DateTime
+  gender: String
+  maritalStatus: String
+  anniversary: DateTime
+  membershipStatus: String
+  homePhone: String
+  mobilePhone: String
+  workPhone: String
+  email: String
+  address1: String
+  address2: String
+  city: String
+  state: String
+  zip: String
+  photoUpdated: DateTime
+  householdId: String
+  householdRole: String
+  removed: Boolean
+
+  groups: [Group!]
+  household: HouseHold
+}
+
+type Query {
+  people(pagination: CorePagination, where: PeopleWhereInput): [Person]!
+  person(where: PersonWhereInput!): Person
+}
+
+type PersonsResult {
+  edges: [Person!]!
+  total: Int!
+}
+
+input PersonWhereInput {
+  id: ID!
+}
+
+input PeopleWhereInput {
+  firstName: StringNullableFilter
+  lastName: StringNullableFilter
+  birthDate: DateTimeNullableFilter
+}

@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model answers {
+  id               String  @id @db.Char(11)
+  churchId         String? @db.Char(11)
+  formSubmissionId String? @db.Char(11)
+  questionId       String? @db.Char(11)
+  value            String? @db.VarChar(5000)
+
+  @@index([churchId], name: "churchId")
+  @@index([formSubmissionId], name: "formSubmissionId")
+  @@index([questionId], name: "questionId")
+}
+
+model formSubmissions {
+  id             String    @id @db.Char(11)
+  churchId       String?   @db.Char(11)
+  formId         String?   @db.Char(11)
+  contentType    String?   @db.VarChar(50)
+  contentId      String?   @db.Char(11)
+  submissionDate DateTime? @db.DateTime(0)
+  submittedBy    String?   @db.Char(11)
+  revisionDate   DateTime? @db.DateTime(0)
+  revisedBy      String?   @db.Char(11)
+
+  @@index([churchId], name: "churchId")
+  @@index([formId], name: "formId")
+}
+
+model forms {
+  id           String    @id @db.Char(11)
+  churchId     String?   @db.Char(11)
+  name         String?   @db.VarChar(255)
+  contentType  String?   @db.VarChar(50)
+  createdTime  DateTime? @db.DateTime(0)
+  modifiedTime DateTime? @db.DateTime(0)
+  removed      Boolean?  @db.Bit(1)
+
+  @@index([churchId], name: "churchId")
+}
+
+model groupMembers {
+  id       String    @id @db.Char(11)
+  churchId String?   @db.Char(11)
+  groupId  String?   @db.Char(11)
+  personId String?   @db.Char(11)
+  joinDate DateTime? @db.DateTime(0)
+  group    groups?   @relation(fields: [groupId], references: [id])
+  person   people?   @relation(fields: [personId], references: [id])
+
+  @@index([churchId], name: "churchId")
+  @@index([groupId], name: "groupId")
+  @@index([personId], name: "personId")
+}
+
+model groups {
+  id              String         @id @db.Char(11)
+  churchId        String?        @db.Char(11)
+  categoryName    String?        @db.VarChar(50)
+  name            String?        @db.VarChar(50)
+  trackAttendance Boolean?       @db.Bit(1)
+  parentPickup    Boolean?       @db.Bit(1)
+  removed         Boolean?       @db.Bit(1)
+  users           groupMembers[]
+
+  @@index([churchId], name: "churchId")
+}
+
+model households {
+  id       String  @id @db.Char(11)
+  churchId String? @db.Char(11)
+  name     String? @db.VarChar(50)
+
+  people people[]
+  @@index([churchId], name: "churchId")
+}
+
+model notes {
+  id          String    @id @db.Char(11)
+  churchId    String?   @db.Char(11)
+  contentType String?   @db.VarChar(50)
+  contentId   String?   @db.Char(11)
+  noteType    String?   @db.VarChar(50)
+  addedBy     String?   @db.Char(11)
+  dateAdded   DateTime? @db.DateTime(0)
+  contents    String?   @db.Text
+
+  @@index([churchId], name: "churchId")
+}
+
+model people {
+  id               String         @id @db.Char(11)
+  churchId         String?        @db.Char(11)
+  userId           String?        @db.Char(11)
+  displayName      String?        @db.VarChar(100)
+  firstName        String?        @db.VarChar(50)
+  middleName       String?        @db.VarChar(50)
+  lastName         String?        @db.VarChar(50)
+  nickName         String?        @db.VarChar(50)
+  prefix           String?        @db.VarChar(10)
+  suffix           String?        @db.VarChar(10)
+  birthDate        DateTime?      @db.DateTime(0)
+  gender           String?        @db.VarChar(11)
+  maritalStatus    String?        @db.VarChar(10)
+  anniversary      DateTime?      @db.DateTime(0)
+  membershipStatus String?        @db.VarChar(50)
+  homePhone        String?        @db.VarChar(20)
+  mobilePhone      String?        @db.VarChar(20)
+  workPhone        String?        @db.VarChar(20)
+  email            String?        @db.VarChar(100)
+  address1         String?        @db.VarChar(50)
+  address2         String?        @db.VarChar(50)
+  city             String?        @db.VarChar(30)
+  state            String?        @db.VarChar(10)
+  zip              String?        @db.VarChar(10)
+  photoUpdated     DateTime?      @db.DateTime(0)
+  householdId      String?        @db.Char(11)
+  householdRole    String?        @db.VarChar(10)
+  removed          Boolean?       @db.Bit(1)
+  groups           groupMembers[]
+  household        households?    @relation(fields: [householdId], references: [id])
+
+  @@index([churchId], name: "churchId")
+  @@index([householdId], name: "householdId")
+  @@index([userId], name: "userId")
+}
+
+model questions {
+  id          String   @id @db.Char(11)
+  churchId    String?  @db.Char(11)
+  formId      String?  @db.Char(11)
+  parentId    String?  @db.Char(11)
+  title       String?  @db.VarChar(50)
+  description String?  @db.VarChar(255)
+  fieldType   String?  @db.VarChar(50)
+  placeholder String?  @db.VarChar(50)
+  sort        String?  @db.Char(11)
+  choices     String?  @db.Text
+  removed     Boolean? @db.Bit(1)
+
+  @@index([churchId], name: "churchId")
+  @@index([formId], name: "formId")
+}
