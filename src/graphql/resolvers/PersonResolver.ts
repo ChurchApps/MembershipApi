@@ -1,13 +1,13 @@
 import _ from 'lodash'
-import { ForbiddenError, UserInputError } from 'apollo-server'
+import { UserInputError } from 'apollo-server'
 import { QueryPeopleArgs, QueryPersonArgs, ReqContext, Person, HouseHold } from '../types'
 import { PaginationHelper, Authorization, PrismaHelper } from '../helpers'
-import { combineResolvers } from 'graphql-resolvers'
 import { Permissions } from '../../helpers/Permissions'
 
 export class PersonResolver {
 
   private static personQuery = async (root: unknown, args: QueryPersonArgs, ctx: ReqContext): Promise<Person | null> => {
+    Authorization.requirePermission(ctx.me, Permissions.people.view);
     const { id } = args.where;
     if (!id) throw new UserInputError('user_id is required');
     const churchId = ctx.me?.churchId;
@@ -18,6 +18,7 @@ export class PersonResolver {
   }
 
   private static peopleQuery = async (root: any, args: QueryPeopleArgs, ctx: ReqContext): Promise<Person[] | null> => {
+    Authorization.requirePermission(ctx.me, Permissions.people.view);
     const { from, size } = PaginationHelper.initPagination(args.pagination);
     const churchId = ctx.me?.churchId;
     let people = await PrismaHelper.getClient().people.findMany({
@@ -45,16 +46,11 @@ export class PersonResolver {
     return root.household;
   }
 
-  private static checkViewPeople = async (root: unknown, args: QueryPersonArgs, ctx: ReqContext) => {
-    const { au } = ctx;
-    if (!au.checkAccess(Permissions.people.view)) throw new ForbiddenError('You are not authenticated for this resources');
-  }
-
   public static getResolver = () => {
     return {
       Query: {
-        person: combineResolvers(Authorization.isAuthenticated, PersonResolver.checkViewPeople, PersonResolver.personQuery),
-        people: combineResolvers(Authorization.isAuthenticated, PersonResolver.checkViewPeople, PersonResolver.peopleQuery),
+        person: PersonResolver.personQuery,
+        people: PersonResolver.peopleQuery,
       },
       Person: {
         household: PersonResolver.personHouseholdQuery

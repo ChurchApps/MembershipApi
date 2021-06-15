@@ -1,8 +1,9 @@
-import { AuthenticationError } from 'apollo-server'
+import { AuthenticationError, ForbiddenError } from 'apollo-server'
 import { skip } from 'graphql-resolvers'
 import { AuthenticatedUser, Principal } from '../../apiBase/auth';
 import { ReqContext } from "../types";
 import jwt from 'jsonwebtoken'
+import { IPermission } from '../../apiBase';
 
 export interface IMe {
   id: string
@@ -14,15 +15,17 @@ export interface IMe {
 };
 
 export class Authorization {
-  static isAuthenticated = (parent: null, args: any, ctx: ReqContext) => {
+  static requireAuthentication = (parent: null, args: any, ctx: ReqContext) => {
     const { me } = ctx
-    if (!me || !me.id) return new AuthenticationError('Not authenticated as user')
+    if (!me || !me.id) return new AuthenticationError('Please log in')
     ctx.au = new AuthenticatedUser(new Principal(me))
-    return skip
+    // return skip
   }
 
-  static requireAccess = (parent: null, args: any, { me }: ReqContext) => (permission: any[]) => {
-    return skip
+  static requirePermission = (me: IMe, permission: IPermission) => {
+    if (!me || !me.id) return new AuthenticationError('Please log in')
+    const au = new AuthenticatedUser(new Principal(me))
+    if (!au.checkAccess(permission)) throw new ForbiddenError('You are not authenticated for this resources');
   }
 
   static validateToken = (token: string) => {
