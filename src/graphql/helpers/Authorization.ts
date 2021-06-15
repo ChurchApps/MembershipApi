@@ -1,5 +1,4 @@
 import { AuthenticationError, ForbiddenError } from 'apollo-server'
-import { skip } from 'graphql-resolvers'
 import { AuthenticatedUser, Principal } from '../../apiBase/auth';
 import { ReqContext } from "../types";
 import jwt from 'jsonwebtoken'
