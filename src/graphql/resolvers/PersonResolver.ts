@@ -41,6 +41,11 @@ export class PersonResolver {
     return people;
   }
 
+  private static personHouseholdQuery = async (root: Person, args: null, ctx: ReqContext): Promise<HouseHold | null> => {
+    if (!root.household) return ctx.householdLoader.load(root.householdId);
+    return root.household;
+  }
+
   private static checkViewPeople = async (root: unknown, args: QueryPersonArgs, ctx: ReqContext) => {
     const { au } = ctx;
     if (!au.checkAccess(Permissions.people.view)) throw new ForbiddenError('You are not authenticated for this resources');
@@ -53,10 +58,7 @@ export class PersonResolver {
         people: combineResolvers(isAuthenticated, PersonResolver.checkViewPeople, PersonResolver.peopleQuery),
       },
       Person: {
-        household: async (root: Person, args: null, ctx: ReqContext): Promise<HouseHold | null> => {
-          if (!root.household) return ctx.householdLoader.load(root.householdId)
-          return root.household
-        }
+        household: PersonResolver.personHouseholdQuery
       }
     }
   }

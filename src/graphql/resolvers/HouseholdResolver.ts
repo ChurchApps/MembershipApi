@@ -22,6 +22,14 @@ export class HouseholdResolver {
     return households;
   }
 
+  private static householdPeopleQuery = async (root: HouseHold, args: null, ctx: ReqContext): Promise<Person[] | null> => {
+    if (!root.people) {
+      const householdPeople = await ctx.peopleFromHouseHoldLoader.load(root.id);
+      return householdPeople.people;
+    }
+    return root.people;
+  }
+
   public static getResolver = () => {
     return {
       Query: {
@@ -29,13 +37,7 @@ export class HouseholdResolver {
         households: HouseholdResolver.householdsQuery,
       },
       HouseHold: {
-        people: async (root: HouseHold, args: null, ctx: ReqContext): Promise<Person[] | null> => {
-          if (!root.people) {
-            const householdPeople = await ctx.peopleFromHouseHoldLoader.load(root.id);
-            return householdPeople.people;
-          }
-          return root.people;
-        }
+        people: HouseholdResolver.householdPeopleQuery
       }
     }
   }
