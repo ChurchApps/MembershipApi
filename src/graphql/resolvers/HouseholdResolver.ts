@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { QueryHouseholdArgs, QueryHouseholdsArgs, ReqContext, HouseHold, Person } from '../types'
-import { initPagination, PrismaHelper } from '../helpers'
+import { PaginationHelper, PrismaHelper } from '../helpers'
 import { combineResolvers } from 'graphql-resolvers'
 
 export class HouseholdResolver {
@@ -13,7 +13,7 @@ export class HouseholdResolver {
   }
 
   private static householdsQuery = async (root: any, args: QueryHouseholdsArgs, ctx: ReqContext): Promise<HouseHold[] | null> => {
-    const { from, size } = initPagination(args.pagination);
+    const { from, size } = PaginationHelper.initPagination(args.pagination);
     const households = await PrismaHelper.getClient().households.findMany({
       skip: from,
       take: size,

@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { ForbiddenError, UserInputError } from 'apollo-server'
 import { QueryPeopleArgs, QueryPersonArgs, ReqContext, Person, HouseHold } from '../types'
-import { initPagination, isAuthenticated, PrismaHelper } from '../helpers'
+import { PaginationHelper, Authorization, PrismaHelper } from '../helpers'
 import { combineResolvers } from 'graphql-resolvers'
 import { Permissions } from '../../helpers/Permissions'
 
@@ -18,7 +18,7 @@ export class PersonResolver {
   }
 
   private static peopleQuery = async (root: any, args: QueryPeopleArgs, ctx: ReqContext): Promise<Person[] | null> => {
-    const { from, size } = initPagination(args.pagination);
+    const { from, size } = PaginationHelper.initPagination(args.pagination);
     const churchId = ctx.me?.churchId;
     let people = await PrismaHelper.getClient().people.findMany({
       skip: from,
@@ -53,8 +53,8 @@ export class PersonResolver {
   public static getResolver = () => {
     return {
       Query: {
-        person: combineResolvers(isAuthenticated, PersonResolver.checkViewPeople, PersonResolver.personQuery),
-        people: combineResolvers(isAuthenticated, PersonResolver.checkViewPeople, PersonResolver.peopleQuery),
+        person: combineResolvers(Authorization.isAuthenticated, PersonResolver.checkViewPeople, PersonResolver.personQuery),
+        people: combineResolvers(Authorization.isAuthenticated, PersonResolver.checkViewPeople, PersonResolver.peopleQuery),
       },
       Person: {
         household: PersonResolver.personHouseholdQuery

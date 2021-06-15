@@ -4,7 +4,7 @@ import { importSchema } from 'graphql-import';
 import resolvers from '../resolvers'
 import { ReqContext } from '../types/server.types';
 import { HouseholdLoader, PeopleFromHouseholdLoader } from '../loader'
-import { validateToken } from '../helpers/account';
+import { Authorization } from './Authorization';
 
 export class GraphQLHelper {
     static getServer = () => {
@@ -16,7 +16,7 @@ export class GraphQLHelper {
                 const { authorization } = ctx.req.headers
                 if (authorization && typeof authorization === 'string' && authorization.startsWith('Bearer ')) {
                     const token = authorization.substr(7)
-                    const me = validateToken(token)
+                    const me = Authorization.validateToken(token)
                     ctx.me = me
                 }
                 ctx.peopleFromHouseHoldLoader = PeopleFromHouseholdLoader.getLoader()

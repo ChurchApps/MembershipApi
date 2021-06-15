@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { UserInputError } from 'apollo-server'
 import { QueryGroupsArgs, ReqContext, QueryGroupArgs, Group } from '../types'
-import { initPagination, PrismaHelper } from '../helpers'
+import { PaginationHelper, PrismaHelper } from '../helpers'
 
 export class GroupResolver {
   private static groupQuery = async (root: unknown, args: QueryGroupArgs, ctx: ReqContext): Promise<Group | null> => {
@@ -12,7 +12,7 @@ export class GroupResolver {
   };
 
   private static groupsQuery = async (root: any, args: QueryGroupsArgs, ctx: ReqContext): Promise<Group[] | null> => {
-    const { from, size } = initPagination(args.pagination)
+    const { from, size } = PaginationHelper.initPagination(args.pagination)
     let groups = await PrismaHelper.getClient().groups.findMany({
       skip: from,
       take: size,
