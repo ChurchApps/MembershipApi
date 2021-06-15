@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader'
 import _ from 'lodash'
 import { PrismaHelper } from '../helpers'
-import { Person } from '../types/schema.types'
+import { Person } from '../types/SchemaTypes'
 
 interface IHouseholdPerson {
   householdId: string

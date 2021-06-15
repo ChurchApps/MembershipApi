@@ -1,5 +1,5 @@
-export * from './schema.types'
-export * from './server.types'
+export * from './SchemaTypes'
+export * from './ServerTypes'
 
 // -- AddForeignKey
 // ALTER TABLE `groupMembers` ADD FOREIGN KEY (`groupId`) REFERENCES `groups`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

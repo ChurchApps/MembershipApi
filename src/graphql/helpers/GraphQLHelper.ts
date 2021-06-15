@@ -2,8 +2,8 @@ import { ApolloServer } from 'apollo-server-express'
 import depthLimit from 'graphql-depth-limit'
 import { importSchema } from 'graphql-import';
 import resolvers from '../resolvers'
-import { ReqContext } from '../types/server.types';
-import { HouseholdLoader, PeopleFromHouseholdLoader } from '../loader'
+import { ReqContext } from '../types/ServerTypes';
+import { HouseholdLoader, PeopleFromHouseholdLoader } from '../loaders'
 import { Authorization } from './Authorization';
 
 export class GraphQLHelper {

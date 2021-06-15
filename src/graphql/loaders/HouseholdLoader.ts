@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader'
 import _ from 'lodash'
 import { PrismaHelper } from '../helpers'
-import { HouseHold } from '../types/schema.types'
+import { HouseHold } from '../types/SchemaTypes'
 
 export type HouseholdLoaderType = DataLoader<string, HouseHold | null>;
 
