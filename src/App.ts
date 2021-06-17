@@ -7,7 +7,6 @@ import { bindings } from "./inversify.config";
 import express from "express";
 import { CustomAuthProvider } from "./apiBase/auth";
 import cors from "cors"
-import { GraphQLHelper } from "./graphql/helpers/GraphQLHelper";
 
 export const init = async () => {
   /*
@@ -34,10 +33,6 @@ export const init = async () => {
 
   const server = app.setConfig(configFunction).build();
 
-  const graphQLServer = GraphQLHelper.getServer();
-  graphQLServer.applyMiddleware({
-    app: server,
-    path: '/graphql',
-  })
+
   return server;
 }
