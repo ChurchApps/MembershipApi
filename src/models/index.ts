@@ -1,6 +1,4 @@
-export { ContactInfo } from './ContactInfo';
 export { Group } from './Group';
 export { GroupMember } from './GroupMember';
 export { Household } from './Household';
-export { Name } from './Name';
-export { Person } from './Person';
+export { ContactInfo, Name, Person } from '../apiBase/models'
