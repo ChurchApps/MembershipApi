@@ -7,17 +7,12 @@ import { MembershipBaseController } from "./MembershipBaseController";
 @controller("/churches")
 export class ChurchController extends MembershipBaseController {
 
-
     @httpPost("/init")
     public async init(req: express.Request<{}, {}, { user: UserInterface, church: ChurchInterface }>, res: express.Response): Promise<any> {
         return this.actionWrapper(req, res, async (au) => {
-            const promises: Promise<any>[] = [];
-            // todo: why email is not even set in au?
-            console.log(req.body)
-            promises.push(this.createPerson(req.body.user.displayName, au.churchId, au.email));
-            promises.push(this.createGroup(au.churchId));
-            const result = await Promise.all(promises);
-            return result;
+            const person = await this.createPerson(req.body.user.displayName, au.churchId, au.email);
+            const group = await this.createGroup(au.churchId);
+            return { person, group };
         });
     }
 
@@ -26,6 +21,7 @@ export class ChurchController extends MembershipBaseController {
         if (groups.length === 0) {
             const group: Group = { churchId, name: "Worship Service", categoryName: "Worship Service", trackAttendance: true, parentPickup: false };
             await this.repositories.group.save(group);
+            return group;
         }
     }
 
