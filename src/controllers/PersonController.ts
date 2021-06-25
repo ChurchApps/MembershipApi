@@ -69,16 +69,16 @@ export class PersonController extends MembershipBaseController {
         });
     }
 
-    @httpGet("/userids")
-    public async getByUserIds(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
-        return this.actionWrapper(req, res, async (au) => {
-            const userIdList = req.query.userIds.toString().split(',');
-            const userIds: string[] = [];
-            userIdList.forEach(userId => userIds.push(userId));
-            const data = await this.repositories.person.loadByUserIds(au.churchId, userIds);
-            return this.repositories.person.convertAllToModel(au.churchId, data);
-        });
-    }
+    // @httpGet("/userids")
+    // public async getByUserIds(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    //     return this.actionWrapper(req, res, async (au) => {
+    //         const userIdList = req.query.userIds.toString().split(',');
+    //         const userIds: string[] = [];
+    //         userIdList.forEach(userId => userIds.push(userId));
+    //         const data = await this.repositories.person.loadByUserIds(au.churchId, userIds);
+    //         return this.repositories.person.convertAllToModel(au.churchId, data);
+    //     });
+    // }
 
     @httpGet("/attendance")
     public async loadAttendees(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
@@ -164,21 +164,22 @@ export class PersonController extends MembershipBaseController {
             const data = await this.repositories.person.load(au.churchId, id);
             const person = this.repositories.person.convertToModel(au.churchId, data)
             if (person.contactInfo.email === au.email) {
-                person.userId = au.id;
+                // TODO: enable what this does with the new flow
+                // person.userId = au.id;
                 await this.repositories.person.save(person);
                 return person;
             } else return this.json({}, 401);
         });
     }
 
-    @httpGet("/userid/:userId")
-    public async getByUserId(@requestParam("userId") userId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
-        return this.actionWrapper(req, res, async (au) => {
-            const data = await this.repositories.person.loadByUserId(au.churchId, userId);
-            if (data === null) return {};
-            else return this.repositories.person.convertToModel(au.churchId, data);
-        });
-    }
+    // @httpGet("/userid/:userId")
+    // public async getByUserId(@requestParam("userId") userId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    //     return this.actionWrapper(req, res, async (au) => {
+    //         const data = await this.repositories.person.loadByUserId(au.churchId, userId);
+    //         if (data === null) return {};
+    //         else return this.repositories.person.convertToModel(au.churchId, data);
+    //     });
+    // }
 
 
     @httpGet("/")
@@ -196,11 +197,13 @@ export class PersonController extends MembershipBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            let isSelfPermissionValid: boolean = false;
-            if (au.checkAccess(Permissions.people.editSelf)) {
-                isSelfPermissionValid = req.body[0].userId === au.id;
-            }
-            if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid) return this.json({}, 401);
+            // TODO - get the commented permission check working
+            // let isSelfPermissionValid: boolean = false;
+            // if (au.checkAccess(Permissions.people.editSelf)) {
+            //     isSelfPermissionValid = req.body[0].userId === au.id;
+            // }
+            // if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401)
             else {
                 const promises: Promise<Person>[] = [];
                 req.body.forEach(person => {

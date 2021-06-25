@@ -17,10 +17,10 @@ export class PersonRepository {
         const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
         const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
         const photoUpdated = DateTimeHelper.toMysqlDate(person.photoUpdated);
-        const sql = "INSERT INTO people (id, churchId, userId, displayName, firstName, middleName, lastName, nickName, prefix, suffix, birthDate, gender, maritalStatus, anniversary, membershipStatus, homePhone, mobilePhone, workPhone, email, address1, address2, city, state, zip, photoUpdated, householdId, householdRole, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+        const sql = "INSERT INTO people (id, churchId, displayName, firstName, middleName, lastName, nickName, prefix, suffix, birthDate, gender, maritalStatus, anniversary, membershipStatus, homePhone, mobilePhone, workPhone, email, address1, address2, city, state, zip, photoUpdated, householdId, householdRole, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
         const params = [
             person.id,
-            person.churchId, person.userId,
+            person.churchId,
             person.name.display, person.name.first, person.name.middle, person.name.last, person.name.nick, person.name.prefix, person.name.suffix,
             birthDate, person.gender, person.maritalStatus, anniversary, person.membershipStatus,
             person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
@@ -34,9 +34,8 @@ export class PersonRepository {
         const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
         const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
         const photoUpdated = DateTimeHelper.toMysqlDate(person.photoUpdated);
-        const sql = "UPDATE people SET userId=?, displayName=?, firstName=?, middleName=?, lastName=?, nickName=?, prefix=?, suffix=?, birthDate=?, gender=?, maritalStatus=?, anniversary=?, membershipStatus=?, homePhone=?, mobilePhone=?, workPhone=?, email=?, address1=?, address2=?, city=?, state=?, zip=?, photoUpdated=?, householdId=?, householdRole=? WHERE id=? and churchId=?";
+        const sql = "UPDATE people SET displayName=?, firstName=?, middleName=?, lastName=?, nickName=?, prefix=?, suffix=?, birthDate=?, gender=?, maritalStatus=?, anniversary=?, membershipStatus=?, homePhone=?, mobilePhone=?, workPhone=?, email=?, address1=?, address2=?, city=?, state=?, zip=?, photoUpdated=?, householdId=?, householdRole=? WHERE id=? and churchId=?";
         const params = [
-            person.userId,
             person.name.display, person.name.first, person.name.middle, person.name.last, person.name.nick, person.name.prefix, person.name.suffix,
             birthDate, person.gender, person.maritalStatus, anniversary, person.membershipStatus,
             person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
@@ -66,9 +65,9 @@ export class PersonRepository {
         return DB.query("SELECT * FROM people WHERE id IN (" + quotedAndCommaSeparated + ") AND churchId=?;", [churchId]);
     }
 
-    public loadByUserId(churchId: string, userId: string) {
-        return DB.queryOne("SELECT * FROM people WHERE userId=? AND churchId=? AND removed=0;", [userId, churchId]);
-    }
+    // public loadByUserId(churchId: string, userId: string) {
+    //     return DB.queryOne("SELECT * FROM people WHERE userId=? AND churchId=? AND removed=0;", [userId, churchId]);
+    // }
 
     public loadAll(churchId: string) {
         return DB.query("SELECT * FROM people WHERE churchId=? AND removed=0;", [churchId]);
@@ -82,9 +81,9 @@ export class PersonRepository {
         return DB.query("SELECT * FROM people WHERE churchId=? and householdId=? AND removed=0;", [churchId, householdId]);
     }
 
-    public loadByUserIds(churchId: string, userIds: string[]) {
-        return DB.query("SELECT * FROM people WHERE userId IN (" + "'" + userIds.join("','") + "'" + ") AND churchId=? AND removed=0;", [churchId]);
-    }
+    // public loadByUserIds(churchId: string, userIds: string[]) {
+    //     return DB.query("SELECT * FROM people WHERE userId IN (" + "'" + userIds.join("','") + "'" + ") AND churchId=? AND removed=0;", [churchId]);
+    // }
 
     public search(churchId: string, term: string) {
         return DB.query(
@@ -137,7 +136,7 @@ export class PersonRepository {
             name: { display: data.displayName, first: data.firstName, last: data.lastName, middle: data.middleName, nick: data.nickName, prefix: data.prefix, suffix: data.suffix },
             contactInfo: { address1: data.address1, address2: data.address2, city: data.city, state: data.state, zip: data.zip, homePhone: data.homePhone, workPhone: data.workPhone, email: data.email, mobilePhone: data.mobilePhone },
             photo: data.photo, anniversary: data.anniversary, birthDate: data.birthDate, gender: data.gender, householdId: data.householdId, householdRole: data.householdRole, maritalStatus: data.maritalStatus,
-            membershipStatus: data.membershipStatus, photoUpdated: data.photoUpdated, id: data.id, userId: data.userId, importKey: data.importKey
+            membershipStatus: data.membershipStatus, photoUpdated: data.photoUpdated, id: data.id, importKey: data.importKey
         }
         if (result.photo === undefined) result.photo = PersonHelper.getPhotoUrl(churchId, result);
         return result;
