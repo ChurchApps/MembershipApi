@@ -7,15 +7,12 @@ import { MembershipBaseController } from "./MembershipBaseController";
 @controller("/churches")
 export class ChurchController extends MembershipBaseController {
 
-
     @httpPost("/init")
     public async init(req: express.Request<{}, {}, { user: UserInterface, church: ChurchInterface }>, res: express.Response): Promise<any> {
         return this.actionWrapper(req, res, async (au) => {
-            const promises: Promise<any>[] = [];
-            promises.push(this.createPerson(req.body.user.displayName, au.churchId, au.id, au.email));
-            promises.push(this.createGroup(au.churchId));
-            await Promise.all(promises);
-            return {};
+            const person = await this.createPerson(req.body.user.displayName, au.churchId, au.email);
+            const group = await this.createGroup(au.churchId);
+            return { person, group };
         });
     }
 
@@ -24,26 +21,25 @@ export class ChurchController extends MembershipBaseController {
         if (groups.length === 0) {
             const group: Group = { churchId, name: "Worship Service", categoryName: "Worship Service", trackAttendance: true, parentPickup: false };
             await this.repositories.group.save(group);
+            return group;
         }
     }
 
-    async createPerson(displayName: string, churchId: string, userId: string, email: string) {
-        const p = await this.repositories.person.loadByUserId(churchId, userId);
-        if (p === null) {
-            const nameParts = displayName.split(' ');
-            const lastName = nameParts[nameParts.length - 1];
-            const firstName = nameParts[0];
+    async createPerson(displayName: string, churchId: string, email: string) {
+        const nameParts = displayName.split(' ');
+        const lastName = nameParts[nameParts.length - 1];
+        const firstName = nameParts[0];
 
-            let household: Household = { churchId, name: lastName };
-            await this.repositories.household.save(household).then(h => household = h);
+        let household: Household = { churchId, name: lastName };
+        await this.repositories.household.save(household).then(h => household = h);
 
-            const person: Person = {
-                churchId, userId, householdId: household.id, householdRole: "Head",
-                contactInfo: { email },
-                name: { first: firstName, last: lastName },
-            };
-            await this.repositories.person.save(person);
-        }
+        const person: Person = {
+            churchId, householdId: household.id, householdRole: "Head",
+            contactInfo: { email },
+            name: { first: firstName, last: lastName },
+        };
+        await this.repositories.person.save(person);
+        return person;
     }
 
 }
