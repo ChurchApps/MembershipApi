@@ -65,10 +65,6 @@ export class PersonRepository {
         return DB.query("SELECT * FROM people WHERE id IN (" + quotedAndCommaSeparated + ") AND churchId=?;", [churchId]);
     }
 
-    // public loadByUserId(churchId: string, userId: string) {
-    //     return DB.queryOne("SELECT * FROM people WHERE userId=? AND churchId=? AND removed=0;", [userId, churchId]);
-    // }
-
     public loadAll(churchId: string) {
         return DB.query("SELECT * FROM people WHERE churchId=? AND removed=0;", [churchId]);
     }
@@ -80,10 +76,6 @@ export class PersonRepository {
     public loadByHousehold(churchId: string, householdId: string) {
         return DB.query("SELECT * FROM people WHERE churchId=? and householdId=? AND removed=0;", [churchId, householdId]);
     }
-
-    // public loadByUserIds(churchId: string, userIds: string[]) {
-    //     return DB.query("SELECT * FROM people WHERE userId IN (" + "'" + userIds.join("','") + "'" + ") AND churchId=? AND removed=0;", [churchId]);
-    // }
 
     public search(churchId: string, term: string) {
         return DB.query(
@@ -99,7 +91,6 @@ export class PersonRepository {
             [churchId, phoneSearch, phoneSearch, phoneSearch]
         );
     }
-
 
     public searchEmail(churchId: string, email: string) {
         return DB.query("SELECT * FROM people WHERE churchId=? AND email like ? AND removed=0 LIMIT 100;", [churchId, "%" + email + "%"]);

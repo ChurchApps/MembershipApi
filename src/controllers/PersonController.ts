@@ -69,17 +69,6 @@ export class PersonController extends MembershipBaseController {
         });
     }
 
-    // @httpGet("/userids")
-    // public async getByUserIds(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
-    //     return this.actionWrapper(req, res, async (au) => {
-    //         const userIdList = req.query.userIds.toString().split(',');
-    //         const userIds: string[] = [];
-    //         userIdList.forEach(userId => userIds.push(userId));
-    //         const data = await this.repositories.person.loadByUserIds(au.churchId, userIds);
-    //         return this.repositories.person.convertAllToModel(au.churchId, data);
-    //     });
-    // }
-
     @httpGet("/attendance")
     public async loadAttendees(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
@@ -171,16 +160,6 @@ export class PersonController extends MembershipBaseController {
             } else return this.json({}, 401);
         });
     }
-
-    // @httpGet("/userid/:userId")
-    // public async getByUserId(@requestParam("userId") userId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
-    //     return this.actionWrapper(req, res, async (au) => {
-    //         const data = await this.repositories.person.loadByUserId(au.churchId, userId);
-    //         if (data === null) return {};
-    //         else return this.repositories.person.convertToModel(au.churchId, data);
-    //     });
-    // }
-
 
     @httpGet("/")
     public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
