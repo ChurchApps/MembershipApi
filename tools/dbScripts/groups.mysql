@@ -9,6 +9,5 @@ CREATE TABLE `groups` (
   `parentPickup` bit(1) DEFAULT NULL,
   `removed` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

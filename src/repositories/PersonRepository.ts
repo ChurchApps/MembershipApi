@@ -9,10 +9,10 @@ export class PersonRepository {
 
     public save(person: Person) {
         person.name.display = PersonHelper.getDisplayName(person);
-        if (UniqueIdHelper.isMissing(person.id)) return this.create(person); else return this.update(person);
+        return person.id ? this.update(person) : this.create(person);
     }
 
-    public async create(person: Person) {
+    private async create(person: Person) {
         person.id = UniqueIdHelper.shortId();
         const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
         const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
@@ -30,7 +30,7 @@ export class PersonRepository {
         return person;
     }
 
-    public async update(person: Person) {
+    private async update(person: Person) {
         const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
         const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
         const photoUpdated = DateTimeHelper.toMysqlDate(person.photoUpdated);
