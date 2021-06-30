@@ -7,10 +7,10 @@ import { UniqueIdHelper } from "../helpers";
 export class HouseholdRepository {
 
     public save(household: Household) {
-        if (UniqueIdHelper.isMissing(household.id)) return this.create(household); else return this.update(household);
+        return household.id ? this.update(household) : this.create(household);
     }
 
-    public async create(household: Household) {
+    private async create(household: Household) {
         household.id = UniqueIdHelper.shortId();
         const sql = "INSERT INTO households (id, churchId, name) VALUES (?, ?, ?);";
         const params = [household.id, household.churchId, household.name];
@@ -18,7 +18,7 @@ export class HouseholdRepository {
         return household;
     }
 
-    public async update(household: Household) {
+    private async update(household: Household) {
         const sql = "UPDATE households SET name=? WHERE id=? and churchId=?";
         const params = [household.name, household.id, household.churchId];
         await DB.query(sql, params);
