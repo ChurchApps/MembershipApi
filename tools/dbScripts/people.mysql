@@ -29,7 +29,6 @@ CREATE TABLE `people` (
   `householdRole` varchar(10),
   `removed` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`),
   KEY `householdId` (`householdId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
