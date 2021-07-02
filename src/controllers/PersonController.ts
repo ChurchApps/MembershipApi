@@ -147,20 +147,6 @@ export class PersonController extends MembershipBaseController {
         });
     }
 
-    @httpPost("/:id/claim")
-    public async claim(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
-        return this.actionWrapper(req, res, async (au) => {
-            const data = await this.repositories.person.load(au.churchId, id);
-            const person = this.repositories.person.convertToModel(au.churchId, data)
-            if (person.contactInfo.email === au.email) {
-                // TODO: enable what this does with the new flow
-                // person.userId = au.id;
-                await this.repositories.person.save(person);
-                return person;
-            } else return this.json({}, 401);
-        });
-    }
-
     @httpGet("/")
     public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
@@ -176,13 +162,11 @@ export class PersonController extends MembershipBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            // TODO - get the commented permission check working
-            // let isSelfPermissionValid: boolean = false;
-            // if (au.checkAccess(Permissions.people.editSelf)) {
-            //     isSelfPermissionValid = req.body[0].userId === au.id;
-            // }
-            // if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid) return this.json({}, 401);
-            if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401)
+            let isSelfPermissionValid: boolean = false;
+            if (au.checkAccess(Permissions.people.editSelf)) {
+                isSelfPermissionValid = req.body[0].id === au.personId;
+            }
+            if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid) return this.json({}, 401);
             else {
                 const promises: Promise<Person>[] = [];
                 req.body.forEach(person => {
@@ -212,7 +196,6 @@ export class PersonController extends MembershipBaseController {
 
 
     private async savePhoto(churchId: string, person: Person) {
-        // console.log("SAVE PHOTO");
         const base64 = person.photo.split(',')[1];
         const key = "/" + churchId + "/membership/people/" + person.id + ".png";
         return FileHelper.store(key, "image/png", Buffer.from(base64, 'base64')).then(async () => {
