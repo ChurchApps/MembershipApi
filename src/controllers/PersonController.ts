@@ -162,13 +162,11 @@ export class PersonController extends MembershipBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            // TODO - get the commented permission check working
-            // let isSelfPermissionValid: boolean = false;
-            // if (au.checkAccess(Permissions.people.editSelf)) {
-            //     isSelfPermissionValid = req.body[0].userId === au.id;
-            // }
-            // if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid) return this.json({}, 401);
-            if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401)
+            let isSelfPermissionValid: boolean = false;
+            if (au.checkAccess(Permissions.people.editSelf)) {
+                isSelfPermissionValid = req.body[0].id === au.personId;
+            }
+            if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid) return this.json({}, 401);
             else {
                 const promises: Promise<Person>[] = [];
                 req.body.forEach(person => {
