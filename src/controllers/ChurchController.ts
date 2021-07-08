@@ -4,14 +4,22 @@ import { UserInterface, ChurchInterface } from "../helpers";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
 
+type CreatePerson = {
+  firstName: string,
+  lastName: string,
+  churchId: string,
+  email: string
+}
+
 @controller("/churches")
 export class ChurchController extends MembershipBaseController {
 
     @httpPost("/init")
     public async init(req: express.Request<{}, {}, { user: UserInterface, church: ChurchInterface }>, res: express.Response): Promise<any> {
-        return this.actionWrapper(req, res, async (au) => {
-            const person = await this.createPerson(req.body.user.displayName, au.churchId, au.email);
-            const group = await this.createGroup(au.churchId);
+        return this.actionWrapper(req, res, async ({ churchId, email }) => {
+            const { firstName, lastName } = req.body.user;
+            const person = await this.createPerson({ firstName, lastName, churchId, email });
+            const group = await this.createGroup(churchId);
             return { person, group };
         });
     }
@@ -25,11 +33,7 @@ export class ChurchController extends MembershipBaseController {
         }
     }
 
-    async createPerson(displayName: string, churchId: string, email: string) {
-        const nameParts = displayName.split(' ');
-        const lastName = nameParts[nameParts.length - 1];
-        const firstName = nameParts[0];
-
+    async createPerson({ firstName, lastName, churchId, email }: CreatePerson) {
         let household: Household = { churchId, name: lastName };
         await this.repositories.household.save(household).then(h => household = h);
 
