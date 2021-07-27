@@ -6,4 +6,5 @@ export { AnswerRepository } from "./AnswerRepository";
 export { FormRepository } from "./FormRepository";
 export { FormSubmissionRepository } from "./FormSubmissionRepository";
 export { QuestionRepository } from "./QuestionRepository";
+export { MemberPermissionRepository } from "./MemberPermissionRepository";
 export { Repositories } from "./Repositories";
