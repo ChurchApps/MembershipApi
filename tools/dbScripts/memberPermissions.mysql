@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS `memberPermissions`;
+
+CREATE TABLE `memberPermissions` (
+  `id` char(11) NOT NULL,
+  `memberId` char(11) DEFAULT NULL,
+  `contentType` varchar(45) DEFAULT NULL,
+  `contentId` char(11) DEFAULT NULL,
+  `action` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
