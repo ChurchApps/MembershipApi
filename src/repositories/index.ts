@@ -2,4 +2,8 @@ export { GroupMemberRepository } from "./GroupMemberRepository";
 export { GroupRepository } from "./GroupRepository";
 export { HouseholdRepository } from "./HouseholdRepository";
 export { PersonRepository } from "./PersonRepository";
+export { AnswerRepository } from "./AnswerRepository";
+export { FormRepository } from "./FormRepository";
+export { FormSubmissionRepository } from "./FormSubmissionRepository";
+export { QuestionRepository } from "./QuestionRepository";
 export { Repositories } from "./Repositories";
