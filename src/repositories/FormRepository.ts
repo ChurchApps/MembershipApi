@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { DB } from "../apiBase/db";
-import { Form } from "../models";
+import { Form } from "../apiBase/models";
 import { UniqueIdHelper } from "../helpers";
 
 @injectable()
