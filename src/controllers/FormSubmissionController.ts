@@ -1,7 +1,7 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
-import { MembershipBaseController } from "./MembershipBaseController"
-import { FormSubmission, Answer } from "../models"
+import { MembershipBaseController } from "./MembershipBaseController";
+import { FormSubmission, Answer } from "../apiBase/models";
 import { Permissions } from "../helpers";
 
 @controller("/formsubmissions")
@@ -45,7 +45,7 @@ export class FormSubmissionController extends MembershipBaseController {
                 for (let i = 0; i < req.body.length; i++) {
                     const answers = req.body[i].answers;
                     if (answers !== undefined && answers !== null) {
-                        answers.forEach(a => {
+                        answers.forEach((a: Answer) => {
                             a.formSubmissionId = result[i].id;
                             a.churchId = au.churchId;
                             answerPromises.push(this.repositories.answer.save(a));
