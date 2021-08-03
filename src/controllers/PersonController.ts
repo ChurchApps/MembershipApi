@@ -206,11 +206,11 @@ export class PersonController extends MembershipBaseController {
     }
 
     private async appendFormSubmissions(churchId: string, person: Person) {
-        const submissions: FormSubmission[] = this.baseRepositories.formSubmission.convertAllToModel(churchId, await this.baseRepositories.formSubmission.loadForContent(churchId, "person", person.id));
+        const submissions: FormSubmission[] = this.repositories.formSubmission.convertAllToModel(churchId, await this.repositories.formSubmission.loadForContent(churchId, "person", person.id));
         if (submissions.length > 0) {
             const formIds: string[] = [];
             submissions.forEach(s => { if (formIds.indexOf(s.formId) === -1) formIds.push(s.formId) });
-            const forms: Form[] = this.baseRepositories.form.convertAllToModel(churchId, await this.baseRepositories.form.loadByIds(churchId, formIds));
+            const forms: Form[] = this.repositories.form.convertAllToModel(churchId, await this.repositories.form.loadByIds(churchId, formIds));
 
             person.formSubmissions = [];
             submissions.forEach(s => {
