@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS `forms`;
+
+CREATE TABLE `forms` (
+  `id` char(11) NOT NULL,
+  `churchId` char(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `contentType` varchar(50) DEFAULT NULL,
+  `createdTime` datetime DEFAULT NULL,
+  `modifiedTime` datetime DEFAULT NULL,
+  `removed` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `churchId` (`churchId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
