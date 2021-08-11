@@ -6,25 +6,25 @@ import { FormSubmission, Form } from "../apiBase/models"
 import { FileHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
 import { AuthenticatedUser } from "../apiBase/auth";
-
+import jwt from "jsonwebtoken";
 
 @controller("/people")
 export class PersonController extends MembershipBaseController {
 
-  @httpGet("/claim")
-  public async claim(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  @httpGet("/claim/:churchId")
+  public async claim(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      const data: Person[] = await this.repositories.person.searchEmail(au.churchId, au.email);
+      const data: Person[] = await this.repositories.person.searchEmail(churchId, au.email);
 
       if (data.length == 0) {
-        const household: Household = { churchId: au.churchId, name: "TODO" }
+        const household: Household = { churchId, name: au.lastName }
         await this.repositories.household.save(household);
 
         const person: Person = {
-          churchId: au.churchId,
+          churchId,
           householdId: household.id,
           householdRole: "Head",
-          name: { first: "TODO", last: "TODO" },
+          name: { first: au.firstName, last: au.lastName },
           membershipStatus: "Guest",
           contactInfo: { email: au.email }
         }
@@ -33,7 +33,10 @@ export class PersonController extends MembershipBaseController {
       }
 
       const result = this.repositories.person.convertAllToModel(au.churchId, data);
-      return result;
+      return {
+        result,
+        encodedResult: jwt.sign(result, process.env.JWT_SECRET_KEY, { expiresIn: "1 day" })
+      }
     });
   }
 
