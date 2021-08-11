@@ -16,7 +16,7 @@ export class PersonController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       const data: Person[] = await this.repositories.person.searchEmail(churchId, au.email);
 
-      if (data.length == 0) {
+      if (data.length === 0) {
         const household: Household = { churchId, name: au.lastName }
         await this.repositories.household.save(household);
 
@@ -34,8 +34,8 @@ export class PersonController extends MembershipBaseController {
 
       const result = this.repositories.person.convertAllToModel(au.churchId, data);
       return {
-        result: result[0],
-        encodedResult: jwt.sign(result[0], process.env.JWT_SECRET_KEY, { expiresIn: "1 day" })
+        person: result[0],
+        encodedPerson: jwt.sign(result[0], process.env.JWT_SECRET_KEY, { expiresIn: "1 day" })
       }
     });
   }
