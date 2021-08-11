@@ -34,8 +34,8 @@ export class PersonController extends MembershipBaseController {
 
       const result = this.repositories.person.convertAllToModel(au.churchId, data);
       return {
-        result,
-        encodedResult: jwt.sign(result, process.env.JWT_SECRET_KEY, { expiresIn: "1 day" })
+        result: result[0],
+        encodedResult: jwt.sign(result[0], process.env.JWT_SECRET_KEY, { expiresIn: "1 day" })
       }
     });
   }
