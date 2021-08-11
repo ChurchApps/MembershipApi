@@ -14,7 +14,24 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/claim")
   public async claim(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      const data = await this.repositories.person.searchEmail(au.churchId, au.email);
+      const data: Person[] = await this.repositories.person.searchEmail(au.churchId, au.email);
+
+      if (data.length == 0) {
+        const household: Household = { churchId: au.churchId, name: "TODO" }
+        await this.repositories.household.save(household);
+
+        const person: Person = {
+          churchId: au.churchId,
+          householdId: household.id,
+          householdRole: "Head",
+          name: { first: "TODO", last: "TODO" },
+          membershipStatus: "Guest",
+          contactInfo: { email: au.email }
+        }
+        await this.repositories.person.save(person);
+        data.push(person);
+      }
+
       const result = this.repositories.person.convertAllToModel(au.churchId, data);
       return result;
     });
