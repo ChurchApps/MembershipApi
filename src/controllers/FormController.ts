@@ -32,7 +32,6 @@ export class FormController extends MembershipBaseController {
                 req.body.forEach(form => {
                     form.churchId = au.churchId;
                     promises.push(this.repositories.form.save(form));
-
                 });
                 const result = await Promise.all(promises);
                 return this.repositories.form.convertAllToModel(au.churchId, result);

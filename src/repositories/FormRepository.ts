@@ -12,15 +12,15 @@ export class FormRepository {
 
     private async create(form: Form) {
         form.id = UniqueIdHelper.shortId();
-        const sql = "INSERT INTO forms (id, churchId, name, contentType, createdTime, modifiedTime, removed) VALUES (?, ?, ?, ?, NOW(), NOW(), 0);";
-        const params = [form.id, form.churchId, form.name, form.contentType];
+        const sql = "INSERT INTO forms (id, churchId, name, contentType, createdTime, modifiedTime, restricted, removed) VALUES (?, ?, ?, ?, NOW(), NOW(), ?, 0);";
+        const params = [form.id, form.churchId, form.name, form.contentType, form.restricted];
         await DB.query(sql, params);
         return form;
     }
 
     private async update(form: Form) {
-        const sql = "UPDATE forms SET name=?, contentType=?, modifiedTime=NOW() WHERE id=? and churchId=?";
-        const params = [form.name, form.contentType, form.id, form.churchId];
+        const sql = "UPDATE forms SET name=?, contentType=?, restricted=?, modifiedTime=NOW() WHERE id=? and churchId=?";
+        const params = [form.name, form.contentType, form.restricted, form.id, form.churchId];
         await DB.query(sql, params);
         return form;
     }

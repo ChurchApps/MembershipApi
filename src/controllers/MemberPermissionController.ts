@@ -25,13 +25,24 @@ export class MemberPermissionController extends MembershipBaseController {
         });
     }
 
+    @httpGet("/form/:id")
+    public async getByForm(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+        return this.actionWrapper(req, res, async (au) => {
+            if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
+            else return this.repositories.memberPermission.convertAllToModel(au.churchId, await this.repositories.memberPermission.loadPeopleByForm(au.churchId, id));
+        });
+    }
+
     @httpPost("/")
     public async save(req: express.Request<{}, {}, MemberPermission[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
             else {
                 const promises: Promise<MemberPermission>[] = [];
-                req.body.forEach(memberPermission => promises.push(this.repositories.memberPermission.save(memberPermission)));
+                req.body.forEach((memberPermission: MemberPermission) => {
+                    memberPermission.churchId = au.churchId;
+                    promises.push(this.repositories.memberPermission.save(memberPermission));
+                });
                 const result = await Promise.all(promises);
                 return this.repositories.memberPermission.convertAllToModel(au.churchId, result);
             }
@@ -46,5 +57,11 @@ export class MemberPermissionController extends MembershipBaseController {
         });
     }
 
-
+    @httpDelete("/member/:id")
+    public async deleteByMemberId(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+        return this.actionWrapper(req, res, async (au) => {
+            if (!au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
+            else await this.repositories.memberPermission.deleteByMemberId(au.churchId, id);
+        });
+    }
 }
