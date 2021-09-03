@@ -43,9 +43,12 @@ export class FormRepository {
         return DB.query(sql, [churchId]);
     }
 
+    public access(id: string) {
+        return DB.queryOne("SELECT id, restricted FROM forms WHERE id=? AND removed=0;", [id]);
+    }
 
     public convertToModel(churchId: string, data: any) {
-        const result: Form = { id: data.id, name: data.name, contentType: data.contentType, createdTime: data.createdTime, modifiedTime: data.modifiedTime };
+        const result: Form = { id: data.id, name: data.name, contentType: data.contentType, createdTime: data.createdTime, modifiedTime: data.modifiedTime, restricted: data.restricted };
         return result;
     }
 

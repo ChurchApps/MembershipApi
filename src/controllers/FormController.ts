@@ -15,6 +15,13 @@ export class FormController extends MembershipBaseController {
         });
     }
 
+    @httpGet("/access/:formId")
+    public async getFormAccess(@requestParam("formId") formId: string, req: express.Request, res: express.Response): Promise<any> {
+        return this.actionWrapperAnon(req, res, async () => {
+            return this.repositories.form.convertToModel('', await this.repositories.form.access(formId));
+        });
+    }
+
     @httpGet("/")
     public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
