@@ -85,7 +85,7 @@ export class PersonRepository {
     }
 
     public searchPhone(churchId: string, phonestring: string) {
-        const phoneSearch = "%" + phonestring.replace(" ", "%") + "%";
+        const phoneSearch = "%" + phonestring.replace(/ |-/g, "%") + "%";
         return DB.query(
             "SELECT * FROM people WHERE churchId=? AND (REPLACE(HomePhone,'-','') LIKE ? OR REPLACE(WorkPhone,'-','') LIKE ? OR REPLACE(MobilePhone,'-','') LIKE ?) AND removed=0 LIMIT 100;",
             [churchId, phoneSearch, phoneSearch, phoneSearch]
