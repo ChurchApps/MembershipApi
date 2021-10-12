@@ -166,7 +166,7 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/:id")
   public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      if (au.personId !== id && !au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
       else {
         const data = await this.repositories.person.load(au.churchId, id);
         const result = this.repositories.person.convertToModel(au.churchId, data)
