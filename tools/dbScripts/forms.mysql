@@ -7,7 +7,10 @@ CREATE TABLE `forms` (
   `contentType` varchar(50) DEFAULT NULL,
   `createdTime` datetime DEFAULT NULL,
   `modifiedTime` datetime DEFAULT NULL,
+  `accessStartTime` datetime DEFAULT NULL,
+  `accessEndTime` datetime DEFAULT NULL,
   `restricted` bit(1) DEFAULT NULL,
+  `archived` bit(1) DEFAULT NULL,
   `removed` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`)

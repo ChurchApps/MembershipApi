@@ -16,7 +16,8 @@ export class Permissions {
         editSelf: { contentType: "People", action: "Edit Self" }
     }
     static forms = {
-        view: { contentType: "Forms", action: "View" },
-        edit: { contentType: "Forms", action: "Edit" }
+        admin: { contentType: "Forms", action: "Admin" },
+        create: { contentType: "Forms", action: "Create" },
+        access: { contentType: "Forms", action: "Admin" } || { contentType: "Forms", action: "Create"}
     };
 }

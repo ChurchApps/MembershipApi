@@ -52,7 +52,7 @@ export class MemberPermissionController extends MembershipBaseController {
     @httpDelete("/:id")
     public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.forms.create)) return this.json({}, 401);
             else await this.repositories.memberPermission.delete(au.churchId, id);
         });
     }
@@ -60,8 +60,9 @@ export class MemberPermissionController extends MembershipBaseController {
     @httpDelete("/member/:id")
     public async deleteByMemberId(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
-            else await this.repositories.memberPermission.deleteByMemberId(au.churchId, id);
+            const formId = req?.query?.formId.toString();
+            if (!formId || !this.formAccess(au, formId, "edit")) return this.json({}, 401);
+            else await this.repositories.memberPermission.deleteByMemberId(au.churchId, id, formId);
         });
     }
 }

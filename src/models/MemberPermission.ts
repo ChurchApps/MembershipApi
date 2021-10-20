@@ -6,4 +6,5 @@ export class MemberPermission {
 	public contentId?: string;
 	public action?: string;
 	public personName?: string;
+	public formName?: string;
     }
