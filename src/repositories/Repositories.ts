@@ -7,6 +7,7 @@ import {
   FormRepository,
   FormSubmissionRepository,
   QuestionRepository,
+  MemberPermissionRepository,
 } from ".";
 
 export class Repositories {
@@ -18,6 +19,7 @@ export class Repositories {
   public form: FormRepository;
   public formSubmission: FormSubmissionRepository;
   public question: QuestionRepository;
+  public memberPermission: MemberPermissionRepository;
 
   private static _current: Repositories = null;
   public static getCurrent = () => {
@@ -34,5 +36,6 @@ export class Repositories {
     this.form = new FormRepository();
     this.formSubmission = new FormSubmissionRepository();
     this.question = new QuestionRepository();
+    this.memberPermission = new MemberPermissionRepository();
   }
 }

@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { DB } from "../apiBase/db";
 import { Form } from "../apiBase/models";
-import { UniqueIdHelper } from "../helpers";
+import { DateTimeHelper, UniqueIdHelper } from "../helpers";
 
 @injectable()
 export class FormRepository {
@@ -12,15 +12,19 @@ export class FormRepository {
 
     private async create(form: Form) {
         form.id = UniqueIdHelper.shortId();
-        const sql = "INSERT INTO forms (id, churchId, name, contentType, createdTime, modifiedTime, removed) VALUES (?, ?, ?, ?, NOW(), NOW(), 0);";
-        const params = [form.id, form.churchId, form.name, form.contentType];
+        const startDate = form.accessStartTime ? DateTimeHelper.toMysqlDate(form.accessStartTime) : null;
+        const endDate = form.accessEndTime ? DateTimeHelper.toMysqlDate(form.accessEndTime) : null;
+        const sql = "INSERT INTO forms (id, churchId, name, contentType, createdTime, modifiedTime, accessStartTime, accessEndTime, restricted, archived, removed) VALUES (?, ?, ?, ?, NOW(), NOW(), ?, ?, ?, 0, 0);";
+        const params = [form.id, form.churchId, form.name, form.contentType, startDate, endDate, form.restricted];
         await DB.query(sql, params);
         return form;
     }
 
     private async update(form: Form) {
-        const sql = "UPDATE forms SET name=?, contentType=?, modifiedTime=NOW() WHERE id=? and churchId=?";
-        const params = [form.name, form.contentType, form.id, form.churchId];
+        const startDate = form.accessStartTime ? DateTimeHelper.toMysqlDate(form.accessStartTime) : null;
+        const endDate = form.accessEndTime ? DateTimeHelper.toMysqlDate(form.accessEndTime) : null;
+        const sql = "UPDATE forms SET name=?, contentType=?, restricted=?, modifiedTime=NOW(), accessStartTime=?, accessEndTime=?, archived=? WHERE id=? and churchId=?";
+        const params = [form.name, form.contentType, form.restricted, startDate, endDate, form.archived, form.id, form.churchId];
         await DB.query(sql, params);
         return form;
     }
@@ -34,18 +38,60 @@ export class FormRepository {
     }
 
     public loadAll(churchId: string) {
-        return DB.query("SELECT * FROM forms WHERE churchId=? AND removed=0;", [churchId]);
+        return DB.query("SELECT * FROM forms WHERE churchId=? AND removed=0 AND archived=0;", [churchId]);
+    }
+
+    public loadAllArchived(churchId: string) {
+        return DB.query("SELECT * FROM forms WHERE churchId=? AND removed=0 AND archived=1;", [churchId]);
     }
 
     public loadByIds(churchId: string, ids: string[]) {
         const quotedAndCommaSeparated = ids.length === 0 ? "" : "'" + ids.join("','") + "'";
-        const sql = "SELECT * FROM forms WHERE churchId=? AND removed=0 AND id IN (" + quotedAndCommaSeparated + ") ORDER by name";
+        const sql = "SELECT * FROM forms WHERE churchId=? AND removed=0 AND archived=0 AND id IN (" + quotedAndCommaSeparated + ") ORDER by name";
         return DB.query(sql, [churchId]);
     }
 
+    public loadNonMemberForms(churchId: string) {
+        return DB.query("SELECT * FROM forms WHERE contentType<>'form' AND removed=0 AND archived=0", [churchId]);
+    }
+
+    public loadNonMemberArchivedForms(churchId: string) {
+        return DB.query("SELECT * FROM forms WHERE contentType<>'form' AND removed=0 AND archived=1", [churchId]);
+    }
+
+    public loadMemberForms(churchId: string, personId: string) {
+        return DB.query(
+            "SELECT f.* , mp.action FROM forms f  " +
+            "LEFT JOIN memberPermissions mp " +
+            "ON mp.contentId = f.id " +
+            "WHERE mp.memberId=? AND f.churchId=? AND f.removed=0 AND f.archived=0",
+        [personId, churchId]);
+    }
+
+    public loadMemberArchivedForms(churchId: string, personId: string) {
+        return DB.query(
+            "SELECT f.* FROM forms f  " +
+            "LEFT JOIN memberPermissions mp " +
+            "ON mp.contentId = f.id " +
+            "WHERE mp.memberId=? AND f.churchId=? AND f.removed=0 AND f.archived=1",
+        [personId, churchId]);
+    }
+
+    public loadWithMemberPermissions(churchId: string, formId: string, personId: string) {
+        return DB.queryOne(
+            "SELECT f.*, mp.action FROM forms f " +
+            "LEFT JOIN memberPermissions mp " +
+            "ON mp.contentId = f.id " +
+            "WHERE f.id=? AND f.churchId=? AND mp.memberId=? AND f.removed=0 AND archived=0",
+        [formId, churchId, personId]);
+    }
+
+    public access(id: string) {
+        return DB.queryOne("SELECT id, restricted FROM forms WHERE id=? AND removed=0 AND archived=0;", [id]);
+    }
 
     public convertToModel(churchId: string, data: any) {
-        const result: Form = { id: data.id, name: data.name, contentType: data.contentType, createdTime: data.createdTime, modifiedTime: data.modifiedTime };
+        const result: Form = { id: data.id, name: data.name, contentType: data.contentType, createdTime: data.createdTime, modifiedTime: data.modifiedTime, accessStartTime: data.accessStartTime, accessEndTime: data.accessEndTime, restricted: data.restricted, archived: data.archived, action: data.action };
         return result;
     }
 

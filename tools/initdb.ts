@@ -14,10 +14,10 @@ const init = async () => {
     { title: "Questions", file: "questions.mysql" },
   ]
 
-
   const peopleTables: { title: string, file: string }[] = [
     { title: "Households", file: "households.mysql" },
     { title: "People", file: "people.mysql" },
+    { title: "Member Permissions", file: "memberPermissions.mysql" },
   ]
 
   const groupTables: { title: string, file: string }[] = [

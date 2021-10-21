@@ -11,6 +11,7 @@ CREATE TABLE `questions` (
   `placeholder` varchar(50) DEFAULT NULL,
   `sort` char(11) DEFAULT NULL,
   `choices` text,
+  `required` bit(1) DEFAULT NULL,
   `removed` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`),
