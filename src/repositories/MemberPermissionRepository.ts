@@ -12,7 +12,6 @@ export class MemberPermissionRepository {
 
     private async create(memberPermission: MemberPermission) {
         memberPermission.id = UniqueIdHelper.shortId();
-        // const action = await this.existingPermissionRecord(memberPermission.churchId, memberPermission.contentId) ? memberPermission.action : "admin";
         const sql = "INSERT INTO memberPermissions (id, churchId, memberId, contentType, contentId, action) VALUES (?, ?, ?, ?, ?, ?);";
         const params = [memberPermission.id, memberPermission.churchId, memberPermission.memberId, memberPermission.contentType, memberPermission.contentId, memberPermission.action];
         await DB.query(sql, params);
