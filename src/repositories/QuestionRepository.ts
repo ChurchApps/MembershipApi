@@ -12,15 +12,15 @@ export class QuestionRepository {
 
     private async create(question: Question) {
         question.id = UniqueIdHelper.shortId();
-        const sql = "INSERT INTO questions (id, churchId, formId, parentId, title, description, fieldType, placeholder, sort, choices, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
-        const params = [question.id, question.churchId, question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, JSON.stringify(question.choices)];
+        const sql = "INSERT INTO questions (id, churchId, formId, parentId, title, description, fieldType, placeholder, sort, required, choices, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+        const params = [question.id, question.churchId, question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, question.required, JSON.stringify(question.choices)];
         await DB.query(sql, params);
         return question;
     }
 
     private async update(question: Question) {
-        const sql = "UPDATE questions SET formId=?, parentId=?, title=?, description=?, fieldType=?, placeholder=?, sort=?, choices=? WHERE id=? and churchId=?";
-        const params = [question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, JSON.stringify(question.choices), question.id, question.churchId];
+        const sql = "UPDATE questions SET formId=?, parentId=?, title=?, description=?, fieldType=?, placeholder=?, sort=?, required=?, choices=? WHERE id=? and churchId=?";
+        const params = [question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, question.required, JSON.stringify(question.choices), question.id, question.churchId];
         await DB.query(sql, params);
         return question;
     }
@@ -41,8 +41,12 @@ export class QuestionRepository {
         return DB.query("SELECT * FROM questions WHERE churchId=? AND formId=? AND removed=0;", [churchId, formId]);
     }
 
+    public loadForUnrestrictedForm(formId: string) {
+        return DB.query("SELECT * FROM questions WHERE formId=? AND removed=0;", [formId]);
+    }
+
     public convertToModel(churchId: string, data: any) {
-        const result: Question = { id: data.id, formId: data.formId, parentId: data.parentId, title: data.title, description: data.description, fieldType: data.fieldType, placeholder: data.placeholder, sort: data.sort };
+        const result: Question = { id: data.id, formId: data.formId, parentId: data.parentId, title: data.title, description: data.description, fieldType: data.fieldType, placeholder: data.placeholder, required: data.required, sort: data.sort };
         if (typeof data.choices === "string") result.choices = JSON.parse(data.choices);
         else result.choices = data.choices;
         return result;

@@ -10,25 +10,15 @@ export class MemberPermissionController extends MembershipBaseController {
     @httpGet("/:id")
     public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
+            if (!this.formAccess(au, id, "view")) return this.json({}, 401);
             else return this.repositories.memberPermission.convertToModel(au.churchId, await this.repositories.memberPermission.load(au.churchId, id));
-        });
-    }
-
-    @httpGet("/")
-    public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
-        return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
-            else {
-                return this.repositories.memberPermission.convertAllToModel(au.churchId, await this.repositories.memberPermission.loadAll(au.churchId));
-            }
         });
     }
 
     @httpGet("/form/:id")
     public async getByForm(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.view)) return this.json({}, 401);
+            if (!this.formAccess(au, id)) return this.json({}, 401);
             else return this.repositories.memberPermission.convertAllToModel(au.churchId, await this.repositories.memberPermission.loadPeopleByForm(au.churchId, id));
         });
     }
@@ -36,23 +26,23 @@ export class MemberPermissionController extends MembershipBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, MemberPermission[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
-            else {
-                const promises: Promise<MemberPermission>[] = [];
-                req.body.forEach((memberPermission: MemberPermission) => {
+            const promises: Promise<MemberPermission>[] = [];
+            req.body.forEach((memberPermission: MemberPermission) => {
+                if (this.formAccess(au, memberPermission.contentId))  {
                     memberPermission.churchId = au.churchId;
                     promises.push(this.repositories.memberPermission.save(memberPermission));
-                });
-                const result = await Promise.all(promises);
-                return this.repositories.memberPermission.convertAllToModel(au.churchId, result);
-            }
+                }
+            });
+            const result = await Promise.all(promises);
+            return this.repositories.memberPermission.convertAllToModel(au.churchId, result);
         });
     }
 
     @httpDelete("/:id")
     public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.create)) return this.json({}, 401);
+            const formId = req?.query?.formId.toString();
+            if (!this.formAccess(au, formId)) return this.json({}, 401);
             else await this.repositories.memberPermission.delete(au.churchId, id);
         });
     }
@@ -61,7 +51,7 @@ export class MemberPermissionController extends MembershipBaseController {
     public async deleteByMemberId(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const formId = req?.query?.formId.toString();
-            if (!formId || !this.formAccess(au, formId, "edit")) return this.json({}, 401);
+            if (!formId || !this.formAccess(au, formId)) return this.json({}, 401);
             else await this.repositories.memberPermission.deleteByMemberId(au.churchId, id, formId);
         });
     }
