@@ -29,8 +29,8 @@ export class MemberPermissionRepository {
         return DB.query("DELETE FROM memberPermissions WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
-    public deleteByMemberId(churchId: string, memberId: string) {
-        return DB.query("DELETE FROM memberPermissions WHERE memberId=? AND churchId=?;", [memberId, churchId]);
+    public deleteByMemberId(churchId: string, memberId: string, contentId: string) {
+        return DB.query("DELETE FROM memberPermissions WHERE memberId=? AND contentId=? AND churchId=?;", [memberId, churchId, contentId]);
     }
 
     public load(churchId: string, id: string) {

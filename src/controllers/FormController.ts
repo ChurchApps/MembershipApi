@@ -25,7 +25,7 @@ export class FormController extends MembershipBaseController {
         return this.actionWrapper(req, res, async (au) => {
             const churchId = req?.query?.churchId.toString();
             const form = this.repositories.form.convertToModel("", await this.repositories.form.load(churchId, id));
-            if (!au.id && form.restricted) return this.json({restricted: true}, 401);
+            if (form.contentType !== "form" || (!au.id && form.restricted)) return this.json({restricted: true}, 401);
             else return form;
         });
     }
@@ -77,7 +77,7 @@ export class FormController extends MembershipBaseController {
     @httpDelete("/:id")
     public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.create)) return this.json({}, 401);
+            if (!this.formAccess(au, id)) return this.json({}, 401);
             else await this.repositories.form.delete(au.churchId, id);
         });
     }
