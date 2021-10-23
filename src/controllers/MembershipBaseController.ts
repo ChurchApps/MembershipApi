@@ -17,7 +17,7 @@ export class MembershipBaseController extends CustomBaseController {
         if (!formId) return false;
         const formData = await this.repositories.form.loadWithMemberPermissions(au.churchId, formId, au.personId);
         if (formData?.contentType === "form") return formData.action === "admin" || formData.action === access;
-        else if (au.checkAccess(Permissions.forms.create)) return true;
+        if (au.checkAccess(Permissions.forms.create)) return true;
         return false;
     }
 

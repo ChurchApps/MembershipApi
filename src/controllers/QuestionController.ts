@@ -36,14 +36,15 @@ export class QuestionController extends MembershipBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, Question[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            const formId = req?.query?.formId?.toString() || null;
-            if (!formId || !this.formAccess(au, formId)) return this.json({}, 401);
-            else {
-                const promises: Promise<Question>[] = [];
-                req.body.forEach(question => { question.churchId = au.churchId; promises.push(this.repositories.question.save(question)); });
-                const result = await Promise.all(promises);
-                return this.repositories.question.convertAllToModel(au.churchId, result);
-            }
+            const promises: Promise<Question>[] = [];
+            req.body.forEach(question => {
+                if (this.formAccess(au, question.formId)) {
+                    question.churchId = au.churchId;
+                    promises.push(this.repositories.question.save(question));
+                }
+            });
+            const result = await Promise.all(promises);
+            return this.repositories.question.convertAllToModel(au.churchId, result);
         });
     }
 
