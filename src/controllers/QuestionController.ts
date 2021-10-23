@@ -19,7 +19,7 @@ export class QuestionController extends MembershipBaseController {
     public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const formId = req?.query?.formId?.toString() || null;
-            if (!formId || !this.formAccess(au, formId)) return this.json({}, 401);
+            if (!formId || !this.formAccess(au, formId, "view")) return this.json({}, 401);
             else return this.repositories.question.convertToModel(au.churchId, await this.repositories.question.load(au.churchId, id));
         });
     }
@@ -28,7 +28,7 @@ export class QuestionController extends MembershipBaseController {
     public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const formId = req?.query?.formId?.toString() || null;
-            if (!formId || !this.formAccess(au, formId)) return this.json({}, 401);
+            if (!formId || !this.formAccess(au, formId, "view")) return this.json({}, 401);
             else return this.repositories.question.convertAllToModel(au.churchId, await this.repositories.question.loadForForm(au.churchId, formId));
         });
     }
