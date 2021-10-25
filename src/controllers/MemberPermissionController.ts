@@ -2,7 +2,6 @@ import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } f
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { MemberPermission } from "../models"
-import { Permissions } from '../helpers/Permissions'
 
 @controller("/memberpermissions")
 export class MemberPermissionController extends MembershipBaseController {
