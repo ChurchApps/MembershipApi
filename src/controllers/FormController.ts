@@ -14,7 +14,7 @@ export class FormController extends MembershipBaseController {
             if (au.checkAccess(Permissions.forms.admin)) return this.repositories.form.convertAllToModel(au.churchId, await this.repositories.form.loadAllArchived(au.churchId));
             else {
                 const memberForms = await this.repositories.form.convertAllToModel(au.churchId, await this.repositories.form.loadMemberArchivedForms(au.churchId, au.personId));
-                const nonMemberForms = au.checkAccess(Permissions.forms.access) ? await this.repositories.form.convertAllToModel(au.churchId, await this.repositories.form.loadNonMemberArchivedForms(au.churchId)) : [];
+                const nonMemberForms = au.checkAccess(Permissions.forms.edit) ? await this.repositories.form.convertAllToModel(au.churchId, await this.repositories.form.loadNonMemberArchivedForms(au.churchId)) : [];
                 return [...memberForms, ...nonMemberForms];
             }
         });
@@ -41,10 +41,10 @@ export class FormController extends MembershipBaseController {
     @httpGet("/")
     public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (au.checkAccess(Permissions.forms.admin)) return this.repositories.form.convertAllToModel(au.churchId, await this.repositories.form.loadAll(au.churchId));
+            if (au.checkAccess(Permissions.forms.admin)) return await this.repositories.form.convertAllToModel(au.churchId, await this.repositories.form.loadAll(au.churchId));
             else {
                 const memberForms = await this.repositories.form.convertAllToModel(au.churchId, await this.repositories.form.loadMemberForms(au.churchId, au.personId));
-                const nonMemberForms = au.checkAccess(Permissions.forms.access) ? await this.repositories.form.convertAllToModel(au.churchId, await this.repositories.form.loadNonMemberForms(au.churchId)) : [];
+                const nonMemberForms = au.checkAccess(Permissions.forms.edit) ? await this.repositories.form.convertAllToModel(au.churchId, await this.repositories.form.loadNonMemberForms(au.churchId)) : [];
                 return [...memberForms, ...nonMemberForms];
             }
         });
@@ -57,7 +57,7 @@ export class FormController extends MembershipBaseController {
             const newStandAloneFormPromises: Promise<Form>[] = [];
             const memberPermissionPromises: Promise<MemberPermission>[] = [];
             req.body.forEach(form => {
-                if ((!form.id && Permissions.forms.access) || (form.id && this.formAccess(au, form.id))) {
+                if ((!form.id && (Permissions.forms.admin || Permissions.forms.edit)) || (form.id && this.formAccess(au, form.id))) {
                     form.churchId = au.churchId;
                     if (!form.id && form.contentType === "form") newStandAloneFormPromises.push(this.repositories.form.save(form));
                     else formPromises.push(this.repositories.form.save(form));

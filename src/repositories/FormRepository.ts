@@ -52,11 +52,11 @@ export class FormRepository {
     }
 
     public loadNonMemberForms(churchId: string) {
-        return DB.query("SELECT * FROM forms WHERE contentType<>'form' AND removed=0 AND archived=0", [churchId]);
+        return DB.query("SELECT * FROM forms WHERE contentType<>'form' AND churchId=? AND removed=0 AND archived=0", [churchId]);
     }
 
     public loadNonMemberArchivedForms(churchId: string) {
-        return DB.query("SELECT * FROM forms WHERE contentType<>'form' AND removed=0 AND archived=1", [churchId]);
+        return DB.query("SELECT * FROM forms WHERE contentType<>'form' AND churchId=? AND removed=0 AND archived=1", [churchId]);
     }
 
     public loadMemberForms(churchId: string, personId: string) {

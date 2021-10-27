@@ -10,7 +10,7 @@ export class FormSubmissionController extends MembershipBaseController {
     @httpGet("/:id")
     public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.access)) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.forms.admin) || !au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
             const result: FormSubmission = this.repositories.formSubmission.convertToModel(au.churchId, await this.repositories.formSubmission.load(au.churchId, id));
             if (this.include(req, "form")) await this.appendForm(au.churchId, result);
             if (this.include(req, "questions")) await this.appendQuestions(au.churchId, result);
@@ -22,7 +22,7 @@ export class FormSubmissionController extends MembershipBaseController {
     @httpGet("/")
     public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.access)) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.forms.admin) || !au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
             else {
                 let result = null;
                 if (req.query.personId !== undefined) result = await this.repositories.formSubmission.loadForContent(au.churchId, "person", req.query.personId.toString());
@@ -83,7 +83,7 @@ export class FormSubmissionController extends MembershipBaseController {
     @httpDelete("/:id")
     public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.forms.access)) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.forms.admin) || !au.checkAccess(Permissions.forms.edit)) return this.json({}, 401);
             else {
                 await this.repositories.answer.deleteForSubmission(au.churchId, id);
                 await new Promise(resolve => setTimeout(resolve, 500)); // I think it takes a split second for the FK restraints to see the answers were deleted sometimes and the delete below fails.
