@@ -57,7 +57,7 @@ export class FormController extends MembershipBaseController {
             const newStandAloneFormPromises: Promise<Form>[] = [];
             const memberPermissionPromises: Promise<MemberPermission>[] = [];
             req.body.forEach(form => {
-                if (this.formAccess(au, form.id)) {
+                if ((!form.id && Permissions.forms.access) || (form.id && this.formAccess(au, form.id))) {
                     form.churchId = au.churchId;
                     if (!form.id && form.contentType === "form") newStandAloneFormPromises.push(this.repositories.form.save(form));
                     else formPromises.push(this.repositories.form.save(form));
