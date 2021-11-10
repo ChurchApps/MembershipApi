@@ -1,0 +1,8 @@
+{
+  "appEnv": "prod",
+  "appName": "MembershipApi",
+  "contentRoot": "https://content.churchapps.org",
+  "fileStore": "S3",
+  "mailSystem": "SES",
+  "s3Bucket": "churchapps-content"
+}

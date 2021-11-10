@@ -1,22 +1,11 @@
 # Modify and save this file as ".env"
-API_ENV=dev
-APP_NAME=MembershipApi
-
-# Node.js server configuration
+APP_ENV=dev
+CONNECTION_STRING=mysql://
+ENCRYPTION_KEY=encryptionKey
+JWT_SECRET=this is a test key that is a sentence
 SERVER_PORT=8083
 
-# MySql configuration
-DB_HOST=localhost
-DB_DATABASE=membership
-DB_USER=root
-DB_PASSWORD=
-
-JWT_SECRET_KEY=this is a test key that is a sentence
-
-# disk or S3
-FILE_STORE=disk
-
-AMAZON_REGION=us-east-2
-AMAZON_S3_BUCKET=membership
-AMAZON_ACCESS_KEY_ID=
-AMAZON_SECRET_ACCESS_KEY=
+#SMTP_HOST=
+#SMTP_PASS=
+#SMTP_SECURE=false
+#SMTP_USER=

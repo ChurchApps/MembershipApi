@@ -3,7 +3,7 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Person, Household } from "../models"
 import { FormSubmission, Form } from "../apiBase/models"
-import { FileHelper } from "../helpers"
+import { Environment, FileHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
 import { AuthenticatedUser } from "../apiBase/auth";
 import jwt from "jsonwebtoken";
@@ -35,7 +35,7 @@ export class PersonController extends MembershipBaseController {
       const result = this.repositories.person.convertAllToModel(au.churchId, data);
       return {
         person: result[0],
-        encodedPerson: jwt.sign(result[0], process.env.JWT_SECRET_KEY, { expiresIn: "1 day" })
+        encodedPerson: jwt.sign(result[0], Environment.jwtSecret, { expiresIn: "1 day" })
       }
     });
   }
