@@ -1,11 +1,7 @@
-# Modify and save this file as ".env"
 APP_ENV=dev
+
+# sample connection - mysql://user:password@host:port/dbName
 CONNECTION_STRING=mysql://
-ENCRYPTION_KEY=encryptionKey
+ENCRYPTION_KEY=aSecretKeyOfExactly192BitsLength
 JWT_SECRET=this is a test key that is a sentence
 SERVER_PORT=8083
-
-#SMTP_HOST=
-#SMTP_PASS=
-#SMTP_SECURE=false
-#SMTP_USER=
