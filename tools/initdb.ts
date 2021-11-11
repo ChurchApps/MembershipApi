@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import dotenv from "dotenv";
 import { Pool } from "../src/apiBase/pool";
 import { Environment } from "../src/helpers/Environment";
