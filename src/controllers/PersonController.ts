@@ -14,28 +14,37 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/claim/:churchId")
   public async claim(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      const data: Person[] = await this.repositories.person.searchEmail(churchId, au.email);
+      let person: Person = null;
+      if (au.personId) {
+        const d = await this.repositories.person.load(au.churchId, au.personId);
+        person = this.repositories.person.convertToModel(au.churchId, d);
+      }
+      if (person === null) {
+        const data: Person[] = await this.repositories.person.searchEmail(churchId, au.email);
 
-      if (data.length === 0) {
-        const household: Household = { churchId, name: au.lastName }
-        await this.repositories.household.save(household);
+        if (data.length === 0) {
+          const household: Household = { churchId, name: au.lastName }
+          await this.repositories.household.save(household);
 
-        const person: Person = {
-          churchId,
-          householdId: household.id,
-          householdRole: "Head",
-          name: { first: au.firstName, last: au.lastName },
-          membershipStatus: "Guest",
-          contactInfo: { email: au.email }
+          const newPerson: Person = {
+            churchId,
+            householdId: household.id,
+            householdRole: "Head",
+            name: { first: au.firstName, last: au.lastName },
+            membershipStatus: "Guest",
+            contactInfo: { email: au.email }
+          }
+          await this.repositories.person.save(newPerson);
+          data.push(newPerson);
         }
-        await this.repositories.person.save(person);
-        data.push(person);
+        const result = this.repositories.person.convertAllToModel(au.churchId, data);
+        person = result[0];
       }
 
-      const result = this.repositories.person.convertAllToModel(au.churchId, data);
+
       return {
-        person: result[0],
-        encodedPerson: jwt.sign(result[0], Environment.jwtSecret, { expiresIn: "1 day" })
+        person,
+        encodedPerson: jwt.sign(person, Environment.jwtSecret, { expiresIn: "1 day" })
       }
     });
   }
