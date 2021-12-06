@@ -254,7 +254,7 @@ export class PersonController extends MembershipBaseController {
     if (au.checkAccess(Permissions.people.view)) return people;
     else {
       const result: Person[] = [];
-      people.forEach(p => { if (p.membershipStatus === "member") result.push(p) });
+      people.forEach(p => { if (p.membershipStatus === "Member" || p.membershipStatus === "Staff") result.push(p) });
       return result;
     }
   }
