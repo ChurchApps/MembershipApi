@@ -190,7 +190,9 @@ export class PersonController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
       else {
-        const data = await this.repositories.person.loadAll(au.churchId);
+        const data = (au.checkAccess(Permissions.people.view))
+          ? await this.repositories.person.loadAll(au.churchId)
+          : await this.repositories.person.loadMembers(au.churchId);
         const result = this.repositories.person.convertAllToModel(au.churchId, data);
         return this.filterPeople(result, au);
       }
