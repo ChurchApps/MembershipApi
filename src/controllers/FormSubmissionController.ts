@@ -54,8 +54,8 @@ export class FormSubmissionController extends MembershipBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, FormSubmission[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            const formId = req.body[0].formId;
-            const churchId = req.body[0].churchId;
+            const formId = req.body[0]?.formId;
+            const churchId = req.body[0]?.churchId;
             const form = await this.repositories.form.convertToModel(churchId, await this.repositories.form.access(formId));
             if (form.restricted && !this.formAccess(au, formId)) return this.json([], 401);
             else {
