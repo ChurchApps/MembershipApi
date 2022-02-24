@@ -56,6 +56,7 @@ export class FormController extends MembershipBaseController {
             const formPromises: Promise<Form>[] = [];
             const newStandAloneFormPromises: Promise<Form>[] = [];
             const memberPermissionPromises: Promise<MemberPermission>[] = [];
+            if(req.body.length === 0) return res.status(400).send('Request body cannot be empty array!');
             req.body.forEach(form => {
                 if ((!form.id && (Permissions.forms.admin || Permissions.forms.edit)) || (form.id && this.formAccess(au, form.id))) {
                     form.churchId = au.churchId;
