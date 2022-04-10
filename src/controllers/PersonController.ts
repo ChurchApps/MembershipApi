@@ -1,5 +1,6 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
+import url from "url";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Person, Household } from "../models"
 import { FormSubmission, Form } from "../apiBase/models"
@@ -7,6 +8,7 @@ import { Environment, FileHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
 import { AuthenticatedUser } from "../apiBase/auth";
 import jwt from "jsonwebtoken";
+
 
 @controller("/people")
 export class PersonController extends MembershipBaseController {
@@ -188,11 +190,20 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/")
   public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
+      const query = url.parse(req.url,true).query
       if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
       else {
-        const data = (au.checkAccess(Permissions.people.view))
+        let data:any = null;
+        const hasAccess = au.checkAccess(Permissions.people.view)
+        console.log(query)
+        if(Object.keys(query).length){
+          data = await this.repositories.person.filter(au.churchId, query, hasAccess)
+        }else{
+          data = hasAccess
           ? await this.repositories.person.loadAll(au.churchId)
           : await this.repositories.person.loadMembers(au.churchId);
+        }
+        console.log(data)
         const result = this.repositories.person.convertAllToModel(au.churchId, data);
         return this.filterPeople(result, au);
       }

@@ -3,6 +3,8 @@ import { DB } from "../apiBase/db";
 import { Person } from "../models";
 import { PersonHelper, DateTimeHelper } from "../helpers";
 import { UniqueIdHelper } from "../helpers";
+import { ParsedUrlQuery } from 'querystring'
+
 
 @injectable()
 export class PersonRepository {
@@ -79,6 +81,78 @@ export class PersonRepository {
 
   public loadByHousehold(churchId: string, householdId: string) {
     return DB.query("SELECT * FROM people WHERE churchId=? and householdId=? AND removed=0;", [churchId, householdId]);
+  }
+
+  public filter(churchId: string, criteria: ParsedUrlQuery, hasAccess: boolean) {
+    let dbQuery = "SELECT * FROM people WHERE churchId=? ";
+    const queryParams: string[] = [churchId]
+    Object.entries(criteria).forEach(citeria => {
+      const field = citeria[0].split('[')[0];
+      const operator = citeria[0].match(/(?<=\[).+?(?=\])/g)[0];
+      const value = citeria[1];
+
+      switch(operator) {
+        case "eq":
+          dbQuery += `AND ${field}=? `;
+          queryParams.push(value.toString())
+          break;
+        case "nteq":
+          dbQuery += `AND ${field}<>? `;
+          queryParams.push(value.toString())
+          break;
+        case "lt":
+          dbQuery += `AND ${field}<? `;
+          queryParams.push(value.toString())
+          break;
+        case "gt":
+          dbQuery += `AND ${field}>? `;
+          queryParams.push(value.toString())
+          break;
+        case "btwn":
+          dbQuery += `AND ${field} BETWEEN ? AND ? `;
+          if(value.includes("-")){
+            const val1 = value.toString().split('-')[0];
+            const val2 = value.toString().split('-')[1];
+            queryParams.push(val1)
+            queryParams.push(val2)
+          }
+          break;
+        case "null":
+          dbQuery += `AND ${field} IS NULL `;
+          break;
+        case "ntnull":
+          dbQuery += `AND ${field} IS NOT NULL `;
+          break;
+        case "ctns":
+          dbQuery += `AND ${field} LIKE ? `;
+          queryParams.push('%' + value.toString() + '%')
+          break;
+        case "ntctns":
+          dbQuery += `AND ${field} NOT LIKE ? `;
+          queryParams.push('%' + value.toString() + '%')
+          break;
+        case "bg":
+          dbQuery += `AND ${field} LIKE ? `;
+          queryParams.push(value.toString() + '%')
+          break;
+        case "end":
+          dbQuery += `AND ${field} LIKE ? `;
+          queryParams.push('%' + value.toString())
+          break;
+        default:
+          dbQuery += ``;
+      }
+    })
+
+    if(hasAccess){
+      dbQuery += `AND removed=0 and membershipStatus in ('Member', 'Staff')`
+    }
+    console.log(dbQuery)
+    console.log(queryParams)
+    return DB.query(
+      dbQuery,
+      queryParams
+    );
   }
 
   public search(churchId: string, term: string) {
