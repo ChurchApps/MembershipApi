@@ -144,7 +144,7 @@ export class PersonRepository {
       }
     })
 
-    if(hasAccess){
+    if(!hasAccess){
       dbQuery += `AND removed=0 and membershipStatus in ('Member', 'Staff')`
     }
     console.log(dbQuery)
