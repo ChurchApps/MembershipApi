@@ -11,6 +11,29 @@ import jwt from "jsonwebtoken";
 @controller("/people")
 export class PersonController extends MembershipBaseController {
 
+
+  private async getPerson(churchId: string, email: string, firstName: string, lastName: string) {
+    const data: Person[] = await this.repositories.person.searchEmail(churchId, email);
+    if (data.length === 0) {
+      const household: Household = { churchId, name: lastName }
+      await this.repositories.household.save(household);
+
+      let newPerson: Person = {
+        churchId,
+        householdId: household.id,
+        householdRole: "Head",
+        name: { first: firstName, last: lastName },
+        membershipStatus: "Guest",
+        contactInfo: { email }
+      }
+      newPerson = await this.repositories.person.save(newPerson);
+
+      data.push(await this.repositories.person.load(newPerson.churchId, newPerson.id));
+    }
+    const result = this.repositories.person.convertAllToModel(churchId, data);
+    return result[0];
+  }
+
   @httpGet("/claim/:churchId")
   public async claim(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
@@ -19,28 +42,7 @@ export class PersonController extends MembershipBaseController {
         const d = await this.repositories.person.load(au.churchId, au.personId);
         person = this.repositories.person.convertToModel(au.churchId, d);
       }
-      if (person === null) {
-        const data: Person[] = await this.repositories.person.searchEmail(churchId, au.email);
-
-        if (data.length === 0) {
-          const household: Household = { churchId, name: au.lastName }
-          await this.repositories.household.save(household);
-
-          const newPerson: Person = {
-            churchId,
-            householdId: household.id,
-            householdRole: "Head",
-            name: { first: au.firstName, last: au.lastName },
-            membershipStatus: "Guest",
-            contactInfo: { email: au.email }
-          }
-          await this.repositories.person.save(newPerson);
-          data.push(newPerson);
-        }
-        const result = this.repositories.person.convertAllToModel(au.churchId, data);
-        person = result[0];
-      }
-
+      if (person === null) person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
 
       return {
         person,
@@ -48,6 +50,7 @@ export class PersonController extends MembershipBaseController {
       }
     });
   }
+
 
   @httpGet("/recent")
   public async getRecent(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
@@ -68,6 +71,14 @@ export class PersonController extends MembershipBaseController {
     });
   }
 
+  @httpPost("/loadOrCreate")
+  public async loadOrCreate(req: express.Request<{}, {}, any>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapperAnon(req, res, async () => {
+      const { churchId, email, firstName, lastName } = req.body;
+      const person: Person = await this.getPerson(churchId, email, firstName, lastName);
+      return { id: person.id, name: person.name }
+    });
+  }
 
   @httpPost("/household/:householdId")
   public async saveMembers(@requestParam("householdId") householdId: string, req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
