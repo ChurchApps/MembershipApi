@@ -210,6 +210,24 @@ export class PersonController extends MembershipBaseController {
     });
   }
 
+  @httpPost("/search")
+  public async searchPost(req: express.Request<{}, {}, { email?: string, term?: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      else {
+        let data = null;
+        const email: string = req.body.email?.toString();
+        if (email) data = await this.repositories.person.searchEmail(au.churchId, email);
+        else {
+          let term: string = req.body.term.toString();
+          if (term === null) term = "";
+          data = await this.repositories.person.search(au.churchId, term);
+        }
+        const result = this.repositories.person.convertAllToModel(au.churchId, data);
+        return this.filterPeople(result, au);
+      }
+    });
+  }
 
   @httpPost("/")
   public async save(req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
