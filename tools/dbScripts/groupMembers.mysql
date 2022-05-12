@@ -10,4 +10,4 @@ CREATE TABLE `groupMembers` (
   KEY `churchId` (`churchId`),
   KEY `groupId` (`groupId`),
   KEY `personId` (`personId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
