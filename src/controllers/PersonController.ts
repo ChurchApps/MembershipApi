@@ -1,9 +1,9 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
-import { Person, Household } from "../models"
+import { Person, Household, SearchCondition } from "../models"
 import { FormSubmission, Form } from "../apiBase/models"
-import { Environment, FileHelper } from "../helpers"
+import { ArrayHelper, Environment, FileHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
 import { AuthenticatedUser } from "../apiBase/auth";
 import jwt from "jsonwebtoken";
@@ -229,6 +229,32 @@ export class PersonController extends MembershipBaseController {
     });
   }
 
+  @httpPost("/search2")
+  public async searchPost2(req: express.Request<{}, {}, SearchCondition[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      else {
+        let data: any[] = await this.repositories.person.loadAll(au.churchId);
+        req.body.forEach(c => {
+          switch (c.field) {
+            case "phone":
+              data = ArrayHelper.getAllOperator(data, "homePhone", c.value, c.operator)
+                .concat(ArrayHelper.getAllOperator(data, "workPhone", c.value, c.operator))
+                .concat(ArrayHelper.getAllOperator(data, "cellPhone", c.value, c.operator));
+              data = ArrayHelper.getUnique(data);
+              break;
+            default:
+              data = ArrayHelper.getAllOperator(data, c.field, c.value, c.operator);
+              break;
+          }
+
+        })
+        const result = this.repositories.person.convertAllToModel(au.churchId, data);
+        return this.filterPeople(result, au);
+      }
+    });
+  }
+
   @httpPost("/")
   public async save(req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
@@ -263,6 +289,7 @@ export class PersonController extends MembershipBaseController {
       else await this.repositories.person.delete(au.churchId, id);
     });
   }
+
 
 
   private async savePhoto(churchId: string, person: Person) {
