@@ -3,7 +3,7 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Person, Household, SearchCondition } from "../models"
 import { FormSubmission, Form } from "../apiBase/models"
-import { ArrayHelper, Environment, FileHelper } from "../helpers"
+import { ArrayHelper, DateTimeHelper, Environment, FileHelper, PersonHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
 import { AuthenticatedUser } from "../apiBase/auth";
 import jwt from "jsonwebtoken";
@@ -229,14 +229,30 @@ export class PersonController extends MembershipBaseController {
     });
   }
 
-  @httpPost("/search2")
-  public async searchPost2(req: express.Request<{}, {}, SearchCondition[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  @httpPost("/advancedSearch")
+  public async advancedSearch(req: express.Request<{}, {}, SearchCondition[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
       else {
         let data: any[] = await this.repositories.person.loadAll(au.churchId);
         req.body.forEach(c => {
           switch (c.field) {
+            case "age":
+              data.forEach(p => { p.age = PersonHelper.getAge(p.birthDate); });
+              data = ArrayHelper.getAllOperator(data, "age", c.value, c.operator, "number");
+              break;
+            case "yearsMarried":
+              data.forEach(p => { p.yearsMarried = PersonHelper.getAge(p.anniversaryDate); });
+              data = ArrayHelper.getAllOperator(data, "yearsMarried", c.value, c.operator, "number");
+              break;
+            case "birthMonth":
+              data.forEach(p => { p.birthMonth = PersonHelper.getBirthMonth(p.birthDate); });
+              data = ArrayHelper.getAllOperator(data, "birthMonth", c.value, c.operator, "number");
+              break;
+            case "anniversaryMonth":
+              data.forEach(p => { p.anniversaryMonth = PersonHelper.getBirthMonth(p.anniversaryDate); });
+              data = ArrayHelper.getAllOperator(data, "anniversaryMonth", c.value, c.operator, "number");
+              break;
             case "phone":
               data = ArrayHelper.getAllOperator(data, "homePhone", c.value, c.operator)
                 .concat(ArrayHelper.getAllOperator(data, "workPhone", c.value, c.operator))
