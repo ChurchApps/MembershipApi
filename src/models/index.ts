@@ -5,3 +5,4 @@ export { MemberPermission } from './MemberPermission';
 export { ContactInfo } from './ContactInfo';
 export { Name } from './Name';
 export { Person } from './Person';
+export { SearchCondition } from "./SearchCondition"
