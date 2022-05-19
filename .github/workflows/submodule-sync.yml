@@ -1,4 +1,4 @@
-name: 'Submodules Sync'
+name: 'Submodule Sync'
 
 on:
   # Allows you to run this workflow manually from the Actions tab or through HTTP API
@@ -35,4 +35,4 @@ jobs:
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
         git commit -am "Auto updated submodule references" && git push || echo "No changes to commit"
         
-    - uses: ../.github/workflows/deploy-staging@main
+    - uses: .github/workflows/deploy-staging@main
