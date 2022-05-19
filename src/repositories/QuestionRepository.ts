@@ -38,11 +38,23 @@ export class QuestionRepository {
     }
 
     public loadForForm(churchId: string, formId: string) {
-        return DB.query("SELECT * FROM questions WHERE churchId=? AND formId=? AND removed=0;", [churchId, formId]);
+        return DB.query("SELECT * FROM questions WHERE churchId=? AND formId=? AND removed=0 ORDER BY sort;", [churchId, formId]);
     }
 
     public loadForUnrestrictedForm(formId: string) {
         return DB.query("SELECT * FROM questions WHERE formId=? AND removed=0;", [formId]);
+    }
+
+    public async moveQuestionUp(id: string) {
+        const question = await DB.queryOne("SELECT formId, sort FROM questions WHERE id=?", [id]);
+        let result = await DB.query("UPDATE questions SET sort=sort+1 WHERE formId=? AND sort=?;", [question.formId, +question.sort-1]);
+        result = await DB.query("UPDATE questions SET sort=sort-1 WHERE id=?;", [id]);
+    }
+
+    public async moveQuestionDown(id: string) {
+        const question = await DB.queryOne("SELECT formId, sort FROM questions WHERE id=?", [id]);
+        let result = await DB.query("UPDATE questions SET sort=sort-1 WHERE formId=? AND sort=?;", [question.formId, +question.sort+1]);
+        result = await DB.query("UPDATE questions SET sort=sort+1 WHERE id=?;", [id]);
     }
 
     public convertToModel(churchId: string, data: any) {

@@ -6,6 +6,20 @@ import { Question } from "../apiBase/models"
 @controller("/questions")
 export class QuestionController extends MembershipBaseController {
 
+    @httpGet("/sort/:id/up")
+    public async moveQuestionUp(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+        return this.actionWrapper(req, res, async (au) => {
+            return await this.repositories.question.moveQuestionUp(id);
+        });
+    }
+
+    @httpGet("/sort/:id/down")
+    public async moveQuestionDown(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+        return this.actionWrapper(req, res, async (au) => {
+            return await this.repositories.question.moveQuestionDown(id);
+        });
+    }
+
     @httpGet("/unrestricted")
     public async getUnrestricted(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
