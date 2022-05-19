@@ -42,7 +42,7 @@ export class QuestionRepository {
     }
 
     public loadForUnrestrictedForm(formId: string) {
-        return DB.query("SELECT * FROM questions WHERE formId=? AND removed=0;", [formId]);
+        return DB.query("SELECT * FROM questions WHERE formId=? AND removed=0 ORDER BY sort;", [formId]);
     }
 
     public async moveQuestionUp(id: string) {
