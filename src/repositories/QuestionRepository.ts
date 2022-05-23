@@ -25,8 +25,10 @@ export class QuestionRepository {
         return question;
     }
 
-    public delete(churchId: string, id: string) {
-        return DB.query("UPDATE questions SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
+    public async delete(churchId: string, id: string) {
+        const question = await DB.queryOne("SELECT formId, sort FROM questions WHERE id=?", [id]);
+        const result = await DB.query("UPDATE questions SET sort=sort-1 WHERE formId=? AND sort>?;", [question.formId, +question.sort]);
+        return DB.query("UPDATE questions SET sort=CONCAT('d', sort), removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
     public load(churchId: string, id: string) {
