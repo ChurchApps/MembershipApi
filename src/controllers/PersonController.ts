@@ -259,6 +259,9 @@ export class PersonController extends MembershipBaseController {
                 .concat(ArrayHelper.getAllOperator(data, "cellPhone", c.value, c.operator));
               data = ArrayHelper.getUnique(data);
               break;
+            case "id":
+              data = ArrayHelper.getAllOperator(data, c.field, c.value.split(","), c.operator);
+              break;
             default:
               data = ArrayHelper.getAllOperator(data, c.field, c.value, c.operator);
               break;
