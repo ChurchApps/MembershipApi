@@ -260,7 +260,7 @@ export class PersonController extends MembershipBaseController {
               data = ArrayHelper.getUnique(data);
               break;
             case "id":
-              data = ArrayHelper.getAllOperator(data, c.field, c.value.split(","), c.operator);
+              data = ArrayHelper.getAllOperatorArray(data, c.field, c.value.split(","), c.operator);
               break;
             default:
               data = ArrayHelper.getAllOperator(data, c.field, c.value, c.operator);
