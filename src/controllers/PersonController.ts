@@ -55,7 +55,8 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/recent")
   public async getRecent(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      const isMember = await this.isMember(au.personId, au.churchId);
+      if (!au.checkAccess(Permissions.people.view) && !isMember) return this.json({}, 401);
       else {
         const data = await this.repositories.person.loadRecent(au.churchId);
         const result = this.repositories.person.convertAllToModel(au.churchId, data);
@@ -139,7 +140,8 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/search/phone")
   public async searchPhone(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      const isMember = await this.isMember(au.personId, au.churchId);
+      if (!au.checkAccess(Permissions.people.view) && !isMember) return this.json({}, 401);
       else {
         const phoneNumber: string = req.query.number.toString();
         const data = await this.repositories.person.searchPhone(au.churchId, phoneNumber);
@@ -152,7 +154,8 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/search")
   public async search(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      const isMember = await this.isMember(au.personId, au.churchId);
+      if (!au.checkAccess(Permissions.people.view) && !isMember) return this.json({}, 401);
       else {
         let data = null;
         const email: string = req.query.email?.toString();
@@ -171,7 +174,8 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/ids")
   public async getMultiple(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      const isMember = await this.isMember(au.personId, au.churchId);
+      if (!au.checkAccess(Permissions.people.view) && !isMember) return this.json({}, 401);
       else {
         const idList = req.query.ids.toString().split(',');
         const ids: string[] = [];
@@ -186,7 +190,8 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/:id")
   public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (au.personId !== id && !au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      const isMember = await this.isMember(au.personId, au.churchId);
+      if (au.personId !== id && !au.checkAccess(Permissions.people.view) && !isMember) return this.json({}, 401);
       else {
         const data = await this.repositories.person.load(au.churchId, id);
         const result = this.repositories.person.convertToModel(au.churchId, data)
@@ -199,7 +204,8 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/")
   public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      const isMember = await this.isMember(au.personId, au.churchId);
+      if (!au.checkAccess(Permissions.people.view) && !isMember) return this.json({}, 401);
       else {
         const data = (au.checkAccess(Permissions.people.view))
           ? await this.repositories.person.loadAll(au.churchId)
@@ -213,7 +219,8 @@ export class PersonController extends MembershipBaseController {
   @httpPost("/search")
   public async searchPost(req: express.Request<{}, {}, { email?: string, term?: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      const isMember = await this.isMember(au.personId, au.churchId);
+      if (!au.checkAccess(Permissions.people.view) && !isMember) return this.json({}, 401);
       else {
         let data = null;
         const email: string = req.body.email?.toString();
@@ -232,7 +239,8 @@ export class PersonController extends MembershipBaseController {
   @httpPost("/advancedSearch")
   public async advancedSearch(req: express.Request<{}, {}, SearchCondition[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !au.checkAccess(Permissions.people.viewMembers)) return this.json({}, 401);
+      const isMember = await this.isMember(au.personId, au.churchId);
+      if (!au.checkAccess(Permissions.people.view) && !isMember) return this.json({}, 401);
       else {
         let data: any[] = await this.repositories.person.loadAll(au.churchId);
         req.body.forEach(c => {
@@ -343,6 +351,15 @@ export class PersonController extends MembershipBaseController {
       people.forEach(p => { if (p.membershipStatus === "Member" || p.membershipStatus === "Staff") result.push(p) });
       return result;
     }
+  }
+
+  private async isMember(personId: string, churchId: string): Promise<boolean> {
+    const person = await this.repositories.person.load(churchId, personId);
+    if (person.membershipStatus === "Member") {
+      return true;
+    }
+
+    return false;
   }
 
 
