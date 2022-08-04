@@ -193,6 +193,7 @@ export class PersonController extends MembershipBaseController {
       if (au.personId !== id && !au.checkAccess(Permissions.people.view) && ! await this.isMember(au.personId, au.churchId)) return this.json({}, 401);
       else {
         const data = await this.repositories.person.load(au.churchId, id);
+        if (!data) return null;
         const result = this.repositories.person.convertToModel(au.churchId, data)
         await this.appendFormSubmissions(au.churchId, result);
         return result;
