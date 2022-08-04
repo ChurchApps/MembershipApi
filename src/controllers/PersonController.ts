@@ -31,7 +31,12 @@ export class PersonController extends MembershipBaseController {
       data.push(await this.repositories.person.load(newPerson.churchId, newPerson.id));
     }
     const result = this.repositories.person.convertAllToModel(churchId, data);
-    return result[0];
+    const person = result[0];
+    if (person.removed) {
+      person.removed = false;
+      await this.repositories.person.restore(person.churchId, person.id);
+    }
+    return person;
   }
 
   @httpGet("/claim/:churchId")
@@ -40,9 +45,9 @@ export class PersonController extends MembershipBaseController {
       let person: Person = null;
       if (au.personId) {
         const d = await this.repositories.person.load(au.churchId, au.personId);
-        person = this.repositories.person.convertToModel(au.churchId, d);
+        if (d === null) person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
+        else person = this.repositories.person.convertToModel(au.churchId, d);
       }
-      if (person === null) person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
 
       return {
         person,
@@ -50,7 +55,6 @@ export class PersonController extends MembershipBaseController {
       }
     });
   }
-
 
   @httpGet("/recent")
   public async getRecent(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {

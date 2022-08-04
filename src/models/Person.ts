@@ -17,6 +17,7 @@ export class Person {
   public photoUpdated?: Date;
   public photo?: string;
   public importKey?: string;
+  public removed?: boolean;
 
   public formSubmissions?: FormSubmission[];
 }

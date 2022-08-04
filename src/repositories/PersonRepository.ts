@@ -56,6 +56,10 @@ export class PersonRepository {
     return DB.query("UPDATE people SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
   }
 
+  public restore(churchId: string, id: string) {
+    return DB.query("UPDATE people SET removed=0 WHERE id=? AND churchId=?;", [id, churchId]);
+  }
+
   public load(churchId: string, id: string) {
     return DB.queryOne("SELECT * FROM people WHERE id=? AND churchId=? AND removed=0;", [id, churchId]);
   }
