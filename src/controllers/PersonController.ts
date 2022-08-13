@@ -17,7 +17,6 @@ export class PersonController extends MembershipBaseController {
     if (data.length === 0) {
       const household: Household = { churchId, name: lastName }
       await this.repositories.household.save(household);
-
       let newPerson: Person = {
         churchId,
         householdId: household.id,
@@ -27,7 +26,6 @@ export class PersonController extends MembershipBaseController {
         contactInfo: { email }
       }
       newPerson = await this.repositories.person.save(newPerson);
-
       data.push(await this.repositories.person.load(newPerson.churchId, newPerson.id));
     }
     const result = this.repositories.person.convertAllToModel(churchId, data);
@@ -47,6 +45,8 @@ export class PersonController extends MembershipBaseController {
         const d = await this.repositories.person.load(au.churchId, au.personId);
         if (d === null) person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
         else person = this.repositories.person.convertToModel(au.churchId, d);
+      } else {
+        person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
       }
 
       return {
