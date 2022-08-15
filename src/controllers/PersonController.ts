@@ -40,18 +40,20 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/claim/:churchId")
   public async claim(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      let person: Person = null;
-      if (au.personId) {
-        const d = await this.repositories.person.load(au.churchId, au.personId);
-        if (d === null) person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
-        else person = this.repositories.person.convertToModel(au.churchId, d);
-      } else {
-        person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
-      }
+      if (au?.email) {
+        let person: Person = null;
+        if (au.personId) {
+          const d = await this.repositories.person.load(au.churchId, au.personId);
+          if (d === null) person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
+          else person = this.repositories.person.convertToModel(au.churchId, d);
+        } else {
+          person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
+        }
 
-      return {
-        person,
-        encodedPerson: jwt.sign(person, Environment.jwtSecret, { expiresIn: "1 day" })
+        return {
+          person,
+          encodedPerson: jwt.sign(person, Environment.jwtSecret, { expiresIn: "1 day" })
+        }
       }
     });
   }
