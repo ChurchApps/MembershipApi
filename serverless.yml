@@ -2,8 +2,8 @@ service: membership-api
 
 provider:
  name: aws
- runtime: nodejs12.x
- memorySize: 512
+ runtime: nodejs14.x
+ memorySize: 1024
  timeout: 10
  region: us-east-2
 
