@@ -18,6 +18,7 @@ export class Person {
   public photo?: string;
   public importKey?: string;
   public removed?: boolean;
+  public conversationId?: string;
 
   public formSubmissions?: FormSubmission[];
 }

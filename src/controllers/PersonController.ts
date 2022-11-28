@@ -12,7 +12,7 @@ import jwt from "jsonwebtoken";
 export class PersonController extends MembershipBaseController {
 
 
-  private async getPerson(churchId: string, email: string, firstName: string, lastName: string) {
+  private async getPerson(churchId: string, email: string, firstName: string, lastName: string, canEdit: boolean) {
     const data: Person[] = await this.repositories.person.searchEmail(churchId, email);
     if (data.length === 0) {
       const household: Household = { churchId, name: lastName }
@@ -28,7 +28,7 @@ export class PersonController extends MembershipBaseController {
       newPerson = await this.repositories.person.save(newPerson);
       data.push(await this.repositories.person.load(newPerson.churchId, newPerson.id));
     }
-    const result = this.repositories.person.convertAllToModel(churchId, data);
+    const result = this.repositories.person.convertAllToModel(churchId, data, canEdit);
     const person = result[0];
     if (person.removed) {
       person.removed = false;
@@ -44,10 +44,10 @@ export class PersonController extends MembershipBaseController {
         let person: Person = null;
         if (au.personId) {
           const d = await this.repositories.person.load(au.churchId, au.personId);
-          if (d === null) person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
-          else person = this.repositories.person.convertToModel(au.churchId, d);
+          if (d === null) person = await this.getPerson(churchId, au.email, au.firstName, au.lastName, au.checkAccess(Permissions.people.edit));
+          else person = this.repositories.person.convertToModel(au.churchId, d, au.checkAccess(Permissions.people.edit));
         } else {
-          person = await this.getPerson(churchId, au.email, au.firstName, au.lastName);
+          person = await this.getPerson(churchId, au.email, au.firstName, au.lastName, au.checkAccess(Permissions.people.edit));
         }
 
         return {
@@ -64,7 +64,7 @@ export class PersonController extends MembershipBaseController {
       if (!au.checkAccess(Permissions.people.view) && !await this.isMember(au.personId, au.churchId)) return this.json({}, 401);
       else {
         const data = await this.repositories.person.loadRecent(au.churchId);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data);
+        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
       }
     });
@@ -73,7 +73,7 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/household/:householdId")
   public async getHouseholdMembers(@requestParam("householdId") householdId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      return this.repositories.person.convertAllToModel(au.churchId, await this.repositories.person.loadByHousehold(au.churchId, householdId));
+      return this.repositories.person.convertAllToModel(au.churchId, await this.repositories.person.loadByHousehold(au.churchId, householdId), au.checkAccess(Permissions.people.edit));
     });
   }
 
@@ -81,7 +81,7 @@ export class PersonController extends MembershipBaseController {
   public async loadOrCreate(req: express.Request<{}, {}, any>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       const { churchId, email, firstName, lastName } = req.body;
-      const person: Person = await this.getPerson(churchId, email, firstName, lastName);
+      const person: Person = await this.getPerson(churchId, email, firstName, lastName, false);
       return { id: person.id, name: person.name }
     });
   }
@@ -103,14 +103,14 @@ export class PersonController extends MembershipBaseController {
           let match = false;
           req.body.forEach(person => { if (person.id === dbPerson.id) match = true; })
           if (!match) {
-            const p = this.repositories.person.convertToModel(au.churchId, dbPerson);
+            const p = this.repositories.person.convertToModel(au.churchId, dbPerson, au.checkAccess(Permissions.people.edit));
             p.churchId = au.churchId;
             removePromises.push(this.removeFromHousehold(p));
           }
         });
         if (removePromises.length > 0) await Promise.all(removePromises);
         this.repositories.household.deleteUnused(au.churchId);
-        return this.repositories.person.convertAllToModel(au.churchId, result);
+        return this.repositories.person.convertAllToModel(au.churchId, result, au.checkAccess(Permissions.people.edit));
       }
     });
   }
@@ -137,7 +137,7 @@ export class PersonController extends MembershipBaseController {
         const startDate = (req.query.startDate === undefined) ? null : new Date(req.query.startDate.toString());
         const endDate = (req.query.endDate === undefined) ? null : new Date(req.query.endDate.toString());
         const data = await this.repositories.person.loadAttendees(au.churchId, campusId, serviceId, serviceTimeId, categoryName, groupId, startDate, endDate);
-        return this.repositories.person.convertAllToModel(au.churchId, data);
+        return this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
       }
     });
   }
@@ -149,7 +149,7 @@ export class PersonController extends MembershipBaseController {
       else {
         const phoneNumber: string = req.query.number.toString();
         const data = await this.repositories.person.searchPhone(au.churchId, phoneNumber);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data);
+        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
       }
     });
@@ -168,7 +168,7 @@ export class PersonController extends MembershipBaseController {
           if (term === null) term = "";
           data = await this.repositories.person.search(au.churchId, term);
         }
-        const result = this.repositories.person.convertAllToModel(au.churchId, data);
+        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
       }
     });
@@ -183,7 +183,7 @@ export class PersonController extends MembershipBaseController {
         const ids: string[] = [];
         idList.forEach(id => ids.push(id));
         const data = await this.repositories.person.loadByIds(au.churchId, ids);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data)
+        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit))
         return this.filterPeople(result, au);
       }
     });
@@ -196,7 +196,7 @@ export class PersonController extends MembershipBaseController {
       else {
         const data = await this.repositories.person.load(au.churchId, id);
         if (!data) return null;
-        const result = this.repositories.person.convertToModel(au.churchId, data)
+        const result = this.repositories.person.convertToModel(au.churchId, data, au.checkAccess(Permissions.people.edit))
         await this.appendFormSubmissions(au.churchId, result);
         return result;
       }
@@ -211,7 +211,7 @@ export class PersonController extends MembershipBaseController {
         const data = (au.checkAccess(Permissions.people.view))
           ? await this.repositories.person.loadAll(au.churchId)
           : await this.repositories.person.loadMembers(au.churchId);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data);
+        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
       }
     });
@@ -230,7 +230,7 @@ export class PersonController extends MembershipBaseController {
           if (term === null) term = "";
           data = await this.repositories.person.search(au.churchId, term);
         }
-        const result = this.repositories.person.convertAllToModel(au.churchId, data);
+        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
       }
     });
@@ -275,7 +275,7 @@ export class PersonController extends MembershipBaseController {
           }
 
         })
-        const result = this.repositories.person.convertAllToModel(au.churchId, data);
+        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
       }
     });
@@ -303,7 +303,7 @@ export class PersonController extends MembershipBaseController {
             })
           );
         });
-        return this.repositories.person.convertAllToModel(au.churchId, await Promise.all(promises));
+        return this.repositories.person.convertAllToModel(au.churchId, await Promise.all(promises), au.checkAccess(Permissions.people.edit));
       }
     });
   }
