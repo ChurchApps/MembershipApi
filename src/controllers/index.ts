@@ -1,4 +1,4 @@
-export { CustomBaseController, ErrorController, NoteController } from "../apiBase"
+export { CustomBaseController, ErrorController } from "../apiBase"
 export { GroupController } from "./GroupController";
 export { GroupMemberController } from "./GroupMemberController";
 export { HouseholdController } from "./HouseholdController";
