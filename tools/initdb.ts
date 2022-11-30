@@ -10,6 +10,17 @@ const init = async () => {
   console.log("Connecting");
   Pool.initPool();
 
+  const accessTables: { title: string, file: string }[] = [
+    { title: "AccessLogs", file: "accessLogs.mysql" },
+    { title: "Churches", file: "churches.mysql" },
+    { title: "Role Members", file: "roleMembers.mysql" },
+    { title: "Role Permissions", file: "rolePermissions.mysql" },
+    { title: "Roles", file: "roles.mysql" },
+    { title: "Users", file: "users.mysql" },
+    { title: "User Churches", file: "userChurches.mysql" },
+    { title: "Populate Data", file: "populateData.mysql" },
+  ];
+
   const formTables: { title: string, file: string }[] = [
     { title: "Answers", file: "answers.mysql" },
     { title: "Forms", file: "forms.mysql" },
@@ -28,7 +39,8 @@ const init = async () => {
     { title: "Group Members", file: "groupMembers.mysql" },
   ];
 
-  await DBCreator.init(["Notes"]);
+  await DBCreator.init(["Settings"])
+  await initTables("Access", accessTables);
   await initTables("Forms", formTables);
   await initTables("People", peopleTables);
   await initTables("Groups", groupTables);
