@@ -5,3 +5,9 @@ CONNECTION_STRING=mysql://
 ENCRYPTION_KEY=aSecretKeyOfExactly192BitsLength
 JWT_SECRET=this is a test key that is a sentence
 SERVER_PORT=8083
+
+#HUBSPOT_KEY=
+#SMTP_HOST=smtp.gmail.com
+#SMTP_SECURE=true
+#SMTP_USER=user@gmail.com
+#SMTP_PASS=yourpassword
