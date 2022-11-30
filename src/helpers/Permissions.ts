@@ -46,15 +46,15 @@ export class Permissions extends BasePermissions {
 
 // ORDER BY apiName, displaySection, displayAction. so before adding new item please maintain order
 export const permissionsList: IPermission[] = [
-  { apiName: "AccessApi", section: "RoleMembers", action: "Edit", displaySection: "Access", displayAction: "Edit Role Members" },
-  { apiName: "AccessApi", section: "RolePermissions", action: "Edit", displaySection: "Access", displayAction: "Edit Role Permissions" },
-  { apiName: "AccessApi", section: "Roles", action: "Edit", displaySection: "Access", displayAction: "Edit Roles" },
-  { apiName: "AccessApi", section: "Users", action: "Edit", displaySection: "Access", displayAction: "Edit Users" },
-  { apiName: "AccessApi", section: "RoleMembers", action: "View", displaySection: "Access", displayAction: "View Role Members" },
-  { apiName: "AccessApi", section: "RolePermissions", action: "View", displaySection: "Access", displayAction: "View Role Permissions" },
-  { apiName: "AccessApi", section: "Roles", action: "View", displaySection: "Access", displayAction: "View Roles" },
-  { apiName: "AccessApi", section: "Users", action: "View", displaySection: "Access", displayAction: "View Users" },
-  { apiName: "AccessApi", section: "Settings", action: "Edit", displaySection: "Global", displayAction: "Edit Church Settings" },
+  { apiName: "MembershipApi", section: "RoleMembers", action: "Edit", displaySection: "Access", displayAction: "Edit Role Members" },
+  { apiName: "MembershipApi", section: "RolePermissions", action: "Edit", displaySection: "Access", displayAction: "Edit Role Permissions" },
+  { apiName: "MembershipApi", section: "Roles", action: "Edit", displaySection: "Access", displayAction: "Edit Roles" },
+  { apiName: "MembershipApi", section: "Users", action: "Edit", displaySection: "Access", displayAction: "Edit Users" },
+  { apiName: "MembershipApi", section: "RoleMembers", action: "View", displaySection: "Access", displayAction: "View Role Members" },
+  { apiName: "MembershipApi", section: "RolePermissions", action: "View", displaySection: "Access", displayAction: "View Role Permissions" },
+  { apiName: "MembershipApi", section: "Roles", action: "View", displaySection: "Access", displayAction: "View Roles" },
+  { apiName: "MembershipApi", section: "Users", action: "View", displaySection: "Access", displayAction: "View Users" },
+  { apiName: "MembershipApi", section: "Settings", action: "Edit", displaySection: "Global", displayAction: "Edit Church Settings" },
   { apiName: "AttendanceApi", section: "Attendance", action: "Checkin", displaySection: "Attendance", displayAction: "Checkin" },
   { apiName: "AttendanceApi", section: "Attendance", action: "Edit", displaySection: "Attendance", displayAction: "Edit Attendance" },
   { apiName: "AttendanceApi", section: "Services", action: "Edit", displaySection: "Attendance", displayAction: "Edit Services" },
@@ -98,7 +98,7 @@ interface IPermission {
 }
 
 export type ApiName =
-  | "AccessApi"
+  | "MembershipApi"
   | "StreamingLiveApi"
   | "B1Api"
   | "MembershipApi"
