@@ -9,6 +9,7 @@ import {
   QuestionRepository,
   MemberPermissionRepository,
 } from ".";
+import { UserRepository, ChurchRepository, RoleRepository, RoleMemberRepository, RolePermissionRepository, UserChurchRepository, AccessLogRepository } from ".";
 
 export class Repositories {
   public groupMember: GroupMemberRepository;
@@ -20,6 +21,14 @@ export class Repositories {
   public formSubmission: FormSubmissionRepository;
   public question: QuestionRepository;
   public memberPermission: MemberPermissionRepository;
+
+  public accessLog: AccessLogRepository;
+  public church: ChurchRepository;
+  public role: RoleRepository;
+  public roleMember: RoleMemberRepository;
+  public rolePermission: RolePermissionRepository;
+  public user: UserRepository;
+  public userChurch: UserChurchRepository;
 
   private static _current: Repositories = null;
   public static getCurrent = () => {
@@ -37,5 +46,13 @@ export class Repositories {
     this.formSubmission = new FormSubmissionRepository();
     this.question = new QuestionRepository();
     this.memberPermission = new MemberPermissionRepository();
+
+    this.accessLog = new AccessLogRepository();
+    this.church = new ChurchRepository();
+    this.role = new RoleRepository();
+    this.roleMember = new RoleMemberRepository();
+    this.rolePermission = new RolePermissionRepository();
+    this.user = new UserRepository();
+    this.userChurch = new UserChurchRepository();
   }
 }

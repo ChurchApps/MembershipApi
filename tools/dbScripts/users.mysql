@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` char(11) NOT NULL,
+  `email` varchar(191) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `authGuid` varchar(255) DEFAULT NULL,
+  `firstName` varchar(45) DEFAULT NULL,
+  `lastName` varchar(45) DEFAULT NULL,
+  `registrationDate` datetime DEFAULT CURRENT_TIMESTAMP,
+  `lastLogin` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

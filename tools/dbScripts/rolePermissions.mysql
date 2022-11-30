@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS `rolePermissions`;
+
+CREATE TABLE `rolePermissions` (
+  `id` char(11) NOT NULL,
+  `churchId` char(11) DEFAULT NULL,
+  `roleId` char(11) DEFAULT NULL,
+  `apiName` varchar(45) DEFAULT NULL,
+  `contentType` varchar(45) DEFAULT NULL,
+  `contentId` char(11) DEFAULT NULL,
+  `action` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
