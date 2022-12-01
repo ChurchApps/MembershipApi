@@ -100,6 +100,15 @@ export class UserController extends MembershipBaseController {
       if (!ArrayHelper.getOne(roleUserChurches, "id", uc.church.id)) roleUserChurches.push(uc);
     });
 
+    const peopleIds: string[] = [];
+    roleUserChurches.forEach(uc => { if (uc.person.id) peopleIds.push(uc.person.id) })
+    const allGroups = (peopleIds.length > 0) ? await this.repositories.groupMember.loadForPeople(peopleIds) : [];
+    roleUserChurches.forEach(uc => {
+      const groups = ArrayHelper.getAll(allGroups, "personId", uc.person.id);
+      uc.groups = [];
+      groups.forEach(g => uc.groups.push({ id: g.id, name: g.name }));
+    });
+
     return roleUserChurches;
   }
 
