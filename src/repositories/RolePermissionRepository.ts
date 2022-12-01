@@ -54,7 +54,7 @@ export class RolePermissionRepository {
     let reportingApi: Api = null;
     data.forEach((row: any) => {
       if (currentUserChurch === null || row.churchId !== currentUserChurch.church.id) {
-        currentUserChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain, archivedDate: row.archivedDate }, personId: row.personId, apis: [] };
+        currentUserChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain, archivedDate: row.archivedDate }, person: { id: row.personId }, apis: [] };
         result.push(currentUserChurch);
         currentApi = null;
         reportingApi = { keyName: "ReportingApi", permissions: [] }
@@ -82,7 +82,7 @@ export class RolePermissionRepository {
     return result;
   }
 
-  public async loadForChurch(churchId: string, univeralChurch: LoginUserChurch): Promise<UserChurch> {
+  public async loadForChurch(churchId: string, univeralChurch: LoginUserChurch): Promise<LoginUserChurch> {
     const query = "SELECT c.name AS churchName, r.churchId, c.subDomain, rp.apiName, rp.contentType, rp.contentId, rp.action"
       + " FROM roles r"
       + " INNER JOIN rolePermissions rp on rp.roleId=r.id"

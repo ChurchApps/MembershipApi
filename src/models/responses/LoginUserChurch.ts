@@ -1,9 +1,10 @@
 import { Api } from "../Api";
 import { Church } from "../Church";
+import { Person } from "../Person";
 
 export class LoginUserChurch {
-  public personId?: string;
 
+  public person?: Person;
   public church?: Church;
   public apis?: Api[];
   public jwt?: string;

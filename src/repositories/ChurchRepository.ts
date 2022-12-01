@@ -1,5 +1,5 @@
 import { DB } from "../apiBase/db";
-import { Church, Api } from "../models";
+import { Church, Api, LoginUserChurch } from "../models";
 import { UniqueIdHelper } from "../helpers";
 
 export class ChurchRepository {
@@ -39,13 +39,13 @@ export class ChurchRepository {
       + " inner join churches c on c.id=uc.churchId and c.archivedDate IS NULL"
       + " where uc.userId=?";
     const rows = await DB.query(sql, [userId]);
-    const result: Church[] = [];
+    const result: LoginUserChurch[] = [];
     rows.forEach((row: any) => {
       const apis: Api[] = [];
-      const addChurch = { id: row.churchId, name: row.churchName, subDomain: row.subDomain, personId: row.personId, apis };
+      const addChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain }, person: { id: row.personId }, apis };
       result.push(addChurch);
     });
-    return rows;
+    return result;
   }
 
   public async getAbandoned(noMonths: number = 6) {

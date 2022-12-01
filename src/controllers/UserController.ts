@@ -89,15 +89,15 @@ export class UserController extends MembershipBaseController {
     }
   }
 
-  private async getChurches(id: string): Promise<UserChurch[]> {
+  private async getChurches(id: string): Promise<LoginUserChurch[]> {
 
     // Load user churches via Roles
     const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true)  // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
 
     // Load churches via userChurches relationships
-    const userChurches: UserChurch[] = await this.repositories.church.loadForUser(id);
+    const userChurches: LoginUserChurch[] = await this.repositories.church.loadForUser(id);
     userChurches.forEach(uc => {
-      if (!ArrayHelper.getOne(roleUserChurches, "id", uc.id)) roleUserChurches.push(uc);
+      if (!ArrayHelper.getOne(roleUserChurches, "id", uc.church.id)) roleUserChurches.push(uc);
     });
 
     return roleUserChurches;

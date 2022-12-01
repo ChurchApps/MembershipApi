@@ -6,9 +6,9 @@ import { Environment } from '../helpers';
 
 export class AuthenticatedUser extends BaseAuthenticatedUser {
 
-  public static async login(allUserChurches: UserChurch[], user: User) {
+  public static async login(allUserChurches: LoginUserChurch[], user: User) {
     const userChurches = [...allUserChurches];
-    if (userChurches.length > 1 && userChurches[0].churchId === "") userChurches.splice(0, 1); // remove empty church with universal permissions if there are actual church records.
+    if (userChurches.length > 1 && userChurches[0].church.id === "") userChurches.splice(0, 1); // remove empty church with universal permissions if there are actual church records.
 
     // if (churches.length === 0) return null;
     // else {
@@ -21,18 +21,18 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
     // }
   }
 
-  public static getApiJwt(api: Api, user: User, userChurch: UserChurch) {
+  public static getApiJwt(api: Api, user: User, userChurch: LoginUserChurch) {
     const permList: string[] = [];
     api.permissions?.forEach(p => {
       let permString = p.contentType + "_" + String(p.contentId).replace('null', '') + "_" + p.action
       if (p.apiName) permString = p.apiName + "_" + p.contentType + "_" + String(p.contentId).replace('null', '') + "_" + p.action
       permList.push(permString);
     });
-    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.churchId, personId: userChurch.personId, apiName: api.keyName, permissions: permList }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
+    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, apiName: api.keyName, permissions: permList }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
   }
 
-  public static getChurchJwt(user: User, userChurch: UserChurch) {
-    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.churchId, personId: userChurch.personId }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
+  public static getChurchJwt(user: User, userChurch: LoginUserChurch) {
+    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
   }
 
   public static getUserJwt(user: User) {
