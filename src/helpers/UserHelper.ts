@@ -4,7 +4,7 @@ import { EmailHelper } from "../apiBase";
 export class UserHelper {
   static sendWelcomeEmail(email: string, loginLink: string, appName: string, appUrl: string): Promise<any> {
     if (!appName) appName = "Live Church Solutions";
-    if (!appUrl) appUrl = Environment.accountsAppRoot;
+    if (!appUrl) appUrl = Environment.chumsRoot;
 
     console.log(appUrl);
     console.log(loginLink);
@@ -16,7 +16,7 @@ export class UserHelper {
 
   static sendForgotEmail(email: string, loginLink: string, appName: string, appUrl: string): Promise<any> {
     if (!appName) appName = "Live Church Solutions";
-    if (!appUrl) appUrl = Environment.accountsAppRoot;
+    if (!appUrl) appUrl = Environment.chumsRoot;
 
     const contents = "<h2>Reset Password</h2>"
       + "<h3>Please click the button below to reset your password.</h3>"

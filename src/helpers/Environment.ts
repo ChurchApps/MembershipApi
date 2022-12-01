@@ -7,7 +7,7 @@ export class Environment extends EnvironmentBase {
   static jwtExpiration: string;
   static emailOnRegistration: boolean;
   static supportEmail: string;
-  static accountsAppRoot: string;
+  static chumsRoot: string;
   static hubspotKey: string;
 
   static init(environment: string) {
@@ -26,7 +26,7 @@ export class Environment extends EnvironmentBase {
     this.jwtExpiration = "2 days";
     this.emailOnRegistration = data.emailOnRegistration;
     this.supportEmail = data.supportEmail;
-    this.accountsAppRoot = data.accountsAppRoot;
+    this.chumsRoot = data.chumsRoot;
     this.hubspotKey = process.env.HUBSPOT_KEY;
 
   }
