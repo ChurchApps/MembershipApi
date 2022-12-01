@@ -1,5 +1,5 @@
 import { DB } from "../apiBase/db";
-import { RolePermission, Church, Api } from "../models";
+import { RolePermission, Church, Api, UserChurch, LoginUserChurch } from "../models";
 import { UniqueIdHelper } from "../helpers";
 import { ArrayHelper } from "../apiBase";
 
@@ -36,7 +36,7 @@ export class RolePermissionRepository {
     return DB.query(sql, params);
   }
 
-  public async loadForUser(userId: string, removeUniversal: boolean): Promise<Church[]> {
+  public async loadForUser(userId: string, removeUniversal: boolean): Promise<LoginUserChurch[]> {
     const query = "SELECT c.name AS churchName, r.churchId, c.subDomain, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId AS personId, c.archivedDate"
       + " FROM roleMembers rm"
       + " INNER JOIN roles r on r.id=rm.roleId"
@@ -48,21 +48,21 @@ export class RolePermissionRepository {
       + " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action";
     const data = await DB.query(query, [userId]);
 
-    const result: Church[] = [];
-    let currentChurch: Church = null;
+    const result: LoginUserChurch[] = [];
+    let currentUserChurch: LoginUserChurch = null;
     let currentApi: Api = null;
     let reportingApi: Api = null;
     data.forEach((row: any) => {
-      if (currentChurch === null || row.churchId !== currentChurch.id) {
-        currentChurch = { id: row.churchId, name: row.churchName, subDomain: row.subDomain, personId: row.personId, apis: [], archivedDate: row.archivedDate };
-        result.push(currentChurch);
+      if (currentUserChurch === null || row.churchId !== currentUserChurch.church.id) {
+        currentUserChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain, archivedDate: row.archivedDate }, personId: row.personId, apis: [] };
+        result.push(currentUserChurch);
         currentApi = null;
         reportingApi = { keyName: "ReportingApi", permissions: [] }
-        currentChurch.apis.push(reportingApi);
+        currentUserChurch.apis.push(reportingApi);
       }
       if (currentApi === null || row.apiName !== currentApi.keyName) {
         currentApi = { keyName: row.apiName, permissions: [] };
-        currentChurch.apis.push(currentApi);
+        currentUserChurch.apis.push(currentApi);
       }
 
       const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType }
@@ -76,13 +76,13 @@ export class RolePermissionRepository {
     if (result.length > 0 && this.applyUniversal(result) && removeUniversal) result.splice(0, 1);
 
     for (let i = result.length - 1; i >= 0; i--) {
-      if (result[i].archivedDate) result.splice(i, 1);
+      if (result[i].church.archivedDate) result.splice(i, 1);
     }
 
     return result;
   }
 
-  public async loadForChurch(churchId: string, univeralChurch: Church): Promise<Church> {
+  public async loadForChurch(churchId: string, univeralChurch: LoginUserChurch): Promise<UserChurch> {
     const query = "SELECT c.name AS churchName, r.churchId, c.subDomain, rp.apiName, rp.contentType, rp.contentId, rp.action"
       + " FROM roles r"
       + " INNER JOIN rolePermissions rp on rp.roleId=r.id"
@@ -91,11 +91,11 @@ export class RolePermissionRepository {
       + " GROUP BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action"
       + " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action";
     const data = await DB.query(query, [churchId])
-    let result: Church = null;
+    let result: LoginUserChurch = null;
     let currentApi: Api = null;
     data.forEach((row: any) => {
       if (result === null) {
-        result = { id: row.churchId, subDomain: row.subDomain, name: row.churchName, apis: [] };
+        result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, apis: [] };
         currentApi = null;
       }
 
@@ -133,12 +133,12 @@ export class RolePermissionRepository {
       + " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action";
     const data = await DB.query(query, [userId, churchId]);
 
-    let result: Church = null;
+    let result: LoginUserChurch = null;
     let currentApi: Api = null;
 
     data.forEach((row: any) => {
       if (result === null) {
-        result = { id: row.churchId, subDomain: row.subDomain, name: row.churchName, apis: [] };
+        result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, apis: [] };
         currentApi = null;
       }
 
@@ -155,14 +155,14 @@ export class RolePermissionRepository {
   }
 
   // Apply site admin priviledges that aren't tied to a specific church.
-  private applyUniversal(churches: Church[]) {
-    if (churches[0].id !== "0") return false;
-    for (let i = 1; i < churches.length; i++) {
-      const currentChurch = churches[i];
+  private applyUniversal(userChurches: LoginUserChurch[]) {
+    if (userChurches[0].church.id !== "0") return false;
+    for (let i = 1; i < userChurches.length; i++) {
+      const currentUserChurch = userChurches[i];
 
-      churches[0].apis.forEach(universalApi => {
-        const api = ArrayHelper.getOne(currentChurch.apis, "keyName", universalApi.keyName);
-        if (api === null) currentChurch.apis.push({ ...universalApi });
+      userChurches[0].apis.forEach(universalApi => {
+        const api = ArrayHelper.getOne(currentUserChurch.apis, "keyName", universalApi.keyName);
+        if (api === null) currentUserChurch.apis.push({ ...universalApi });
         else {
           universalApi.permissions.forEach(perm => { api.permissions.push(perm) });
         }

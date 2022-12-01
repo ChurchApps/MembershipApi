@@ -2,7 +2,7 @@ import { controller, httpGet, httpPost } from "inversify-express-utils";
 import express from "express";
 import bcrypt from "bcryptjs";
 import { body, oneOf, validationResult } from "express-validator";
-import { LoginRequest, User, ResetPasswordRequest, LoadCreateUserRequest, RegisterUserRequest, Church, EmailPassword, NewPasswordRequest } from "../models";
+import { LoginRequest, User, ResetPasswordRequest, LoadCreateUserRequest, RegisterUserRequest, Church, EmailPassword, NewPasswordRequest, UserChurch, LoginUserChurch } from "../models";
 import { AuthenticatedUser } from "../auth";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { EmailHelper, UserHelper, UniqueIdHelper, Environment } from "../helpers";
@@ -73,7 +73,8 @@ export class UserController extends MembershipBaseController {
       if (user === null) return this.denyAccess(["Login failed"]);
       else {
         const churches = await this.getChurches(user.id);
-        await ChurchHelper.appendLogos(churches)
+        // TODO: APPEND LOGOS
+        // await ChurchHelper.appendLogos(churches)
         const result = await AuthenticatedUser.login(churches, user);
         if (result === null) return this.denyAccess(["No permissions"]);
         else {
@@ -88,18 +89,18 @@ export class UserController extends MembershipBaseController {
     }
   }
 
-  private async getChurches(id: string): Promise<Church[]> {
+  private async getChurches(id: string): Promise<UserChurch[]> {
 
-    // Load churches via Roles
-    const churches = await this.repositories.rolePermission.loadForUser(id, true)  // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
+    // Load user churches via Roles
+    const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true)  // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
 
     // Load churches via userChurches relationships
-    const userChurches: Church[] = await this.repositories.church.loadForUser(id);
+    const userChurches: UserChurch[] = await this.repositories.church.loadForUser(id);
     userChurches.forEach(uc => {
-      if (!ArrayHelper.getOne(churches, "id", uc.id)) churches.push(uc);
+      if (!ArrayHelper.getOne(roleUserChurches, "id", uc.id)) roleUserChurches.push(uc);
     });
 
-    return churches;
+    return roleUserChurches;
   }
 
   @httpPost("/verifyCredentials", ...emailPasswordValidation)
@@ -119,8 +120,8 @@ export class UserController extends MembershipBaseController {
       if (!passwordMatched) {
         return this.denyAccess(["Incorrect password"]);
       }
-      const churches = await this.repositories.rolePermission.loadForUser(user.id, false)
-      const churchNames = churches.map(c => c.name);
+      const userChurches = await this.repositories.rolePermission.loadForUser(user.id, false)
+      const churchNames = userChurches.map(uc => uc.church.name);
 
       return this.json({ churches: churchNames }, 200);
     } catch (e) {
@@ -129,16 +130,16 @@ export class UserController extends MembershipBaseController {
     }
   }
 
-  private async grantAdminAccess(churches: Church[], churchId: string) {
+  private async grantAdminAccess(userChurches: LoginUserChurch[], churchId: string) {
     let universalChurch = null;
-    churches.forEach(c => { if (c.id === "") universalChurch = c; });
+    userChurches.forEach(uc => { if (uc.church.id === "") universalChurch = uc; });
 
     if (universalChurch !== null) {
       let selectedChurch = null;
-      churches.forEach(c => { if (c.id === churchId) selectedChurch = c; });
+      userChurches.forEach(uc => { if (uc.church.id === churchId) selectedChurch = uc; });
       if (selectedChurch === null) {
         selectedChurch = await this.repositories.rolePermission.loadForChurch(churchId, universalChurch);
-        churches.push(selectedChurch);
+        userChurches.push(selectedChurch);
       }
     }
   }
