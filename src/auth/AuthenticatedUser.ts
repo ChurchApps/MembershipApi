@@ -28,7 +28,11 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
       if (p.apiName) permString = p.apiName + "_" + p.contentType + "_" + String(p.contentId).replace('null', '') + "_" + p.action
       permList.push(permString);
     });
-    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, apiName: api.keyName, permissions: permList }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
+
+    const groupIds: string[] = [];
+    userChurch.groups.forEach(g => groupIds.push(g.id));
+
+    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, apiName: api.keyName, permissions: permList, groupIds, membershipStatus: userChurch.person?.membershipStatus }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
   }
 
   public static getChurchJwt(user: User, userChurch: LoginUserChurch) {
