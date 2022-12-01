@@ -367,7 +367,7 @@ export class ChurchController extends MembershipBaseController {
     let currentApi: Api = null;
     everyonePermission.forEach((row: any) => {
       if (result === null) {
-        result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, apis: [] };
+        result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, person: {}, apis: [] };
         currentApi = null;
       }
 

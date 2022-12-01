@@ -35,14 +35,15 @@ export class ChurchRepository {
   }
 
   public async loadForUser(userId: string) {
-    const sql = "select c.*, uc.personId from userChurches uc "
+    const sql = "select c.*, uc.personId, p.membershipStatus from userChurches uc "
       + " inner join churches c on c.id=uc.churchId and c.archivedDate IS NULL"
+      + " LEFT JOIN people p on p.id=uc.personId"
       + " where uc.userId=?";
     const rows = await DB.query(sql, [userId]);
     const result: LoginUserChurch[] = [];
     rows.forEach((row: any) => {
       const apis: Api[] = [];
-      const addChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain }, person: { id: row.personId }, apis };
+      const addChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain }, person: { id: row.personId, membershipStatus: row.membershipStatus }, apis };
       result.push(addChurch);
     });
     return result;

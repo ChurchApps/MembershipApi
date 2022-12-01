@@ -37,12 +37,13 @@ export class RolePermissionRepository {
   }
 
   public async loadForUser(userId: string, removeUniversal: boolean): Promise<LoginUserChurch[]> {
-    const query = "SELECT c.name AS churchName, r.churchId, c.subDomain, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId AS personId, c.archivedDate"
+    const query = "SELECT c.name AS churchName, r.churchId, c.subDomain, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId AS personId, p.membershipStatus, c.archivedDate"
       + " FROM roleMembers rm"
       + " INNER JOIN roles r on r.id=rm.roleId"
       + " INNER JOIN rolePermissions rp on (rp.roleId=r.id or (rp.roleId IS NULL AND rp.churchId=rm.churchId))"
       + " LEFT JOIN churches c on c.id=r.churchId"
       + " LEFT JOIN userChurches uc on uc.churchId=r.churchId AND uc.userId = rm.userId"
+      + " LEFT JOIN people p on p.churchId=uc.churchId AND p.id = uc.personId"
       + " WHERE rm.userId=?"
       + " GROUP BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action"
       + " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action";
@@ -54,7 +55,7 @@ export class RolePermissionRepository {
     let reportingApi: Api = null;
     data.forEach((row: any) => {
       if (currentUserChurch === null || row.churchId !== currentUserChurch.church.id) {
-        currentUserChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain, archivedDate: row.archivedDate }, person: { id: row.personId }, apis: [] };
+        currentUserChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain, archivedDate: row.archivedDate }, person: { id: row.personId, membershipStatus: row.membershipStatus }, apis: [] };
         result.push(currentUserChurch);
         currentApi = null;
         reportingApi = { keyName: "ReportingApi", permissions: [] }
@@ -95,7 +96,7 @@ export class RolePermissionRepository {
     let currentApi: Api = null;
     data.forEach((row: any) => {
       if (result === null) {
-        result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, apis: [] };
+        result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, person: {}, apis: [] };
         currentApi = null;
       }
 
@@ -138,7 +139,7 @@ export class RolePermissionRepository {
 
     data.forEach((row: any) => {
       if (result === null) {
-        result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, apis: [] };
+        result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, person: {}, apis: [] };
         currentApi = null;
       }
 
