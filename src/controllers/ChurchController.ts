@@ -339,6 +339,7 @@ export class ChurchController extends MembershipBaseController {
     });
   }
 
+  // Used by select church modal after registration.
   // if both values (churchId and subDomain) are found in body, churchId will have first preference.
   @httpPost("/select")
   public async select(req: express.Request<{}, {}, { churchId: string, subDomain: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
@@ -348,10 +349,10 @@ export class ChurchController extends MembershipBaseController {
         const selectedChurch: Church = await this.repositories.church.loadBySubDomain(req.body.subDomain);
         churchId = selectedChurch.id;
       }
-      const church = await this.fetchChurchPermissions(au.id, churchId)
+      const userChurch = await this.fetchChurchPermissions(au.id, churchId)
       const user = await this.repositories.user.load(au.id);
 
-      const data = await AuthenticatedUser.login([church], user);
+      const data = await AuthenticatedUser.login([userChurch], user);
       return this.json(data.userChurches[0], 200);
     })
   }
@@ -379,6 +380,12 @@ export class ChurchController extends MembershipBaseController {
       const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType }
       currentApi.permissions.push(permission);
     });
+
+    if (result === null) {
+      const church: Church = await this.repositories.church.loadById(churchId);
+      result = { church: { id: church.id, subDomain: church.subDomain, name: church.name }, person: {}, apis: [] };
+    }
+
 
     return result;
   }

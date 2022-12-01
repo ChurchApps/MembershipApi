@@ -30,7 +30,7 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
     });
 
     const groupIds: string[] = [];
-    userChurch.groups.forEach(g => groupIds.push(g.id));
+    userChurch.groups?.forEach(g => groupIds.push(g.id));
 
     return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, apiName: api.keyName, permissions: permList, groupIds, membershipStatus: userChurch.person?.membershipStatus }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
   }
