@@ -2,7 +2,9 @@
   "appEnv": "staging",
   "appName": "MembershipApi",
   "contentRoot": "https://content.staging.churchapps.org",
+  "emailOnRegistration": false,
   "fileStore": "S3",
   "mailSystem": "SES",
-  "s3Bucket": "staging-churchapps-content"
+  "s3Bucket": "staging-churchapps-content",
+  "supportEmail": "support@churchapps.org"
 }

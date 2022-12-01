@@ -2,7 +2,9 @@
   "appEnv": "dev",
   "appName": "MembershipApi",
   "contentRoot": "http://localhost:3402",
+  "emailOnRegistration": false,
   "fileStore": "disk",
   "mailSystem": "",
-  "s3Bucket": ""
+  "s3Bucket": "",
+  "supportEmail": "support@churchapps.org"
 }

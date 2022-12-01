@@ -2,7 +2,9 @@
   "appEnv": "prod",
   "appName": "MembershipApi",
   "contentRoot": "https://content.churchapps.org",
+  "emailOnRegistration": true,
   "fileStore": "S3",
   "mailSystem": "SES",
-  "s3Bucket": "churchapps-content"
+  "s3Bucket": "churchapps-content",
+  "supportEmail": "support@churchapps.org"
 }
