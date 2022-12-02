@@ -6,5 +6,6 @@
   "fileStore": "S3",
   "mailSystem": "SES",
   "s3Bucket": "churchapps-content",
-  "supportEmail": "support@churchapps.org"
+  "supportEmail": "support@churchapps.org",
+  "chumsRoot": "https://app.chums.org"
 }

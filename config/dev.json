@@ -6,5 +6,6 @@
   "fileStore": "disk",
   "mailSystem": "",
   "s3Bucket": "",
-  "supportEmail": "support@churchapps.org"
+  "supportEmail": "support@churchapps.org",
+  "chumsRoot": "https://app.staging.chums.org"
 }
