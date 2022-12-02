@@ -74,7 +74,14 @@ export class UserController extends MembershipBaseController {
       else {
         const userChurches = await this.getUserChurches(user.id);
         // TODO: APPEND LOGOS
-        // await ChurchHelper.appendLogos(churches)
+
+        const churchesOnly: Church[] = [];
+        userChurches.forEach(uc => churchesOnly.push(uc.church));
+        await ChurchHelper.appendLogos(churchesOnly);
+        userChurches.forEach(uc => {
+          uc.church.settings = ArrayHelper.getOne(churchesOnly, "id", uc.church.id).settings;
+        });
+
         const result = await AuthenticatedUser.login(userChurches, user);
         if (result === null) return this.denyAccess(["No permissions"]);
         else {

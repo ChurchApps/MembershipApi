@@ -13,4 +13,6 @@ export class Church {
   public archivedDate?: Date;
   public latitude?: number;
   public longitude?: number;
+
+  public settings?: any;
 }
