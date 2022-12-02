@@ -1,5 +1,5 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
-import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest } from "../models";
+import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest, UserChurch, LoginUserChurch } from "../models";
 import express from "express";
 import { body, validationResult } from "express-validator";
 import { AuthenticatedUser } from '../auth';
@@ -158,6 +158,8 @@ export class ChurchController extends MembershipBaseController {
       const data = await this.repositories.church.loadById(id);
       const church = this.repositories.church.convertToModel(data);
 
+      // I don't believe permissions are needed for this route.  Will need to be reworked if so since permissions are on the user church level now.
+      /*
       // This block could be simplified
       if (this.include(req, "permissions")) {
         let universalChurch = null;
@@ -165,7 +167,7 @@ export class ChurchController extends MembershipBaseController {
         churches.forEach(c => { if (c.id === "") universalChurch = c; });
         const result = await this.repositories.rolePermission.loadForChurch(id, universalChurch);
         if (result !== null) church.apis = result.apis;
-      }
+      }*/
 
       return church;
       // }
@@ -184,7 +186,7 @@ export class ChurchController extends MembershipBaseController {
 
         let universalChurch = null;
         const churches = await this.repositories.rolePermission.loadForUser(au.id, false);
-        churches.forEach(c => { if (c.id === "0") universalChurch = c; });
+        churches.forEach(c => { if (c.church.id === "0") universalChurch = c; });
         const result = await this.repositories.rolePermission.loadForChurch(churchId, universalChurch);
 
         const churchWithAuth = await AuthenticatedUser.login([result], user);
@@ -337,6 +339,7 @@ export class ChurchController extends MembershipBaseController {
     });
   }
 
+  // Used by select church modal after registration.
   // if both values (churchId and subDomain) are found in body, churchId will have first preference.
   @httpPost("/select")
   public async select(req: express.Request<{}, {}, { churchId: string, subDomain: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
@@ -346,26 +349,26 @@ export class ChurchController extends MembershipBaseController {
         const selectedChurch: Church = await this.repositories.church.loadBySubDomain(req.body.subDomain);
         churchId = selectedChurch.id;
       }
-      const church = await this.fetchChurchPermissions(au.id, churchId)
+      const userChurch = await this.fetchChurchPermissions(au.id, churchId)
       const user = await this.repositories.user.load(au.id);
 
-      const data = await AuthenticatedUser.login([church], user);
-      return this.json(data.churches[0], 200);
+      const data = await AuthenticatedUser.login([userChurch], user);
+      return this.json(data.userChurches[0], 200);
     })
   }
 
-  private async fetchChurchPermissions(userId: string, churchId: string): Promise<Church> {
+  private async fetchChurchPermissions(userId: string, churchId: string): Promise<LoginUserChurch> {
     // church includes user role permission and everyone permission.
-    const church = await this.repositories.rolePermission.loadUserPermissionInChurch(userId, churchId);
+    const userChurch = await this.repositories.rolePermission.loadUserPermissionInChurch(userId, churchId);
 
-    if (church) return church;
+    if (userChurch) return userChurch;
 
     const everyonePermission = await this.repositories.rolePermission.loadForEveryone(churchId);
-    let result: Church = null;
+    let result: LoginUserChurch = null;
     let currentApi: Api = null;
     everyonePermission.forEach((row: any) => {
       if (result === null) {
-        result = { id: row.churchId, subDomain: row.subDomain, name: row.churchName, apis: [] };
+        result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, person: {}, apis: [] };
         currentApi = null;
       }
 
@@ -377,6 +380,12 @@ export class ChurchController extends MembershipBaseController {
       const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType }
       currentApi.permissions.push(permission);
     });
+
+    if (result === null) {
+      const church: Church = await this.repositories.church.loadById(churchId);
+      result = { church: { id: church.id, subDomain: church.subDomain, name: church.name }, person: {}, apis: [] };
+    }
+
 
     return result;
   }
