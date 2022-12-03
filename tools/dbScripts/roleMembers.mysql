@@ -6,6 +6,7 @@ CREATE TABLE `roleMembers` (
   `roleId` char(11) DEFAULT NULL,
   `userId` char(11) DEFAULT NULL,
   `dateAdded` datetime DEFAULT NULL,
-  `addedBy` char(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+  `addedBy` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId_INDEX` (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

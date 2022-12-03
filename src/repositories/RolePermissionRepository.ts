@@ -43,10 +43,10 @@ export class RolePermissionRepository {
       + " INNER JOIN rolePermissions rp on (rp.roleId=r.id or (rp.roleId IS NULL AND rp.churchId=rm.churchId))"
       + " LEFT JOIN churches c on c.id=r.churchId"
       + " LEFT JOIN userChurches uc on uc.churchId=r.churchId AND uc.userId = rm.userId"
-      + " LEFT JOIN people p on p.churchId=uc.churchId AND p.id = uc.personId"
+      + " LEFT JOIN people p on p.id = uc.personId AND p.churchId=uc.churchId"
       + " WHERE rm.userId=?"
-      + " GROUP BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action"
-      + " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action";
+      + " GROUP BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId, p.membershipStatus, c.archivedDate"
+      + " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId, p.membershipStatus, c.archivedDate";
     const data = await DB.query(query, [userId]);
 
     const result: LoginUserChurch[] = [];

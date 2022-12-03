@@ -353,7 +353,7 @@ export class PersonController extends MembershipBaseController {
   }
 
   private async isMember(membershipStatus: string): Promise<boolean> {
-    //const person = await this.repositories.person.load(churchId, personId);
+    // const person = await this.repositories.person.load(churchId, personId);
     if (membershipStatus === "Member" || membershipStatus === "Staff") return true;
     return false;
   }

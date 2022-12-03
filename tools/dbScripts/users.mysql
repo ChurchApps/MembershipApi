@@ -12,5 +12,6 @@ CREATE TABLE `users` (
   `lastName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  KEY `authGuid_INDEX` (`authGuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

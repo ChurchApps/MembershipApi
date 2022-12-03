@@ -52,6 +52,7 @@ export class UserController extends MembershipBaseController {
 
   @httpPost("/login")
   public async login(req: express.Request<{}, {}, LoginRequest>, res: express.Response): Promise<any> {
+    const start = new Date();
     try {
       let user: User = null;
       if (req.body.jwt !== undefined && req.body.jwt !== "") {
@@ -73,7 +74,6 @@ export class UserController extends MembershipBaseController {
       if (user === null) return this.denyAccess(["Login failed"]);
       else {
         const userChurches = await this.getUserChurches(user.id);
-        // TODO: APPEND LOGOS
 
         const churchesOnly: Church[] = [];
         userChurches.forEach(uc => churchesOnly.push(uc.church));
@@ -86,7 +86,7 @@ export class UserController extends MembershipBaseController {
         if (result === null) return this.denyAccess(["No permissions"]);
         else {
           user.lastLogin = new Date();
-          await this.repositories.user.save(user);
+          this.repositories.user.save(user);
           return this.json(result, 200);
         }
       }
@@ -98,11 +98,13 @@ export class UserController extends MembershipBaseController {
 
   private async getUserChurches(id: string): Promise<LoginUserChurch[]> {
 
+    const start = new Date();
     // Load user churches via Roles
     const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true)  // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
 
     // Load churches via userChurches relationships
     const userChurches: LoginUserChurch[] = await this.repositories.church.loadForUser(id);
+
     userChurches.forEach(uc => {
       if (!ArrayHelper.getOne(roleUserChurches, "id", uc.church.id)) roleUserChurches.push(uc);
     });
