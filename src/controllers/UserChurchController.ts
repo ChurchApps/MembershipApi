@@ -9,30 +9,6 @@ import { Environment } from "../helpers";
 @controller("/userchurch")
 export class UserChurchController extends MembershipBaseController {
 
-  @httpPost("/claim")
-  public async claim(req: express.Request<{}, {}, { encodedPerson: string }, null>, res: express.Response): Promise<any> {
-    return this.actionWrapper(req, res, async ({ id, churchId }) => {
-      const decoded: any = jwt.verify(req.body.encodedPerson, Environment.jwtSecret);
-      const userChurch: UserChurch = {
-        userId: id,
-        churchId,
-        personId: decoded.id
-      }
-
-      const existing = await this.repositories.userChurch.loadByUserId(id, churchId);
-      if (!existing) {
-        const result = await this.repositories.userChurch.save(userChurch);
-        return this.repositories.userChurch.convertToModel(result);
-      } else {
-        if (existing.personId !== decoded.id) {
-          existing.personId = decoded.id;
-          await this.repositories.userChurch.save(existing);
-        }
-        return existing;
-      }
-    })
-  }
-
   @httpPatch("/:userId")
   public async update(@requestParam("userId") userId: string, req: express.Request, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async () => {

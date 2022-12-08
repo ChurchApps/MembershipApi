@@ -43,7 +43,7 @@ export class ChurchRepository {
     const result: LoginUserChurch[] = [];
     rows.forEach((row: any) => {
       const apis: Api[] = [];
-      const addChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain }, person: { id: row.personId, membershipStatus: row.membershipStatus }, apis };
+      const addChurch = { church: { id: row.id, name: row.churchName, subDomain: row.subDomain }, person: { id: row.personId, membershipStatus: row.membershipStatus }, apis };
       result.push(addChurch);
     });
     return result;

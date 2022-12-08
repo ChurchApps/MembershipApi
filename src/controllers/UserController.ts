@@ -106,7 +106,7 @@ export class UserController extends MembershipBaseController {
     const userChurches: LoginUserChurch[] = await this.repositories.church.loadForUser(id);
 
     userChurches.forEach(uc => {
-      if (!ArrayHelper.getOne(roleUserChurches, "id", uc.church.id)) roleUserChurches.push(uc);
+      if (!ArrayHelper.getOne(roleUserChurches, "church.id", uc.church.id)) roleUserChurches.push(uc);
     });
 
     const peopleIds: string[] = [];

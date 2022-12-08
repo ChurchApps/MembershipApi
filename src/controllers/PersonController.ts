@@ -1,7 +1,7 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
-import { Person, Household, SearchCondition } from "../models"
+import { Person, Household, SearchCondition, UserChurch } from "../models"
 import { FormSubmission, Form } from "../apiBase/models"
 import { ArrayHelper, DateTimeHelper, Environment, FileHelper, PersonHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
@@ -50,10 +50,26 @@ export class PersonController extends MembershipBaseController {
           person = await this.getPerson(churchId, au.email, au.firstName, au.lastName, au.checkAccess(Permissions.people.edit));
         }
 
-        return {
-          person,
-          encodedPerson: jwt.sign(person, Environment.jwtSecret, { expiresIn: "1 day" })
+        const userChurch: UserChurch = {
+          userId: au.id,
+          churchId,
+          personId: person.id
         }
+
+        const existing = await this.repositories.userChurch.loadByUserId(au.id, churchId);
+        if (!existing) {
+          const result = await this.repositories.userChurch.save(userChurch);
+          return this.repositories.userChurch.convertToModel(result);
+        } else {
+          if (existing.personId !== person.id) {
+            existing.personId = person.id;
+            await this.repositories.userChurch.save(existing);
+          }
+          return existing;
+        }
+
+        return person;
+
       }
     });
   }
