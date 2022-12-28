@@ -12,15 +12,15 @@ export class GroupRepository {
 
   private async create(group: Group) {
     group.id = UniqueIdHelper.shortId();
-    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, removed) VALUES (?, ?, ?, ?, ?, ?, 0);";
-    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup];
+    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, about, photoUrl, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ? 0);";
+    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.about, group.photoUrl];
     await DB.query(sql, params);
     return group;
   }
 
   private async update(group: Group) {
-    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=? WHERE id=? and churchId=?";
-    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.id, group.churchId];
+    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=?, about=?, photoUrl=? WHERE id=? and churchId=?";
+    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.about, group.photoUrl, group.id, group.churchId];
     await DB.query(sql, params);
     return group;
   }

@@ -7,6 +7,8 @@ CREATE TABLE `groups` (
   `name` varchar(50) DEFAULT NULL,
   `trackAttendance` bit(1) DEFAULT NULL,
   `parentPickup` bit(1) DEFAULT NULL,
+  `about` text DEFAULT NULL,
+  `photoUrl` varchar(255) DEFAULT NULL,
   `removed` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`)
