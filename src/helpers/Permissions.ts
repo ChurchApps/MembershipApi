@@ -80,13 +80,14 @@ export const permissionsList: IPermission[] = [
   { apiName: "MembershipApi", section: "People", action: "Edit Self", displaySection: "People", displayAction: "Edit Self" },
   { apiName: "MembershipApi", section: "People", action: "View Members", displaySection: "People", displayAction: "View Members Only" },
   { apiName: "MembershipApi", section: "People", action: "View", displaySection: "People", displayAction: "View People" },
-  { apiName: "StreamingLiveApi", section: "Links", action: "Edit", displaySection: "StreamingLive", displayAction: "Edit Links" },
-  { apiName: "StreamingLiveApi", section: "Pages", action: "Edit", displaySection: "StreamingLive", displayAction: "Edit Pages" },
-  { apiName: "StreamingLiveApi", section: "Services", action: "Edit", displaySection: "StreamingLive", displayAction: "Edit Services" },
-  { apiName: "StreamingLiveApi", section: "Settings", action: "Edit", displaySection: "StreamingLive", displayAction: "Edit Settings" },
-  { apiName: "StreamingLiveApi", section: "Tabs", action: "Edit", displaySection: "StreamingLive", displayAction: "Edit Tabs" },
-  { apiName: "StreamingLiveApi", section: "Chat", action: "Host", displaySection: "StreamingLive", displayAction: "Host Chat" },
-  { apiName: "ContentApi", section: "Links", action: "Edit", displaySection: "Website", displayAction: "Edit Links" }
+  { apiName: "StreamingLiveApi", section: "Links", action: "Edit", displaySection: "Content", displayAction: "Edit Links" },
+  { apiName: "StreamingLiveApi", section: "Pages", action: "Edit", displaySection: "Content", displayAction: "Edit Pages" },
+  { apiName: "StreamingLiveApi", section: "Services", action: "Edit", displaySection: "Content", displayAction: "Edit Services" },
+  { apiName: "StreamingLiveApi", section: "Settings", action: "Edit", displaySection: "Content", displayAction: "Edit Settings" },
+  { apiName: "StreamingLiveApi", section: "Tabs", action: "Edit", displaySection: "Content", displayAction: "Edit Tabs" },
+  { apiName: "StreamingLiveApi", section: "Chat", action: "Host", displaySection: "Content", displayAction: "Host Chat" },
+  { apiName: "ContentApi", section: "Links", action: "Edit", displaySection: "Content", displayAction: "Edit Links" },
+  { apiName: "ContentApi", section: "Content", action: "Edit", displaySection: "Content", displayAction: "Edit Content" }
 ]
 
 interface IPermission {
@@ -119,7 +120,7 @@ export type DisplaySection =
   | "Attendance"
   | "Lessons"
   | "Forms"
-  | "Website";
+  | "Content";
 
 export type ContentType =
   | "Roles"
@@ -140,6 +141,7 @@ export type ContentType =
   | "Donations"
   | "Attendance"
   | "Chat"
-  | "Schedules";
+  | "Schedules"
+  | "Content";
 
 export type Actions = "Admin" | "Edit" | "View" | "Edit Self" | "View Members" | "View Summary" | "Checkin" | "Host";

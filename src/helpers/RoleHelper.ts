@@ -136,7 +136,8 @@ export class RoleHelper {
 
   private async createWebsiteAdminRole() {
     const roleId: string = await this.createRole("Website Admins", [
-      { apiName: "ContentApi", contentType: "Links", action: "Edit" }
+      { apiName: "ContentApi", contentType: "Links", action: "Edit" },
+      { apiName: "ContentApi", contentType: "Content", action: "Edit" }
     ])
 
     await this.createRoleMember(roleId)
