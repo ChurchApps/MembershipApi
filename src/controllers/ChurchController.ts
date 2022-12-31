@@ -1,10 +1,10 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
-import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest, UserChurch, LoginUserChurch } from "../models";
+import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest, UserChurch, LoginUserChurch, Group } from "../models";
 import express from "express";
 import { body, validationResult } from "express-validator";
 import { AuthenticatedUser } from '../auth';
 import { MembershipBaseController } from "./MembershipBaseController"
-import { Utils, Permissions, ChurchHelper, RoleHelper, Environment, HubspotHelper, GeoHelper } from "../helpers";
+import { Utils, Permissions, ChurchHelper, RoleHelper, Environment, HubspotHelper, GeoHelper, PersonHelper } from "../helpers";
 import { Repositories } from "../repositories";
 import { ArrayHelper, EmailHelper } from "../apiBase";
 import NodeGeocoder from "node-geocoder";
@@ -349,7 +349,7 @@ export class ChurchController extends MembershipBaseController {
         const selectedChurch: Church = await this.repositories.church.loadBySubDomain(req.body.subDomain);
         churchId = selectedChurch.id;
       }
-      const userChurch = await this.fetchChurchPermissions(au.id, churchId)
+      const userChurch = await this.fetchChurchPermissions(au, churchId)
       const user = await this.repositories.user.load(au.id);
 
       const data = await AuthenticatedUser.login([userChurch], user);
@@ -357,11 +357,23 @@ export class ChurchController extends MembershipBaseController {
     })
   }
 
-  private async fetchChurchPermissions(userId: string, churchId: string): Promise<LoginUserChurch> {
-    // church includes user role permission and everyone permission.
-    const userChurch = await this.repositories.rolePermission.loadUserPermissionInChurch(userId, churchId);
+  private async appendPersonInfo(userChurch: LoginUserChurch, au: AuthenticatedUser, churchId: string) {
+    const uc = await PersonHelper.claim(au, churchId)
+    const p = await Repositories.getCurrent().person.load(uc.churchId, uc.personId);
+    const groups: Group[] = await this.repositories.group.loadForPerson(uc.personId);
+    userChurch.person = { id: p.id, membershipStatus: p.membershipStatus }
+    userChurch.groups = [];
+    groups.forEach(g => userChurch.groups.push({ id: g.id, name: g.name }));
+  }
 
-    if (userChurch) return userChurch;
+  private async fetchChurchPermissions(au: AuthenticatedUser, churchId: string): Promise<LoginUserChurch> {
+    // church includes user role permission and everyone permission.
+    const userChurch = await this.repositories.rolePermission.loadUserPermissionInChurch(au.id, churchId);
+
+    if (userChurch) {
+      await this.appendPersonInfo(userChurch, au, churchId);
+      return userChurch;
+    }
 
     const everyonePermission = await this.repositories.rolePermission.loadForEveryone(churchId);
     let result: LoginUserChurch = null;
@@ -386,7 +398,7 @@ export class ChurchController extends MembershipBaseController {
       result = { church: { id: church.id, subDomain: church.subDomain, name: church.name }, person: {}, apis: [] };
     }
 
-
+    await this.appendPersonInfo(userChurch, au, churchId);
     return result;
   }
 
