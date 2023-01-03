@@ -398,7 +398,7 @@ export class ChurchController extends MembershipBaseController {
       result = { church: { id: church.id, subDomain: church.subDomain, name: church.name }, person: {}, apis: [] };
     }
 
-    await this.appendPersonInfo(userChurch, au, churchId);
+    await this.appendPersonInfo(result, au, churchId);
     return result;
   }
 
