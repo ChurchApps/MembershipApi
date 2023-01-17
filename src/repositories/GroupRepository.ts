@@ -12,7 +12,7 @@ export class GroupRepository {
 
   private async create(group: Group) {
     group.id = UniqueIdHelper.shortId();
-    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, about, photoUrl, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ? 0);";
+    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, about, photoUrl, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0);";
     const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.about, group.photoUrl];
     await DB.query(sql, params);
     return group;
