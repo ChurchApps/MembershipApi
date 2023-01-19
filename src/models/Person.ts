@@ -19,6 +19,7 @@ export class Person {
   public importKey?: string;
   public removed?: boolean;
   public conversationId?: string;
+  public optedOut?: boolean;
 
   public formSubmissions?: FormSubmission[];
 }

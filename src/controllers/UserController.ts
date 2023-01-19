@@ -318,6 +318,12 @@ export class UserController extends MembershipBaseController {
     });
   }
 
+  @httpPost("/updateOptedOut")
+  public async updateOptedOut(req: express.Request<{}, {}, {personId: string, optedOut: boolean }>, res: express.Response): Promise<any> {
+    this.repositories.person.updateOptedOut(req.body.personId, req.body.optedOut);
+    return this.json({}, 200);
+  }
+
   @httpPost("/updatePassword", body("newPassword").isLength({ min: 6 }).withMessage("must be at least 6 chars long"))
   public async updatePassword(req: express.Request<{}, {}, { newPassword: string }>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
