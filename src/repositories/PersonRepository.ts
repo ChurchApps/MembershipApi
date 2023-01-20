@@ -86,17 +86,19 @@ export class PersonRepository {
     return DB.query("SELECT * FROM people WHERE churchId=? AND removed=0;", [churchId]);
   }
 
-  public loadRecent(churchId: string) {
-    return DB.query("SELECT * FROM (SELECT * FROM people WHERE churchId=? AND removed=0 order by id desc limit 25) people ORDER BY lastName, firstName;", [churchId]);
+  public loadRecent(churchId: string, filterOptedOut?: boolean) {
+    const filter = filterOptedOut ? " AND (optedOut = FALSE OR optedOut IS NULL)" : "";
+    return DB.query("SELECT * FROM (SELECT * FROM people WHERE churchId=? AND removed=0" + filter + " order by id desc limit 25) people ORDER BY lastName, firstName;", [churchId]);
   }
 
   public loadByHousehold(churchId: string, householdId: string) {
     return DB.query("SELECT * FROM people WHERE churchId=? and householdId=? AND removed=0;", [churchId, householdId]);
   }
 
-  public search(churchId: string, term: string) {
+  public search(churchId: string, term: string, filterOptedOut?: boolean) {
+    const filter = filterOptedOut ? " AND (optedOut = FALSE OR optedOut IS NULL)" : "";
     return DB.query(
-      "SELECT * FROM people WHERE churchId=? AND concat(IFNULL(FirstName,''), ' ', IFNULL(MiddleName,''), ' ', IFNULL(NickName,''), ' ', IFNULL(LastName,'')) LIKE ? AND removed=0 LIMIT 100;",
+      "SELECT * FROM people WHERE churchId=? AND concat(IFNULL(FirstName,''), ' ', IFNULL(MiddleName,''), ' ', IFNULL(NickName,''), ' ', IFNULL(LastName,'')) LIKE ? AND removed=0" + filter + " LIMIT 100;",
       [churchId, "%" + term.replace(" ", "%") + "%"]
     );
   }
