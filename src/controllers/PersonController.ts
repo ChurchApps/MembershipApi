@@ -23,7 +23,7 @@ export class PersonController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.people.view) && !await this.isMember(au.membershipStatus)) return this.json({}, 401);
       else {
-        const filterOptedOut = au.membershipStatus === "Guest" ? true : false;
+        const filterOptedOut = au.checkAccess(Permissions.server.admin) ? false : true;
         const data = await this.repositories.person.loadRecent(au.churchId, filterOptedOut);
         const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
@@ -127,7 +127,7 @@ export class PersonController extends MembershipBaseController {
         else {
           let term: string = req.query.term.toString();
           if (term === null) term = "";
-          const filterOptedOut = au.membershipStatus === "Guest" ? true : false;
+          const filterOptedOut = au.checkAccess(Permissions.server.admin) ? false : true;
           data = await this.repositories.person.search(au.churchId, term, filterOptedOut);
         }
         const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
