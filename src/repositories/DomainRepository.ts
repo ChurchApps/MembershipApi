@@ -41,6 +41,10 @@ export class DomainRepository {
     return DB.query("SELECT * FROM `domains` WHERE churchId=? ORDER by domainName;", [churchId]);
   }
 
+  public loadPairs() {
+    return DB.query("select d.domainName as host, concat(c.subDomain, '.staging.b1.church:443') as dial from domains d inner join churches c on c.id=d.churchId;", []);
+  }
+
   public loadByIds(churchId: string, ids: string[]) {
     const sql = "SELECT * FROM `domains` WHERE churchId=? AND id IN (" + ids.join(",") + ") ORDER by name";
     return DB.query(sql, [churchId]);

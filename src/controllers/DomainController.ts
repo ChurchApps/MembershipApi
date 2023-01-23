@@ -3,6 +3,7 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Domain } from "../models"
 import { Permissions } from '../helpers/Permissions'
+import { CaddyHelper } from "../helpers";
 
 @controller("/domains")
 export class DomainController extends MembershipBaseController {
@@ -36,6 +37,7 @@ export class DomainController extends MembershipBaseController {
         const promises: Promise<Domain>[] = [];
         req.body.forEach(domain => { domain.churchId = au.churchId; promises.push(this.repositories.domain.save(domain)); });
         const result = await Promise.all(promises);
+        await CaddyHelper.updateCaddy();
         return result;
       }
     });
