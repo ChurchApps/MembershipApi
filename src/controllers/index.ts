@@ -10,6 +10,7 @@ export { QuestionController } from "./QuestionController";
 export { AnswerController } from "./AnswerController";
 
 export { ChurchController } from "./ChurchController";
+export { DomainController } from "./DomainController";
 export { PermissionController } from "./PermissionController";
 export { RoleController } from "./RoleController";
 export { RoleMemberController } from "./RoleMemberController";

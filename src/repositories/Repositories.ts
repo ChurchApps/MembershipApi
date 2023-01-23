@@ -8,6 +8,7 @@ import {
   FormSubmissionRepository,
   QuestionRepository,
   MemberPermissionRepository,
+  DomainRepository,
 } from ".";
 import { UserRepository, ChurchRepository, RoleRepository, RoleMemberRepository, RolePermissionRepository, UserChurchRepository, AccessLogRepository } from ".";
 
@@ -24,6 +25,7 @@ export class Repositories {
 
   public accessLog: AccessLogRepository;
   public church: ChurchRepository;
+  public domain: DomainRepository;
   public role: RoleRepository;
   public roleMember: RoleMemberRepository;
   public rolePermission: RolePermissionRepository;
@@ -49,6 +51,7 @@ export class Repositories {
 
     this.accessLog = new AccessLogRepository();
     this.church = new ChurchRepository();
+    this.domain = new DomainRepository();
     this.role = new RoleRepository();
     this.roleMember = new RoleMemberRepository();
     this.rolePermission = new RolePermissionRepository();

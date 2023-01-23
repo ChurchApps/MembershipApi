@@ -12,6 +12,7 @@ export { Api } from "./Api";
 export { Church } from "./Church";
 export { User } from "./User";
 export { Campus } from "./Campus";
+export { Domain } from "./Domain";
 export { Role } from "./Role"
 export { RoleMember } from "./RoleMember"
 export { RolePermission } from "./RolePermission";
