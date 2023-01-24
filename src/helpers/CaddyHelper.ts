@@ -1,4 +1,5 @@
 import { Repositories } from "../repositories";
+import axios from "axios";
 
 export interface HostDial { host: string, dial: string }
 
@@ -7,19 +8,12 @@ export class CaddyHelper {
   static async updateCaddy() {
     if (process.env.CADDY_HOST && process.env.CADDY_PORT) {
       const adminUrl = "https://" + process.env.CADDY_HOST + ":" + process.env.CADDY_PORT + "/load";
-      const json = await this.generateJson();
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: json
-      };
-      // console.log(adminUrl);
-      // console.log(json);
-      await fetch(adminUrl, requestOptions);
+      const jsonData = await this.generateJsonData();
+      await axios.post(adminUrl, jsonData)
     }
   }
 
-  static async generateJson() {
+  static async generateJsonData() {
     const hostDials: HostDial[] = await Repositories.getCurrent().domain.loadPairs();
     const routes: any[] = [];
     hostDials.forEach(hd => { routes.push(this.getRoute(hd.host, hd.dial, true)) });
@@ -40,7 +34,7 @@ export class CaddyHelper {
         }
       }
     }
-    return JSON.stringify(result);
+    return result;
   }
 
   private static getRoute(host: string, dial: string, useHttps: boolean) {
