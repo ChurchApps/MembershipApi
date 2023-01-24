@@ -11,6 +11,7 @@ export { Repositories } from "./Repositories";
 
 export { AccessLogRepository } from "./AccessLogRepository";
 export { ChurchRepository } from "./ChurchRepository";
+export { DomainRepository } from "./DomainRepository";
 export { RoleRepository } from "./RoleRepository";
 export { RoleMemberRepository } from "./RoleMemberRepository";
 export { RolePermissionRepository } from "./RolePermissionRepository";

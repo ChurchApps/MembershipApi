@@ -1,6 +1,7 @@
 export * from '../apiBase/helpers/Interfaces'
 export { UniqueIdHelper, EmailHelper, DateTimeHelper, MySqlHelper, FileHelper, ArrayHelper } from "../apiBase/helpers";
 
+export { CaddyHelper } from "./CaddyHelper";
 export { ChurchHelper } from "./ChurchHelper";
 export { Environment } from "./Environment";
 export { GeoHelper } from "./GeoHelper";
