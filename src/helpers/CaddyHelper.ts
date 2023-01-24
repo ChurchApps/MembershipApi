@@ -13,8 +13,8 @@ export class CaddyHelper {
         headers: { "Content-Type": "application/json" },
         body: json
       };
-      //console.log(adminUrl);
-      //console.log(json);
+      // console.log(adminUrl);
+      // console.log(json);
       await fetch(adminUrl, requestOptions);
     }
   }
