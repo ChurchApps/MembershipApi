@@ -29,6 +29,7 @@ CREATE TABLE `people` (
   `householdRole` varchar(10),
   `removed` bit(1) DEFAULT NULL,
   `conversationId` char(11) DEFAULT NULL,
+  `optedOut` bit(1) DEFAULT NULL,
 
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`),
