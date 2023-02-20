@@ -36,6 +36,11 @@ export class RolePermissionRepository {
     return DB.query(sql, params);
   }
 
+  public async deleteForUser(userId: string) {
+    const query = "DELETE rm, rp, uc FROM rolemembers rm INNER JOIN roles r on r.id=rm.roleId INNER JOIN rolePermissions rp on (rp.roleId=r.id or (rp.roleId IS NULL AND rp.churchId=rm.churchId)) LEFT JOIN userChurches uc on uc.churchId=r.churchId AND uc.userId = rm.userId WHERE rm.userId=?"
+    return DB.query(query, [userId])
+  }
+
   public async loadForUser(userId: string, removeUniversal: boolean): Promise<LoginUserChurch[]> {
     const query = "SELECT c.name AS churchName, r.churchId, c.subDomain, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId AS personId, p.membershipStatus, c.archivedDate"
       + " FROM roleMembers rm"
