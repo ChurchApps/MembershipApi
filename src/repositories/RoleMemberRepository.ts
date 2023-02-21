@@ -41,4 +41,9 @@ export class RoleMemberRepository {
         return DB.query(sql, params);
     }
 
+    public deleteUser(userId: string) {
+      const query = "DELETE FROM roleMembers WHERE userId=?"
+      return DB.query(query, [userId])
+    }
+
 }

@@ -1,4 +1,4 @@
-import { controller, httpGet, httpPost } from "inversify-express-utils";
+import { controller, httpDelete, httpPost, interfaces } from "inversify-express-utils";
 import express from "express";
 import bcrypt from "bcryptjs";
 import { body, oneOf, validationResult } from "express-validator";
@@ -341,6 +341,15 @@ export class UserController extends MembershipBaseController {
       user.password = null;
       return this.json(user, 200);
     });
+  }
+
+  @httpDelete("/")
+  public async Delete(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      await this.repositories.user.delete(au.id);
+      await this.repositories.userChurch.delete(au.id);
+      await this.repositories.roleMember.deleteUser(au.id);
+    })
   }
 
 }

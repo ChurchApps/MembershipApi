@@ -46,6 +46,10 @@ export class UserRepository {
     return DB.query("SELECT * FROM users WHERE id IN (?)", [ids]);
   }
 
+  public delete(id: string) {
+    return DB.query("DELETE FROM users WHERE id=?", [id])
+  }
+
   public async loadCount() {
     const data = await DB.queryOne("SELECT COUNT(*) as count FROM users", []);
     return parseInt(data.count, 0);
