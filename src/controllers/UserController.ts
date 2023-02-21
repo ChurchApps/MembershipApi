@@ -347,7 +347,8 @@ export class UserController extends MembershipBaseController {
   public async Delete(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       await this.repositories.user.delete(au.id);
-      await this.repositories.rolePermission.deleteForUser(au.id);
+      await this.repositories.userChurch.delete(au.id);
+      await this.repositories.roleMember.deleteUser(au.id);
     })
   }
 

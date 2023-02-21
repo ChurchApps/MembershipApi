@@ -25,6 +25,11 @@ export class UserChurchRepository {
         return userChurch;
     }
 
+    public delete(userId: string) {
+      const query = "DELETE FROM userChurches WHERE userId=?"
+      return DB.query(query, [userId])
+    }
+
     public loadByUserId(userId: string, churchId: string) {
         const sql = "SELECT * FROM userChurches WHERE userId=? AND churchId=?";
         const params = [userId, churchId];
