@@ -61,9 +61,6 @@ export const permissionsList: IPermission[] = [
   { apiName: "AttendanceApi", section: "Settings", action: "Edit", displaySection: "Attendance", displayAction: "Edit Settings" },
   { apiName: "AttendanceApi", section: "Attendance", action: "View", displaySection: "Attendance", displayAction: "View Attendance" },
   { apiName: "AttendanceApi", section: "Attendance", action: "View Summary", displaySection: "Attendance", displayAction: "View Attendance Summary" },
-  { apiName: "B1Api", section: "Links", action: "Edit", displaySection: "B1", displayAction: "Edit Links" },
-  { apiName: "B1Api", section: "Pages", action: "Edit", displaySection: "B1", displayAction: "Edit Pages" },
-  { apiName: "B1Api", section: "Settings", action: "Edit", displaySection: "B1", displayAction: "Edit Settings" },
   { apiName: "GivingApi", section: "Donations", action: "Edit", displaySection: "Donations", displayAction: "Edit Donations" },
   { apiName: "GivingApi", section: "Settings", action: "Edit", displaySection: "Donations", displayAction: "Edit Settings" },
   { apiName: "GivingApi", section: "Donations", action: "View Summary", displaySection: "Donations", displayAction: "View Donation Summaries" },
@@ -80,14 +77,12 @@ export const permissionsList: IPermission[] = [
   { apiName: "MembershipApi", section: "People", action: "Edit Self", displaySection: "People", displayAction: "Edit Self" },
   { apiName: "MembershipApi", section: "People", action: "View Members", displaySection: "People", displayAction: "View Members Only" },
   { apiName: "MembershipApi", section: "People", action: "View", displaySection: "People", displayAction: "View People" },
-  { apiName: "StreamingLiveApi", section: "Links", action: "Edit", displaySection: "Content", displayAction: "Edit Links" },
-  { apiName: "StreamingLiveApi", section: "Pages", action: "Edit", displaySection: "Content", displayAction: "Edit Pages" },
-  { apiName: "StreamingLiveApi", section: "Services", action: "Edit", displaySection: "Content", displayAction: "Edit Services" },
-  { apiName: "StreamingLiveApi", section: "Settings", action: "Edit", displaySection: "Content", displayAction: "Edit Settings" },
-  { apiName: "StreamingLiveApi", section: "Tabs", action: "Edit", displaySection: "Content", displayAction: "Edit Tabs" },
-  { apiName: "StreamingLiveApi", section: "Chat", action: "Host", displaySection: "Content", displayAction: "Host Chat" },
   { apiName: "ContentApi", section: "Links", action: "Edit", displaySection: "Content", displayAction: "Edit Links" },
   { apiName: "ContentApi", section: "Content", action: "Edit", displaySection: "Content", displayAction: "Edit Content" }
+  { apiName: "ContentApi", section: "Pages", action: "Edit", displaySection: "Content", displayAction: "Edit Pages" },
+  { apiName: "ContentApi", section: "Settings", action: "Edit", displaySection: "Content", displayAction: "Edit Settings" }
+  { apiName: "ContentApi", section: "Services", action: "Edit", displaySection: "Content", displayAction: "Edit Services" },
+  { apiName: "ContentApi", section: "Chat", action: "Host", displaySection: "Content", displayAction: "Host Chat" },
 ]
 
 interface IPermission {
@@ -100,8 +95,6 @@ interface IPermission {
 
 export type ApiName =
   | "MembershipApi"
-  | "StreamingLiveApi"
-  | "B1Api"
   | "MembershipApi"
   | "GivingApi"
   | "AttendanceApi"
@@ -112,7 +105,6 @@ export type ApiName =
 export type DisplaySection =
   | "Access"
   | "Global"
-  | "StreamingLive"
   | "B1"
   | "People"
   | "Groups"

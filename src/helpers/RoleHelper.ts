@@ -15,8 +15,7 @@ export class RoleHelper {
     await this.createChumsRole()
     await this.createB1Role()
     await this.createLessonsRole()
-    await this.createStreamingliveRole()
-    await this.createStreamingliveHostRole()
+    await this.createStreamingHostRole()
     await this.createWebsiteAdminRole()
   }
 
@@ -113,9 +112,13 @@ export class RoleHelper {
       { apiName: "AttendanceApi", contentType: "Settings", action: "Edit" },
       { apiName: "AttendanceApi", contentType: "Attendance", action: "View" },
       { apiName: "AttendanceApi", contentType: "Attendance", action: "View Summary" },
-      { apiName: "B1Api", contentType: "Links", action: "Edit" },
-      { apiName: "B1Api", contentType: "Pages", action: "Edit" },
-      { apiName: "B1Api", contentType: "Settings", action: "Edit" },
+      { apiName: "ContentApi", contentType: "Links", action: "Edit" },
+      { apiName: "ContentApi", contentType: "Pages", action: "Edit" },
+      { apiName: "ContentApi", contentType: "Settings", action: "Edit" },
+      { apiName: "ContentApi", contentType: "Settings", action: "Edit" },
+      { apiName: "ContentApi", contentType: "Chat", action: "Host" },
+      { apiName: "ContentApi", contentType: "Services", action: "Edit" },
+      { apiName: "ContentApi", contentType: "Settings", action: "Edit" },
       { apiName: "GivingApi", contentType: "Donations", action: "Edit" },
       { apiName: "GivingApi", contentType: "Settings", action: "Edit" },
       { apiName: "GivingApi", contentType: "Donations", action: "View Summary" },
@@ -143,22 +146,10 @@ export class RoleHelper {
     await this.createRoleMember(roleId)
   }
 
-  private async createStreamingliveRole() {
-    const roleId: string = await this.createRole("StreamingLive Admins", [
-      { apiName: "StreamingLiveApi", contentType: "Chat", action: "Host" },
-      { apiName: "StreamingLiveApi", contentType: "Links", action: "Edit" },
-      { apiName: "StreamingLiveApi", contentType: "Pages", action: "Edit" },
-      { apiName: "StreamingLiveApi", contentType: "Services", action: "Edit" },
-      { apiName: "StreamingLiveApi", contentType: "Settings", action: "Edit" },
-      { apiName: "StreamingLiveApi", contentType: "Tabs", action: "Edit" }
-    ])
 
-    await this.createRoleMember(roleId)
-  }
-
-  private async createStreamingliveHostRole() {
-    const roleId: string = await this.createRole("StreamingLive Hosts", [
-      { apiName: "StreamingLiveApi", contentType: "Chat", action: "Host" }
+  private async createStreamingHostRole() {
+    const roleId: string = await this.createRole("Streaming Hosts", [
+      { apiName: "ContentApi", contentType: "Chat", action: "Host" }
     ])
 
     await this.createRoleMember(roleId)
