@@ -78,9 +78,9 @@ export const permissionsList: IPermission[] = [
   { apiName: "MembershipApi", section: "People", action: "View Members", displaySection: "People", displayAction: "View Members Only" },
   { apiName: "MembershipApi", section: "People", action: "View", displaySection: "People", displayAction: "View People" },
   { apiName: "ContentApi", section: "Links", action: "Edit", displaySection: "Content", displayAction: "Edit Links" },
-  { apiName: "ContentApi", section: "Content", action: "Edit", displaySection: "Content", displayAction: "Edit Content" }
+  { apiName: "ContentApi", section: "Content", action: "Edit", displaySection: "Content", displayAction: "Edit Content" },
   { apiName: "ContentApi", section: "Pages", action: "Edit", displaySection: "Content", displayAction: "Edit Pages" },
-  { apiName: "ContentApi", section: "Settings", action: "Edit", displaySection: "Content", displayAction: "Edit Settings" }
+  { apiName: "ContentApi", section: "Settings", action: "Edit", displaySection: "Content", displayAction: "Edit Settings" },
   { apiName: "ContentApi", section: "Services", action: "Edit", displaySection: "Content", displayAction: "Edit Services" },
   { apiName: "ContentApi", section: "Chat", action: "Host", displaySection: "Content", displayAction: "Host Chat" },
 ]
