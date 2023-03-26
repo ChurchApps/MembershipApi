@@ -81,7 +81,7 @@ export const permissionsList: IPermission[] = [
   { apiName: "ContentApi", section: "Content", action: "Edit", displaySection: "Content", displayAction: "Edit Content" },
   { apiName: "ContentApi", section: "Pages", action: "Edit", displaySection: "Content", displayAction: "Edit Pages" },
   { apiName: "ContentApi", section: "Settings", action: "Edit", displaySection: "Content", displayAction: "Edit Settings" },
-  { apiName: "ContentApi", section: "Services", action: "Edit", displaySection: "Content", displayAction: "Edit Services" },
+  { apiName: "ContentApi", section: "StreamingServices", action: "Edit", displaySection: "Content", displayAction: "Edit Services" },
   { apiName: "ContentApi", section: "Chat", action: "Host", displaySection: "Content", displayAction: "Host Chat" },
 ]
 
@@ -123,6 +123,7 @@ export type ContentType =
   | "Links"
   | "Pages"
   | "Services"
+  | "StreamingServices"
   | "Tabs"
   | "Settings"
   | "Forms"
