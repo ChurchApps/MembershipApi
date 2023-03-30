@@ -17,13 +17,13 @@ export class PersonRepository {
     const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
     const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
     const photoUpdated = DateTimeHelper.toMysqlDate(person.photoUpdated);
-    const sql = "INSERT INTO people (id, churchId, displayName, firstName, middleName, lastName, nickName, prefix, suffix, birthDate, gender, maritalStatus, anniversary, membershipStatus, homePhone, mobilePhone, workPhone, email, address1, address2, city, state, zip, photoUpdated, householdId, householdRole, conversationId, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+    const sql = "INSERT INTO people (id, churchId, displayName, firstName, middleName, lastName, nickName, prefix, suffix, birthDate, gender, maritalStatus, anniversary, membershipStatus, homePhone, mobilePhone, workPhone, email, nametagNotes, address1, address2, city, state, zip, photoUpdated, householdId, householdRole, conversationId, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
     const params = [
       person.id,
       person.churchId,
       person.name.display, person.name.first, person.name.middle, person.name.last, person.name.nick, person.name.prefix, person.name.suffix,
       birthDate, person.gender, person.maritalStatus, anniversary, person.membershipStatus,
-      person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
+      person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.nametagNotes, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
       photoUpdated, person.householdId, person.householdRole, person.conversationId
     ];
     await DB.query(sql, params);
@@ -43,11 +43,11 @@ export class PersonRepository {
     const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
     const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
     const photoUpdated = DateTimeHelper.toMysqlDate(person.photoUpdated);
-    const sql = "UPDATE people SET displayName=?, firstName=?, middleName=?, lastName=?, nickName=?, prefix=?, suffix=?, birthDate=?, gender=?, maritalStatus=?, anniversary=?, membershipStatus=?, homePhone=?, mobilePhone=?, workPhone=?, email=?, address1=?, address2=?, city=?, state=?, zip=?, photoUpdated=?, householdId=?, householdRole=?, conversationId=? WHERE id=? and churchId=?";
+    const sql = "UPDATE people SET displayName=?, firstName=?, middleName=?, lastName=?, nickName=?, prefix=?, suffix=?, birthDate=?, gender=?, maritalStatus=?, anniversary=?, membershipStatus=?, homePhone=?, mobilePhone=?, workPhone=?, email=?, nametagNotes=?, address1=?, address2=?, city=?, state=?, zip=?, photoUpdated=?, householdId=?, householdRole=?, conversationId=? WHERE id=? and churchId=?";
     const params = [
       person.name.display, person.name.first, person.name.middle, person.name.last, person.name.nick, person.name.prefix, person.name.suffix,
       birthDate, person.gender, person.maritalStatus, anniversary, person.membershipStatus,
-      person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
+      person.contactInfo.homePhone, person.contactInfo.mobilePhone, person.contactInfo.workPhone, person.contactInfo.email, person.nametagNotes, person.contactInfo.address1, person.contactInfo.address2, person.contactInfo.city, person.contactInfo.state, person.contactInfo.zip,
       photoUpdated, person.householdId, person.householdRole, person.conversationId, person.id, person.churchId
     ];
     await DB.query(sql, params);
@@ -145,7 +145,7 @@ export class PersonRepository {
     const result: Person = {
       name: { display: data.displayName, first: data.firstName, last: data.lastName, middle: data.middleName, nick: data.nickName, prefix: data.prefix, suffix: data.suffix },
       contactInfo: { address1: data.address1, address2: data.address2, city: data.city, state: data.state, zip: data.zip, homePhone: data.homePhone, workPhone: data.workPhone, email: data.email, mobilePhone: data.mobilePhone },
-      photo: data.photo, anniversary: data.anniversary, birthDate: data.birthDate, gender: data.gender, householdId: data.householdId, householdRole: data.householdRole, maritalStatus: data.maritalStatus,
+      photo: data.photo, anniversary: data.anniversary, birthDate: data.birthDate, gender: data.gender, householdId: data.householdId, householdRole: data.householdRole, maritalStatus: data.maritalStatus, nametagNotes: data.nametagNotes,
       membershipStatus: data.membershipStatus, photoUpdated: data.photoUpdated, id: data.id, importKey: data.importKey, optedOut: data.optedOut
     }
     if (canEdit) result.conversationId = data.conversationId;

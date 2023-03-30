@@ -20,6 +20,6 @@ export class Person {
   public removed?: boolean;
   public conversationId?: string;
   public optedOut?: boolean;
-
+  public nametagNotes?: string;
   public formSubmissions?: FormSubmission[];
 }
