@@ -115,7 +115,7 @@ export class UserController extends MembershipBaseController {
     roleUserChurches.forEach(uc => {
       const groups = ArrayHelper.getAll(allGroups, "personId", uc.person.id);
       uc.groups = [];
-      groups.forEach(g => uc.groups.push({ id: g.id, name: g.name }));
+      groups.forEach(g => uc.groups.push({ id: g.id, name: g.name, leader: g.leader }));
     });
 
     return roleUserChurches;

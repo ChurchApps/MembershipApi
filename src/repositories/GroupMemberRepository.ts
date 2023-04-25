@@ -13,15 +13,15 @@ export class GroupMemberRepository {
 
   private async create(groupMember: GroupMember) {
     groupMember.id = UniqueIdHelper.shortId();
-    const sql = "INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate) VALUES (?, ?, ?, ?, NOW());";
-    const params = [groupMember.id, groupMember.churchId, groupMember.groupId, groupMember.personId];
+    const sql = "INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate, leader) VALUES (?, ?, ?, ?, NOW(), leader);";
+    const params = [groupMember.id, groupMember.churchId, groupMember.groupId, groupMember.personId, groupMember.leader];
     await DB.query(sql, params);
     return groupMember;
   }
 
   private async update(groupMember: GroupMember) {
-    const sql = "UPDATE groupMembers SET  groupId=?, personId=? WHERE id=? and churchId=?";
-    const params = [groupMember.groupId, groupMember.personId, groupMember.id, groupMember.churchId];
+    const sql = "UPDATE groupMembers SET  groupId=?, personId=?, leader=? WHERE id=? and churchId=?";
+    const params = [groupMember.groupId, groupMember.personId, groupMember.leader, groupMember.id, groupMember.churchId];
     await DB.query(sql, params);
     return groupMember;
   }
@@ -43,7 +43,7 @@ export class GroupMemberRepository {
       + " FROM groupMembers gm"
       + " INNER JOIN people p on p.id=gm.personId"
       + " WHERE gm.churchId=? AND gm.groupId=?"
-      + " ORDER BY p.lastName, p.firstName;"
+      + " ORDER BY gm.leader desc, p.lastName, p.firstName;"
     return DB.query(sql, [churchId, groupId]);
   }
 
@@ -66,7 +66,7 @@ export class GroupMemberRepository {
 
 
   public convertToModel(churchId: string, data: any) {
-    const result: GroupMember = { id: data.id, groupId: data.groupId, personId: data.personId, joinDate: data.joinDate }
+    const result: GroupMember = { id: data.id, groupId: data.groupId, personId: data.personId, joinDate: data.joinDate, leader: data.leader }
     if (data.displayName !== undefined) {
       result.person = { id: result.personId, photoUpdated: data.photoUpdated, name: { display: data.displayName }, contactInfo: { email: data.email } };
       result.person.photo = PersonHelper.getPhotoUrl(churchId, result.person);

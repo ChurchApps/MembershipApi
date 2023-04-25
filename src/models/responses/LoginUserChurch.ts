@@ -8,5 +8,5 @@ export class LoginUserChurch {
   public church: Church;
   public apis: Api[];
   public jwt?: string;
-  public groups?: { id: string, name: string }[];
+  public groups?: { id: string, name: string, leader:boolean }[];
 }

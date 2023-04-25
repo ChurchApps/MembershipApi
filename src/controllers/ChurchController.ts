@@ -363,7 +363,7 @@ export class ChurchController extends MembershipBaseController {
     const groups: Group[] = await this.repositories.group.loadForPerson(uc.personId);
     userChurch.person = { id: p.id, membershipStatus: p.membershipStatus }
     userChurch.groups = [];
-    groups.forEach(g => userChurch.groups.push({ id: g.id, name: g.name }));
+    groups.forEach(g => userChurch.groups.push({ id: g.id, name: g.name, leader: false }));
   }
 
   private async fetchChurchPermissions(au: AuthenticatedUser, churchId: string): Promise<LoginUserChurch> {
