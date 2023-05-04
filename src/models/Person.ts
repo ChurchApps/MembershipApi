@@ -22,4 +22,5 @@ export class Person {
   public optedOut?: boolean;
   public nametagNotes?: string;
   public formSubmissions?: FormSubmission[];
+  public email?: string;
 }

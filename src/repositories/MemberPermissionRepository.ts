@@ -41,6 +41,10 @@ export class MemberPermissionRepository {
         return DB.query("SELECT * FROM memberPermissions WHERE churchId=?;", [churchId]);
     }
 
+    public loadByEmailAccess(churchId: string, emailAccess: boolean) {
+        return DB.query("SELECT * FROM memberPermissions WHERE churchId=? AND emailAccess=?;", [churchId, emailAccess])
+    }
+
     public loadPeopleByForm(churchId: string, formId: string) {
         const sql = "SELECT mp.*, p.displayName as personName"
             + " FROM memberPermissions mp"

@@ -2,7 +2,8 @@ import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } f
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
 import { FormSubmission, Answer } from "../apiBase/models";
-import { Permissions } from "../helpers";
+import { Permissions, EmailHelper, Environment } from "../helpers";
+import { MemberPermission, Person } from "../models";
 
 @controller("/formsubmissions")
 export class FormSubmissionController extends MembershipBaseController {
@@ -55,7 +56,8 @@ export class FormSubmissionController extends MembershipBaseController {
   public async save(req: express.Request<{}, {}, FormSubmission[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       const formId = req.body[0]?.formId;
-      const churchId = au.churchId;
+      const churchId = req.body[0]?.churchId;
+      const formName = req.body[0]?.formName;
       const form = this.repositories.form.convertToModel(churchId, await this.repositories.form.access(formId));
       if (form.restricted && !this.formAccess(au, formId)) return this.json([], 401);
       else {
@@ -75,6 +77,27 @@ export class FormSubmissionController extends MembershipBaseController {
           }
         }
         if (answerPromises.length > 0) await Promise.all(answerPromises);
+        //Send email to form members that have access
+        const memberPermissions = await this.repositories.memberPermission.loadByEmailAccess(churchId, true);
+        const people = await this.repositories.person.loadAnon();
+        const contentRows: any[] = [];
+        result[0].questions.forEach((q) => {
+          result[0].answers.forEach((a) => {
+            if (q.id === a.questionId) {
+              contentRows.push(
+                `<tr><th style="font-size: 16px" width="30%">` + q.title + `</th><td style="font-size: 15px">` + a.value + `</td></tr>`
+              )
+            }
+          })
+        })
+        const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
+        memberPermissions.forEach((mp: MemberPermission) => {
+          people.forEach((p: Person) => {
+            if (mp.memberId === p.id) {
+              return EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + formName, contents)
+            }
+          })
+        })
         return this.repositories.formSubmission.convertAllToModel(churchId, result);
       }
     });
