@@ -46,7 +46,7 @@ export class MemberPermissionRepository {
             + " FROM memberPermissions mp"
             + " INNER JOIN `people` p on p.id=mp.memberId"
             + " WHERE mp.churchId=? AND mp.contentId=?"
-            + " ORDER BY mp.action, mp.emailAccess desc;"
+            + " ORDER BY mp.action, mp.emailNotification desc;"
         return DB.query(sql, [churchId, formId]);
     }
 
