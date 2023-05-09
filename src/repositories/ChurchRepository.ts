@@ -18,7 +18,8 @@ export class ChurchRepository {
     const params = ["%" + name.replace(" ", "%") + "%"];
     if (!includeArchived) query += "AND archivedDate IS NULL";
     query += " ORDER BY name";
-    query += " LIMIT 50"
+    if (name) query += " LIMIT 50";
+    else query += " LIMIT 10";
     return DB.query(query, params).then((rows: Church[]) => { return rows; });
   }
 
