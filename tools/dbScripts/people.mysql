@@ -30,6 +30,7 @@ CREATE TABLE `people` (
   `removed` bit(1) DEFAULT NULL,
   `conversationId` char(11) DEFAULT NULL,
   `optedOut` bit(1) DEFAULT NULL,
+  `nametagNotes` varchar(50) DEFAULT NULL,
 
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`),
