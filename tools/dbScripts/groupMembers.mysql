@@ -10,5 +10,5 @@ CREATE TABLE `groupMembers` (
   KEY `churchId` (`churchId`),
   KEY `groupId` (`groupId`),
   KEY `personId` (`personId`),
-  `leader` bit(1) DEFAULT NULL,
+  `leader` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
