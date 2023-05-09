@@ -77,8 +77,8 @@ export class FormSubmissionController extends MembershipBaseController {
           }
         }
         if (answerPromises.length > 0) await Promise.all(answerPromises);
-        //Send email to form members that have access
-        const memberPermissions = await this.repositories.memberPermission.loadByEmailAccess(churchId, true);
+        //Send email to form members that have emailNotification set to true
+        const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
         const people = await this.repositories.person.loadAnon();
         const contentRows: any[] = [];
         result[0].questions.forEach((q) => {
