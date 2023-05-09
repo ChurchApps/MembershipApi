@@ -7,5 +7,5 @@ export class MemberPermission {
 	public action?: string;
 	public personName?: string;
 	public formName?: string;
-	public emailAccess?: boolean;
+	public emailNotification?: boolean;
     }

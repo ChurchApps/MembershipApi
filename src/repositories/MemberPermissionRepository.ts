@@ -12,15 +12,15 @@ export class MemberPermissionRepository {
 
     private async create(memberPermission: MemberPermission) {
         memberPermission.id = UniqueIdHelper.shortId();
-        const sql = "INSERT INTO memberPermissions (id, churchId, memberId, contentType, contentId, action, emailAccess) VALUES (?, ?, ?, ?, ?, ?, ?);";
-        const params = [memberPermission.id, memberPermission.churchId, memberPermission.memberId, memberPermission.contentType, memberPermission.contentId, memberPermission.action, memberPermission.emailAccess];
+        const sql = "INSERT INTO memberPermissions (id, churchId, memberId, contentType, contentId, action, emailNotification) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        const params = [memberPermission.id, memberPermission.churchId, memberPermission.memberId, memberPermission.contentType, memberPermission.contentId, memberPermission.action, memberPermission.emailNotification];
         await DB.query(sql, params);
         return memberPermission;
     }
 
     private async update(memberPermission: MemberPermission) {
-        const sql = "UPDATE memberPermissions SET memberId=?, contentType=?, contentId=?, action=?, emailAccess=? WHERE id=? and churchId=?";
-        const params = [memberPermission.memberId, memberPermission.contentType, memberPermission.contentId, memberPermission.action, memberPermission.emailAccess, memberPermission.id, memberPermission.churchId];
+        const sql = "UPDATE memberPermissions SET memberId=?, contentType=?, contentId=?, action=?, emailNotification=? WHERE id=? and churchId=?";
+        const params = [memberPermission.memberId, memberPermission.contentType, memberPermission.contentId, memberPermission.action, memberPermission.emailNotification, memberPermission.id, memberPermission.churchId];
         await DB.query(sql, params);
         return memberPermission;
     }
@@ -46,12 +46,12 @@ export class MemberPermissionRepository {
             + " FROM memberPermissions mp"
             + " INNER JOIN `people` p on p.id=mp.memberId"
             + " WHERE mp.churchId=? AND mp.contentId=?"
-            + " ORDER BY mp.emailAccess desc, mp.action;"
+            + " ORDER BY mp.action, mp.emailAccess desc;"
         return DB.query(sql, [churchId, formId]);
     }
 
     public convertToModel(churchId: string, data: any) {
-        const result: MemberPermission = { id: data.id, churchId, memberId: data.memberId, contentType: data.contentType, contentId: data.contentId, action: data.action, personName: data.personName, emailAccess: data.emailAccess };
+        const result: MemberPermission = { id: data.id, churchId, memberId: data.memberId, contentType: data.contentType, contentId: data.contentId, action: data.action, personName: data.personName, emailNotification: data.emailNotification };
         return result;
     }
 
