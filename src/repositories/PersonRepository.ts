@@ -115,10 +115,6 @@ export class PersonRepository {
     return DB.query("SELECT * FROM people WHERE churchId=? AND email like ? AND removed=0 LIMIT 100;", [churchId, "%" + email + "%"]);
   }
 
-  public loadAnon() {
-    return DB.query("SELECT * FROM people WHERE removed=0;", [])
-  }
-
   public loadAttendees(churchId: string, campusId: string, serviceId: string, serviceTimeId: string, categoryName: string, groupId: string, startDate: Date, endDate: Date) {
     const params = [];
     params.push(churchId);

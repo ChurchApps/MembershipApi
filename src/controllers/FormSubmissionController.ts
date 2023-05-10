@@ -77,9 +77,11 @@ export class FormSubmissionController extends MembershipBaseController {
           }
         }
         if (answerPromises.length > 0) await Promise.all(answerPromises);
-        //Send email to form members that have emailNotification set to true
+        // Send email to form members that have emailNotification set to true
         const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
-        const people = await this.repositories.person.loadAnon();
+        const Ids: string[] = [];
+        memberPermissions.forEach((mp: MemberPermission) => Ids.push(mp.memberId));
+        const people = await this.repositories.person.loadByIds(churchId, Ids);
         const contentRows: any[] = [];
         result[0].questions.forEach((q) => {
           result[0].answers.forEach((a) => {
@@ -91,12 +93,8 @@ export class FormSubmissionController extends MembershipBaseController {
           })
         })
         const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
-        memberPermissions.forEach((mp: MemberPermission) => {
-          people.forEach((p: Person) => {
-            if (mp.memberId === p.id) {
-              return EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + formName, contents)
-            }
-          })
+        people.forEach((p: Person) => {
+          return EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + formName, contents)
         })
         return this.repositories.formSubmission.convertAllToModel(churchId, result);
       }
