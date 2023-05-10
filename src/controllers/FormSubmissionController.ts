@@ -58,6 +58,7 @@ export class FormSubmissionController extends MembershipBaseController {
       const formId = req.body[0]?.formId;
       const churchId = req.body[0]?.churchId;
       const formName = req.body[0]?.formName;
+      const sendEmail = req.body[0]?.sendEmail;
       const form = this.repositories.form.convertToModel(churchId, await this.repositories.form.access(formId));
       if (form.restricted && !this.formAccess(au, formId)) return this.json([], 401);
       else {
@@ -78,24 +79,30 @@ export class FormSubmissionController extends MembershipBaseController {
         }
         if (answerPromises.length > 0) await Promise.all(answerPromises);
         // Send email to form members that have emailNotification set to true
-        const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
-        const Ids: string[] = [];
-        memberPermissions.forEach((mp: MemberPermission) => Ids.push(mp.memberId));
-        const people = await this.repositories.person.loadByIds(churchId, Ids);
-        const contentRows: any[] = [];
-        result[0].questions.forEach((q) => {
-          result[0].answers.forEach((a) => {
-            if (q.id === a.questionId) {
-              contentRows.push(
-                `<tr><th style="font-size: 16px" width="30%">` + q.title + `</th><td style="font-size: 15px">` + a.value + `</td></tr>`
-              )
-            }
-          })
-        })
-        const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
-        people.forEach((p: Person) => {
-          return EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + formName, contents)
-        })
+        if (sendEmail === true) {
+          const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
+          if (memberPermissions.length > 0) {
+            const Ids: string[] = [];
+            memberPermissions.forEach((mp: MemberPermission) => Ids.push(mp.memberId));
+            const people = await this.repositories.person.loadByIds(churchId, Ids);
+            const contentRows: any[] = [];
+            result.forEach((r) => {
+              r.questions.forEach((q) => {
+                r.answers.forEach((a) => {
+                  if (q.id === a.questionId) {
+                    contentRows.push(
+                      `<tr><th style="font-size: 16px" width="30%">` + q.title + `</th><td style="font-size: 15px">` + a.value + `</td></tr>`
+                    )
+                  }
+                })
+              })
+            })
+            const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
+            people.forEach((p: Person) => {
+              return EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + formName, contents)
+            })
+          }
+        }
         return this.repositories.formSubmission.convertAllToModel(churchId, result);
       }
     });
