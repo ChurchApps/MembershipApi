@@ -52,7 +52,6 @@ export class FormSubmissionController extends MembershipBaseController {
     });
   }
 
-  // TODO: UPDATE EVERY CALL FOR FORM_SUBMISSIONS API. FIX THE BODY
   @httpPost("/")
   public async save(req: express.Request<{}, {}, { formSubmissions: FormSubmission[], sendEmail?: boolean }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
