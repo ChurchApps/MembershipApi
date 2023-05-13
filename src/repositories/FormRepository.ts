@@ -87,7 +87,7 @@ export class FormRepository {
     }
 
     public access(id: string) {
-        return DB.queryOne("SELECT id, restricted FROM forms WHERE id=? AND removed=0 AND archived=0;", [id]);
+        return DB.queryOne("SELECT id, name, restricted FROM forms WHERE id=? AND removed=0 AND archived=0;", [id]);
     }
 
     public convertToModel(churchId: string, data: any) {

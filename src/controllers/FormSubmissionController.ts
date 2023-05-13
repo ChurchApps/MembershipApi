@@ -52,61 +52,71 @@ export class FormSubmissionController extends MembershipBaseController {
     });
   }
 
+  // TODO: UPDATE EVERY CALL FOR FORM_SUBMISSIONS API. FIX THE BODY
   @httpPost("/")
-  public async save(req: express.Request<{}, {}, FormSubmission[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async save(req: express.Request<{}, {}, { formSubmissions: FormSubmission[], sendEmail?: boolean }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      const formId = req.body[0]?.formId;
-      const churchId = req.body[0]?.churchId;
-      const formName = req.body[0]?.formName;
-      const sendEmail = req.body[0]?.sendEmail;
-      const form = this.repositories.form.convertToModel(churchId, await this.repositories.form.access(formId));
-      if (form.restricted && !this.formAccess(au, formId)) return this.json([], 401);
-      else {
-        const promises: Promise<FormSubmission>[] = [];
-        req.body.forEach(formsubmission => { formsubmission.churchId = churchId; promises.push(this.repositories.formSubmission.save(formsubmission)); });
-        const result = await Promise.all(promises);
 
-        const answerPromises: Promise<Answer>[] = []
-        for (let i = 0; i < req.body.length; i++) {
-          const answers = req.body[i].answers;
-          if (answers !== undefined && answers !== null) {
-            answers.forEach((a: Answer) => {
-              a.formSubmissionId = result[i].id;
-              a.churchId = churchId;
-              answerPromises.push(this.repositories.answer.save(a));
-            });
-          }
-        }
-        if (answerPromises.length > 0) await Promise.all(answerPromises);
-        // Send email to form members that have emailNotification set to true
-        if (sendEmail === true) {
-          const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
-          if (memberPermissions.length > 0) {
-            const Ids: string[] = [];
-            memberPermissions.forEach((mp: MemberPermission) => Ids.push(mp.memberId));
-            const people = await this.repositories.person.loadByIds(churchId, Ids);
-            const contentRows: any[] = [];
-            result.forEach((r) => {
-              r.questions.forEach((q) => {
-                r.answers.forEach((a) => {
-                  if (q.id === a.questionId) {
-                    contentRows.push(
-                      `<tr><th style="font-size: 16px" width="30%">` + q.title + `</th><td style="font-size: 15px">` + a.value + `</td></tr>`
-                    )
+      if (req.body?.formSubmissions?.length > 0) {
+        const results: any[] = [];
+        for (const formSubmission of req.body.formSubmissions) {
+          const { formId, churchId } = formSubmission;
+          const formAccess = await this.repositories.form.access(formId);
+          const form = formAccess && this.repositories.form.convertToModel(churchId, formAccess);
+
+          if (!form) {
+            results.push({ error: `Form with id ${formId} not found` });
+          } else if (form.restricted && !this.formAccess(au, formId)) {
+            results.push({ error: `You're not allowed to submit ${form.name}` });
+          } else {
+            const savedSubmissions = await this.repositories.formSubmission.save(formSubmission);
+
+            const answerPromises: Promise<Answer>[] = [];
+            formSubmission?.answers?.forEach(answer => {
+              answerPromises.push(this.repositories.answer.save(answer));
+            })
+            if (answerPromises.length > 0) {
+              await Promise.all(answerPromises);
+            }
+
+            results.push(savedSubmissions);
+
+            // send email to form members that have emailNotification set to true
+            if (req.body.sendEmail === true) {
+              const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
+              if (memberPermissions?.length > 0) {
+                const ids = memberPermissions.map((mp: MemberPermission) => mp.memberId);
+                if (ids?.length > 0) {
+                  const people = await this.repositories.person.loadByIds(formSubmission.churchId, ids);
+                  if (people?.length > 0) {
+                    const contentRows: any[] = [];
+                    formSubmission.questions.forEach(q => {
+                      formSubmission.answers.forEach(a => {
+                        if (q.id === a.questionId) {
+                          contentRows.push(
+                            `<tr><th style="font-size: 16px" width="30%">` + q.title + `</th><td style="font-size: 15px">` + a.value + `</td></tr>`
+                          )
+                        }
+                      })
+                    })
+
+                    const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
+                    people.forEach((p: Person) => {
+                      EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + form.name, contents);
+                    })
                   }
-                })
-              })
-            })
-            const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
-            people.forEach((p: Person) => {
-              return EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + formName, contents)
-            })
+                }
+              }
+            }
           }
         }
-        return this.repositories.formSubmission.convertAllToModel(churchId, result);
+
+        return results;
       }
-    });
-  }
+
+      return { error: "Please check body. formsubmissions is required" }
+    })
+  };
 
   @httpDelete("/:id")
   public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
