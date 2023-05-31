@@ -1,7 +1,7 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
-import { FormSubmission, Answer } from "../apiBase/models";
+import { FormSubmission, Answer, Form } from "../apiBase/models";
 import { Permissions, EmailHelper, Environment } from "../helpers";
 import { MemberPermission, Person } from "../models";
 
@@ -53,12 +53,12 @@ export class FormSubmissionController extends MembershipBaseController {
   }
 
   @httpPost("/")
-  public async save(req: express.Request<{}, {}, { formSubmissions: FormSubmission[], sendEmail?: boolean }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async save(req: express.Request<{}, {}, FormSubmission[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
 
-      if (req.body?.formSubmissions?.length > 0) {
+      if (req.body?.length > 0) {
         const results: any[] = [];
-        for (const formSubmission of req.body.formSubmissions) {
+        for (const formSubmission of req.body) {
           const { formId, churchId } = formSubmission;
           const formAccess = await this.repositories.form.access(formId);
           const form = formAccess && this.repositories.form.convertToModel(churchId, formAccess);
@@ -80,42 +80,48 @@ export class FormSubmissionController extends MembershipBaseController {
 
             results.push(savedSubmissions);
 
-            // send email to form members that have emailNotification set to true
-            if (req.body.sendEmail === true) {
-              const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
-              if (memberPermissions?.length > 0) {
-                const ids = memberPermissions.map((mp: MemberPermission) => mp.memberId);
-                if (ids?.length > 0) {
-                  const people = await this.repositories.person.loadByIds(formSubmission.churchId, ids);
-                  if (people?.length > 0) {
-                    const contentRows: any[] = [];
-                    formSubmission.questions.forEach(q => {
-                      formSubmission.answers.forEach(a => {
-                        if (q.id === a.questionId) {
-                          contentRows.push(
-                            `<tr><th style="font-size: 16px" width="30%">` + q.title + `</th><td style="font-size: 15px">` + a.value + `</td></tr>`
-                          )
-                        }
-                      })
-                    })
+            await this.sendEmails(formSubmission, form, churchId);
 
-                    const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
-                    people.forEach((p: Person) => {
-                      EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + form.name, contents);
-                    })
-                  }
-                }
-              }
-            }
           }
         }
 
         return results;
       }
 
-      return { error: "Please check body. formsubmissions is required" }
+      // return { error: "Please check body. formsubmissions is required" }
     })
   };
+
+  private async sendEmails(formSubmission: FormSubmission, form:Form, churchId: string) {
+    // send email to form members that have emailNotification set to true
+    const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
+    if (memberPermissions?.length > 0) {
+      const ids = memberPermissions.map((mp: MemberPermission) => mp.memberId);
+      if (ids?.length > 0) {
+        const people = await this.repositories.person.loadByIds(formSubmission.churchId, ids);
+        if (people?.length > 0) {
+          const contentRows: any[] = [];
+          formSubmission.questions.forEach(q => {
+            formSubmission.answers.forEach(a => {
+              if (q.id === a.questionId) {
+                contentRows.push(
+                  `<tr><th style="font-size: 16px" width="30%">` + q.title + `</th><td style="font-size: 15px">` + a.value + `</td></tr>`
+                )
+              }
+            })
+          })
+
+          const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
+          const promises: Promise<any>[] = [];
+          people.forEach((p: Person) => {
+            promises.push(EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + form.name, contents));
+          })
+          await Promise.all(promises);
+        }
+      }
+    }
+
+  }
 
   @httpDelete("/:id")
   public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
