@@ -22,6 +22,13 @@ export class DomainController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/public/lookup/:domainName")
+  public async getPublicByName(@requestParam("domainName") domainName: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapperAnon(req, res, async () => {
+      return await this.repositories.domain.loadByName(domainName) ?? [];
+    })
+  }
+
   @httpGet("/")
   public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
