@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS `churches`;
+DROP TABLE IF EXISTS `domains`;
 
 CREATE TABLE `domains` (
   `id` char(11) NOT NULL,
