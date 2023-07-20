@@ -46,9 +46,10 @@ export class GroupRepository {
     return DB.query(sql, [personId]);
   }
 
-  public loadByIds(churchId: string, ids: string[]) {
-    const sql = "SELECT * FROM `groups` WHERE churchId=? AND removed=0 AND id IN (" + ids.join(",") + ") ORDER by name";
-    return DB.query(sql, [churchId]);
+  public async loadByIds(churchId: string, ids: string[]) {
+    const sql = "SELECT * FROM `groups` WHERE churchId=? AND id IN (?) ORDER by name";
+    const result = await DB.query(sql, [churchId, ids]);
+    return result;
   }
 
   public search(churchId: string, campusId: string, serviceId: string, serviceTimeId: string) {

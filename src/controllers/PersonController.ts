@@ -1,15 +1,29 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
-import { Person, Household, SearchCondition, UserChurch } from "../models"
+import { Person, Household, SearchCondition, UserChurch, Group } from "../models"
 import { FormSubmission, Form } from "../apiBase/models"
 import { ArrayHelper, DateTimeHelper, Environment, FileHelper, PersonHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
 import { AuthenticatedUser } from "../apiBase/auth";
-import jwt from "jsonwebtoken";
 
 @controller("/people")
 export class PersonController extends MembershipBaseController {
+
+  @httpGet("/timeline")
+  public async timeline(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      const result: {people: Person[], groups: Group[]} = {people: [], groups: []};
+      const peopleIds: string[] = (req.query.personIds) ? req.query.personIds.toString().split(",") : [];
+      const groupIds: string[] = (req.query.groupIds) ? req.query.groupIds.toString().split(",") : [];
+      if (peopleIds.length > 0) {
+        const tmpPeople = await this.repositories.person.loadByIds(au.churchId, peopleIds);
+        result.people = this.repositories.person.convertAllToModel(au.churchId, tmpPeople, au.checkAccess(Permissions.people.edit));
+      }
+      if (groupIds.length > 0) result.groups = await this.repositories.group.loadByIds(au.churchId, groupIds);
+      return result;
+    });
+  }
 
   @httpGet("/claim/:churchId")
   public async claim(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {

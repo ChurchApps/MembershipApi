@@ -74,8 +74,7 @@ export class PersonRepository {
   }
 
   public loadByIds(churchId: string, ids: string[]) {
-    const quotedAndCommaSeparated = ids.length === 0 ? "" : "'" + ids.join("','") + "'";
-    return DB.query("SELECT * FROM people WHERE id IN (" + quotedAndCommaSeparated + ") AND churchId=?;", [churchId]);
+    return DB.query("SELECT * FROM people WHERE id IN (?) AND churchId=?;", [ids, churchId]);
   }
 
   public loadMembers(churchId: string) {
