@@ -59,7 +59,10 @@ export class FormSubmissionController extends MembershipBaseController {
       if (req.body?.length > 0) {
         const results: any[] = [];
         for (const formSubmission of req.body) {
-          const { formId, churchId } = formSubmission;
+          const { formId } = formSubmission;
+          let { churchId } = formSubmission;
+
+          if (!churchId && au) churchId = au.churchId;
           const formAccess = await this.repositories.form.access(formId);
           const form = formAccess && this.repositories.form.convertToModel(churchId, formAccess);
 
@@ -68,10 +71,13 @@ export class FormSubmissionController extends MembershipBaseController {
           } else if (form.restricted && !this.formAccess(au, formId)) {
             results.push({ error: `You're not allowed to submit ${form.name}` });
           } else {
+            formSubmission.churchId = churchId;
             const savedSubmissions = await this.repositories.formSubmission.save(formSubmission);
 
             const answerPromises: Promise<Answer>[] = [];
             formSubmission?.answers?.forEach(answer => {
+              if (!answer.churchId) answer.churchId = churchId;
+              answer.formSubmissionId = savedSubmissions.id;
               answerPromises.push(this.repositories.answer.save(answer));
             })
             if (answerPromises.length > 0) {
