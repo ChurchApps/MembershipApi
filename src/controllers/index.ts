@@ -17,3 +17,5 @@ export { RoleMemberController } from "./RoleMemberController";
 export { RolePermissionController } from "./RolePermissionController";
 export { UserController } from "./UserController";
 export { UserChurchController } from "./UserChurchController";
+
+export { SettingController } from "./SettingController";

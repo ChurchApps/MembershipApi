@@ -1,5 +1,5 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
-import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest, UserChurch, LoginUserChurch, Group } from "../models";
+import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest, LoginUserChurch, Group } from "../models";
 import express from "express";
 import { body, validationResult } from "express-validator";
 import { AuthenticatedUser } from '../auth';
@@ -7,7 +7,6 @@ import { MembershipBaseController } from "./MembershipBaseController"
 import { Utils, Permissions, ChurchHelper, RoleHelper, Environment, HubspotHelper, GeoHelper, PersonHelper } from "../helpers";
 import { Repositories } from "../repositories";
 import { ArrayHelper, EmailHelper } from "../apiBase";
-import NodeGeocoder from "node-geocoder";
 
 const churchRegisterValidation = [
   body("name").notEmpty().withMessage("Select a church name"),
@@ -331,7 +330,7 @@ export class ChurchController extends MembershipBaseController {
 
   private async appendLogos(churches: Church[]) {
     const ids = ArrayHelper.getIds(churches, "id");
-    const settings = await this.baseRepositories.setting.loadMulipleChurches(["logoSquare"], ids);
+    const settings = await this.repositories.setting.loadMulipleChurches(["logoSquare"], ids);
     settings.forEach((s: any) => {
       const church = ArrayHelper.getOne(churches, "id", s.churchId);
       if (church.settings === undefined) church.settings = [];

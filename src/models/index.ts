@@ -25,3 +25,4 @@ export { File } from '../apiBase/models/File';
 export { Form } from "./Form";
 export { FormSubmission } from "./FormSubmission";
 export { Question } from "./Question";
+export { Setting } from "./Setting";
