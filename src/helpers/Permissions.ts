@@ -36,9 +36,6 @@ export class Permissions extends BasePermissions {
 
 // ORDER BY apiName, displaySection, displayAction. so before adding new item please maintain order
 export const permissionsList: IPermission[] = [
-  { apiName: "MembershipApi", section: "Roles", action: "Edit", displaySection: "Access", displayAction: "Edit Roles" },
-  { apiName: "MembershipApi", section: "Roles", action: "View", displaySection: "Access", displayAction: "View Roles" },
-  { apiName: "MembershipApi", section: "Settings", action: "Edit", displaySection: "Global", displayAction: "Edit Church Settings" },
   { apiName: "AttendanceApi", section: "Attendance", action: "Checkin", displaySection: "Attendance", displayAction: "Checkin" },
   { apiName: "AttendanceApi", section: "Attendance", action: "Edit", displaySection: "Attendance", displayAction: "Edit Attendance" },
   { apiName: "AttendanceApi", section: "Services", action: "Edit", displaySection: "Attendance", displayAction: "Edit Services" },
@@ -48,18 +45,20 @@ export const permissionsList: IPermission[] = [
   { apiName: "GivingApi", section: "Settings", action: "Edit", displaySection: "Donations", displayAction: "Edit Settings" },
   { apiName: "GivingApi", section: "Donations", action: "View Summary", displaySection: "Donations", displayAction: "View Donation Summaries" },
   { apiName: "GivingApi", section: "Donations", action: "View", displaySection: "Donations", displayAction: "View Donations" },
-  { apiName: "GivingApi", section: "Settings", action: "View", displaySection: "Donations", displayAction: "View Settings" },
   { apiName: "LessonsApi", section: "Schedules", action: "Edit", displaySection: "Lessons", displayAction: "Edit Schedules" },
   { apiName: "MembershipApi", section: "Forms", action: "Admin", displaySection: "Forms", displayAction: "Form Admin" },
   { apiName: "MembershipApi", section: "Forms", action: "Edit", displaySection: "Forms", displayAction: "Edit Forms" },
-  { apiName: "MembershipApi", section: "Group Members", action: "Edit", displaySection: "Groups", displayAction: "Edit Group Members" },
-  { apiName: "MembershipApi", section: "Groups", action: "Edit", displaySection: "Groups", displayAction: "Edit Groups" },
-  { apiName: "MembershipApi", section: "Group Members", action: "View", displaySection: "Groups", displayAction: "View Group Members" },
-  { apiName: "MembershipApi", section: "Households", action: "Edit", displaySection: "People", displayAction: "Edit Households" },
-  { apiName: "MembershipApi", section: "People", action: "Edit", displaySection: "People", displayAction: "Edit People" },
-  { apiName: "MembershipApi", section: "People", action: "Edit Self", displaySection: "People", displayAction: "Edit Self" },
-  { apiName: "MembershipApi", section: "People", action: "View Members", displaySection: "People", displayAction: "View Members Only" },
-  { apiName: "MembershipApi", section: "People", action: "View", displaySection: "People", displayAction: "View People" },
+  { apiName: "MembershipApi", section: "Group Members", action: "Edit", displaySection: "People and Groups", displayAction: "Edit Group Members" },
+  { apiName: "MembershipApi", section: "Groups", action: "Edit", displaySection: "People and Groups", displayAction: "Edit Groups" },
+  { apiName: "MembershipApi", section: "Households", action: "Edit", displaySection: "People and Groups", displayAction: "Edit Households" },
+  { apiName: "MembershipApi", section: "People", action: "Edit", displaySection: "People and Groups", displayAction: "Edit People" },
+  { apiName: "MembershipApi", section: "People", action: "Edit Self", displaySection: "People and Groups", displayAction: "Edit Self" },
+  { apiName: "MembershipApi", section: "Roles", action: "Edit", displaySection: "People and Groups", displayAction: "Edit Roles and Users" },
+  { apiName: "MembershipApi", section: "Group Members", action: "View", displaySection: "People and Groups", displayAction: "View Group Members" },
+  { apiName: "MembershipApi", section: "People", action: "View Members", displaySection: "People and Groups", displayAction: "View Members Only" },
+  { apiName: "MembershipApi", section: "People", action: "View", displaySection: "People and Groups", displayAction: "View People" },
+  { apiName: "MembershipApi", section: "Roles", action: "View", displaySection: "People and Groups", displayAction: "View Roles and Users" },
+  { apiName: "MembershipApi", section: "Settings", action: "Edit", displaySection: "Content", displayAction: "Edit Church Settings" },
   { apiName: "ContentApi", section: "Content", action: "Edit", displaySection: "Content", displayAction: "Edit Content" },
   { apiName: "ContentApi", section: "Settings", action: "Edit", displaySection: "Content", displayAction: "Edit Settings" },
   { apiName: "ContentApi", section: "StreamingServices", action: "Edit", displaySection: "Content", displayAction: "Edit Services" },
@@ -84,11 +83,7 @@ export type ApiName =
   | "ContentApi";
 
 export type DisplaySection =
-  | "Access"
-  | "Global"
-  | "B1"
-  | "People"
-  | "Groups"
+  | "People and Groups"
   | "Donations"
   | "Attendance"
   | "Lessons"
