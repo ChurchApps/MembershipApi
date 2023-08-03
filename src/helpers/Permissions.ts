@@ -32,28 +32,12 @@ export class Permissions extends BasePermissions {
     edit: { contentType: "Roles", action: "Edit" },
     view: { contentType: "Roles", action: "View" },
   };
-
-  static roleMembers = {
-    view: { contentType: "RoleMembers", action: "View" },
-    edit: { contentType: "RoleMembers", action: "Edit" },
-  };
-
-  static rolePermissions = {
-    view: { contentType: "RolePermissions", action: "View" },
-    edit: { contentType: "RolePermissions", action: "Edit" },
-  };
 }
 
 // ORDER BY apiName, displaySection, displayAction. so before adding new item please maintain order
 export const permissionsList: IPermission[] = [
-  { apiName: "MembershipApi", section: "RoleMembers", action: "Edit", displaySection: "Access", displayAction: "Edit Role Members" },
-  { apiName: "MembershipApi", section: "RolePermissions", action: "Edit", displaySection: "Access", displayAction: "Edit Role Permissions" },
   { apiName: "MembershipApi", section: "Roles", action: "Edit", displaySection: "Access", displayAction: "Edit Roles" },
-  { apiName: "MembershipApi", section: "Users", action: "Edit", displaySection: "Access", displayAction: "Edit Users" },
-  { apiName: "MembershipApi", section: "RoleMembers", action: "View", displaySection: "Access", displayAction: "View Role Members" },
-  { apiName: "MembershipApi", section: "RolePermissions", action: "View", displaySection: "Access", displayAction: "View Role Permissions" },
   { apiName: "MembershipApi", section: "Roles", action: "View", displaySection: "Access", displayAction: "View Roles" },
-  { apiName: "MembershipApi", section: "Users", action: "View", displaySection: "Access", displayAction: "View Users" },
   { apiName: "MembershipApi", section: "Settings", action: "Edit", displaySection: "Global", displayAction: "Edit Church Settings" },
   { apiName: "AttendanceApi", section: "Attendance", action: "Checkin", displaySection: "Attendance", displayAction: "Checkin" },
   { apiName: "AttendanceApi", section: "Attendance", action: "Edit", displaySection: "Attendance", displayAction: "Edit Attendance" },
@@ -116,9 +100,6 @@ export type DisplaySection =
 
 export type ContentType =
   | "Roles"
-  | "RoleMembers"
-  | "RolePermissions"
-  | "Users"
   | "Settings"
   | "Links"
   | "Pages"

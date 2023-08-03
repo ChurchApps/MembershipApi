@@ -44,14 +44,8 @@ export class RoleHelper {
 
   private async createDomainAdminRole() {
     const roleId: string = await this.createRole("Domain Admins", [
-      { apiName: "MembershipApi", contentType: "Users", action: "View" },
-      { apiName: "MembershipApi", contentType: "Users", action: "Edit" },
       { apiName: "MembershipApi", contentType: "Roles", action: "View" },
       { apiName: "MembershipApi", contentType: "Roles", action: "Edit" },
-      { apiName: "MembershipApi", contentType: "RoleMembers", action: "View" },
-      { apiName: "MembershipApi", contentType: "RoleMembers", action: "Edit" },
-      { apiName: "MembershipApi", contentType: "RolePermissions", action: "View" },
-      { apiName: "MembershipApi", contentType: "RolePermissions", action: "Edit" },
       { apiName: "MembershipApi", contentType: "Settings", action: "Edit" },
       { apiName: "MembershipApi", contentType: "People", action: "View" },
       { apiName: "MembershipApi", contentType: "People", action: "Edit" },

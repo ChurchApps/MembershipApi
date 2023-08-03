@@ -11,7 +11,7 @@ export class RolePermissionController extends MembershipBaseController {
   @httpGet("/roles/:id")
   public async loadByRole(@requestParam("id") id: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.rolePermissions.view)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.roles.view)) return this.json({}, 401);
       else {
         let permissions: RolePermission[] = [];
         // when "id" is null, return roles associated with every member of church
@@ -29,7 +29,7 @@ export class RolePermissionController extends MembershipBaseController {
   @httpDelete("/:id")
   public async deletePermission(@requestParam("id") id: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.rolePermissions.edit)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.roles.edit)) return this.json({}, 401);
       else {
         await this.repositories.rolePermission.delete(au.churchId, id)
         return this.json([], 200);
@@ -41,7 +41,7 @@ export class RolePermissionController extends MembershipBaseController {
   @httpPost("/")
   public async save(req: express.Request<{}, {}, RolePermission[]>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.rolePermissions.edit)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.roles.edit)) return this.json({}, 401);
       else {
         let rolePermissions: RolePermission[] = req.body;
         const promises: Promise<RolePermission>[] = [];
