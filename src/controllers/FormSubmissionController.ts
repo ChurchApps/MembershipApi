@@ -1,7 +1,7 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
-import { FormSubmission, Answer, Form } from "../apiBase/models";
+import { FormSubmission, Answer, Form } from "../models";
 import { Permissions, EmailHelper, Environment } from "../helpers";
 import { MemberPermission, Person } from "../models";
 

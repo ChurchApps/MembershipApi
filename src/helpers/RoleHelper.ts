@@ -12,11 +12,11 @@ export class RoleHelper {
     await this.createDomainAdminRole();
     await this.createAllMembersRole()
     await this.createEveryoneRole()
-    //await this.createChumsRole()
-    //await this.createB1Role()
-    //await this.createLessonsRole()
-    //await this.createStreamingHostRole()
-    //await this.createWebsiteAdminRole()
+    // await this.createChumsRole()
+    // await this.createB1Role()
+    // await this.createLessonsRole()
+    // await this.createStreamingHostRole()
+    // await this.createWebsiteAdminRole()
   }
 
   private async createRole(name: string, permissions: RolePermission[]): Promise<string> {

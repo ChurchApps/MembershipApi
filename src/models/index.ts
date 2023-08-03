@@ -19,3 +19,9 @@ export { RolePermission } from "./RolePermission";
 export { UserChurch } from './UserChurch';
 export * from "./requests";
 export * from "./responses";
+
+export { Answer } from "./Answer";
+export { File } from '../apiBase/models/File';
+export { Form } from "./Form";
+export { FormSubmission } from "./FormSubmission";
+export { Question } from "./Question";

@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { DB } from "../apiBase/db";
-import { FormSubmission } from "../apiBase/models";
+import { FormSubmission } from "../models";
 import { DateTimeHelper, UniqueIdHelper } from '../helpers';
 
 @injectable()
