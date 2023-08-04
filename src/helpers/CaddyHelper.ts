@@ -37,29 +37,76 @@ export class CaddyHelper {
     return result;
   }
 
+  private static getReverseProxyHandler(host: string, dial: string) {
+    return {
+      handler: "reverse_proxy",
+      headers: {
+        request: {
+          set: { Host: ["{http.reverse_proxy.upstream.hostport}"] }
+        }
+      },
+      upstreams: [{ dial }]
+    }
+  }
+
+  /*
+  private static getRewriteHandler(host: string, dial: string) {
+
+    const dialKey = dial.replace(".b1.church:443", "");
+    const hostKey = host.replace("https://", "").replace("http://", "").replace("www.", "").replace(".com", "").replace(".org", "").replace(".net", "").replace(".church", "").replace("/", "");
+    if (hostKey === dialKey || dialKey.indexOf(":")!==-1) return null;
+    else return{
+      "handler": "rewrite",
+      "uri": "/_next/data/*",
+      "uri_substring": [{
+        "find": "/" + hostKey + "/",
+        "replace": "/" + dialKey + "/"
+      }]
+    }
+  }*/
+
+  private static getRewrite(host: string, dial: string) {
+
+    const dialKey = dial.replace(".b1.church:443", "");
+    const hostKey = host.replace("https://", "").replace("http://", "").replace("www.", "").replace(".com", "").replace(".org", "").replace(".net", "").replace(".church", "").replace("/", "");
+
+    /*
+    "find": "/_next/data/?/" + hostKey + "/",
+        "replace": "/_next/data/?/" + dialKey + "/"
+    */
+    if (hostKey === dialKey || dialKey.indexOf(":")!==-1) return null;
+    else return {
+      "uri_substring": [
+        {
+          "find": "/" + hostKey + "/",
+          "replace": "/" + dialKey + "/"
+        },
+        {
+          "find": "/" + hostKey + ".json",
+          "replace": "/" + dialKey + ".json"
+        }
+      ]
+    }
+  }
+
+
   private static getRoute(host: string, dial: string, useHttps: boolean) {
+    const rewrite = this.getRewrite(host, dial);
+    const handle:any = this.getReverseProxyHandler(host, dial);
+    if (rewrite) handle.rewrite = rewrite;
+    if (useHttps) handle.transport = { protocol: "http", tls: {} }
+
+
     const result: any = {
       handle: [{
         handler: "subroute",
-        routes: [{
-          handle: [
-            {
-              handler: "reverse_proxy",
-              headers: {
-                request: {
-                  set: { Host: ["{http.reverse_proxy.upstream.hostport}"] }
-                }
-              },
-              upstreams: [{ dial }]
-            }
-          ]
-        }]
+        routes: [{ handle: [handle] }]
       }],
       match: [{ host: [host] }],
       terminal: true
     };
 
-    if (useHttps) result.handle[0].routes[0].handle[0].transport = { protocol: "http", tls: {} }
+    // if (useHttps) result.handle[0].routes[0].handle[0].transport = { protocol: "http", tls: {} }
     return result;
   }
 }

@@ -8,6 +8,17 @@ import { CaddyHelper } from "../helpers";
 @controller("/domains")
 export class DomainController extends MembershipBaseController {
 
+  @httpGet("/test")
+  public async test(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapperAnon(req, res, async () => {
+      console.log("made it")
+      const jsonData = await CaddyHelper.generateJsonData();
+      // await CaddyHelper.updateCaddy();
+      console.log("JSON", jsonData)
+      return jsonData;
+    });
+  }
+
   @httpGet("/:id")
   public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
@@ -28,6 +39,7 @@ export class DomainController extends MembershipBaseController {
       return await this.repositories.domain.loadByName(domainName);
     })
   }
+
 
   @httpGet("/")
   public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
