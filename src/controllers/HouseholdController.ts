@@ -24,7 +24,7 @@ export class HouseholdController extends MembershipBaseController {
     @httpPost("/")
     public async save(req: express.Request<{}, {}, Household[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.households.edit)) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
             else {
                 const promises: Promise<Household>[] = [];
                 req.body.forEach(household => { household.churchId = au.churchId; promises.push(this.repositories.household.save(household)); });
@@ -37,7 +37,7 @@ export class HouseholdController extends MembershipBaseController {
     @httpDelete("/:id")
     public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
-            if (!au.checkAccess(Permissions.households.edit)) return this.json({}, 401);
+            if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
             else await this.repositories.household.delete(au.churchId, id);
         });
     }

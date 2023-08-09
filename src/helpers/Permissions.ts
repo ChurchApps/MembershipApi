@@ -8,9 +8,6 @@ export class Permissions extends BasePermissions {
     view: { contentType: "Group Members", action: "View" },
     edit: { contentType: "Group Members", action: "Edit" }
   };
-  static households = {
-    edit: { contentType: "Households", action: "Edit" }
-  };
   static people = {
     view: { contentType: "People", action: "View" },
     viewMembers: { contentType: "People", action: "View Members" },

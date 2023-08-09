@@ -64,7 +64,7 @@ export class PersonController extends MembershipBaseController {
   @httpPost("/household/:householdId")
   public async saveMembers(@requestParam("householdId") householdId: string, req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.households.edit)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
       else {
         // save submitted
         const promises: Promise<Person>[] = [];
