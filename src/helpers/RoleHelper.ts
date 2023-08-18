@@ -43,6 +43,7 @@ export class RoleHelper {
   }
 
   private async createDomainAdminRole() {
+    /*
     const roleId: string = await this.createRole("Domain Admins", [
       { apiName: "MembershipApi", contentType: "Roles", action: "View" },
       { apiName: "MembershipApi", contentType: "Roles", action: "Edit" },
@@ -51,6 +52,10 @@ export class RoleHelper {
       { apiName: "MembershipApi", contentType: "People", action: "Edit" },
       { apiName: "MembershipApi", contentType: "Households", action: "Edit" },
       { apiName: "MembershipApi", contentType: "Forms", action: "Admin" }
+    ]);*/
+
+    const roleId: string = await this.createRole("Domain Admins", [
+      { apiName: "MembershipApi", contentType: "Domain", action: "Admin" },
     ]);
 
     await this.createRoleMember(roleId)

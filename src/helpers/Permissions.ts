@@ -105,6 +105,7 @@ export type ContentType =
   | "Attendance"
   | "Chat"
   | "Schedules"
-  | "Content";
+  | "Content"
+  | "Domain";
 
 export type Actions = "Admin" | "Edit" | "View" | "Edit Self" | "View Members" | "View Summary" | "Checkin" | "Host";

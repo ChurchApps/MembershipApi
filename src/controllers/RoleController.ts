@@ -11,8 +11,10 @@ export class RoleController extends MembershipBaseController {
   @httpGet("/church/:churchId")
   public async loadByChurchId(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
+      console.log("MADE IT")
       if (!au.checkAccess(Permissions.roles.view)) return this.json({}, 401);
       else {
+        console.log("PERMISSION GRANTED")
         return this.repositories.role.convertAllToModel(churchId, await this.repositories.role.loadByChurchId(churchId));
       }
     })

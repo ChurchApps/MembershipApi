@@ -288,7 +288,11 @@ export class ChurchController extends MembershipBaseController {
       if (/^([a-z0-9]{1,99})$/.test(church.subDomain) === false) result.push("Please enter only lower case letters and numbers for the subdomain.  Example: firstchurch");
       else {
         const c = await this.repositories.church.loadBySubDomain(church.subDomain);
-        if (c !== null) result.push("Subdomain unavailable");
+        if (c !== null) {
+          c.subDomain = c.subDomain + "2";
+          // result.push("Subdomain unavailable");
+          this.validateRegister(church, au);
+        }
       }
     }
     return result;
