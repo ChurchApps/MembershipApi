@@ -4,7 +4,7 @@ import express from "express";
 import { body, validationResult } from "express-validator";
 import { AuthenticatedUser } from '../auth';
 import { MembershipBaseController } from "./MembershipBaseController"
-import { Utils, Permissions, ChurchHelper, RoleHelper, Environment, HubspotHelper, GeoHelper, PersonHelper } from "../helpers";
+import { Utils, Permissions, ChurchHelper, RoleHelper, Environment, HubspotHelper, GeoHelper, PersonHelper, UserHelper } from "../helpers";
 import { Repositories } from "../repositories";
 import { ArrayHelper, EmailHelper } from "../apiBase";
 
@@ -187,6 +187,8 @@ export class ChurchController extends MembershipBaseController {
         const churches = await this.repositories.rolePermission.loadForUser(au.id, false);
         churches.forEach(c => { if (c.church.id === "0") universalChurch = c; });
         const result = await this.repositories.rolePermission.loadForChurch(churchId, universalChurch);
+
+        UserHelper.replaceDomainAdminPermissions([result]);
 
         const churchWithAuth = await AuthenticatedUser.login([result], user);
 

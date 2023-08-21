@@ -1,7 +1,47 @@
-import { Environment } from ".";
-import { EmailHelper } from "../apiBase";
+import { LoginUserChurch, RolePermission } from "../models";
+import { Environment, permissionsList } from ".";
+import { ArrayHelper, EmailHelper } from "../apiBase";
 
 export class UserHelper {
+
+
+  private static addAllPermissions(luc: LoginUserChurch) {
+    permissionsList.forEach(perm => {
+      let api = ArrayHelper.getOne(luc.apis, "keyName", perm.apiName);
+      if (api === null) {
+        api = { keyName: perm.apiName, permissions: [] };
+        luc.apis.push(api);
+      }
+
+      const existing = ArrayHelper.getOne(
+        ArrayHelper.getAll(api.permissions, "contentType", perm.section),
+        "action",
+        perm.action
+      );
+
+      if (!existing) {
+        const permission: RolePermission = { action: perm.action, contentType: perm.section, contentId:"" }
+        api.permissions.push(permission);
+      }
+    });
+  }
+
+  static async replaceDomainAdminPermissions(roleUserChurches: LoginUserChurch[]) {
+    roleUserChurches.forEach(luc => {
+      luc.apis.forEach(api => {
+        if (api.keyName==="MembershipApi") {
+          for (let i=api.permissions.length-1; i>=0; i--) {
+            const perm = api.permissions[i];
+            if (perm.contentType==="Domain" && perm.action==="Admin") {
+              api.permissions.splice(i, 1);
+              UserHelper.addAllPermissions(luc);
+            }
+          }
+        }
+      });
+    });
+  }
+
   static sendWelcomeEmail(email: string, loginLink: string, appName: string, appUrl: string): Promise<any> {
     if (!appName) appName = "Live Church Solutions";
     if (!appUrl) appUrl = Environment.chumsRoot;

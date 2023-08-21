@@ -97,42 +97,6 @@ export class UserController extends MembershipBaseController {
     }
   }
 
-  private async addAllPermissions(luc: LoginUserChurch) {
-    permissionsList.forEach(perm => {
-      let api = ArrayHelper.getOne(luc.apis, "keyName", perm.apiName);
-      if (api === null) {
-        api = { keyName: perm.apiName, permissions: [] };
-        luc.apis.push(api);
-      }
-
-      const existing = ArrayHelper.getOne(
-        ArrayHelper.getAll(api.permissions, "contentType", perm.section),
-        "action",
-        perm.action
-      );
-
-      if (!existing) {
-        const permission: RolePermission = { action: perm.action, contentType: perm.section, contentId:"" }
-        api.permissions.push(permission);
-      }
-    });
-  }
-
-  private async replaceDomainAdminPermissions(roleUserChurches: LoginUserChurch[]) {
-    roleUserChurches.forEach(luc => {
-      luc.apis.forEach(api => {
-        if (api.keyName==="MembershipApi") {
-          for (let i=api.permissions.length-1; i>=0; i--) {
-            const perm = api.permissions[i];
-            if (perm.contentType==="Domain" && perm.action==="Admin") {
-              api.permissions.splice(i, 1);
-              this.addAllPermissions(luc);
-            }
-          }
-        }
-      });
-    });
-  }
 
   private async getUserChurches(id: string): Promise<LoginUserChurch[]> {
 
@@ -140,7 +104,7 @@ export class UserController extends MembershipBaseController {
     // Load user churches via Roles
     const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true)  // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
 
-    this.replaceDomainAdminPermissions(roleUserChurches);
+    UserHelper.replaceDomainAdminPermissions(roleUserChurches);
 
     // Load churches via userChurches relationships
     const userChurches: LoginUserChurch[] = await this.repositories.church.loadForUser(id);
