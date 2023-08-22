@@ -10,6 +10,7 @@ import {
   MemberPermissionRepository,
   DomainRepository,
   SettingRepository,
+  ClientErrorRepository,
 } from ".";
 import { UserRepository, ChurchRepository, RoleRepository, RoleMemberRepository, RolePermissionRepository, UserChurchRepository, AccessLogRepository } from ".";
 
@@ -33,6 +34,8 @@ export class Repositories {
   public user: UserRepository;
   public userChurch: UserChurchRepository;
   public setting: SettingRepository;
+
+  public clientError: ClientErrorRepository;
 
   private static _current: Repositories = null;
   public static getCurrent = () => {
@@ -60,5 +63,8 @@ export class Repositories {
     this.user = new UserRepository();
     this.userChurch = new UserChurchRepository();
     this.setting = new SettingRepository();
+
+    this.clientError = new ClientErrorRepository();
+
   }
 }

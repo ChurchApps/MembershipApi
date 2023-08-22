@@ -19,3 +19,4 @@ export { UserController } from "./UserController";
 export { UserChurchController } from "./UserChurchController";
 
 export { SettingController } from "./SettingController";
+export { ClientErrorController } from "./ClientErrorController";

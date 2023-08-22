@@ -40,11 +40,16 @@ const init = async () => {
     { title: "Group Members", file: "groupMembers.mysql" },
   ];
 
+  const miscTables: { title: string, file: string }[] = [
+    { title: "Errors", file: "clientErrors.mysql" }
+  ];
+
   await DBCreator.init(["Settings"])
   await initTables("Access", accessTables);
   await initTables("Forms", formTables);
   await initTables("People", peopleTables);
   await initTables("Groups", groupTables);
+  await initTables("Misc", miscTables);
 
 }
 

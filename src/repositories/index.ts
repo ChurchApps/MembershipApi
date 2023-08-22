@@ -19,3 +19,4 @@ export { UserRepository } from "./UserRepository";
 export { UserChurchRepository } from './UserChurchRepository';
 
 export { SettingRepository } from "../repositories/SettingRepository";
+export { ClientErrorRepository } from "../repositories/ClientErrorRepository";
