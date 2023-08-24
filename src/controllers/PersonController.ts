@@ -57,7 +57,7 @@ export class PersonController extends MembershipBaseController {
     return this.actionWrapperAnon(req, res, async () => {
       const { churchId, email, firstName, lastName } = req.body;
       const person: Person = await PersonHelper.getPerson(churchId, email, firstName, lastName, false);
-      return { id: person.id, name: person.name }
+      return { id: person.id, name: person.name, contactInfo: person.contactInfo }
     });
   }
 
