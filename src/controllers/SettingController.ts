@@ -1,7 +1,7 @@
 import { controller, httpPost, httpGet, interfaces, requestParam } from "inversify-express-utils"
 import express from "express"
 import { Setting } from "../models"
-import { Permissions, FileHelper, Environment } from "../helpers"
+import { Permissions, FileStorageHelper, Environment } from "../helpers"
 import { MembershipBaseController } from "./MembershipBaseController"
 
 
@@ -58,7 +58,7 @@ export class SettingController extends MembershipBaseController {
   private async saveImage(setting: Setting) {
     const base64 = setting.value.split(',')[1];
     const key = "/" + setting.churchId + "/settings/" + setting.keyName + ".png";
-    await FileHelper.store(key, "image/png", Buffer.from(base64, 'base64'));
+    await FileStorageHelper.store(key, "image/png", Buffer.from(base64, 'base64'));
     const photoUpdated = new Date();
     setting.value = Environment.contentRoot + key + "?dt=" + photoUpdated.getTime().toString();
     return setting;

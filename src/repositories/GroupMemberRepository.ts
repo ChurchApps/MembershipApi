@@ -69,7 +69,7 @@ export class GroupMemberRepository {
     const result: GroupMember = { id: data.id, groupId: data.groupId, personId: data.personId, joinDate: data.joinDate, leader: data.leader }
     if (data.displayName !== undefined) {
       result.person = { id: result.personId, photoUpdated: data.photoUpdated, name: { display: data.displayName }, contactInfo: { email: data.email } };
-      result.person.photo = PersonHelper.getPhotoUrl(churchId, result.person);
+      result.person.photo = PersonHelper.getPhotoPath(churchId, result.person);
     }
     if (data.groupName !== undefined) result.group = { id: result.groupId, name: data.groupName };
 

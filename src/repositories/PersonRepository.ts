@@ -8,7 +8,7 @@ import { UniqueIdHelper } from "../helpers";
 export class PersonRepository {
 
   public save(person: Person) {
-    person.name.display = PersonHelper.getDisplayName(person);
+    person.name.display = PersonHelper.getDisplayNameFromPerson(person);
     return person.id ? this.update(person) : this.create(person);
   }
 
@@ -148,7 +148,7 @@ export class PersonRepository {
       membershipStatus: data.membershipStatus, photoUpdated: data.photoUpdated, id: data.id, importKey: data.importKey, optedOut: data.optedOut
     }
     if (canEdit) result.conversationId = data.conversationId;
-    if (result.photo === undefined) result.photo = PersonHelper.getPhotoUrl(churchId, result);
+    if (result.photo === undefined) result.photo = PersonHelper.getPhotoPath(churchId, result);
     return result;
   }
 
