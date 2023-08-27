@@ -2,7 +2,7 @@ import { Repositories } from "../repositories";
 import { Household, Person, UserChurch } from "../models";
 import { AuthenticatedUser } from "../auth";
 import { Permissions } from '../helpers/Permissions'
-import { PersonHelper as BasePersonHelper } from "../apiBase/helpers/PersonHelper"
+import { PersonHelper as BasePersonHelper } from "@churchapps/apihelper"
 
 export class PersonHelper extends BasePersonHelper {
 

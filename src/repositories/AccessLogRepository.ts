@@ -1,4 +1,4 @@
-import { DB } from "../apiBase/db";
+import { DB } from "@churchapps/apihelper";
 import { AccessLog } from "../models";
 import { UniqueIdHelper } from "../helpers";
 

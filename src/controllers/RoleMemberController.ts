@@ -3,7 +3,8 @@ import { RoleMember, User } from "../models";
 import express from "express";
 import { AuthenticatedUser } from '../auth';
 import { MembershipBaseController } from "./MembershipBaseController"
-import { Permissions, IPermission } from '../helpers'
+import { Permissions } from '../helpers'
+import { IPermission } from "@churchapps/apihelper"
 
 @controller("/rolemembers")
 export class RoleMemberController extends MembershipBaseController {

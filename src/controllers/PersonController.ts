@@ -5,7 +5,7 @@ import { Person, Household, SearchCondition, Group } from "../models"
 import { FormSubmission, Form } from "../models"
 import { ArrayHelper, FileHelper, PersonHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
-import { AuthenticatedUser } from "../apiBase/auth";
+import { AuthenticatedUser } from "@churchapps/apihelper";
 
 @controller("/people")
 export class PersonController extends MembershipBaseController {

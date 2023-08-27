@@ -1,7 +1,7 @@
 import { injectable } from "inversify"
-import { DB } from "../apiBase/db";
+import { DB } from "@churchapps/apihelper";
 import { Setting } from "../models";
-import { UniqueIdHelper } from "../apiBase/helpers";
+import { UniqueIdHelper } from "@churchapps/apihelper";
 
 @injectable()
 export class SettingRepository {

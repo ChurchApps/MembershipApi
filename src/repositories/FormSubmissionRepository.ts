@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
-import { DB } from "../apiBase/db";
+import { DB } from "@churchapps/apihelper";
 import { FormSubmission } from "../models";
-import { DateTimeHelper, UniqueIdHelper } from '../helpers';
+import { UniqueIdHelper, DateHelper } from '../helpers';
 
 @injectable()
 export class FormSubmissionRepository {
@@ -11,8 +11,8 @@ export class FormSubmissionRepository {
     }
 
     private async create(formSubmission: FormSubmission) {
-        const submissionDate = DateTimeHelper.toMysqlDate(formSubmission.submissionDate);
-        const revisionDate = DateTimeHelper.toMysqlDate(formSubmission.revisionDate);
+        const submissionDate = DateHelper.toMysqlDate(formSubmission.submissionDate);
+        const revisionDate = DateHelper.toMysqlDate(formSubmission.revisionDate);
         formSubmission.id = UniqueIdHelper.shortId();
         const sql = "INSERT INTO formSubmissions (id, churchId, formId, contentType, contentId, submissionDate, submittedBy, revisionDate, revisedBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         const params = [formSubmission.id, formSubmission.churchId, formSubmission.formId, formSubmission.contentType, formSubmission.contentId, submissionDate, formSubmission.submittedBy, revisionDate, formSubmission.revisedBy];

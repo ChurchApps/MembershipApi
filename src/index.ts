@@ -1,5 +1,5 @@
 import { init } from './App';
-import { Pool } from './apiBase/pool';
+import { Pool } from '@churchapps/apihelper';
 import { Environment } from './helpers/Environment';
 const port = process.env.SERVER_PORT;
 

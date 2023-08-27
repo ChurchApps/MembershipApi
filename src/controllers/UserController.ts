@@ -8,7 +8,7 @@ import { MembershipBaseController } from "./MembershipBaseController"
 import { EmailHelper, UserHelper, UniqueIdHelper, Environment } from "../helpers";
 import { v4 } from 'uuid';
 import { ChurchHelper } from "../helpers";
-import { ArrayHelper } from "../apiBase"
+import { ArrayHelper } from "@churchapps/apihelper"
 import {permissionsList} from "../helpers/Permissions"
 
 const emailPasswordValidation = [

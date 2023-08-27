@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { DB } from "../apiBase/db";
+import { DB } from "@churchapps/apihelper";
 import { ClientError } from "../models";
 import { UniqueIdHelper } from "../helpers";
 

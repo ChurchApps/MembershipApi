@@ -5,7 +5,7 @@ import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
 import { bindings } from "./inversify.config";
 import express from "express";
-import { CustomAuthProvider } from "./apiBase/auth";
+import { CustomAuthProvider } from "@churchapps/apihelper";
 import cors from "cors"
 
 export const init = async () => {

@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
-import { DB } from "../apiBase/db";
+import { DB } from "@churchapps/apihelper";
 import { Person } from "../models";
-import { PersonHelper, DateTimeHelper } from "../helpers";
+import { PersonHelper, DateHelper } from "../helpers";
 import { UniqueIdHelper } from "../helpers";
 
 @injectable()
@@ -14,9 +14,9 @@ export class PersonRepository {
 
   private async create(person: Person) {
     person.id = UniqueIdHelper.shortId();
-    const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
-    const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
-    const photoUpdated = DateTimeHelper.toMysqlDate(person.photoUpdated);
+    const birthDate = DateHelper.toMysqlDate(person.birthDate);
+    const anniversary = DateHelper.toMysqlDate(person.anniversary);
+    const photoUpdated = DateHelper.toMysqlDate(person.photoUpdated);
     const sql = "INSERT INTO people (id, churchId, displayName, firstName, middleName, lastName, nickName, prefix, suffix, birthDate, gender, maritalStatus, anniversary, membershipStatus, homePhone, mobilePhone, workPhone, email, nametagNotes, address1, address2, city, state, zip, photoUpdated, householdId, householdRole, conversationId, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
     const params = [
       person.id,
@@ -40,9 +40,9 @@ export class PersonRepository {
   }
 
   private async update(person: Person) {
-    const birthDate = DateTimeHelper.toMysqlDate(person.birthDate);
-    const anniversary = DateTimeHelper.toMysqlDate(person.anniversary);
-    const photoUpdated = DateTimeHelper.toMysqlDate(person.photoUpdated);
+    const birthDate = DateHelper.toMysqlDate(person.birthDate);
+    const anniversary = DateHelper.toMysqlDate(person.anniversary);
+    const photoUpdated = DateHelper.toMysqlDate(person.photoUpdated);
     const sql = "UPDATE people SET displayName=?, firstName=?, middleName=?, lastName=?, nickName=?, prefix=?, suffix=?, birthDate=?, gender=?, maritalStatus=?, anniversary=?, membershipStatus=?, homePhone=?, mobilePhone=?, workPhone=?, email=?, nametagNotes=?, address1=?, address2=?, city=?, state=?, zip=?, photoUpdated=?, householdId=?, householdRole=?, conversationId=? WHERE id=? and churchId=?";
     const params = [
       person.name.display, person.name.first, person.name.middle, person.name.last, person.name.nick, person.name.prefix, person.name.suffix,

@@ -1,7 +1,7 @@
 import { Repositories } from "../repositories";
-import { CustomBaseController } from "../apiBase/controllers"
+import { CustomBaseController } from "@churchapps/apihelper"
 import { Permissions } from "../helpers";
-import { AuthenticatedUser } from "../apiBase/auth";
+import { AuthenticatedUser } from "@churchapps/apihelper";
 
 export class MembershipBaseController extends CustomBaseController {
 

@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { EnvironmentBase } from "../apiBase";
+import { EnvironmentBase } from "@churchapps/apihelper";
 
 export class Environment extends EnvironmentBase {
   static jwtExpiration: string;
