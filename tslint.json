@@ -9,7 +9,9 @@
             false
         ],
         "no-console": false,
-        "no-bitwise": false
+        "no-bitwise": false,
+        "no-shadowed-variable": false
     },
     "rulesDirectory": []
+
 }

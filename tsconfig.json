@@ -32,6 +32,7 @@
     "noImplicitReturns": false,
     "pretty": true,
     "paths": {},
+  
   },
   "include": ["src/**/*.ts"]
 }
