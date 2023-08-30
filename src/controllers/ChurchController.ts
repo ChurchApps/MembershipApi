@@ -6,7 +6,7 @@ import { AuthenticatedUser } from '../auth';
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Utils, Permissions, ChurchHelper, RoleHelper, Environment, HubspotHelper, GeoHelper, PersonHelper, UserHelper } from "../helpers";
 import { Repositories } from "../repositories";
-import { ArrayHelper, EmailHelper } from "../apiBase";
+import { ArrayHelper, EmailHelper } from "@churchapps/apihelper";
 
 const churchRegisterValidation = [
   body("name").notEmpty().withMessage("Select a church name"),

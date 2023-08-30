@@ -1,4 +1,4 @@
-import { Principal, AuthenticatedUser as BaseAuthenticatedUser } from '../apiBase/auth'
+import { Principal, AuthenticatedUser as BaseAuthenticatedUser } from '@churchapps/apihelper'
 import { Api, Church, LoginResponse, LoginUserChurch, User, UserChurch } from '../models'
 import jwt from "jsonwebtoken";
 import { Repositories } from '../repositories';

@@ -1,17 +1,16 @@
 {
   "compilerOptions": {
+    "target": "es6",
     "module": "commonjs",
-    "esModuleInterop": true,
-    "lib": [
-      "ESNext",
-      "DOM"
+    "typeRoots": [
+      "./types",
+      "node_modules/@types"
     ],
-    "types": [
-      "reflect-metadata"
+    "lib": [
+      "ESNext"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "target": "es6",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
@@ -19,13 +18,21 @@
     "baseUrl": ".",
     "strict": false,
     "allowSyntheticDefaultImports": true,
-    "paths": {
-      "*": [
-        "node_modules/*"
-      ]
-    }
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "declaration": true,
+    "declarationMap": true,
+    "noImplicitReturns": false,
+    "pretty": true,
+    "paths": {},
+  
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*.ts"]
 }

@@ -3,9 +3,9 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Person, Household, SearchCondition, Group } from "../models"
 import { FormSubmission, Form } from "../models"
-import { ArrayHelper, FileHelper, PersonHelper } from "../helpers"
+import { ArrayHelper, FileStorageHelper, PersonHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
-import { AuthenticatedUser } from "../apiBase/auth";
+import { AuthenticatedUser } from "@churchapps/apihelper";
 
 @controller("/people")
 export class PersonController extends MembershipBaseController {
@@ -297,7 +297,7 @@ export class PersonController extends MembershipBaseController {
   private async savePhoto(churchId: string, person: Person) {
     const base64 = person.photo.split(',')[1];
     const key = "/" + churchId + "/membership/people/" + person.id + ".png";
-    return FileHelper.store(key, "image/png", Buffer.from(base64, 'base64')).then(async () => {
+    return FileStorageHelper.store(key, "image/png", Buffer.from(base64, 'base64')).then(async () => {
       person.photoUpdated = new Date();
       person.photo = key + "?dt=" + person.photoUpdated.getTime().toString();
       await this.repositories.person.save(person);

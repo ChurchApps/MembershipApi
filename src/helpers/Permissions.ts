@@ -1,4 +1,4 @@
-import { Permissions as BasePermissions } from "../apiBase/helpers";
+import { BasePermissions } from "@churchapps/apihelper";
 
 export class Permissions extends BasePermissions {
   static groups = {

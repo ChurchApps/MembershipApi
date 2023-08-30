@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
-import { DB } from "../apiBase/db";
+import { DB } from "@churchapps/apihelper";
 import { Form } from "../models";
-import { DateTimeHelper, UniqueIdHelper } from "../helpers";
+import { DateHelper, UniqueIdHelper  } from "../helpers";
 
 @injectable()
 export class FormRepository {
@@ -12,8 +12,8 @@ export class FormRepository {
 
     private async create(form: Form) {
         form.id = UniqueIdHelper.shortId();
-        const startDate = form.accessStartTime ? DateTimeHelper.toMysqlDate(form.accessStartTime) : null;
-        const endDate = form.accessEndTime ? DateTimeHelper.toMysqlDate(form.accessEndTime) : null;
+        const startDate = form.accessStartTime ? DateHelper.toMysqlDate(form.accessStartTime) : null;
+        const endDate = form.accessEndTime ? DateHelper.toMysqlDate(form.accessEndTime) : null;
         const sql = "INSERT INTO forms (id, churchId, name, contentType, createdTime, modifiedTime, accessStartTime, accessEndTime, restricted, archived, removed) VALUES (?, ?, ?, ?, NOW(), NOW(), ?, ?, ?, 0, 0);";
         const params = [form.id, form.churchId, form.name, form.contentType, startDate, endDate, form.restricted];
         await DB.query(sql, params);
@@ -21,8 +21,8 @@ export class FormRepository {
     }
 
     private async update(form: Form) {
-        const startDate = form.accessStartTime ? DateTimeHelper.toMysqlDate(form.accessStartTime) : null;
-        const endDate = form.accessEndTime ? DateTimeHelper.toMysqlDate(form.accessEndTime) : null;
+        const startDate = form.accessStartTime ? DateHelper.toMysqlDate(form.accessStartTime) : null;
+        const endDate = form.accessEndTime ? DateHelper.toMysqlDate(form.accessEndTime) : null;
         const sql = "UPDATE forms SET name=?, contentType=?, restricted=?, modifiedTime=NOW(), accessStartTime=?, accessEndTime=?, archived=? WHERE id=? and churchId=?";
         const params = [form.name, form.contentType, form.restricted, startDate, endDate, form.archived, form.id, form.churchId];
         await DB.query(sql, params);

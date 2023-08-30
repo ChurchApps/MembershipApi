@@ -1,6 +1,6 @@
 import { LoginUserChurch, RolePermission } from "../models";
 import { Environment, permissionsList } from ".";
-import { ArrayHelper, EmailHelper } from "../apiBase";
+import { ArrayHelper, EmailHelper } from "@churchapps/apihelper";
 
 export class UserHelper {
 

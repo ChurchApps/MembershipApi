@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { EnvironmentBase } from "../apiBase";
+import { AwsHelper, EnvironmentBase } from "@churchapps/apihelper";
 
 export class Environment extends EnvironmentBase {
   static jwtExpiration: string;
@@ -10,7 +10,7 @@ export class Environment extends EnvironmentBase {
   static chumsRoot: string;
   static hubspotKey: string;
 
-  static init(environment: string) {
+  static async init(environment: string) {
     let file = "dev.json";
     if (environment === "staging") file = "staging.json";
     if (environment === "prod") file = "prod.json";
@@ -21,13 +21,13 @@ export class Environment extends EnvironmentBase {
 
     const json = fs.readFileSync(physicalPath, "utf8");
     const data = JSON.parse(json);
-    this.populateBase(data);
+    this.populateBase(data, "membershipApi", environment);
 
     this.jwtExpiration = "2 days";
     this.emailOnRegistration = data.emailOnRegistration;
     this.supportEmail = data.supportEmail;
     this.chumsRoot = data.chumsRoot;
-    this.hubspotKey = process.env.HUBSPOT_KEY;
+    this.hubspotKey = process.env.HUBSPOT_KEY || await AwsHelper.readParameter(`/${environment}/hubSpotKey`);
 
   }
 

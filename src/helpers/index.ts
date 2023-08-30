@@ -1,5 +1,4 @@
-export * from '../apiBase/helpers/Interfaces'
-export { UniqueIdHelper, EmailHelper, DateTimeHelper, MySqlHelper, FileHelper, ArrayHelper } from "../apiBase/helpers";
+export * from "@churchapps/apihelper"
 
 export { CaddyHelper } from "./CaddyHelper";
 export { ChurchHelper } from "./ChurchHelper";

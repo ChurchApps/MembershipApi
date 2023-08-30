@@ -7,7 +7,7 @@ import { Question } from "../models"
 export class QuestionController extends MembershipBaseController {
 
     @httpGet("/sort/:id/up")
-    public async moveQuestionUp(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    public async moveQuestionUp(@requestParam("id") id: string, req: express.Request, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             return await this.repositories.question.moveQuestionUp(id);
         });
