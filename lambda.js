@@ -3,8 +3,9 @@ const { init } = require('./dist/App');
 const { Pool } = require('@churchapps/apihelper');
 const { Environment } = require('./dist/helpers/Environment');
 
-Environment.init(process.env.APP_ENV);
-Pool.initPool();
+Environment.init(process.env.APP_ENV).then(() => {
+  Pool.initPool();
+});
 
 module.exports.universal = function universal(event, context) {
   init().then(app => {

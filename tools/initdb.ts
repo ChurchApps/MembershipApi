@@ -6,7 +6,7 @@ import { DBCreator } from "@churchapps/apihelper"
 
 const init = async () => {
   dotenv.config();
-  Environment.init(process.env.APP_ENV);
+  await Environment.init(process.env.APP_ENV);
   console.log("Connecting");
   Pool.initPool();
 
