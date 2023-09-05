@@ -9,6 +9,8 @@ export class Environment extends EnvironmentBase {
   static supportEmail: string;
   static chumsRoot: string;
   static hubspotKey: string;
+  static caddyHost: string;
+  static caddyPort: string;
 
   static async init(environment: string) {
     let file = "dev.json";
@@ -28,6 +30,8 @@ export class Environment extends EnvironmentBase {
     this.supportEmail = data.supportEmail;
     this.chumsRoot = data.chumsRoot;
     this.hubspotKey = process.env.HUBSPOT_KEY || await AwsHelper.readParameter(`/${environment}/hubSpotKey`);
+    this.caddyHost = process.env.CADDY_HOST || await AwsHelper.readParameter(`/${environment}/caddyHost`);
+    this.caddyPort = process.env.CADDY_PORT || await AwsHelper.readParameter(`/${environment}/caddyPort`);
 
   }
 

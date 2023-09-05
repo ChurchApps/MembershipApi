@@ -1,13 +1,14 @@
 import { Repositories } from "../repositories";
 import axios from "axios";
+import { Environment } from "./Environment";
 
 export interface HostDial { host: string, dial: string }
 
 export class CaddyHelper {
 
   static async updateCaddy() {
-    if (process.env.CADDY_HOST && process.env.CADDY_PORT) {
-      const adminUrl = "https://" + process.env.CADDY_HOST + ":" + process.env.CADDY_PORT + "/load";
+    if (Environment.caddyHost && Environment.caddyPort) {
+      const adminUrl = "https://" + Environment.caddyHost + ":" + Environment.caddyPort + "/load";
       const jsonData = await this.generateJsonData();
       await axios.post(adminUrl, jsonData)
     }
