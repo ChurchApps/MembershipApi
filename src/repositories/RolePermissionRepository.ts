@@ -69,8 +69,8 @@ export class RolePermissionRepository {
       const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType }
       currentApi.permissions.push(permission);
 
-      const reportingPermission = { ...permission, apiName: row.apiName };
-      reportingApi.permissions.push(reportingPermission);
+      // const reportingPermission = { ...permission, apiName: row.apiName };
+      // reportingApi.permissions.push(reportingPermission);
 
     });
 

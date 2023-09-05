@@ -26,6 +26,26 @@ export class UserHelper {
     });
   }
 
+  public static addAllReportingPermissions(lucs:LoginUserChurch[])
+  {
+    lucs.forEach(luc => { this.addReportingPermissions(luc) });
+  }
+
+  private static addReportingPermissions(luc: LoginUserChurch)
+  {
+    const reportingApi = ArrayHelper.getOne(luc.apis, "keyName", "ReportingApi");
+    if (reportingApi === null) {
+      luc.apis.forEach(api => {
+        if (api.keyName!=="ReportingApi") {
+          api.permissions.forEach(perm => {
+            const reportingPermission = { ...perm, apiName: api.keyName };
+            reportingApi.permissions.push(reportingPermission);
+          });
+        }
+      });
+    }
+  }
+
   static async replaceDomainAdminPermissions(roleUserChurches: LoginUserChurch[]) {
     roleUserChurches.forEach(luc => {
       luc.apis.forEach(api => {

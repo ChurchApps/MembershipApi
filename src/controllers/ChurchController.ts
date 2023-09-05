@@ -189,6 +189,7 @@ export class ChurchController extends MembershipBaseController {
         const result = await this.repositories.rolePermission.loadForChurch(churchId, universalChurch);
 
         UserHelper.replaceDomainAdminPermissions([result]);
+        UserHelper.addAllReportingPermissions([result]);
 
         const churchWithAuth = await AuthenticatedUser.login([result], user);
 
