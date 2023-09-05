@@ -34,7 +34,7 @@ export class UserHelper {
   private static addReportingPermissions(luc: LoginUserChurch)
   {
     const reportingApi = ArrayHelper.getOne(luc.apis, "keyName", "ReportingApi");
-    if (reportingApi === null) {
+    if (reportingApi !== null) {
       luc.apis.forEach(api => {
         if (api.keyName!=="ReportingApi") {
           api.permissions.forEach(perm => {
