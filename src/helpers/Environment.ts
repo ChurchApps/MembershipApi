@@ -23,7 +23,7 @@ export class Environment extends EnvironmentBase {
 
     const json = fs.readFileSync(physicalPath, "utf8");
     const data = JSON.parse(json);
-    this.populateBase(data, "membershipApi", environment);
+    await this.populateBase(data, "membershipApi", environment);
 
     this.jwtExpiration = "2 days";
     this.emailOnRegistration = data.emailOnRegistration;
