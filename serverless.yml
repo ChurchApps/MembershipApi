@@ -1,15 +1,28 @@
 service: membership-api
 
+custom:
+  serverless-layers:
+    dependenciesPath: ./package.json
+    layersDeploymentBucket: "lcs-layers"
+  env: ${lower(${opt:stage, self:provider.stage})}
+  vpcSettings:
+    prod:
+      securityGroupIds:
+        - sg-052314a1eec2f2567
+      subnetIds:
+        - subnet-01a6b61d749d10c46
+    current: ${ternary( ${self:custom.env}, prod, ${self:custom.vpcSettings.prod}, ~ )}
+
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs18.x
   memorySize: 1024
   timeout: 10
   region: us-east-2
   iam:
     role: arn:aws:iam::428019619026:role/ChurchAppsRole
   environment:
-    APP_ENV: ${lower(${opt:stage, self:provider.stage})}
+    APP_ENV: ${self:custom.env}
 
 functions:
   api:
@@ -17,12 +30,8 @@ functions:
     events:
       - http: ANY {proxy+}
       - http: ANY /
+    vpc: ${self:custom.vpcSettings.current}
 
 plugins:
   - serverless-layers
   - serverless-plugin-utils
-
-custom:
-  serverless-layers:
-    dependenciesPath: ./package.json
-    layersDeploymentBucket: "lcs-layers"
