@@ -75,7 +75,18 @@ export class CaddyHelper {
     "find": "/_next/data/?/" + hostKey + "/",
         "replace": "/_next/data/?/" + dialKey + "/"
     */
-    if (hostKey === dialKey || dialKey.indexOf(":")!==-1) return null;
+    if (hostKey === dialKey || dialKey.indexOf(":")!==-1) return {
+      "uri_substring": [
+        {
+          "find": "/www/",
+          "replace": "/" + dialKey + "/"
+        }, 
+        {
+          "find": "?sdSlug=www",
+          "replace": "?sdSlug=" + dialKey
+        }
+      ]
+    };
     else return {
       "uri_substring": [
         {
