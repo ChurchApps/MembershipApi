@@ -83,8 +83,16 @@ export class CaddyHelper {
           "replace": "/" + dialKey + "/"
         },
         {
+          "find": "/www/",
+          "replace": "/" + dialKey + "/"
+        },
+        {
           "find": "/" + hostKey + ".json",
           "replace": "/" + dialKey + ".json"
+        },
+        {
+          "find": "?sdSlug=www",
+          "replace": "?sdSlug=" + dialKey
         }
       ]
     }
