@@ -3,7 +3,7 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Domain } from "../models"
 import { Permissions } from '../helpers/Permissions'
-import { CaddyHelper } from "../helpers";
+import { CaddyHelper, Environment } from "../helpers";
 
 @controller("/domains")
 export class DomainController extends MembershipBaseController {
@@ -16,6 +16,14 @@ export class DomainController extends MembershipBaseController {
       // await CaddyHelper.updateCaddy();
       console.log("JSON", jsonData)
       return jsonData;
+    });
+  }
+
+  @httpGet("/test2")
+  public async test2(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapperAnon(req, res, async () => {
+      const adminUrl = "https://" + Environment.caddyHost + ":" + Environment.caddyPort + "/load";
+      return { adminUrl }
     });
   }
 
