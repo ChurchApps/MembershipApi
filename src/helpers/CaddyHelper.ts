@@ -24,8 +24,8 @@ export class CaddyHelper {
         http: {
           servers: {
             srv0: {
-              listen: [":" + process.env.CADDY_PORT],
-              routes: [this.getRoute(process.env.CADDY_HOST, "localhost:2019", false)]
+              listen: [":" + Environment.caddyPort],
+              routes: [this.getRoute(Environment.caddyHost, "localhost:2019", false)]
             },
             srv1: {
               listen: [":443"],
