@@ -29,7 +29,7 @@ export class Environment extends EnvironmentBase {
     this.emailOnRegistration = data.emailOnRegistration;
     this.supportEmail = data.supportEmail;
     this.chumsRoot = data.chumsRoot;
-    this.hubspotKey = process.env.HUBSPOT_KEY || await AwsHelper.readParameter(`/${environment}/hubSpotKey`);
+    this.hubspotKey = process.env.HUBSPOT_KEY || await AwsHelper.readParameter(`/${environment}/hubspotKey`);
     this.caddyHost = process.env.CADDY_HOST || await AwsHelper.readParameter(`/${environment}/caddyHost`);
     this.caddyPort = process.env.CADDY_PORT || await AwsHelper.readParameter(`/${environment}/caddyPort`);
 
