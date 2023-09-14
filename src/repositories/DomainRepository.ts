@@ -42,7 +42,7 @@ export class DomainRepository {
   }
 
   public loadPairs() {
-    return DB.query("select d.domainName as host, concat(c.subDomain, '.b1.church:443') as dial from domains d inner join churches c on c.id=d.churchId;", []);
+    return DB.query("select d.domainName as host, concat(c.subDomain, '.b1.church:443') as dial from domains d inner join churches c on c.id=d.churchId WHERE d.domainName NOT like '%www.%';", []);
   }
 
   public loadByIds(churchId: string, ids: string[]) {

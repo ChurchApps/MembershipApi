@@ -18,6 +18,7 @@ export class CaddyHelper {
     const hostDials: HostDial[] = await Repositories.getCurrent().domain.loadPairs();
     const routes: any[] = [];
     hostDials.forEach(hd => { routes.push(this.getRoute(hd.host, hd.dial, true)) });
+    hostDials.forEach(hd => { routes.push(this.getWwwRoute(hd.host, hd.dial, true)) });
 
     const result = {
       apps: {
@@ -50,43 +51,12 @@ export class CaddyHelper {
     }
   }
 
-  /*
-  private static getRewriteHandler(host: string, dial: string) {
-
-    const dialKey = dial.replace(".b1.church:443", "");
-    const hostKey = host.replace("https://", "").replace("http://", "").replace("www.", "").replace(".com", "").replace(".org", "").replace(".net", "").replace(".church", "").replace("/", "");
-    if (hostKey === dialKey || dialKey.indexOf(":")!==-1) return null;
-    else return{
-      "handler": "rewrite",
-      "uri": "/_next/data/*",
-      "uri_substring": [{
-        "find": "/" + hostKey + "/",
-        "replace": "/" + dialKey + "/"
-      }]
-    }
-  }*/
-
   private static getRewrite(host: string, dial: string) {
 
     const dialKey = dial.replace(".b1.church:443", "");
     const hostKey = host.replace("https://", "").replace("http://", "").replace("www.", "").replace(".com", "").replace(".org", "").replace(".net", "").replace(".church", "").replace("/", "");
 
-    /*
-    "find": "/_next/data/?/" + hostKey + "/",
-        "replace": "/_next/data/?/" + dialKey + "/"
-    */
-    if (hostKey === dialKey || dialKey.indexOf(":")!==-1) return {
-      "uri_substring": [
-        {
-          "find": "/www/",
-          "replace": "/" + dialKey + "/"
-        }, 
-        {
-          "find": "?sdSlug=www",
-          "replace": "?sdSlug=" + dialKey
-        }
-      ]
-    };
+    if (hostKey === dialKey || dialKey.indexOf(":")!==-1) return {};
     else return {
       "uri_substring": [
         {
@@ -94,16 +64,8 @@ export class CaddyHelper {
           "replace": "/" + dialKey + "/"
         },
         {
-          "find": "/www/",
-          "replace": "/" + dialKey + "/"
-        },
-        {
           "find": "/" + hostKey + ".json",
           "replace": "/" + dialKey + ".json"
-        },
-        {
-          "find": "?sdSlug=www",
-          "replace": "?sdSlug=" + dialKey
         }
       ]
     }
@@ -129,5 +91,25 @@ export class CaddyHelper {
     // if (useHttps) result.handle[0].routes[0].handle[0].transport = { protocol: "http", tls: {} }
     return result;
   }
+
+
+  private static getWwwRoute(host: string, dial: string, useHttps: boolean) {
+
+    const result: any = {
+      handle: [{
+        handler: "static_response",
+        "headers": {
+          "Location": ["https://domain.com{http.request.uri}"]
+        },
+        "status_code": "302"
+      }],
+      match: [{ host: ["www." + host] }],
+      terminal: true
+    };
+
+    // if (useHttps) result.handle[0].routes[0].handle[0].transport = { protocol: "http", tls: {} }
+    return result;
+  }
+
 }
 
