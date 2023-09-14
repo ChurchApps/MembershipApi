@@ -99,7 +99,7 @@ export class CaddyHelper {
       handle: [{
         handler: "static_response",
         "headers": {
-          "Location": ["https://domain.com{http.request.uri}"]
+          "Location": ["https://" + host + "{http.request.uri}"]
         },
         "status_code": "302"
       }],
