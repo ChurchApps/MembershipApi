@@ -7,5 +7,6 @@
   "mailSystem": "",
   "s3Bucket": "",
   "supportEmail": "support@churchapps.org",
-  "chumsRoot": "https://app.staging.chums.org"
+  "chumsRoot": "https://app.staging.chums.org",
+  "messagingApi": "https://messagingapi.staging.churchapps.org"
 }

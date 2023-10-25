@@ -8,6 +8,7 @@ export class Environment extends EnvironmentBase {
   static emailOnRegistration: boolean;
   static supportEmail: string;
   static chumsRoot: string;
+  static messagingApi: string;
   static hubspotKey: string;
   static caddyHost: string;
   static caddyPort: string;
@@ -29,6 +30,7 @@ export class Environment extends EnvironmentBase {
     this.emailOnRegistration = data.emailOnRegistration;
     this.supportEmail = data.supportEmail;
     this.chumsRoot = data.chumsRoot;
+    this.messagingApi = process.env.MESSAGING_API || data.messagingApi;
     this.hubspotKey = process.env.HUBSPOT_KEY || await AwsHelper.readParameter(`/${environment}/hubspotKey`);
     this.caddyHost = process.env.CADDY_HOST || await AwsHelper.readParameter(`/${environment}/caddyHost`);
     this.caddyPort = process.env.CADDY_PORT || await AwsHelper.readParameter(`/${environment}/caddyPort`);

@@ -4,6 +4,8 @@ import { MembershipBaseController } from "./MembershipBaseController";
 import { FormSubmission, Answer, Form } from "../models";
 import { Permissions, EmailHelper, Environment } from "../helpers";
 import { MemberPermission, Person } from "../models";
+import axios, { AxiosRequestConfig } from "axios";
+
 
 @controller("/formsubmissions")
 export class FormSubmissionController extends MembershipBaseController {
@@ -122,11 +124,18 @@ export class FormSubmissionController extends MembershipBaseController {
           people.forEach((p: Person) => {
             promises.push(EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + form.name, contents));
           })
+          promises.push(this.sendNotifications(churchId, form, ids));
           await Promise.all(promises);
         }
       }
     }
+  }
 
+  private async sendNotifications(churchId:string, form:Form, peopleIds: string[]) {
+    const data = { churchId, peopleIds, contentType:"form", contentId:form.id, message:"New Form Submission: " + form.name };
+    // todo add some kind of auth token and check for it. Can't be jwt since submissions can be anonymous.  Need to encrypt something
+    // const config:AxiosRequestConfig = { headers: { "Authorization": "Bearer " + au.jwt } };
+    return axios.post(Environment.messagingApi + "/notifications/ping", data);
   }
 
   @httpDelete("/:id")

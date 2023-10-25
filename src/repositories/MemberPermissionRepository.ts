@@ -37,6 +37,10 @@ export class MemberPermissionRepository {
         return DB.queryOne("SELECT * FROM memberPermissions WHERE id=? AND churchId=?;", [id, churchId]);
     }
 
+    public loadMyByForm(churchId: string, formId: string, personId:string) {
+      return DB.queryOne("SELECT * FROM memberPermissions WHERE churchId=? and contentType='form' and contentId=? and memberId=?;", [churchId, formId, personId]);
+  }
+
     public loadAll(churchId: string) {
         return DB.query("SELECT * FROM memberPermissions WHERE churchId=?;", [churchId]);
     }
@@ -53,6 +57,8 @@ export class MemberPermissionRepository {
             + " ORDER BY mp.action, mp.emailNotification desc;"
         return DB.query(sql, [churchId, formId]);
     }
+
+
 
     public convertToModel(churchId: string, data: any) {
         const result: MemberPermission = { id: data.id, churchId, memberId: data.memberId, contentType: data.contentType, contentId: data.contentId, action: data.action, personName: data.personName, emailNotification: data.emailNotification };

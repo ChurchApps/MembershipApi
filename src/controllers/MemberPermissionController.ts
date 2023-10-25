@@ -22,6 +22,14 @@ export class MemberPermissionController extends MembershipBaseController {
         });
     }
 
+    @httpGet("/form/:id/my")
+    public async getMyPermissions(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+        return this.actionWrapper(req, res, async (au) => {
+            if (!this.formAccess(au, id)) return this.json({}, 401);
+            else return this.repositories.memberPermission.convertToModel(au.churchId, await this.repositories.memberPermission.loadMyByForm(au.churchId, id, au.personId));
+        });
+    }
+
     @httpPost("/")
     public async save(req: express.Request<{}, {}, MemberPermission[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
