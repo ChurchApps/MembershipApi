@@ -48,6 +48,7 @@ export class UserHelper {
 
   static async replaceDomainAdminPermissions(roleUserChurches: LoginUserChurch[]) {
     roleUserChurches.forEach(luc => {
+      console.log(JSON.stringify(luc));
       luc.apis.forEach(api => {
         if (api.keyName==="MembershipApi") {
           for (let i=api.permissions.length-1; i>=0; i--) {
