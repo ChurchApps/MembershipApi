@@ -77,6 +77,10 @@ export class PersonRepository {
     return DB.query("SELECT * FROM people WHERE id IN (?) AND churchId=?;", [ids, churchId]);
   }
 
+  public loadByIdsOnly(ids: string[]) {
+    return DB.query("SELECT * FROM people WHERE id IN (?);", [ids]);
+  }
+
   public loadMembers(churchId: string) {
     return DB.query("SELECT * FROM people WHERE churchId=? AND removed=0 and membershipStatus in ('Member', 'Staff');", [churchId]);
   }

@@ -3,12 +3,27 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Person, Household, SearchCondition, Group } from "../models"
 import { FormSubmission, Form } from "../models"
-import { ArrayHelper, FileStorageHelper, PersonHelper } from "../helpers"
+import { ArrayHelper, Environment, FileStorageHelper, PersonHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
 import { AuthenticatedUser } from "@churchapps/apihelper";
 
 @controller("/people")
 export class PersonController extends MembershipBaseController {
+
+  @httpPost("/apiEmails")
+  public async apiEmails(req: express.Request<{}, {}, any>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapperAnon(req, res, async () => {
+      const jwtSecret = req.body.jwtSecret;
+      const peopleIds = req.body.peopleIds;
+      if (jwtSecret !== Environment.jwtSecret) return this.denyAccess(["Invalid JWT Secret"]);
+      else {
+        const people:any[] = await this.repositories.person.loadByIdsOnly(peopleIds);
+        const result:any[] = [];
+        people.forEach(p => { result.push({ id: p.id, email: p.email }); });
+        return result;
+      }
+    });
+  }
 
   @httpGet("/timeline")
   public async timeline(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
