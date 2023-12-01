@@ -145,6 +145,24 @@ export class PersonController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/search/group")
+  public async searchGroup(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      if (!au.checkAccess(Permissions.people.view) && !await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      else {
+        let data: any[] = [];
+        const members = await this.repositories.groupMember.loadForGroup(au.churchId, req.query.groupId.toString());
+        if (members.length === 0) {
+          return data;
+        }
+        const peopleIds = ArrayHelper.getIds(members, "personId");
+        data = await this.repositories.person.loadByIds(au.churchId, peopleIds);
+        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        return this.filterPeople(result, au);
+      }
+    })
+  }
+
   @httpGet("/search")
   public async search(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
