@@ -51,7 +51,7 @@ export class GroupMemberRepository {
     const sql = "SELECT gm.*, g.name as groupName"
       + " FROM groupMembers gm"
       + " INNER JOIN `groups` g on g.Id=gm.groupId"
-      + " WHERE gm.churchId=? AND gm.personId=?"
+      + " WHERE gm.churchId=? AND gm.personId=? AND g.removed=0"
       + " ORDER BY g.name;"
     return DB.query(sql, [churchId, personId]);
   }
