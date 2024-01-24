@@ -48,7 +48,7 @@ export class ChurchController extends MembershipBaseController {
           ), false);
         result = this.repositories.church.convertAllToModel(data);
         await ChurchHelper.appendLogos(result);
-        if (result.length > 0 && this.include(req, "logoSquare")) await this.appendLogos(result);
+        if (result.length > 0 && this.include(req, "favicon_400x400")) await this.appendLogos(result);
       }
       return this.json(result, 200);
     } catch (e) {
@@ -73,7 +73,7 @@ export class ChurchController extends MembershipBaseController {
           ), false);
         result = this.repositories.church.convertAllToModel(data);
         await ChurchHelper.appendLogos(result);
-        if (result.length > 0 && this.include(req, "logoSquare")) await this.appendLogos(result);
+        if (result.length > 0 && this.include(req, "favicon_400x400")) await this.appendLogos(result);
       }
       return this.json(result, 200);
     } catch (e) {
@@ -337,7 +337,7 @@ export class ChurchController extends MembershipBaseController {
 
   private async appendLogos(churches: Church[]) {
     const ids = ArrayHelper.getIds(churches, "id");
-    const settings = await this.repositories.setting.loadMulipleChurches(["logoSquare"], ids);
+    const settings = await this.repositories.setting.loadMulipleChurches(["favicon_400x400"], ids);
     settings.forEach((s: any) => {
       const church = ArrayHelper.getOne(churches, "id", s.churchId);
       if (church.settings === undefined) church.settings = [];
