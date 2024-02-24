@@ -29,8 +29,15 @@ export class CaddyHelper {
               routes: [this.getRoute(Environment.caddyHost, "localhost:2019", false)]
             },
             srv1: {
-              listen: [":443", ":80"],
+              listen: [":443"],
               routes
+            },
+            srv2: {
+              listen: [":80"],
+              listener_wrapper: [{
+                wrapper: "http_redirect",
+                max_header_bytes: 0
+              }]
             }
           }
         }
