@@ -31,6 +31,14 @@ export class CaddyHelper {
             srv1: {
               listen: [":443"],
               routes
+            },
+            srv2: {
+              listen: [":80"],
+              routes,
+              listener_wrapper: [{
+                wrapper: "http_redirect",
+                max_header_bytes: 0
+              }]
             }
           }
         }
