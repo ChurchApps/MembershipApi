@@ -14,7 +14,6 @@ export class Environment extends EnvironmentBase {
   static caddyPort: string;
 
   static async init(environment: string) {
-    environment="prod"
     let file = "dev.json";
     if (environment === "staging") file = "staging.json";
     if (environment === "prod") file = "prod.json";
