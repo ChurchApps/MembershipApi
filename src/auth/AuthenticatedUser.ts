@@ -38,7 +38,12 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
   }
 
   public static getChurchJwt(user: User, userChurch: LoginUserChurch) {
-    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
+    const groupIds: string[] = [];
+    userChurch.groups?.forEach(g => groupIds.push(g.id));
+    const leaderGroupIds: string[] = [];
+    userChurch.groups?.forEach(g => leaderGroupIds.push(g.id));
+
+    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, groupIds, leaderGroupIds }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
   }
 
   public static getUserJwt(user: User) {
