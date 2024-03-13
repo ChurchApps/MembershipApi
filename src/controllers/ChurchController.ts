@@ -10,7 +10,6 @@ import { ArrayHelper, EmailHelper } from "@churchapps/apihelper";
 
 const churchRegisterValidation = [
   body("name").notEmpty().withMessage("Select a church name"),
-  body("subDomain").notEmpty().withMessage("Select a sub domain"),
   body("address1").notEmpty().withMessage("Enter an address"),
   body("city").notEmpty().withMessage("Enter a city"),
   body("state").notEmpty().withMessage("Select a state"),
@@ -310,6 +309,7 @@ export class ChurchController extends MembershipBaseController {
       }
 
       let church = req.body;
+      church.subDomain = await ChurchHelper.selectSubDomain(church.name);
 
       const errors = await this.validateRegister(church, au);
       if (errors.length > 0) return this.json({ errors }, 401);

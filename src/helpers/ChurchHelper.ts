@@ -5,6 +5,23 @@ import { Church } from "../models";
 
 export class ChurchHelper {
 
+  static async selectSubDomain(name: string) {
+    const subDomain = this.suggestSubDomain(name) || "church";
+    const churches:Church[] = await Repositories.getCurrent().church.loadContainingSubDomain(subDomain);
+    let result = subDomain;
+    let i = 1;
+    while (ArrayHelper.getOne(churches, "subDomain", result)) {
+      result = subDomain + i.toString();
+      i++;
+    }
+    return result;
+  }
+
+  static suggestSubDomain(name: string) {
+    const result = name.toLowerCase().replaceAll("christian", "").replaceAll("church", "").replaceAll(" ", "");
+    return result;
+  }
+
   static async appendLogos(churches: Church[]) {
     if (!churches || churches.length === 0) return;
     const ids = ArrayHelper.getIds(churches, "id");

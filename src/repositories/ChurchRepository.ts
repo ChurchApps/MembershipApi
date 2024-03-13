@@ -23,6 +23,10 @@ export class ChurchRepository {
     return DB.query(query, params).then((rows: Church[]) => { return rows; });
   }
 
+  public loadContainingSubDomain(subDomain: string) {
+    return DB.query("SELECT * FROM churches WHERE subDomain like ? and archivedDate IS NULL;", [subDomain + "%"]);
+  }
+
   public loadBySubDomain(subDomain: string) {
     return DB.queryOne("SELECT * FROM churches WHERE subDomain=? and archivedDate IS NULL;", [subDomain]);
   }
