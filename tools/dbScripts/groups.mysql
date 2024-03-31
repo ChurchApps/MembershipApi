@@ -10,6 +10,7 @@ CREATE TABLE `groups` (
   `about` text DEFAULT NULL,
   `photoUrl` varchar(255) DEFAULT NULL,
   `removed` bit(1) DEFAULT NULL,
+  `tags` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+);

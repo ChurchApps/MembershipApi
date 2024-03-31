@@ -12,15 +12,15 @@ export class GroupRepository {
 
   private async create(group: Group) {
     group.id = UniqueIdHelper.shortId();
-    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, about, photoUrl, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0);";
-    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.about, group.photoUrl];
+    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, about, photoUrl, tags, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.about, group.photoUrl, group.tags];
     await DB.query(sql, params);
     return group;
   }
 
   private async update(group: Group) {
-    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=?, about=?, photoUrl=? WHERE id=? and churchId=?";
-    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.about, group.photoUrl, group.id, group.churchId];
+    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=?, about=?, photoUrl=?, tags=? WHERE id=? and churchId=?";
+    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.about, group.photoUrl, group.tags, group.id, group.churchId];
     await DB.query(sql, params);
     return group;
   }
@@ -31,6 +31,10 @@ export class GroupRepository {
 
   public load(churchId: string, id: string) {
     return DB.queryOne("SELECT * FROM `groups` WHERE id=? AND churchId=? AND removed=0;", [id, churchId]);
+  }
+
+  public loadByTag(churchId: string, tag: string) {
+    return DB.query("SELECT * FROM `groups` WHERE churchId=? AND removed=0 AND tags like ?;", [churchId, "%" + tag + "%"]);
   }
 
   public loadAll(churchId: string) {

@@ -31,6 +31,13 @@ export class GroupController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/tag/:tag")
+  public async getByTag(@requestParam("tag") tag:string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      return this.repositories.group.convertAllToModel(au.churchId, await this.repositories.group.loadByTag(au.churchId, tag));
+    });
+  }
+
   @httpGet("/")
   public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {

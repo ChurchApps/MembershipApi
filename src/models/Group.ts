@@ -7,6 +7,7 @@ export class Group {
   public parentPickup?: false;
   public about?: string;
   public photoUrl?: string;
+  public tags?: string;
 
   public memberCount?: number;
   public importKey?: string;
