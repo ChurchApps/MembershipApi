@@ -45,7 +45,7 @@ export class GroupRepository {
     const sql = "SELECT distinct g.*"
       + " FROM groupMembers gm"
       + " INNER JOIN groups g on g.id=gm.groupId"
-      + " WHERE personId=?"
+      + " WHERE personId=? and g.removed=0 and g.tags like '%standard%'"
       + " ORDER BY name";
     return DB.query(sql, [personId]);
   }
@@ -68,7 +68,7 @@ export class GroupRepository {
   }
 
   public convertToModel(churchId: string, data: any) {
-    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl };
+    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl, tags: data.tags };
     return result;
   }
 
