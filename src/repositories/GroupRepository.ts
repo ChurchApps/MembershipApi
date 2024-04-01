@@ -34,7 +34,7 @@ export class GroupRepository {
   }
 
   public loadByTag(churchId: string, tag: string) {
-    return DB.query("SELECT *, (SELECT COUNT(*) FROM groupMembers gm WHERE gm.groupId=g.id) AS memberCount FROM `groups` WHERE churchId=? AND removed=0 AND tags like ? ORDER by categoryName, name;", [churchId, "%" + tag + "%"]);
+    return DB.query("SELECT *, (SELECT COUNT(*) FROM groupMembers gm WHERE gm.groupId=g.id) AS memberCount FROM `groups` g WHERE churchId=? AND removed=0 AND tags like ? ORDER by categoryName, name;", [churchId, "%" + tag + "%"]);
   }
 
   public loadAll(churchId: string) {
