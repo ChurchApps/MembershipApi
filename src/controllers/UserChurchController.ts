@@ -1,4 +1,4 @@
-import { controller, httpGet, httpPatch, httpPost, requestParam } from "inversify-express-utils";
+import { controller, httpDelete, httpGet, httpPatch, httpPost, requestParam } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
 import { UserChurch } from "../models";
@@ -57,6 +57,13 @@ export class UserChurchController extends MembershipBaseController {
     return this.actionWrapper(req, res, async ({ churchId }) => {
       const record = await this.repositories.userChurch.loadByUserId(userId, churchId);
       return this.repositories.userChurch.convertToModel(record);
+    })
+  }
+
+  @httpDelete("/record/:userId/:churchId/:personId")
+  public async deleteRecord(@requestParam("userId") userId: string, @requestParam("churchId") churchId: string, @requestParam("personId") personId: string, req: express.Request, res: express.Response): Promise<any> {
+    return this.actionWrapper(req, res, async (au) => {
+      await this.repositories.userChurch.deleteRecord(userId, churchId, personId);
     })
   }
 
