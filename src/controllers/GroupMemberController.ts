@@ -7,6 +7,13 @@ import { Permissions } from '../helpers/Permissions'
 @controller("/groupmembers")
 export class GroupMemberController extends MembershipBaseController {
 
+    @httpGet("/my")
+    public async getMy(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+        return this.actionWrapper(req, res, async (au) => {
+            return this.repositories.groupMember.loadForPerson(au.churchId, au.personId);
+        });
+    }
+
     @httpGet("/:id")
     public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
