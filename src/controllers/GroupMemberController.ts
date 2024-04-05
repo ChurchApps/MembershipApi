@@ -29,6 +29,7 @@ export class GroupMemberController extends MembershipBaseController {
             else {
                 let result = null;
                 if (req.query.groupId !== undefined) result = await this.repositories.groupMember.loadForGroup(au.churchId, req.query.groupId.toString());
+                else if (req.query.groupIds !== undefined) result = await this.repositories.groupMember.loadForGroups(au.churchId, req.query.groupIds.toString().split(','));
                 else if (req.query.personId !== undefined) result = await this.repositories.groupMember.loadForPerson(au.churchId, req.query.personId.toString());
                 else result = await this.repositories.groupMember.loadAll(au.churchId);
                 return this.repositories.groupMember.convertAllToModel(au.churchId, result);

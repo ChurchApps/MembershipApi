@@ -47,6 +47,15 @@ export class GroupMemberRepository {
     return DB.query(sql, [churchId, groupId]);
   }
 
+  public loadForGroups(churchId: string, groupIds: string[]) {
+    const sql = "SELECT gm.*, p.photoUpdated, p.displayName, p.email"
+      + " FROM groupMembers gm"
+      + " INNER JOIN people p on p.id=gm.personId"
+      + " WHERE gm.churchId=? AND gm.groupId IN (?)"
+      + " ORDER BY gm.leader desc, p.lastName, p.firstName;"
+    return DB.query(sql, [churchId, groupIds]);
+  }
+
   public loadForPerson(churchId: string, personId: string) {
     const sql = "SELECT gm.*, g.name as groupName"
       + " FROM groupMembers gm"
