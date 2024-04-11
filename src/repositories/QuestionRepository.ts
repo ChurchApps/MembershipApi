@@ -12,8 +12,8 @@ export class QuestionRepository {
 
     private async create(question: Question) {
         question.id = UniqueIdHelper.shortId();
-        const sql = "INSERT INTO questions (id, churchId, formId, parentId, title, description, fieldType, placeholder, sort, required, choices, removed) SELECT ?, ?, ?, ?, ?, ?, ?, ?, IF(MAX(sort) IS NULL, 1, MAX(sort)+1), ?, ?, 0 FROM questions;";
-        const params = [question.id, question.churchId, question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.required, JSON.stringify(question.choices)];
+        const sql = "INSERT INTO questions (id, churchId, formId, parentId, title, description, fieldType, placeholder, sort, required, choices, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+        const params = [question.id, question.churchId, question.formId, question.parentId, question.title, question.description, question.fieldType, question.placeholder, question.sort, question.required, JSON.stringify(question.choices)];
         await DB.query(sql, params);
         return question;
     }
