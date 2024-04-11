@@ -51,12 +51,19 @@ export class QuestionController extends MembershipBaseController {
     public async save(req: express.Request<{}, {}, Question[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             const promises: Promise<Question>[] = [];
-            req.body.forEach(question => {
+            const questions = req.body;
+            for(let i = 0; i < questions.length; i++) {
+                const question = questions[i];
                 if (this.formAccess(au, question.formId)) {
+                    const availableQuestions = await this.repositories.question.loadForForm(au.churchId, question.formId);
+                    const maxValue = Math.max(...availableQuestions.map((q: any) => q.sort));
+                    const addBy = i + 1;
+                    const sort = availableQuestions.length > 0 ? (maxValue + addBy) : 1;
                     question.churchId = au.churchId;
+                    question.sort = question.sort ? question.sort : sort.toString();
                     promises.push(this.repositories.question.save(question));
                 }
-            });
+            };
             const result = await Promise.all(promises);
             return this.repositories.question.convertAllToModel(au.churchId, result);
         });
