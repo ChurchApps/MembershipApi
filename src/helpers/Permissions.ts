@@ -19,7 +19,9 @@ export class Permissions extends BasePermissions {
     edit: { contentType: "Forms", action: "Edit" },
     access: { contentType: "Forms", action: "Admin" } || { contentType: "Forms", action: "Edit" }
   };
-
+  static plans = {
+    edit: { contentType: "Plans", action: "Edit" },
+  };
 
   static server = {
     admin: { contentType: "Server", action: "Admin" },
@@ -43,8 +45,9 @@ export const permissionsList: IPermission[] = [
   { apiName: "GivingApi", section: "Donations", action: "View Summary", displaySection: "Donations", displayAction: "View Donation Summaries" },
   { apiName: "GivingApi", section: "Donations", action: "View", displaySection: "Donations", displayAction: "View Donations" },
   { apiName: "LessonsApi", section: "Schedules", action: "Edit", displaySection: "Lessons", displayAction: "Edit Schedules" },
-  { apiName: "MembershipApi", section: "Forms", action: "Admin", displaySection: "Forms", displayAction: "Form Admin" },
-  { apiName: "MembershipApi", section: "Forms", action: "Edit", displaySection: "Forms", displayAction: "Edit Forms" },
+  { apiName: "MembershipApi", section: "Forms", action: "Admin", displaySection: "Forms and Plans", displayAction: "Form Admin" },
+  { apiName: "MembershipApi", section: "Forms", action: "Edit", displaySection: "Forms and Plans", displayAction: "Edit Forms" },
+  { apiName: "MembershipApi", section: "Plans", action: "Edit", displaySection: "Forms and Plans", displayAction: "Edit Plans" },
   { apiName: "MembershipApi", section: "Group Members", action: "Edit", displaySection: "People and Groups", displayAction: "Edit Group Members" },
   { apiName: "MembershipApi", section: "Groups", action: "Edit", displaySection: "People and Groups", displayAction: "Edit Groups" },
   { apiName: "MembershipApi", section: "Households", action: "Edit", displaySection: "People and Groups", displayAction: "Edit Households" },
@@ -84,7 +87,7 @@ export type DisplaySection =
   | "Donations"
   | "Attendance"
   | "Lessons"
-  | "Forms"
+  | "Forms and Plans"
   | "Content";
 
 export type ContentType =
@@ -99,6 +102,7 @@ export type ContentType =
   | "Forms"
   | "Households"
   | "People"
+  | "Plans"
   | "Group Members"
   | "Groups"
   | "Donations"
