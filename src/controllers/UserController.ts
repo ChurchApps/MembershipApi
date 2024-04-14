@@ -121,7 +121,7 @@ export class UserController extends MembershipBaseController {
       const groups = ArrayHelper.getAll(allGroups, "personId", uc.person.id);
       uc.groups = [];
       // PASS groupId TO ID FIELD. OR CREATE NEW groupId FIELD.
-      groups.forEach(g => uc.groups.push({ id: g.groupId, name: g.name, leader: g.leader }));
+      groups.forEach(g => uc.groups.push({ id: g.groupId, tags:g.tags, name: g.name, leader: g.leader }));
     });
 
     return roleUserChurches;
