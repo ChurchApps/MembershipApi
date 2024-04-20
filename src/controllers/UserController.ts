@@ -104,6 +104,7 @@ export class UserController extends MembershipBaseController {
     // Load user churches via Roles
     const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true)  // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
 
+
     UserHelper.replaceDomainAdminPermissions(roleUserChurches);
     UserHelper.addAllReportingPermissions(roleUserChurches);
 
@@ -116,8 +117,12 @@ export class UserController extends MembershipBaseController {
 
     const peopleIds: string[] = [];
     roleUserChurches.forEach(uc => { if (uc.person.id) peopleIds.push(uc.person.id) })
+
+    const allPeople = (peopleIds.length > 0) ? await this.repositories.person.loadByIdsOnly(peopleIds) : [];
     const allGroups = (peopleIds.length > 0) ? await this.repositories.groupMember.loadForPeople(peopleIds) : [];
     roleUserChurches.forEach(uc => {
+      const person = ArrayHelper.getOne(allPeople, "id", uc.person.id);
+      if (person) uc.person.membershipStatus = person.membershipStatus;
       const groups = ArrayHelper.getAll(allGroups, "personId", uc.person.id);
       uc.groups = [];
       // PASS groupId TO ID FIELD. OR CREATE NEW groupId FIELD.
