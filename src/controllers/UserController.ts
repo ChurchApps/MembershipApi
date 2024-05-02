@@ -193,7 +193,7 @@ export class UserController extends MembershipBaseController {
         user.password = bcrypt.hashSync(tempPassword, 10);
         user.authGuid = v4();
         user = await this.repositories.user.save(user);
-        await UserHelper.sendWelcomeEmail(user.email, `/login?auth=${user.authGuid}&returnUrl=/profile`, null, null);
+        await UserHelper.sendWelcomeEmail(user.email, `/login?auth=${user.authGuid}`, null, null);
       }
       user.password = null;
       return this.json(user, 200);
@@ -218,7 +218,7 @@ export class UserController extends MembershipBaseController {
         user.password = bcrypt.hashSync(tempPassword, 10);
 
         try {
-          await UserHelper.sendWelcomeEmail(register.email, `/login?auth=${user.authGuid}&returnUrl=/profile`, register.appName, register.appUrl);
+          await UserHelper.sendWelcomeEmail(register.email, `/login?auth=${user.authGuid}`, register.appName, register.appUrl);
 
           if (Environment.emailOnRegistration) {
             const emailBody = "Name: " + register.firstName + " " + register.lastName + "<br/>Email: " + register.email + "<br/>App: " + register.appName;
@@ -276,7 +276,7 @@ export class UserController extends MembershipBaseController {
         user.authGuid = v4();
         const promises = [];
         promises.push(this.repositories.user.save(user));
-        promises.push(UserHelper.sendForgotEmail(user.email, `/login?auth=${user.authGuid}&returnUrl=/profile`, req.body.appName, req.body.appUrl));
+        promises.push(UserHelper.sendForgotEmail(user.email, `/login?auth=${user.authGuid}`, req.body.appName, req.body.appUrl));
         await Promise.all(promises);
         return this.json({ emailed: true }, 200);
       }
