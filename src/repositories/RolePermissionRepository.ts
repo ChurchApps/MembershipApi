@@ -37,7 +37,7 @@ export class RolePermissionRepository {
   }
 
   public async loadForUser(userId: string, removeUniversal: boolean): Promise<LoginUserChurch[]> {
-    const query = "SELECT c.name AS churchName, r.churchId, c.subDomain, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId AS personId, p.membershipStatus, c.archivedDate"
+    const query = "SELECT c.name AS churchName, r.churchId, c.subDomain, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId AS personId, p.membershipStatus, c.archivedDate, c.address1, c.address2, c.city, c.state, c.zip, c.country"
       + " FROM roleMembers rm"
       + " INNER JOIN roles r on r.id=rm.roleId"
       + " INNER JOIN rolePermissions rp on (rp.roleId=r.id or (rp.roleId IS NULL AND rp.churchId=rm.churchId))"
@@ -55,7 +55,11 @@ export class RolePermissionRepository {
     let reportingApi: Api = null;
     data.forEach((row: any) => {
       if (currentUserChurch === null || row.churchId !== currentUserChurch.church.id) {
-        currentUserChurch = { church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain, archivedDate: row.archivedDate }, person: { id: row.personId, membershipStatus: row.membershipStatus }, apis: [] };
+        currentUserChurch = {
+          church: { id: row.churchId, name: row.churchName, subDomain: row.subDomain, archivedDate: row.archivedDate, address1: row.address1, address2: row.address2, city: row.city, state: row.state, zip: row.zip, country: row.country },
+          person: { id: row.personId, membershipStatus: row.membershipStatus },
+          apis: []
+        };
         result.push(currentUserChurch);
         currentApi = null;
         reportingApi = { keyName: "ReportingApi", permissions: [] }
