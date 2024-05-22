@@ -18,7 +18,7 @@ export class ChurchHelper {
   }
 
   static suggestSubDomain(name: string) {
-    const result = name.toLowerCase().replaceAll("christian", "").replaceAll("church", "").replaceAll(" ", "");
+    const result = name.toLowerCase().replaceAll("christian", "").replaceAll("church", "").replaceAll(" ", "").replace(/[^A-Za-z0-9]/g, "");
     return result;
   }
 
