@@ -183,6 +183,18 @@ export class PersonController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/basic")
+  public async getBasic(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+        const idList = req.query.ids.toString().split(',');
+        const ids: string[] = [];
+        idList.forEach(id => ids.push(id));
+        const data = await this.repositories.person.loadByIds(au.churchId, ids);
+        const result = this.repositories.person.convertAllToBasicModel(au.churchId, data)
+        return this.filterPeople(result, au);
+    });
+  }
+
   @httpGet("/ids")
   public async getMultiple(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {

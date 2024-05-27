@@ -162,4 +162,23 @@ export class PersonRepository {
     return result;
   }
 
+  public convertAllToBasicModel(churchId: string, data: any[]) {
+    const result: Person[] = [];
+    data.forEach(d => result.push(this.convertToBasicModel(churchId, d)));
+    return result;
+  }
+
+  public convertToBasicModel(churchId: string, data: any) {
+    const result: Person = {
+      name: { display: data.displayName},
+      contactInfo: {  },
+      photo: data.photo,
+      photoUpdated: data.photoUpdated, 
+      membershipStatus: data.membershipStatus, 
+      id: data.id
+    }
+    if (result.photo === undefined) result.photo = PersonHelper.getPhotoPath(churchId, result);
+    return result;
+  }
+
 }
