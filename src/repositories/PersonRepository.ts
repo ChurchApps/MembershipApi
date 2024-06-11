@@ -173,8 +173,8 @@ export class PersonRepository {
       name: { display: data.displayName},
       contactInfo: {  },
       photo: data.photo,
-      photoUpdated: data.photoUpdated, 
-      membershipStatus: data.membershipStatus, 
+      photoUpdated: data.photoUpdated,
+      membershipStatus: data.membershipStatus,
       id: data.id
     }
     if (result.photo === undefined) result.photo = PersonHelper.getPhotoPath(churchId, result);

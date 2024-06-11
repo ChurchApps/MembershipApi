@@ -1,0 +1,10 @@
+CREATE TABLE `settings` (
+  `id` char(11) CHARACTER SET latin1 NOT NULL,
+  `churchId` char(11) CHARACTER SET latin1 DEFAULT NULL,
+  `keyName` varchar(255) DEFAULT NULL,
+  `value` text CHARACTER SET latin1,
+  `public` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `churchId` (`churchId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

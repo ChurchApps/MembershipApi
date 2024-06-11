@@ -6,7 +6,7 @@ import { DBCreator } from "@churchapps/apihelper"
 
 const init = async () => {
   dotenv.config();
-  await Environment.init(process.env.APP_ENV);
+  await Environment.init(process.env.APP_ENV as string);
   console.log("Connecting");
   Pool.initPool();
 
@@ -41,10 +41,10 @@ const init = async () => {
   ];
 
   const miscTables: { title: string, file: string }[] = [
-    { title: "Errors", file: "clientErrors.mysql" }
+    { title: "Errors", file: "clientErrors.mysql" },
+    { title: "Settings", file: "settings.mysql" }
   ];
 
-  await DBCreator.init(["Settings"])
   await initTables("Access", accessTables);
   await initTables("Forms", formTables);
   await initTables("People", peopleTables);
