@@ -326,7 +326,7 @@ export class ChurchController extends MembershipBaseController {
         }
 
         try {
-          if (Environment.hubspotKey) await HubspotHelper.register(church.name, au.firstName, au.lastName, church.address1, church.city, church.state, church.zip, au.email, church.appName);
+          if (Environment.hubspotKey) await HubspotHelper.register(church.name, au.firstName, au.lastName, church.address1, church.city, church.state, church.zip, church.country, au.email, church.appName);
         } catch (ex) {
           console.log(ex);
         }

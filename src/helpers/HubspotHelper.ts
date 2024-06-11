@@ -5,18 +5,18 @@ export class HubspotHelper {
   static contactId: string = "";
   static companyId: string = "";
 
-  static register = async (companyName: string, firstName: string, lastName: string, address: string, city: string, state: string, zip: string, email: string, initialApp: string) => {
+  static register = async (companyName: string, firstName: string, lastName: string, address: string, city: string, state: string, zip: string, country:string, email: string, initialApp: string) => {
     if (Environment.hubspotKey) {
       const hubspot = require('@hubspot/api-client')
       // const client = new hubspot.Client({ apiKey: Environment.hubspotKey })
       const client = new hubspot.Client({ accessToken: Environment.hubspotKey })
 
       const company: Hubspot.companiesModels.SimplePublicObjectInput = {
-        properties: { name: companyName, description: initialApp, address, city, state, zip }
+        properties: { name: companyName, description: initialApp, address, city, state, zip, country }
       }
 
       const contact: Hubspot.contactsModels.SimplePublicObjectInput = {
-        properties: { firstname: firstName, lastname: lastName, email, company: companyName, address, city, state, zip, initial_app: initialApp }
+        properties: { firstname: firstName, lastname: lastName, email, company: companyName, address, city, state, zip, country, initial_app: initialApp }
       }
 
       const promises: Promise<any>[] = [];
