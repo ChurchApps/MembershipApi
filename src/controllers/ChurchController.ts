@@ -1,5 +1,5 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
-import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest, LoginUserChurch, Group } from "../models";
+import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest, LoginUserChurch, Group, RoleMember, User } from "../models";
 import express from "express";
 import { body, validationResult } from "express-validator";
 import { AuthenticatedUser } from '../auth';
@@ -169,6 +169,27 @@ export class ChurchController extends MembershipBaseController {
 
       return church;
       // }
+    });
+  }
+
+  // This is just to get a church's server/domain admin without any permissions.
+  @httpGet("/:id/getDomainAdmin")
+  public async getDomainAdmin(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      const roles = await this.repositories.role.loadByChurchId(id);
+      const domainRole = ArrayHelper.getOne(roles, "name", "Domain Admins");
+      const members = await this.repositories.roleMember.loadByRoleId(domainRole.id, au.churchId);
+      let domainAdmin: RoleMember;
+      if (members.length > 0) {
+        const member: RoleMember = members[0];
+        const user: User = await this.repositories.user.load(member.userId);
+        user.password = null;
+        user.registrationDate = null;
+        user.lastLogin = null;
+        member.user = user;
+        domainAdmin = member;
+      }
+      return domainAdmin;
     });
   }
 

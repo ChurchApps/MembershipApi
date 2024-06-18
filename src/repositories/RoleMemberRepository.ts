@@ -24,7 +24,7 @@ export class RoleMemberRepository {
     }
 
     public loadByRoleId(roleId: string, churchId: string): Promise<RoleMember[]> {
-        return DB.query("SELECT rm.*, uc.personId FROM roleMembers rm LEFT JOIN userChurches uc ON rm.userId=uc.userId AND rm.churchId=uc.churchId WHERE roleId=? AND rm.churchId=?;", [roleId, churchId]);
+        return DB.query("SELECT rm.*, uc.personId FROM roleMembers rm LEFT JOIN userChurches uc ON rm.userId=uc.userId AND rm.churchId=uc.churchId WHERE roleId=? AND rm.churchId=? ORDER BY rm.dateAdded;", [roleId, churchId]);
     }
 
     public loadById(id: string, churchId: string): Promise<RoleMember> {
