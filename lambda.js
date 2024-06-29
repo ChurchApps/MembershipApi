@@ -24,4 +24,4 @@ function handler (event, context) {
   return setup(event, context)
 }
 
-exports.handler = handler;
+exports.universal = handler;
