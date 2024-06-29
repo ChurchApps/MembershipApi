@@ -1,6 +1,9 @@
 service: membership-api
 
 custom:
+  serverless-layers:
+    dependenciesPath: ./package.json
+    layersDeploymentBucket: "lcs-layers"
   env: ${lower(${opt:stage, self:provider.stage})}
   vpcSettings:
     prod:
@@ -21,12 +24,6 @@ provider:
   environment:
     APP_ENV: ${self:custom.env}
 
-layers:
-  nodeModulesLayer:
-    path: layer
-    compatibleRuntimes:
-      - nodejs18.x
-
 functions:
   api:
     handler: lambda.universal
@@ -34,8 +31,7 @@ functions:
       - http: ANY {proxy+}
       - http: ANY /
     vpc: ${self:custom.vpcSettings.current}
-    layers:
-      - !Ref: NodeModulesLayer
 
 plugins:
+  - serverless-layers
   - serverless-plugin-utils
