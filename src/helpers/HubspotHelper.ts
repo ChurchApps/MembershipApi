@@ -1,4 +1,4 @@
-import Hubspot from "@hubspot/api-client";
+//import Hubspot from "@hubspot/api-client";
 import { Environment } from ".";
 
 export class HubspotHelper {
@@ -11,11 +11,11 @@ export class HubspotHelper {
       // const client = new hubspot.Client({ apiKey: Environment.hubspotKey })
       const client = new hubspot.Client({ accessToken: Environment.hubspotKey })
 
-      const company: Hubspot.companiesModels.SimplePublicObjectInput = {
+      const company: any = {
         properties: { name: companyName, description: initialApp, address, city, state, zip, country }
       }
 
-      const contact: Hubspot.contactsModels.SimplePublicObjectInput = {
+      const contact: any = {
         properties: { firstname: firstName, lastname: lastName, email, company: companyName, address, city, state, zip, country, initial_app: initialApp }
       }
 

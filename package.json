@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "clean": "rimraf dist/*",
+    "clean": "rimraf dist",
     "codegen": "graphql-codegen",
     "copy-assets": "copyfiles -f src/apiBase/tools/templates/* dist/templates",
     "exec-deploy-staging": "serverless deploy --stage Staging",
