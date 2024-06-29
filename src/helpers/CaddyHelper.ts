@@ -76,7 +76,7 @@ export class CaddyHelper {
     const rewrite = this.getRewrite(host, dial);
     const handle:any = this.getReverseProxyHandler(host, dial);
     if (rewrite) handle.rewrite = rewrite;
-    //if (useHttps) handle.transport = { protocol: "http", tls: {} }
+    // if (useHttps) handle.transport = { protocol: "http", tls: {} }
 
 
     const result: any = {
