@@ -1,4 +1,4 @@
-//import Hubspot from "@hubspot/api-client";
+// import Hubspot from "@hubspot/api-client";
 import { Environment } from ".";
 
 export class HubspotHelper {

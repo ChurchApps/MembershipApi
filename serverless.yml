@@ -1,9 +1,6 @@
 service: membership-api
 
 custom:
-  serverless-layers:
-    dependenciesPath: ./package.json
-    layersDeploymentBucket: "lcs-layers"
   env: ${lower(${opt:stage, self:provider.stage})}
   vpcSettings:
     prod:
@@ -33,5 +30,4 @@ functions:
     vpc: ${self:custom.vpcSettings.current}
 
 plugins:
-  - serverless-layers
   - serverless-plugin-utils
