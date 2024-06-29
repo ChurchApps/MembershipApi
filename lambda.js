@@ -19,9 +19,7 @@ async function setup (event, context) {
   return cachedServer(event, context)
 };
 
-function handler (event, context) {
+module.exports.universal = function universal(event, context) {
   if (cachedServer) return serverlessExpressInstance(event, context)
   return setup(event, context)
 }
-
-exports.universal = handler;
