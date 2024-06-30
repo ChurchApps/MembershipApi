@@ -2,7 +2,7 @@ service: membership-api
 
 custom:
   serverless-layers:
-    dependenciesPath: ./package.json
+    dependenciesPath: ${pwd}/package.json
     layersDeploymentBucket: "lcs-layers"
   env: ${lower(${opt:stage, self:provider.stage})}
   vpcSettings:
