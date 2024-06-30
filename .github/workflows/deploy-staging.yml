@@ -58,4 +58,4 @@ jobs:
         run: |
           npm run build
           npm run copy-assets
-          npx serverless deploy --stage staging --verbose    
+          ./node_modules/.bin/serverless deploy --stage staging --verbose    
