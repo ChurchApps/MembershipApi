@@ -56,5 +56,5 @@ jobs:
 
       - name: Serverless package contents
         run: |
-          npx serverless package --stage staging
+          npx serverless package --stage Staging
           ls -R .serverless
