@@ -1,9 +1,6 @@
 service: membership-api
 
 custom:
-  serverless-layers:
-    dependenciesPath: ./package.json
-    layersDeploymentBucket: "lcs-layers"
   env: ${lower(${opt:stage, self:provider.stage})}
   vpcSettings:
     prod:
@@ -11,7 +8,7 @@ custom:
         - sg-052314a1eec2f2567
       subnetIds:
         - subnet-01a6b61d749d10c46
-    current: ${ternary( ${self:custom.env}, prod, ${self:custom.vpcSettings.prod}, ~ )}
+    current: ${ternary(${self:custom.env}, prod, ${self:custom.vpcSettings.prod}, ~)}
 
 provider:
   name: aws
@@ -24,6 +21,14 @@ provider:
   environment:
     APP_ENV: ${self:custom.env}
 
+layers:
+  dependencies:
+    path: layer
+    name: ${self:service}-${sls:stage}-dependencies
+    description: Dependencies for ${self:service}
+    compatibleRuntimes:
+      - nodejs18.x
+
 functions:
   api:
     handler: lambda.universal
@@ -35,7 +40,8 @@ functions:
           path: /
           method: ANY
     vpc: ${self:custom.vpcSettings.current}
+    layers:
+      - {Ref: DependenciesLambdaLayer}
 
 plugins:
-  - serverless-layers
   - serverless-plugin-utils

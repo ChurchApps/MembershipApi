@@ -2,7 +2,7 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  
+
 name: Deploy Staging
 
 env:
@@ -19,7 +19,12 @@ jobs:
         with:
           submodules: 'true'
 
-      - uses: actions/cache@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -33,35 +38,25 @@ jobs:
           aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Setup Serverless
-        run: |
-          export SERVERLESS_ACCESS_KEY="$SERVERLESS_ACCESS_KEY"
-
-      - name: Check working directory
-        run: |
-          pwd
-          ls -la
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-      
       - name: Install dependencies
         run: |
           npm ci
-          npm install serverless@3.38.0 --save-exact
 
       - name: Check Serverless version
-        run: ./node_modules/.bin/serverless --version
+        run: npx serverless --version
 
-      - name: Check Serverless installation
+      - name: Prepare Lambda Layer
         run: |
-          ls -R node_modules/serverless
-          npm list serverless
+          mkdir -p layer/nodejs
+          cp package.json layer/nodejs/
+          cd layer/nodejs
+          npm install --production
+          cd ../..
 
       - name: Deploy API
+        run: npx serverless deploy --stage staging --verbose
+
+      - name: Serverless package contents
         run: |
-          npm run build
-          npm run copy-assets
-          ./node_modules/.bin/serverless deploy --stage Staging --verbose    
+          npx serverless package --stage staging
+          ls -R .serverless
