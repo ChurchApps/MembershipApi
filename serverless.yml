@@ -28,8 +28,12 @@ functions:
   api:
     handler: lambda.universal
     events:
-      - http: ANY {proxy+}
-      - http: ANY /
+      - http:
+          path: /{proxy+}
+          method: ANY
+      - http:
+          path: /
+          method: ANY
     vpc: ${self:custom.vpcSettings.current}
 
 plugins:

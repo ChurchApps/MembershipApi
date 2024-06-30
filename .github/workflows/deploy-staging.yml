@@ -41,9 +41,21 @@ jobs:
         run: |
           pwd
           ls -la
+      
+      - name: Check Serverless version
+        run: npx serverless --version
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: |
+          npm ci
 
       - name: Deploy API
         run: |
-          npm install
+          #npm install
           #npm run deploy-staging
           npx serverless deploy --stage staging --verbose    
