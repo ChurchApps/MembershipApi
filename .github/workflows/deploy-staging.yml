@@ -56,8 +56,6 @@ jobs:
 
       - name: Deploy API
         run: |
-          #npm install
-          #npm run deploy-staging
           npx build
           npx copy-assets
           npx serverless deploy --stage staging --verbose    
