@@ -42,9 +42,6 @@ jobs:
           pwd
           ls -la
       
-      - name: Check Serverless version
-        run: npx serverless --version
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -53,6 +50,15 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
+          npm install serverless@3.38.0 --save-exact
+
+      - name: Check Serverless version
+        run: ./node_modules/.bin/serverless --version
+
+      - name: Check Serverless installation
+        run: |
+          ls -R node_modules/serverless
+          npm list serverless
 
       - name: Deploy API
         run: |
