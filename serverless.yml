@@ -1,5 +1,10 @@
 service: membership-api
 
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+
 custom:
   env: ${lower(${opt:stage, self:provider.stage})}
   vpcSettings:
@@ -42,6 +47,10 @@ functions:
     vpc: ${self:custom.vpcSettings.current}
     layers:
       - {Ref: DependenciesLambdaLayer}
+    package:
+      patterns:
+        - '!node_modules/**'
+        - '!package-lock.json'
 
 plugins:
   - serverless-plugin-utils
