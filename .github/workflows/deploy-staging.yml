@@ -52,7 +52,10 @@ jobs:
           cd ../..
 
       - name: Deploy API
-        run: npx serverless deploy --stage Staging --verbose --force
+        run: |
+          npm run build
+          npm run copy-assets
+          npx serverless deploy --stage Staging --verbose --force
 
       - name: Serverless package contents
         run: |
