@@ -27,8 +27,8 @@
   "author": "Live Church Solutions",
   "dependencies": {
     "@churchapps/apihelper": "0.0.15",
-    "aws-serverless-express": "^3.4.0",
     "@hubspot/api-client": "^11.1.0",
+    "aws-serverless-express": "^3.4.0",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -54,6 +54,7 @@
     "copyfiles": "^2.4.1",
     "nodemon": "^3.1.4",
     "npm-run-all": "^4.1.5",
+    "rimraf": "^5.0.7",
     "serverless": "3.39.0",
     "serverless-plugin-utils": "^0.2.0",
     "ts-node": "^10.9.2",
