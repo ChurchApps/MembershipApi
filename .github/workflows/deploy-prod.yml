@@ -55,6 +55,7 @@ jobs:
         run: |
           npm run build
           npm run copy-assets
+          npx serverless remove --stage Prod
           npx serverless deploy --stage Prod --verbose --force
 
       - name: Serverless package contents
