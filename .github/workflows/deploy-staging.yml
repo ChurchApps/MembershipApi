@@ -36,28 +36,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Install dependencies
-        run: |
-          npm ci
-
-      - name: Check Serverless version
-        run: npx serverless --version
-
-      - name: Prepare Lambda Layer
-        run: |
-          mkdir -p layer/nodejs
-          cp package.json layer/nodejs/
-          cd layer/nodejs
-          npm install --production
-          cd ../..
-
       - name: Deploy API
         run: |
-          npm run build
-          npm run copy-assets
-          npx serverless deploy --stage Staging --verbose --force
-
-      - name: Serverless package contents
-        run: |
-          npx serverless package --stage Staging
-          ls -R .serverless
+          npm install
+          npm run deploy-staging
