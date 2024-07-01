@@ -43,19 +43,11 @@ jobs:
       - name: Check Serverless version
         run: npx serverless --version
 
-      - name: Prepare Lambda Layer
-        run: |
-          mkdir -p layer/nodejs
-          cp package.json layer/nodejs/
-          cd layer/nodejs
-          npm install --production
-          cd ../..
-
       - name: Deploy API
         run: |
           npm run build
           npm run copy-assets
-          npx serverless deploy --stage Staging --verbose --force
+          npx serverless deploy --stage Staging --verbose
 
       - name: Serverless package contents
         run: |

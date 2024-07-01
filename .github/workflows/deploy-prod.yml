@@ -32,8 +32,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
       - name: Install dependencies
@@ -43,19 +43,11 @@ jobs:
       - name: Check Serverless version
         run: npx serverless --version
 
-      - name: Prepare Lambda Layer
-        run: |
-          mkdir -p layer/nodejs
-          cp package.json layer/nodejs/
-          cd layer/nodejs
-          npm install --production
-          cd ../..
-
       - name: Deploy API
         run: |
           npm run build
           npm run copy-assets
-          npx serverless deploy --stage Prod --verbose --force
+          npx serverless deploy --stage Prod --verbose
 
       - name: Serverless package contents
         run: |
