@@ -27,7 +27,7 @@
   "author": "Live Church Solutions",
   "dependencies": {
     "@churchapps/apihelper": "0.0.15",
-    "@codegenie/serverless-express": "^4.14.1",
+    "aws-serverless-express": "^3.4.0",
     "@hubspot/api-client": "^11.1.0",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
