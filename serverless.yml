@@ -13,7 +13,7 @@ custom:
         - sg-052314a1eec2f2567
       subnetIds:
         - subnet-01a6b61d749d10c46
-    current: ${self:custom.env == 'prod' ? self:custom.vpcSettings.prod : null}
+    current: ${ternary(${self:custom.env}, prod, ${self:custom.vpcSettings.prod}, ~)}
 
 provider:
   name: aws
