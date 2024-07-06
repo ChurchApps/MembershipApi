@@ -46,4 +46,9 @@ export class RoleMemberRepository {
       return DB.query(query, [userId])
     }
 
+    public deleteSelf(churchId: string, userId: string) {
+        const query = "DELETE FROM roleMembers WHERE churchId=? AND userId=?;"
+        return DB.query(query, [churchId, userId]);
+    }
+
 }
