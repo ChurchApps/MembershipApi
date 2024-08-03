@@ -3,6 +3,7 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Group } from "../models"
 import { Permissions } from '../helpers/Permissions'
+import { ArrayHelper } from "@churchapps/apihelper";
 
 @controller("/groups")
 export class GroupController extends MembershipBaseController {
@@ -62,7 +63,18 @@ export class GroupController extends MembershipBaseController {
   public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.groups.edit)) return this.json({}, 401);
-      else await this.repositories.group.delete(au.churchId, id);
+      else {
+        const group: Group = await this.repositories.group.load(au.churchId, id);
+        if (group.tags.indexOf("ministry") > -1) {
+          const AllTeams = await this.repositories.group.loadByTag(au.churchId, "team");
+          const ministryTeams = ArrayHelper.getAll(AllTeams, "categoryName", id);
+          const ids = ArrayHelper.getIds(ministryTeams, "id");
+          await this.repositories.group.delete(au.churchId, id);
+          await this.repositories.group.deleteByIds(au.churchId, ids);
+        } else {
+          await this.repositories.group.delete(au.churchId, id);
+        }
+      }
     });
   }
 
