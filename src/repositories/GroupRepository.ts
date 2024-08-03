@@ -29,6 +29,10 @@ export class GroupRepository {
     return DB.query("UPDATE `groups` SET removed=1 WHERE id=? AND churchId=?;", [id, churchId]);
   }
 
+  public deleteByIds(churchId: string, ids: string[]) {
+    return DB.query("UPDATE `groups` SET removed=1 WHERE id IN (?) AND churchId=?;", [ids, churchId]);
+  }
+
   public load(churchId: string, id: string) {
     return DB.queryOne("SELECT * FROM `groups` WHERE id=? AND churchId=? AND removed=0;", [id, churchId]);
   }
