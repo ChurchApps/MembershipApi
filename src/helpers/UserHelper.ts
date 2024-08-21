@@ -63,7 +63,7 @@ export class UserHelper {
   }
 
   static sendWelcomeEmail(email: string, loginLink: string, appName: string, appUrl: string): Promise<any> {
-    if (!appName) appName = "Live Church Solutions";
+    if (!appName) appName = "Church Apps";
     if (!appUrl) appUrl = Environment.chumsRoot;
 
     console.log(appUrl);
