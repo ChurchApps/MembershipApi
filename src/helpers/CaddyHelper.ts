@@ -66,6 +66,10 @@ export class CaddyHelper {
         {
           "find": "/" + hostKey + ".json",
           "replace": "/" + dialKey + ".json"
+        },
+        {
+          "find": "=" + hostKey,
+          "replace": "=" + dialKey
         }
       ]
     }
