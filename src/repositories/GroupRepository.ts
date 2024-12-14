@@ -12,15 +12,15 @@ export class GroupRepository {
 
   private async create(group: Group) {
     group.id = UniqueIdHelper.shortId();
-    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, about, photoUrl, tags, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
-    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.about, group.photoUrl, group.tags];
+    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, printNameTag, about, photoUrl, tags, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.tags];
     await DB.query(sql, params);
     return group;
   }
 
   private async update(group: Group) {
-    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=?, about=?, photoUrl=?, tags=? WHERE id=? and churchId=?";
-    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.about, group.photoUrl, group.tags, group.id, group.churchId];
+    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=?, printNametag=?, about=?, photoUrl=?, tags=? WHERE id=? and churchId=?";
+    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.tags, group.id, group.churchId];
     await DB.query(sql, params);
     return group;
   }
@@ -72,7 +72,7 @@ export class GroupRepository {
   }
 
   public convertToModel(churchId: string, data: any) {
-    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl, tags: data.tags };
+    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, printNametag: data.printNametag, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl, tags: data.tags };
     return result;
   }
 
