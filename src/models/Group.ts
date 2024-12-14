@@ -5,6 +5,7 @@ export class Group {
   public name?: string;
   public trackAttendance?: boolean;
   public parentPickup?: false;
+  public printNametag?: boolean;
   public about?: string;
   public photoUrl?: string;
   public tags?: string;
