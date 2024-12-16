@@ -1,7 +1,7 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
-import { FormSubmission, Answer, Form } from "../models";
+import { FormSubmission, Answer, Form, Church } from "../models";
 import { Permissions, EmailHelper, Environment } from "../helpers";
 import { MemberPermission, Person } from "../models";
 import axios, { AxiosRequestConfig } from "axios";
@@ -103,6 +103,7 @@ export class FormSubmissionController extends MembershipBaseController {
   private async sendEmails(formSubmission: FormSubmission, form:Form, churchId: string) {
     // send email to form members that have emailNotification set to true
     const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
+    const church: Church = await this.repositories.church.loadById(churchId);
     if (memberPermissions?.length > 0) {
       const ids = memberPermissions.map((mp: MemberPermission) => mp.memberId);
       if (ids?.length > 0) {
@@ -122,7 +123,7 @@ export class FormSubmissionController extends MembershipBaseController {
           const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
           const promises: Promise<any>[] = [];
           people.forEach((p: Person) => {
-            promises.push(EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, "Live Church Solutions", Environment.chumsRoot, "New Submissions for " + form.name, contents));
+            promises.push(EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, church.name, Environment.chumsRoot, "New Submissions for " + form.name, contents));
           })
           promises.push(this.sendNotifications(churchId, form, ids));
           await Promise.all(promises);
