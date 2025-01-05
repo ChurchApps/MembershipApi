@@ -9,6 +9,8 @@ export class Group {
   public about?: string;
   public photoUrl?: string;
   public tags?: string;
+  public meetingTime?: string;
+  public meetingLocation?: string;
 
   public memberCount?: number;
   public importKey?: string;
