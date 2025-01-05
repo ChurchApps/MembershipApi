@@ -5,7 +5,7 @@ import { Person, Household, SearchCondition, Group } from "../models"
 import { FormSubmission, Form } from "../models"
 import { ArrayHelper, Environment, FileStorageHelper, PersonHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
-import { AuthenticatedUser } from "@churchapps/apihelper";
+import { AuthenticatedUser, EmailHelper } from "@churchapps/apihelper";
 
 @controller("/people")
 export class PersonController extends MembershipBaseController {
@@ -22,6 +22,22 @@ export class PersonController extends MembershipBaseController {
         people.forEach(p => { result.push({ id: p.id, email: p.email }); });
         return result;
       }
+    });
+  }
+
+  @httpPost("/public/email")
+  public async publicEmail(req: express.Request<{}, {}, any>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapperAnon(req, res, async () => {
+      const churchId = req.body.churchId;
+      const personId = req.body.personId;
+      const subject = req.body.subject;
+      const body = req.body.body;
+      const appName = req.body.appName;
+
+      const person:Person = await this.repositories.person.load(churchId, personId);
+      if (!person.email) return this.denyAccess(["No email address"]);
+
+      await EmailHelper.sendTemplatedEmail(Environment.supportEmail, person.email, appName, null, subject, body);
     });
   }
 
