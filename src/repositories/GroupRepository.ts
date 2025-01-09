@@ -7,20 +7,21 @@ import { UniqueIdHelper } from "../helpers";
 export class GroupRepository {
 
   public save(group: Group) {
+    this.convertFromModel(group);
     return group.id ? this.update(group) : this.create(group);
   }
 
   private async create(group: Group) {
     group.id = UniqueIdHelper.shortId();
-    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, printNameTag, about, photoUrl, tags, meetingTime, meetingLocation, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
-    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.meetingTime, group.meetingLocation, group.tags];
+    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, printNameTag, about, photoUrl, tags, meetingTime, meetingLocation, labels, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.meetingTime, group.meetingLocation, group.labels, group.tags];
     await DB.query(sql, params);
     return group;
   }
 
   private async update(group: Group) {
-    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=?, printNametag=?, about=?, photoUrl=?, tags=?, meetingTime=?, meetingLocation=? WHERE id=? and churchId=?";
-    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.tags, group.meetingTime, group.meetingLocation, group.id, group.churchId];
+    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=?, printNametag=?, about=?, photoUrl=?, tags=?, meetingTime=?, meetingLocation=?, labels=? WHERE id=? and churchId=?";
+    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.tags, group.meetingTime, group.meetingLocation, group.labels, group.id, group.churchId];
     await DB.query(sql, params);
     return group;
   }
@@ -71,8 +72,14 @@ export class GroupRepository {
     return DB.query(sql, [churchId, serviceTimeId, serviceTimeId, serviceId, serviceId, campusId, campusId]);
   }
 
+  public convertFromModel(group: Group) {
+    group.labels = null;
+    if (group.labelArray?.length > 0) group.labels = group.labelArray.join(",");
+  }
+
   public convertToModel(churchId: string, data: any) {
-    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, printNametag: data.printNametag, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl, tags: data.tags, meetingTime: data.meetingTime, meetingLocation:data.meetingLocation };
+    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, printNametag: data.printNametag, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl, tags: data.tags, meetingTime: data.meetingTime, meetingLocation:data.meetingLocation, labelArray:[] };
+    data.labels?.split(",").forEach((label: string) => result.labelArray.push(label.trim()));
     return result;
   }
 

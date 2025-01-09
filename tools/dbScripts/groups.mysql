@@ -14,6 +14,7 @@ CREATE TABLE `groups` (
   `tags` varchar(45) DEFAULT NULL,
   `meetingTime` varchar(45) DEFAULT NULL,
   `meetingLocation` varchar(45) DEFAULT NULL,
+  `labels` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`)
 );

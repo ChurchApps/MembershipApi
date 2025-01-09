@@ -11,6 +11,8 @@ export class Group {
   public tags?: string;
   public meetingTime?: string;
   public meetingLocation?: string;
+  public labels?: string;
+  public labelArray?: string[];
 
   public memberCount?: number;
   public importKey?: string;
