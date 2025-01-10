@@ -36,7 +36,7 @@ export class GroupController extends MembershipBaseController {
   public async getPublicLabel(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       const label = req.query.label.toString();
-      return this.repositories.group.convertToModel(churchId, await this.repositories.group.publicLabel(churchId, label));
+      return this.repositories.group.convertAllToModel(churchId, await this.repositories.group.publicLabel(churchId, label));
     });
   }
 
