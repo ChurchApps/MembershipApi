@@ -32,12 +32,22 @@ export class GroupController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/public/:churchId/label")
+  public async getPublicLabel(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapperAnon(req, res, async () => {
+      const label = req.query.label.toString();
+      return this.repositories.group.convertToModel(churchId, await this.repositories.group.publicLabel(churchId, label));
+    });
+  }
+
   @httpGet("/public/:churchId/:id")
   public async getPublic(@requestParam("churchId") churchId: string, @requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       return this.repositories.group.convertToModel(churchId, await this.repositories.group.load(churchId, id));
     });
   }
+
+
 
   @httpGet("/tag/:tag")
   public async getByTag(@requestParam("tag") tag:string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {

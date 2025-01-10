@@ -61,6 +61,13 @@ export class GroupRepository {
     return result;
   }
 
+  public publicLabel(churchId: string, label:string) {
+    const sql = "SELECT * FROM groups"
+      + " WHERE churchId = ? AND labels LIKE ? AND removed=0"
+      + " ORDER BY name";
+    return DB.query(sql, [churchId, '%' + label + '%']);
+  }
+
   public search(churchId: string, campusId: string, serviceId: string, serviceTimeId: string) {
     const sql = "SELECT g.id, g.categoryName, g.name"
       + " FROM `groups` g"
