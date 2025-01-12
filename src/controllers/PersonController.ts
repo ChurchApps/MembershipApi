@@ -17,8 +17,8 @@ export class PersonController extends MembershipBaseController {
       const peopleIds = req.body.peopleIds;
       if (jwtSecret !== Environment.jwtSecret) return this.denyAccess(["Invalid JWT Secret"]);
       else {
-        const people:any[] = await this.repositories.person.loadByIdsOnly(peopleIds);
-        const result:any[] = [];
+        const people: any[] = await this.repositories.person.loadByIdsOnly(peopleIds);
+        const result: any[] = [];
         people.forEach(p => { result.push({ id: p.id, email: p.email }); });
         return result;
       }
@@ -34,8 +34,8 @@ export class PersonController extends MembershipBaseController {
       const body = req.body.body;
       const appName = req.body.appName;
 
-      const person:Person = await this.repositories.person.load(churchId, personId);
-      if (!person.email) return this.denyAccess(["No email address"]);
+      const person: Person = await this.repositories.person.load(churchId, personId);
+      if (!person?.email) return this.denyAccess(["No email address"]);
 
       await EmailHelper.sendTemplatedEmail(Environment.supportEmail, person.email, appName, null, subject, body);
     });
@@ -44,7 +44,7 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/timeline")
   public async timeline(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      const result: {people: Person[], groups: Group[]} = {people: [], groups: []};
+      const result: { people: Person[], groups: Group[] } = { people: [], groups: [] };
       const peopleIds: string[] = (req.query.personIds) ? req.query.personIds.toString().split(",") : [];
       const groupIds: string[] = (req.query.groupIds) ? req.query.groupIds.toString().split(",") : [];
       if (peopleIds.length > 0) {
@@ -202,12 +202,12 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/basic")
   public async getBasic(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-        const idList = req.query.ids.toString().split(',');
-        const ids: string[] = [];
-        idList.forEach(id => ids.push(id));
-        const data = await this.repositories.person.loadByIds(au.churchId, ids);
-        const result = this.repositories.person.convertAllToBasicModel(au.churchId, data)
-        return this.filterPeople(result, au);
+      const idList = req.query.ids.toString().split(',');
+      const ids: string[] = [];
+      idList.forEach(id => ids.push(id));
+      const data = await this.repositories.person.loadByIds(au.churchId, ids);
+      const result = this.repositories.person.convertAllToBasicModel(au.churchId, data)
+      return this.filterPeople(result, au);
     });
   }
 
