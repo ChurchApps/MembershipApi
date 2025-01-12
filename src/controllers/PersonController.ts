@@ -38,6 +38,7 @@ export class PersonController extends MembershipBaseController {
       if (!person?.email) return this.denyAccess(["No email address"]);
 
       await EmailHelper.sendTemplatedEmail(Environment.supportEmail, person.email, appName, null, subject, body);
+      return { success: true };
     });
   }
 
