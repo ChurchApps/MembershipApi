@@ -14,7 +14,7 @@ export class GroupRepository {
   private async create(group: Group) {
     group.id = UniqueIdHelper.shortId();
     const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, printNameTag, about, photoUrl, tags, meetingTime, meetingLocation, labels, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
-    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.meetingTime, group.meetingLocation, group.labels, group.tags];
+    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.tags, group.meetingTime, group.meetingLocation, group.labels];
     await DB.query(sql, params);
     return group;
   }
@@ -61,7 +61,7 @@ export class GroupRepository {
     return result;
   }
 
-  public publicLabel(churchId: string, label:string) {
+  public publicLabel(churchId: string, label: string) {
     const sql = "SELECT * FROM groups"
       + " WHERE churchId = ? AND labels LIKE ? AND removed=0"
       + " ORDER BY name";
@@ -85,7 +85,7 @@ export class GroupRepository {
   }
 
   public convertToModel(churchId: string, data: any) {
-    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, printNametag: data.printNametag, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl, tags: data.tags, meetingTime: data.meetingTime, meetingLocation:data.meetingLocation, labelArray:[] };
+    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, printNametag: data.printNametag, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl, tags: data.tags, meetingTime: data.meetingTime, meetingLocation: data.meetingLocation, labelArray: [] };
     data.labels?.split(",").forEach((label: string) => result.labelArray.push(label.trim()));
     return result;
   }
