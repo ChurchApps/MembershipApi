@@ -13,15 +13,15 @@ export class GroupRepository {
 
   private async create(group: Group) {
     group.id = UniqueIdHelper.shortId();
-    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, printNameTag, about, photoUrl, tags, meetingTime, meetingLocation, labels, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
-    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.tags, group.meetingTime, group.meetingLocation, group.labels];
+    const sql = "INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, printNameTag, about, photoUrl, tags, meetingTime, meetingLocation, labels, slug, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+    const params = [group.id, group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.tags, group.meetingTime, group.meetingLocation, group.labels, group.slug];
     await DB.query(sql, params);
     return group;
   }
 
   private async update(group: Group) {
-    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=?, printNametag=?, about=?, photoUrl=?, tags=?, meetingTime=?, meetingLocation=?, labels=? WHERE id=? and churchId=?";
-    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.tags, group.meetingTime, group.meetingLocation, group.labels, group.id, group.churchId];
+    const sql = "UPDATE `groups` SET churchId=?, categoryName=?, name=?, trackAttendance=?, parentPickup=?, printNametag=?, about=?, photoUrl=?, tags=?, meetingTime=?, meetingLocation=?, labels=?, slug=? WHERE id=? and churchId=?";
+    const params = [group.churchId, group.categoryName, group.name, group.trackAttendance, group.parentPickup, group.printNametag, group.about, group.photoUrl, group.tags, group.meetingTime, group.meetingLocation, group.labels, group.slug, group.id, group.churchId];
     await DB.query(sql, params);
     return group;
   }
