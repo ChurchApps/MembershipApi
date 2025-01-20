@@ -85,7 +85,7 @@ export class GroupController extends MembershipBaseController {
         const promises: Promise<Group>[] = [];
         req.body.forEach(group => {
           group.churchId = au.churchId;
-          if (!group.slug) group.slug = SlugHelper.slugifyString(group.name, "urlSlug");
+          if (!group.slug) group.slug = SlugHelper.slugifyString(group.name);
           promises.push(this.repositories.group.save(group));
         });
         const result = await Promise.all(promises);
