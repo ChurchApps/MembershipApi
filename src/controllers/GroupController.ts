@@ -3,7 +3,7 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { Group } from "../models"
 import { Permissions } from '../helpers/Permissions'
-import { ArrayHelper } from "@churchapps/apihelper";
+import { ArrayHelper, SlugHelper } from "@churchapps/apihelper";
 
 @controller("/groups")
 export class GroupController extends MembershipBaseController {
@@ -32,6 +32,13 @@ export class GroupController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/public/:churchId/slug/:slug")
+  public async getPublicSlug(@requestParam("churchId") churchId: string, @requestParam("slug") slug: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapperAnon(req, res, async () => {
+      return this.repositories.group.convertToModel(churchId, await this.repositories.group.loadPublicSlug(churchId, slug));
+    });
+  }
+
   @httpGet("/public/:churchId/label")
   public async getPublicLabel(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
@@ -50,14 +57,14 @@ export class GroupController extends MembershipBaseController {
 
 
   @httpGet("/tag/:tag")
-  public async getByTag(@requestParam("tag") tag:string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getByTag(@requestParam("tag") tag: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       return this.repositories.group.convertAllToModel(au.churchId, await this.repositories.group.loadByTag(au.churchId, tag));
     });
   }
 
   @httpGet("/public/:churchId/tag/:tag")
-  public async getPublicByTag(@requestParam("churchId") churchId: string, @requestParam("tag") tag:string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getPublicByTag(@requestParam("churchId") churchId: string, @requestParam("tag") tag: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       return this.repositories.group.convertAllToModel(churchId, await this.repositories.group.loadByTag(churchId, tag));
     });
@@ -76,7 +83,11 @@ export class GroupController extends MembershipBaseController {
       if (!au.checkAccess(Permissions.groups.edit)) return this.json({}, 401);
       else {
         const promises: Promise<Group>[] = [];
-        req.body.forEach(group => { group.churchId = au.churchId; promises.push(this.repositories.group.save(group)); });
+        req.body.forEach(group => {
+          group.churchId = au.churchId;
+          if (!group.slug) group.slug = SlugHelper.slugifyString(group.name, "urlSlug");
+          promises.push(this.repositories.group.save(group));
+        });
         const result = await Promise.all(promises);
         return this.repositories.group.convertAllToModel(au.churchId, result);
       }

@@ -38,6 +38,12 @@ export class GroupRepository {
     return DB.queryOne("SELECT * FROM `groups` WHERE id=? AND churchId=? AND removed=0;", [id, churchId]);
   }
 
+  public loadPublicSlug(churchId: string, slug: string) {
+    const sql = "SELECT * FROM groups"
+      + " WHERE churchId = ? AND slug = ? AND removed=0";
+    return DB.queryOne(sql, [churchId, slug]);
+  }
+
   public loadByTag(churchId: string, tag: string) {
     return DB.query("SELECT *, (SELECT COUNT(*) FROM groupMembers gm WHERE gm.groupId=g.id) AS memberCount FROM `groups` g WHERE churchId=? AND removed=0 AND tags like ? ORDER by categoryName, name;", [churchId, "%" + tag + "%"]);
   }

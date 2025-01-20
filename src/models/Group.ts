@@ -13,6 +13,7 @@ export class Group {
   public meetingLocation?: string;
   public labels?: string;
   public labelArray?: string[];
+  public slug?: string;
 
   public memberCount?: number;
   public importKey?: string;
