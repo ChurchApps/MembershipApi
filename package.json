@@ -26,7 +26,7 @@
   "keywords": [],
   "author": "Live Church Solutions",
   "dependencies": {
-    "@churchapps/apihelper": "0.0.20",
+    "@churchapps/apihelper": "0.0.21",
     "@hubspot/api-client": "^11.1.0",
     "aws-serverless-express": "^3.4.0",
     "axios": "^1.7.2",
