@@ -91,7 +91,7 @@ export class GroupRepository {
   }
 
   public convertToModel(churchId: string, data: any) {
-    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, printNametag: data.printNametag, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl, tags: data.tags, meetingTime: data.meetingTime, meetingLocation: data.meetingLocation, labelArray: [] };
+    const result: Group = { id: data.id, categoryName: data.categoryName, name: data.name, trackAttendance: data.trackAttendance, parentPickup: data.parentPickup, printNametag: data.printNametag, memberCount: data.memberCount, about: data.about, photoUrl: data.photoUrl, tags: data.tags, meetingTime: data.meetingTime, meetingLocation: data.meetingLocation, labelArray: [], slug: data.slug };
     data.labels?.split(",").forEach((label: string) => result.labelArray.push(label.trim()));
     return result;
   }
