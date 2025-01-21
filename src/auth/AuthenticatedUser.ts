@@ -33,7 +33,6 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
     userChurch.groups?.forEach(g => groupIds.push(g.id));
     const leaderGroupIds: string[] = [];
     userChurch.groups?.forEach(g => leaderGroupIds.push(g.id));
-
     return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, apiName: api.keyName, permissions: permList, groupIds, leaderGroupIds, membershipStatus: userChurch.person?.membershipStatus }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
   }
 
@@ -42,8 +41,7 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
     userChurch.groups?.forEach(g => groupIds.push(g.id));
     const leaderGroupIds: string[] = [];
     userChurch.groups?.forEach(g => leaderGroupIds.push(g.id));
-
-    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, groupIds, leaderGroupIds }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
+    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, groupIds, leaderGroupIds, membershipStatus: userChurch.person?.membershipStatus }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
   }
 
   public static getUserJwt(user: User) {
