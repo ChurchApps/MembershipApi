@@ -37,7 +37,7 @@ export class GroupMemberController extends MembershipBaseController {
       if (au.checkAccess(Permissions.groupMembers.view)) hasAccess = true;
       else if (req.query.groupId && au.groupIds && au.groupIds.includes(req.query.groupId.toString())) hasAccess = true;
       else if (req.query.personId && au.personId === req.query.personId.toString()) hasAccess = true
-      if (hasAccess) return this.json({}, 401);
+      if (!hasAccess) return this.json({}, 401);
       else {
         let result = null;
         if (req.query.groupId !== undefined) result = await this.repositories.groupMember.loadForGroup(au.churchId, req.query.groupId.toString());
