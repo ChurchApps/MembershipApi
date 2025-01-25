@@ -27,3 +27,4 @@ export { Question } from "./Question";
 export { Setting } from "./Setting";
 
 export { ClientError } from "./ClientError";
+export { VisibilityPreference } from "./VisibilityPreference";

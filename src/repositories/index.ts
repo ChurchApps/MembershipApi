@@ -17,6 +17,7 @@ export { RoleMemberRepository } from "./RoleMemberRepository";
 export { RolePermissionRepository } from "./RolePermissionRepository";
 export { UserRepository } from "./UserRepository";
 export { UserChurchRepository } from './UserChurchRepository';
+export { VisibilityPreferenceRepository } from "./VisibilityPreferenceRepository";
 
 export { SettingRepository } from "../repositories/SettingRepository";
 export { ClientErrorRepository } from "../repositories/ClientErrorRepository";
