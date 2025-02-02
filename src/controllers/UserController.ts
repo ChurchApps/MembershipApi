@@ -9,7 +9,7 @@ import { EmailHelper, UserHelper, UniqueIdHelper, Environment } from "../helpers
 import { v4 } from 'uuid';
 import { ChurchHelper } from "../helpers";
 import { ArrayHelper } from "@churchapps/apihelper"
-import {permissionsList} from "../helpers/Permissions"
+import { permissionsList } from "../helpers/Permissions"
 
 const emailPasswordValidation = [
   body("email").isEmail().trim().normalizeEmail({ gmail_remove_dots: false }).withMessage("enter a valid email address"),
@@ -126,7 +126,7 @@ export class UserController extends MembershipBaseController {
       const groups = ArrayHelper.getAll(allGroups, "personId", uc.person.id);
       uc.groups = [];
       // PASS groupId TO ID FIELD. OR CREATE NEW groupId FIELD.
-      groups.forEach(g => uc.groups.push({ id: g.groupId, tags:g.tags, name: g.name, leader: g.leader }));
+      groups.forEach(g => uc.groups.push({ id: g.groupId, tags: g.tags, name: g.name, leader: g.leader }));
     });
 
     return roleUserChurches;
@@ -330,7 +330,7 @@ export class UserController extends MembershipBaseController {
   }
 
   @httpPost("/updateOptedOut")
-  public async updateOptedOut(req: express.Request<{}, {}, {personId: string, optedOut: boolean }>, res: express.Response): Promise<any> {
+  public async updateOptedOut(req: express.Request<{}, {}, { personId: string, optedOut: boolean }>, res: express.Response): Promise<any> {
     this.repositories.person.updateOptedOut(req.body.personId, req.body.optedOut);
     return this.json({}, 200);
   }

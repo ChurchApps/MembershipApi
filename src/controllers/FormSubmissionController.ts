@@ -100,7 +100,7 @@ export class FormSubmissionController extends MembershipBaseController {
     })
   };
 
-  private async sendEmails(formSubmission: FormSubmission, form:Form, churchId: string) {
+  private async sendEmails(formSubmission: FormSubmission, form: Form, churchId: string) {
     // send email to form members that have emailNotification set to true
     const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
     const church: Church = await this.repositories.church.loadById(churchId);
@@ -132,8 +132,8 @@ export class FormSubmissionController extends MembershipBaseController {
     }
   }
 
-  private async sendNotifications(churchId:string, form:Form, peopleIds: string[]) {
-    const data = { churchId, peopleIds, contentType:"form", contentId:form.id, message:"New Form Submission: " + form.name };
+  private async sendNotifications(churchId: string, form: Form, peopleIds: string[]) {
+    const data = { churchId, peopleIds, contentType: "form", contentId: form.id, message: "New Form Submission: " + form.name };
     // todo add some kind of auth token and check for it. Can't be jwt since submissions can be anonymous.  Need to encrypt something
     // const config:AxiosRequestConfig = { headers: { "Authorization": "Bearer " + au.jwt } };
     return axios.post(Environment.messagingApi + "/notifications/ping", data);
