@@ -59,7 +59,10 @@ export class MemberPermissionController extends MembershipBaseController {
         return this.actionWrapper(req, res, async (au) => {
             const formId = req?.query?.formId.toString();
             if (!formId || !this.formAccess(au, formId)) return this.json({}, 401);
-            else await this.repositories.memberPermission.deleteByMemberId(au.churchId, id, formId);
+            else {
+                await this.repositories.memberPermission.deleteByMemberId(au.churchId, id, formId);
+                return this.json({});
+            }
         });
     }
 }

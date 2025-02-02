@@ -74,7 +74,10 @@ export class QuestionController extends MembershipBaseController {
         return this.actionWrapper(req, res, async (au) => {
             const formId = req?.query?.formId?.toString() || null;
             if (!this.formAccess(au, formId)) return this.json({}, 401);
-            else await this.repositories.question.delete(au.churchId, id);
+            else {
+                await this.repositories.question.delete(au.churchId, id);
+                return this.json({});
+            }
         });
     }
 

@@ -360,6 +360,7 @@ export class UserController extends MembershipBaseController {
       await this.repositories.user.delete(au.id);
       await this.repositories.userChurch.delete(au.id);
       await this.repositories.roleMember.deleteUser(au.id);
+      return this.json({});
     })
   }
 

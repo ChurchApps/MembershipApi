@@ -106,8 +106,10 @@ export class GroupController extends MembershipBaseController {
           const ids = ArrayHelper.getIds(ministryTeams, "id");
           await this.repositories.group.delete(au.churchId, id);
           await this.repositories.group.deleteByIds(au.churchId, ids);
+          return this.json({});
         } else {
           await this.repositories.group.delete(au.churchId, id);
+          return this.json({});
         }
       }
     });
