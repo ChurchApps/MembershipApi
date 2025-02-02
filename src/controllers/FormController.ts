@@ -79,7 +79,10 @@ export class FormController extends MembershipBaseController {
     public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
         return this.actionWrapper(req, res, async (au) => {
             if (!this.formAccess(au, id)) return this.json({}, 401);
-            else await this.repositories.form.delete(au.churchId, id);
+            else await {
+                this.repositories.form.delete(au.churchId, id);
+                return this.json({});
+            }
         });
     }
 

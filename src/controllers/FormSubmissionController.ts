@@ -147,6 +147,7 @@ export class FormSubmissionController extends MembershipBaseController {
         await this.repositories.answer.deleteForSubmission(au.churchId, id);
         await new Promise(resolve => setTimeout(resolve, 500)); // I think it takes a split second for the FK restraints to see the answers were deleted sometimes and the delete below fails.
         await this.repositories.formSubmission.delete(au.churchId, id);
+        return this.json({});
       }
     });
   }
