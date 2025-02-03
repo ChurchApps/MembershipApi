@@ -24,7 +24,7 @@ export class VisibilityPreferenceController extends MembershipBaseController {
   public async loadMy(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const result = await this.repositories.visibilityPreference.loadForPerson(au.churchId, au.personId);
-      return result;
+      return result ?? [];
     });
   }
 }
