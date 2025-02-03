@@ -181,4 +181,17 @@ export class PersonRepository {
     return result;
   }
 
+  public convertToPreferenceModel(churchId: string, data: Person) {
+    const result: Person = {
+      name: { display: data.name.display },
+      contactInfo: data.contactInfo,
+      photo: data.photo,
+      photoUpdated: data.photoUpdated,
+      membershipStatus: data.membershipStatus,
+      id: data.id
+    }
+    if (result.photo === undefined) result.photo = PersonHelper.getPhotoPath(churchId, result);
+    return result;
+  }
+
 }

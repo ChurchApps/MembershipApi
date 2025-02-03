@@ -1,7 +1,7 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController"
-import { Person, Household, SearchCondition, Group } from "../models"
+import { Person, Household, SearchCondition, Group, VisibilityPreference } from "../models"
 import { FormSubmission, Form } from "../models"
 import { ArrayHelper, Environment, FileStorageHelper, PersonHelper } from "../helpers"
 import { Permissions } from '../helpers/Permissions'
@@ -212,6 +212,33 @@ export class PersonController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/directory/:id")
+  public async getDirectoryPeople(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      if (au.personId !== id && !au.checkAccess(Permissions.people.view)) {
+        if (id === "all") {
+          return this.repositories.person.convertAllToBasicModel(au.churchId, await this.repositories.person.loadAll(au.churchId));
+        } else {
+          const data = await this.repositories.person.load(au.churchId, id);
+          if (!data) return null;
+          const result = this.repositories.person.convertToModel(au.churchId, data, false);
+          return this.repositories.person.convertToPreferenceModel(au.churchId, await this.checkVisibilityPref(id, au, result));
+          // return result;
+        }
+      } else {
+        if (id === "all") {
+          return this.repositories.person.convertAllToModel(au.churchId, await this.repositories.person.loadAll(au.churchId), false);
+        } else {
+          const data = await this.repositories.person.load(au.churchId, id);
+          if (!data) return null;
+          const result = this.repositories.person.convertToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+          await this.appendFormSubmissions(au.churchId, result);
+          return result;
+        }
+      }
+    })
+  }
+
   @httpGet("/ids")
   public async getMultiple(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
@@ -399,5 +426,82 @@ export class PersonController extends MembershipBaseController {
     return false;
   }
 
+  private async checkVisibilityPref(personId: string, au: AuthenticatedUser, person: Person) {
+    const personPref: { address: string, phone: string, email: string } = await this.getPreferences(au.churchId, personId);
+    const p = { ...person };
+
+    // check address visibility preferences
+    if (personPref.address === "everyone") {
+      p.contactInfo.address1 = person.contactInfo.address1; // show to everyone
+    } else if (personPref.address === "members" && !await this.isMember(au.membershipStatus)) {
+      p.contactInfo.address1 = undefined; // hide from non-members
+    } else if (personPref.address === "groups") {
+      const isInGroup = await this.checkGroupMembership(au, personId);
+      p.contactInfo.address1 = isInGroup ? person.contactInfo.address1 : undefined; // show only if in the same group
+    }
+
+    // check phone visibility preferences
+    if (personPref.phone === "everyone") {
+      p.contactInfo.mobilePhone = person.contactInfo.mobilePhone;
+      p.contactInfo.homePhone = person.contactInfo.homePhone;
+      p.contactInfo.workPhone = person.contactInfo.workPhone;
+    } else if (personPref.phone === "members" && !await this.isMember(au.membershipStatus)) {
+      p.contactInfo.mobilePhone = undefined;
+      p.contactInfo.homePhone = undefined;
+      p.contactInfo.workPhone = undefined;
+    } else if (personPref.phone === "groups") {
+      const isInGroup = await this.checkGroupMembership(au, personId);
+      p.contactInfo.mobilePhone = isInGroup ? person.contactInfo.mobilePhone : undefined;
+      p.contactInfo.homePhone = isInGroup ? person.contactInfo.homePhone : undefined;
+      p.contactInfo.workPhone = isInGroup ? person.contactInfo.workPhone : undefined;
+    }
+
+    // check email visibility preference
+    if (personPref.email === "everyone") {
+      p.contactInfo.email = person.contactInfo.email;
+    } else if (personPref.email === "members" && !await this.isMember(au.membershipStatus)) {
+      p.contactInfo.email = undefined;
+    } else if (personPref.email === "groups") {
+      const isInGroup = await this.checkGroupMembership(au, personId);
+      p.contactInfo.email = isInGroup ? person.contactInfo.email : undefined;
+    }
+
+    return p;
+  }
+
+  private async getPreferences (churchId: string, personId: string) {
+    let pref: { address: string, phone: string, email: string };
+
+    const personPreferences: VisibilityPreference = await this.repositories.visibilityPreference.loadForPerson(churchId, personId);
+    pref = { address: personPreferences?.address, phone: personPreferences?.phoneNumber, email: personPreferences?.email }
+
+    if (!personPreferences || !personPreferences?.address || !personPreferences?.phoneNumber || !personPreferences?.email) {
+      const churchSettings = this.repositories.setting.convertAllToModel(churchId, await this.repositories.setting.loadPublicSettings(churchId));
+      const publicSettings: any = {}
+      churchSettings?.forEach((s: any) => { publicSettings[s.keyName] = s.value });
+
+      if (!pref.address || pref.address === "") {
+        if (publicSettings?.addressVisibility && publicSettings.addressVisibility !== "") pref.address = publicSettings.addressVisibility;
+        else pref.address = "members";
+      }
+      if (!pref.phone || pref.phone === "") {
+        if (publicSettings?.phoneVisibility && publicSettings.phoneVisibility !== "") pref.phone = publicSettings.phoneVisibility;
+        else pref.phone = "members";
+      }
+      if (!pref.email || pref.email === "") {
+        if (publicSettings?.emailVisibility && publicSettings.emailVisibility !== "") pref.email = publicSettings.emailVisibility;
+        else pref.email = "members";
+      }
+    }
+
+    return pref;
+  }
+
+  // Helper method to check if the user is in at least one group with the person
+  private async checkGroupMembership(au: AuthenticatedUser, personId: string): Promise<boolean> {
+    const groups = await this.repositories.groupMember.loadForPerson(au.churchId, au.personId);
+    const personGroups = await this.repositories.groupMember.loadForPerson(au.churchId, personId);
+    return groups?.some((group: any) => personGroups.some((personGroup: any) => personGroup.groupId === group.groupId));
+  }
 
 }
