@@ -27,6 +27,6 @@ export class VisibilityPreferenceRepository {
 
   public async loadForPerson(churchId: string, personId: string) {
     const sql = "SELECT * FROM visibilityPreferences WHERE churchId=? AND personId=?;";
-    return DB.queryOne(sql, [churchId, personId]);
+    return DB.query(sql, [churchId, personId]);
   }
 }
