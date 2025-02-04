@@ -20,8 +20,15 @@ export class VisibilityPreferenceController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/")
+  public async loadAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      return await this.repositories.visibilityPreference.loadAll(au.churchId);
+    })
+  }
+
   @httpGet("/my")
-  public async loadMy(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+  public async loadMy(req: express.Request<{}, {}, []>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       const result = await this.repositories.visibilityPreference.loadForPerson(au.churchId, au.personId);
       return result?.length > 0 ? result[0] : [];
