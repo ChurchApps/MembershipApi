@@ -7,11 +7,7 @@ import { UniqueIdHelper } from "../helpers";
 export class VisibilityPreferenceRepository {
 
   public save(preference: VisibilityPreference) {
-    try {
-      return preference.id ? this.update(preference) : this.create(preference);
-    } catch (e) {
-      throw e
-    }
+    return preference.id ? this.update(preference) : this.create(preference);
   }
 
   private async create(preference: VisibilityPreference) {
@@ -32,9 +28,5 @@ export class VisibilityPreferenceRepository {
   public async loadForPerson(churchId: string, personId: string) {
     const sql = "SELECT * FROM visibilityPreferences WHERE churchId=? AND personId=?;";
     return DB.query(sql, [churchId, personId]);
-  }
-
-  public async loadAll(churchId: string) {
-    return DB.query("SELECT * FROM visibilityPreferences WHERE churchId=?;", [churchId]);
   }
 }

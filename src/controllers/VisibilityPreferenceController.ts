@@ -20,13 +20,6 @@ export class VisibilityPreferenceController extends MembershipBaseController {
     });
   }
 
-  @httpGet("/")
-  public async loadAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
-    return this.actionWrapper(req, res, async (au) => {
-      return await this.repositories.visibilityPreference.loadAll(au.churchId);
-    })
-  }
-
   @httpGet("/my")
   public async loadMy(req: express.Request<{}, {}, []>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
