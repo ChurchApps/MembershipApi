@@ -7,7 +7,11 @@ import { UniqueIdHelper } from "../helpers";
 export class VisibilityPreferenceRepository {
 
   public save(preference: VisibilityPreference) {
-    return preference.id ? this.update(preference) : this.create(preference);
+    try {
+      return preference.id ? this.update(preference) : this.create(preference);
+    } catch (e) {
+      throw e
+    }
   }
 
   private async create(preference: VisibilityPreference) {
