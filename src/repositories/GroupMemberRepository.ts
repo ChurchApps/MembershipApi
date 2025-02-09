@@ -77,7 +77,7 @@ export class GroupMemberRepository {
   public loadForPeople(peopleIds: string[]) {
     const sql = "SELECT gm.*, g.name, g.tags"
       + " FROM groupMembers gm"
-      + " INNER JOIN groups g on g.Id=gm.groupId"
+      + " INNER JOIN `groups` g on g.Id=gm.groupId"
       + " WHERE gm.personId IN (?);"
     return DB.query(sql, [peopleIds]);
   }

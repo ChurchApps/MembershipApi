@@ -5,4 +5,4 @@ CREATE TABLE `domains` (
   `churchId` char(11) DEFAULT NULL,
   `domainName` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;

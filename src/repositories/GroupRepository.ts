@@ -55,7 +55,7 @@ export class GroupRepository {
   public loadForPerson(personId: string) {
     const sql = "SELECT distinct g.*"
       + " FROM groupMembers gm"
-      + " INNER JOIN groups g on g.id=gm.groupId"
+      + " INNER JOIN `groups` g on g.id=gm.groupId"
       + " WHERE personId=? and g.removed=0 and g.tags like '%standard%'"
       + " ORDER BY name";
     return DB.query(sql, [personId]);
@@ -68,7 +68,7 @@ export class GroupRepository {
   }
 
   public publicLabel(churchId: string, label: string) {
-    const sql = "SELECT * FROM groups"
+    const sql = "SELECT * FROM `groups`"
       + " WHERE churchId = ? AND labels LIKE ? AND removed=0"
       + " ORDER BY name";
     return DB.query(sql, [churchId, '%' + label + '%']);
