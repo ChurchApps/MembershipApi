@@ -1,11 +1,11 @@
 DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
-  `id` char(11) CHARACTER SET latin1 NOT NULL,
+  `id` char(11) NOT NULL,
   `email` varchar(191) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `authGuid` varchar(255) DEFAULT NULL,
-  `displayName` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `displayName` varchar(255) DEFAULT NULL,
   `registrationDate` datetime DEFAULT CURRENT_TIMESTAMP,
   `lastLogin` datetime DEFAULT NULL,
   `firstName` varchar(45) DEFAULT NULL,
@@ -14,4 +14,4 @@ CREATE TABLE `users` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `authGuid_INDEX` (`authGuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB;

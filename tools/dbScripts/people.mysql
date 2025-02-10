@@ -35,4 +35,4 @@ CREATE TABLE `people` (
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`),
   KEY `householdId` (`householdId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB;

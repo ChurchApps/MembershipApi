@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS `clientErrors`;
+
 CREATE TABLE `clientErrors` (
   `id` char(11) NOT NULL,
   `application` varchar(45) DEFAULT NULL,
@@ -9,4 +11,4 @@ CREATE TABLE `clientErrors` (
   `message` varchar(255) DEFAULT NULL,
   `details` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;

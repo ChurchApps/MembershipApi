@@ -1,14 +1,14 @@
 DROP TABLE IF EXISTS `rolePermissions`;
 
 CREATE TABLE `rolePermissions` (
-  `id` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `churchId` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `id` char(11) NOT NULL,
+  `churchId` char(11) DEFAULT NULL,
   `roleId` char(11) DEFAULT NULL,
-  `apiName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-  `contentType` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-  `contentId` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-  `action` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `apiName` varchar(45) DEFAULT NULL,
+  `contentType` varchar(45) DEFAULT NULL,
+  `contentId` char(11) DEFAULT NULL,
+  `action` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `roleId_churchId_INDEX` (`roleId`,`churchId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB;
 

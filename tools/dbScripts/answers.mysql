@@ -10,4 +10,4 @@ CREATE TABLE `answers` (
   KEY `churchId` (`churchId`),
   KEY `formSubmissionId` (`formSubmissionId`),
   KEY `questionId` (`questionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB;

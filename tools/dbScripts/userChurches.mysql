@@ -9,4 +9,4 @@ CREATE TABLE `userChurches` (
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   KEY `churchId` (`churchId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB;
