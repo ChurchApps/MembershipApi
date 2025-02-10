@@ -12,6 +12,7 @@ CREATE TABLE `forms` (
   `restricted` bit(1) DEFAULT NULL,
   `archived` bit(1) DEFAULT NULL,
   `removed` bit(1) DEFAULT NULL,
+  `thankYouMessage` text,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`)
 ) ENGINE=InnoDB;
