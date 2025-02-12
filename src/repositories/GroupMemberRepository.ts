@@ -100,4 +100,20 @@ export class GroupMemberRepository {
     return result;
   }
 
+  public convertAllToBasicModel(churchId: string, data: any[]) {
+    const result: GroupMember[] = [];
+    data.forEach(d => result.push(this.convertToBasicModel(churchId, d)));
+    return result;
+  }
+
+  public convertToBasicModel(churchId: string, data: any) {
+    const result = {
+      id: data.id,
+      groupId: data.groupId,
+      personId: data.personId,
+      displayName: data.displayName
+    }
+    return result;
+  }
+
 }
