@@ -22,6 +22,14 @@ export class GroupMemberController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/basic/:groupId")
+  public async getbasic(@requestParam("groupId") groupId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      const result = await this.repositories.groupMember.loadForGroup(au.churchId, groupId);
+      return this.repositories.groupMember.convertAllToBasicModel(au.churchId, result);
+    })
+  }
+
   @httpGet("/:id")
   public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
