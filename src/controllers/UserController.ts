@@ -275,8 +275,9 @@ export class UserController extends MembershipBaseController {
       else {
         user.authGuid = v4();
         const promises = [];
+        const timestamp = Date.now();
         promises.push(this.repositories.user.save(user));
-        promises.push(UserHelper.sendForgotEmail(user.email, `/login?auth=${user.authGuid}`, req.body.appName, req.body.appUrl));
+        promises.push(UserHelper.sendForgotEmail(user.email, `/login?auth=${user.authGuid}&timestamp=${timestamp}`, req.body.appName, req.body.appUrl));
         await Promise.all(promises);
         return this.json({ emailed: true }, 200);
       }
