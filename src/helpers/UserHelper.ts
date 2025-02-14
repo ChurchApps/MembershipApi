@@ -80,6 +80,7 @@ export class UserHelper {
 
     const contents = "<h2>Reset Password</h2>"
       + "<h3>Please click the button below to reset your password.</h3>"
+      + "<h6>(Link is valid for 2 minutes only)</h6>"
       + `<p><a href="${appUrl + loginLink}" class="btn btn-primary">Reset Password</a></p>`;
     ;
     return EmailHelper.sendTemplatedEmail(Environment.supportEmail, email, appName, appUrl, appName + " Password Reset", contents);
