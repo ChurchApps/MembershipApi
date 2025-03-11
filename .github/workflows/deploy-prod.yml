@@ -1,8 +1,11 @@
 on:
   release:
-    types: [created]
+    types:
+      [
+        created
+      ]
   workflow_dispatch:
-  
+
 name: Deploy Prod
 
 env:
@@ -19,14 +22,15 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Cache npm dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
+          restore-keys:
+            |
             ${{ runner.os }}-node-
 
       - name: Configure AWS Credentials
@@ -37,14 +41,16 @@ jobs:
           aws-region: us-east-2
 
       - name: Install dependencies
-        run: |
+        run:
+          |
           npm ci
 
       - name: Check Serverless version
         run: npx serverless --version
 
       - name: Prepare Lambda Layer
-        run: |
+        run:
+          |
           mkdir -p layer/nodejs
           cp package.json layer/nodejs/
           cd layer/nodejs
@@ -52,13 +58,15 @@ jobs:
           cd ../..
 
       - name: Deploy API
-        run: |
+        run:
+          |
           npm run build
           npm run copy-assets
           # npx serverless remove --stage Prod
           npx serverless deploy --stage Prod --verbose --force
 
       - name: Serverless package contents
-        run: |
+        run:
+          |
           npx serverless package --stage Prod
           ls -R .serverless
