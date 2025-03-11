@@ -1,18 +1,40 @@
 // import Hubspot from "@hubspot/api-client";
+import { AssociationSpecAssociationCategoryEnum, PublicObjectSearchRequest, SimplePublicObjectInput } from "@hubspot/api-client/lib/codegen/crm/companies";
+
 import { Environment } from ".";
 
 export class HubspotHelper {
   static contactId: string = "";
   static companyId: string = "";
 
-  static register = async (companyName: string, firstName: string, lastName: string, address: string, city: string, state: string, zip: string, country:string, email: string, initialApp: string) => {
+  private static getClient = () => {
+    const hubspot = require('@hubspot/api-client')
+    const client = new hubspot.Client({ accessToken: Environment.hubspotKey })
+    return client;
+  }
+
+  static lookupCompany = async (companyName: string) => {
+    const client = this.getClient();
+    const req: PublicObjectSearchRequest = {
+      query: companyName,
+      limit: 1,
+      after: "",
+      sorts: [],
+      properties: [],
+      filterGroups: []
+    }
+
+    const response = await client.crm.companies.searchApi.doSearch(req);
+    return response.results[0];
+  }
+
+
+  static register = async (churchId: string, companyName: string, firstName: string, lastName: string, address: string, city: string, state: string, zip: string, country: string, email: string, initialApp: string) => {
     if (Environment.hubspotKey) {
-      const hubspot = require('@hubspot/api-client')
-      // const client = new hubspot.Client({ apiKey: Environment.hubspotKey })
-      const client = new hubspot.Client({ accessToken: Environment.hubspotKey })
+      const client = this.getClient();
 
       const company: any = {
-        properties: { name: companyName, description: initialApp, address, city, state, zip, country }
+        properties: { church_id: churchId, name: companyName, description: initialApp, address, city, state, zip, country }
       }
 
       const contact: any = {
@@ -34,4 +56,19 @@ export class HubspotHelper {
       await client.crm.companies.associationsApi.create(this.companyId, 'contacts', this.contactId, 'company_to_contact');
     }
   }
+
+  static setProperties = async (companyId: string, properties: any) => {
+    const client = this.getClient();
+    try {
+      const response = await client.crm.companies.basicApi.update(companyId, { properties });
+      return response;
+    } catch (error) {
+      console.log(error);
+      return { error };
+    }
+  }
+
+
+
+
 }

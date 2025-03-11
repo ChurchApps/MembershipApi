@@ -20,6 +20,20 @@ const churchRegisterValidation = [
 @controller("/churches")
 export class ChurchController extends MembershipBaseController {
 
+  @httpGet("/addHubspot")
+  public async addHubspot(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+    return this.actionWrapperAnon(req, res, async () => {
+      const churches = await this.repositories.church.loadAll();
+      for (const church of churches) {
+        const comp = await HubspotHelper.lookupCompany(church.name);
+        console.log(church.name, comp);
+        if (comp) {
+          await HubspotHelper.setProperties(comp.id, { church_id: church.id });
+        }
+      }
+    });
+  }
+
   @httpGet("/all")
   public async loadAll(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
@@ -347,7 +361,7 @@ export class ChurchController extends MembershipBaseController {
         }
 
         try {
-          if (Environment.hubspotKey) await HubspotHelper.register(church.name, au.firstName, au.lastName, church.address1, church.city, church.state, church.zip, church.country, au.email, church.appName);
+          if (Environment.hubspotKey) await HubspotHelper.register(church.id, church.name, au.firstName, au.lastName, church.address1, church.city, church.state, church.zip, church.country, au.email, church.appName);
         } catch (ex) {
           console.log(ex);
         }
@@ -390,7 +404,7 @@ export class ChurchController extends MembershipBaseController {
     const groups: Group[] = await this.repositories.group.loadForPerson(uc.personId);
     userChurch.person = { id: p.id, membershipStatus: p.membershipStatus }
     userChurch.groups = [];
-    groups.forEach(g => userChurch.groups.push({ id: g.id, tags:g.tags, name: g.name, leader: false }));
+    groups.forEach(g => userChurch.groups.push({ id: g.id, tags: g.tags, name: g.name, leader: false }));
   }
 
   private async fetchChurchPermissions(au: AuthenticatedUser, churchId: string): Promise<LoginUserChurch> {
