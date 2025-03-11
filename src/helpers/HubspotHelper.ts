@@ -1,5 +1,5 @@
 // import Hubspot from "@hubspot/api-client";
-import { AssociationSpecAssociationCategoryEnum, PublicObjectSearchRequest, SimplePublicObjectInput } from "@hubspot/api-client/lib/codegen/crm/companies";
+import { PublicObjectSearchRequest } from "@hubspot/api-client/lib/codegen/crm/companies";
 
 import { Environment } from ".";
 
@@ -13,21 +13,12 @@ export class HubspotHelper {
     return client;
   }
 
-  static lookupCompany = async (companyName: string) => {
+  static lookupCompany = async (query: string) => {
     const client = this.getClient();
-    const req: PublicObjectSearchRequest = {
-      query: companyName,
-      limit: 1,
-      after: "",
-      sorts: [],
-      properties: [],
-      filterGroups: []
-    }
-
+    const req: PublicObjectSearchRequest = { query: query, limit: 1, after: "", sorts: [], properties: [], filterGroups: [] }
     const response = await client.crm.companies.searchApi.doSearch(req);
     return response.results[0];
   }
-
 
   static register = async (churchId: string, companyName: string, firstName: string, lastName: string, address: string, city: string, state: string, zip: string, country: string, email: string, initialApp: string) => {
     if (Environment.hubspotKey) {

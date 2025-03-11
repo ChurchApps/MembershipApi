@@ -20,6 +20,7 @@ const churchRegisterValidation = [
 @controller("/churches")
 export class ChurchController extends MembershipBaseController {
 
+  /*
   @httpGet("/addHubspot")
   public async addHubspot(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
     return this.actionWrapperAnon(req, res, async () => {
@@ -32,7 +33,7 @@ export class ChurchController extends MembershipBaseController {
         }
       }
     });
-  }
+  }*/
 
   @httpGet("/all")
   public async loadAll(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
