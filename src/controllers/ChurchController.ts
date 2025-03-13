@@ -131,6 +131,18 @@ export class ChurchController extends MembershipBaseController {
     });
   }
 
+
+  @httpGet("/test")
+  public async test(req: express.Request<{}, {}, RegistrationRequest>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapperAnon(req, res, async () => {
+
+      HubspotHelper.register("6", "Test Church6", "John", "Doe5", "123 Main St", "Anytown", "TX", "12345", "USA", "jdoe6@gmail.com", "Test App");
+
+
+
+    });
+  }
+
   /*
   @httpGet("/test")
   public async test(req: express.Request<{}, {}, RegistrationRequest>, res: express.Response): Promise<interfaces.IHttpActionResult> {

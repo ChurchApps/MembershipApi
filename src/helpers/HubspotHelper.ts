@@ -1,11 +1,9 @@
 // import Hubspot from "@hubspot/api-client";
-import { PublicObjectSearchRequest } from "@hubspot/api-client/lib/codegen/crm/companies";
-
+import { AssociationSpecAssociationCategoryEnum, PublicObjectSearchRequest } from "@hubspot/api-client/lib/codegen/crm/companies";
 import { Environment } from ".";
+import { AssociationTypes } from "@hubspot/api-client";
 
 export class HubspotHelper {
-  static contactId: string = "";
-  static companyId: string = "";
 
   private static getClient = () => {
     const hubspot = require('@hubspot/api-client')
@@ -15,7 +13,7 @@ export class HubspotHelper {
 
   static lookupCompany = async (query: string) => {
     const client = this.getClient();
-    const req: PublicObjectSearchRequest = { query: query, limit: 1, after: "", sorts: [], properties: [], filterGroups: [] }
+    const req: PublicObjectSearchRequest = { query, limit: 1, after: "", sorts: [], properties: [], filterGroups: [] }
     const response = await client.crm.companies.searchApi.doSearch(req);
     return response.results[0];
   }
@@ -32,19 +30,17 @@ export class HubspotHelper {
         properties: { firstname: firstName, lastname: lastName, email, company: companyName, address, city, state, zip, country, initial_app: initialApp }
       }
 
-      const promises: Promise<any>[] = [];
-      promises.push(
-        client.crm.companies.basicApi.create(company).then((companyResponse: any) => {
-          this.companyId = companyResponse.body.id
-        })
-      );
-      promises.push(
-        client.crm.contacts.basicApi.create(contact).then((contactResponse: any) => {
-          this.contactId = contactResponse.body.id
-        })
-      );
-      await Promise.all(promises);
-      await client.crm.companies.associationsApi.create(this.companyId, 'contacts', this.contactId, 'company_to_contact');
+
+      const [companyResponse, contactResponse] = await Promise.all([
+        client.crm.companies.basicApi.create(company),
+        client.crm.contacts.basicApi.create(contact)
+      ]);
+
+      await client.crm.associations.v4.basicApi.create("companies", companyResponse.id, "contacts", contactResponse.id, [{
+        associationCategory: AssociationSpecAssociationCategoryEnum.HubspotDefined,
+        associationTypeId: AssociationTypes.companyToContact
+      }]);
+
     }
   }
 
