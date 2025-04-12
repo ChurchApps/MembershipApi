@@ -21,3 +21,7 @@ export { VisibilityPreferenceRepository } from "./VisibilityPreferenceRepository
 
 export { SettingRepository } from "../repositories/SettingRepository";
 export { ClientErrorRepository } from "../repositories/ClientErrorRepository";
+
+export { OAuthTokenRepository } from "../repositories/OAuthTokenRepository";
+export { OAuthCodeRepository } from "../repositories/OAuthCodeRepository";
+export { OAuthClientRepository } from "../repositories/OAuthClientRepository";
