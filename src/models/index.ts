@@ -28,3 +28,7 @@ export { Setting } from "./Setting";
 
 export { ClientError } from "./ClientError";
 export { VisibilityPreference } from "./VisibilityPreference";
+
+export { OAuthToken } from "./OAuthToken";
+export { OAuthClient } from "./OAuthClient";
+export { OAuthCode } from "./OAuthCode";
