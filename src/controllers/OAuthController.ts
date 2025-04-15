@@ -19,9 +19,11 @@ export class OAuthController extends MembershipBaseController {
       if (!client.redirectUris?.includes(redirect_uri)) return this.json({ error: "invalid_redirect_uri" }, 400);
       if (response_type !== "code") return this.json({ error: "unsupported_response_type" }, 400);
 
+      const userChurch = await this.repositories.userChurch.loadByUserId(au.id, au.churchId);
+
       // Create authorization code
       const authCode: OAuthCode = {
-        userChurchId: au.churchId,
+        userChurchId: userChurch.id,
         clientId: client.id,
         code: UniqueIdHelper.shortId(),
         redirectUri: redirect_uri,
