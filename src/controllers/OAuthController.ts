@@ -117,6 +117,15 @@ export class OAuthController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/clients/clientId/:clientId")
+  public async getClientByClientId(@requestParam("clientId") clientId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      const result = await this.repositories.oAuthClient.loadByClientId(clientId);;
+      result.clientSecret = null;
+      return result;
+    });
+  }
+
   @httpGet("/clients/:id")
   public async getClient(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
