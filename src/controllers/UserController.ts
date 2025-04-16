@@ -186,6 +186,7 @@ export class UserController extends MembershipBaseController {
       else user = await this.repositories.user.loadByEmail(userEmail);
 
       if (!user) {
+        const timestamp = Date.now();
         user = { email: userEmail, firstName, lastName };
         user.registrationDate = new Date();
         user.lastLogin = user.registrationDate;
@@ -193,7 +194,7 @@ export class UserController extends MembershipBaseController {
         user.password = bcrypt.hashSync(tempPassword, 10);
         user.authGuid = v4();
         user = await this.repositories.user.save(user);
-        await UserHelper.sendWelcomeEmail(user.email, `/login?auth=${user.authGuid}`, null, null);
+        await UserHelper.sendWelcomeEmail(user.email, `/login?auth=${user.authGuid}&timestamp=${timestamp}`, null, null);
       }
       user.password = null;
       return this.json(user, 200);
@@ -218,7 +219,8 @@ export class UserController extends MembershipBaseController {
         user.password = bcrypt.hashSync(tempPassword, 10);
 
         try {
-          await UserHelper.sendWelcomeEmail(register.email, `/login?auth=${user.authGuid}`, register.appName, register.appUrl);
+          const timestamp = Date.now();
+          await UserHelper.sendWelcomeEmail(register.email, `/login?auth=${user.authGuid}&timestamp=${timestamp}`, register.appName, register.appUrl);
 
           if (Environment.emailOnRegistration) {
             const emailBody = "Name: " + register.firstName + " " + register.lastName + "<br/>Email: " + register.email + "<br/>App: " + register.appName;
