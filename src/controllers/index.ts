@@ -21,3 +21,5 @@ export { VisibilityPreferenceController } from "./VisibilityPreferenceController
 
 export { SettingController } from "./SettingController";
 export { ClientErrorController } from "./ClientErrorController";
+
+export { OAuthController } from "./OAuthController";

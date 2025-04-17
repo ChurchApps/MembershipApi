@@ -11,7 +11,10 @@ import {
   DomainRepository,
   SettingRepository,
   ClientErrorRepository,
-  VisibilityPreferenceRepository
+  VisibilityPreferenceRepository,
+  OAuthTokenRepository,
+  OAuthCodeRepository,
+  OAuthClientRepository
 } from ".";
 import { UserRepository, ChurchRepository, RoleRepository, RoleMemberRepository, RolePermissionRepository, UserChurchRepository, AccessLogRepository } from ".";
 
@@ -36,6 +39,10 @@ export class Repositories {
   public userChurch: UserChurchRepository;
   public setting: SettingRepository;
   public visibilityPreference: VisibilityPreferenceRepository;
+
+  public oAuthToken: OAuthTokenRepository;
+  public oAuthCode: OAuthCodeRepository;
+  public oAuthClient: OAuthClientRepository;
 
   public clientError: ClientErrorRepository;
 
@@ -66,6 +73,10 @@ export class Repositories {
     this.userChurch = new UserChurchRepository();
     this.setting = new SettingRepository();
     this.visibilityPreference = new VisibilityPreferenceRepository();
+
+    this.oAuthToken = new OAuthTokenRepository();
+    this.oAuthCode = new OAuthCodeRepository();
+    this.oAuthClient = new OAuthClientRepository();
 
     this.clientError = new ClientErrorRepository();
 
