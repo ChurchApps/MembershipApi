@@ -1,9 +1,10 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
-import { OAuthClient, OAuthCode, OAuthToken } from "../models";
+import { LoginUserChurch, OAuthClient, OAuthCode, OAuthToken } from "../models";
 import { Permissions } from "../helpers/Permissions";
 import { UniqueIdHelper } from "../helpers";
+import { AuthenticatedUser } from "../auth";
 
 
 @controller("/oauth")
@@ -59,11 +60,16 @@ export class OAuthController extends MembershipBaseController {
           return this.json({ error: "invalid_grant" }, 400);
         }
 
+        const userChurch = await this.repositories.userChurch.load(authCode.userChurchId);
+        const user = await this.repositories.user.load(userChurch.userId);
+        const church = await this.repositories.church.loadById(userChurch.churchId);
+        const loginUserChurch: LoginUserChurch = { church: { id: church.id, name: church.churchName, subDomain: church.subDomain }, person: { id: userChurch.personId, membershipStatus: "Guest" }, apis: [] };
+
         // Create access token
         const token: OAuthToken = {
           clientId: client.id,
           userChurchId: authCode.userChurchId,
-          accessToken: UniqueIdHelper.shortId(),
+          accessToken: AuthenticatedUser.getChurchJwt(user, loginUserChurch),
           refreshToken: UniqueIdHelper.shortId(),
           scopes: authCode.scopes,
           expiresAt: new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours
