@@ -8,5 +8,6 @@ CREATE TABLE `memberPermissions` (
   `contentId` char(11) DEFAULT NULL,
   `action` varchar(45) DEFAULT NULL,
   `emailNotification` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `churchId_contentId_memberId` (`churchId`, `contentId`, `memberId`)
 ) ENGINE=InnoDB;

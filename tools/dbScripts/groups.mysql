@@ -17,5 +17,8 @@ CREATE TABLE `groups` (
   `labels` varchar(500) DEFAULT NULL,
   `slug` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `churchId` (`churchId`)
-);
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `churchId` (`churchId`),
+  KEY `churchId_removed_tags` (`churchId`, `removed`, `tags`),
+  KEY `churchId_removed_labels` (`churchId`, `removed`, `labels`)
+) ENGINE=InnoDB;

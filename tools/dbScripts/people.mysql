@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS `people`;
 CREATE TABLE `people` (
   `id` char(11) NOT NULL,
   `churchId` char(11) DEFAULT NULL,
+  `userId` char(11) DEFAULT NULL,
   `displayName` varchar(100) DEFAULT NULL,
   `firstName` varchar(50) DEFAULT NULL,
   `middleName` varchar(50) DEFAULT NULL,
@@ -26,13 +27,15 @@ CREATE TABLE `people` (
   `zip` varchar(10) DEFAULT NULL,
   `photoUpdated` datetime DEFAULT NULL,
   `householdId` char(11) DEFAULT NULL,
-  `householdRole` varchar(10),
+  `householdRole` varchar(10) DEFAULT NULL,
   `removed` bit(1) DEFAULT NULL,
   `conversationId` char(11) DEFAULT NULL,
   `optedOut` bit(1) DEFAULT NULL,
-  `nametagNotes` varchar(50) DEFAULT NULL,
-
+  `nametagNotes` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`),
-  KEY `householdId` (`householdId`)
+  KEY `userId` (`userId`),
+  KEY `householdId` (`householdId`),
+  KEY `id_INDEX` (`id`)
 ) ENGINE=InnoDB;

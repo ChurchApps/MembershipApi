@@ -5,7 +5,7 @@ CREATE TABLE `answers` (
   `churchId` char(11) DEFAULT NULL,
   `formSubmissionId` char(11) DEFAULT NULL,
   `questionId` char(11) DEFAULT NULL,
-  `value` varchar(5000) DEFAULT NULL,
+  `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`),
   KEY `formSubmissionId` (`formSubmissionId`),

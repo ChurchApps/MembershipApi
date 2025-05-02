@@ -6,9 +6,12 @@ CREATE TABLE `groupMembers` (
   `groupId` char(11) DEFAULT NULL,
   `personId` char(11) DEFAULT NULL,
   `joinDate` datetime DEFAULT NULL,
+  `leader` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `churchId` (`churchId`),
   KEY `groupId` (`groupId`),
   KEY `personId` (`personId`),
-  `leader` bit(1) DEFAULT NULL
+  KEY `churchId_groupId_personId` (`churchId`, `groupId`, `personId`),
+  KEY `personId_churchId` (`personId`, `churchId`)
 ) ENGINE=InnoDB;

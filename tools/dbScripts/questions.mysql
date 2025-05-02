@@ -9,10 +9,10 @@ CREATE TABLE `questions` (
   `description` varchar(255) DEFAULT NULL,
   `fieldType` varchar(50) DEFAULT NULL,
   `placeholder` varchar(50) DEFAULT NULL,
-  `sort` char(11) DEFAULT NULL,
+  `sort` int(11) DEFAULT NULL,
   `choices` text,
-  `required` bit(1) DEFAULT NULL,
   `removed` bit(1) DEFAULT NULL,
+  `required` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `churchId` (`churchId`),
   KEY `formId` (`formId`)

@@ -33,6 +33,7 @@ const init = async () => {
     { title: "Households", file: "households.mysql" },
     { title: "People", file: "people.mysql" },
     { title: "Member Permissions", file: "memberPermissions.mysql" },
+    { title: "Notes", file: "notes.mysql" },
   ]
 
   const groupTables: { title: string, file: string }[] = [
@@ -42,7 +43,8 @@ const init = async () => {
 
   const miscTables: { title: string, file: string }[] = [
     { title: "Errors", file: "clientErrors.mysql" },
-    { title: "Settings", file: "settings.mysql" }
+    { title: "Settings", file: "settings.mysql" },
+    { title: "Usage Trends", file: "usageTrends.mysql" }
   ];
 
   await initTables("Access", accessTables);

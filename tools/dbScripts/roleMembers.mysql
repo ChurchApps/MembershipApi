@@ -8,5 +8,7 @@ CREATE TABLE `roleMembers` (
   `dateAdded` datetime DEFAULT NULL,
   `addedBy` char(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `userId_INDEX` (`userId`)
+  KEY `userId_INDEX` (`userId`),
+  KEY `userId_churchId` (`userId`, `churchId`),
+  KEY `roleId_churchId` (`roleId`, `churchId`)
 ) ENGINE=InnoDB;

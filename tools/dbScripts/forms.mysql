@@ -14,5 +14,8 @@ CREATE TABLE `forms` (
   `removed` bit(1) DEFAULT NULL,
   `thankYouMessage` text,
   PRIMARY KEY (`id`),
-  KEY `churchId` (`churchId`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `churchId` (`churchId`),
+  KEY `churchId_removed_archived` (`churchId`, `removed`, `archived`),
+  KEY `churchId_id` (`churchId`, `id`)
 ) ENGINE=InnoDB;
