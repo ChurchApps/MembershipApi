@@ -20,23 +20,21 @@ export class UserHelper {
       );
 
       if (!existing) {
-        const permission: RolePermission = { action: perm.action, contentType: perm.section, contentId:"" }
+        const permission: RolePermission = { action: perm.action, contentType: perm.section, contentId: "" }
         api.permissions.push(permission);
       }
     });
   }
 
-  public static addAllReportingPermissions(lucs:LoginUserChurch[])
-  {
+  public static addAllReportingPermissions(lucs: LoginUserChurch[]) {
     lucs.forEach(luc => { this.addReportingPermissions(luc) });
   }
 
-  private static addReportingPermissions(luc: LoginUserChurch)
-  {
+  private static addReportingPermissions(luc: LoginUserChurch) {
     const reportingApi = ArrayHelper.getOne(luc.apis, "keyName", "ReportingApi");
     if (reportingApi !== null) {
       luc.apis.forEach(api => {
-        if (api.keyName!=="ReportingApi") {
+        if (api.keyName !== "ReportingApi") {
           api.permissions.forEach(perm => {
             const reportingPermission = { ...perm, apiName: api.keyName };
             reportingApi.permissions.push(reportingPermission);
@@ -49,10 +47,10 @@ export class UserHelper {
   static async replaceDomainAdminPermissions(roleUserChurches: LoginUserChurch[]) {
     roleUserChurches.forEach(luc => {
       luc.apis.forEach(api => {
-        if (api.keyName==="MembershipApi") {
-          for (let i=api.permissions.length-1; i>=0; i--) {
+        if (api.keyName === "MembershipApi") {
+          for (let i = api.permissions.length - 1; i >= 0; i--) {
             const perm = api.permissions[i];
-            if (perm.contentType==="Domain" && perm.action==="Admin") {
+            if ((perm.contentType === "Domain" && perm.action === "Admin") || (perm.contentType === "Server" && perm.action === "Admin")) {
               api.permissions.splice(i, 1);
               UserHelper.addAllPermissions(luc);
             }
