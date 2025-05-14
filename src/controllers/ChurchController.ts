@@ -236,8 +236,7 @@ export class ChurchController extends MembershipBaseController {
         const result = await this.repositories.rolePermission.loadForChurch(churchId, universalChurch);
 
         // Make sure the impersonated church has domain admin permission
-        const impChurch = ArrayHelper.getOne(churches, "id", churchId);
-        const membershipApi = ArrayHelper.getOne(impChurch.apis, "keyName", "MembershipApi");
+        const membershipApi = ArrayHelper.getOne(result.apis, "keyName", "MembershipApi");
         const domainAdmin = ArrayHelper.getOne(membershipApi.permissions, "contentType", "Domain");
         if (domainAdmin === null) {
           membershipApi.permissions.push({ contentType: "Domain", action: "Admin" });
