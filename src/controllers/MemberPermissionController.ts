@@ -14,6 +14,14 @@ export class MemberPermissionController extends MembershipBaseController {
     });
   }
 
+  @httpGet("/member/:id")
+  public async getByMember(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+    return this.actionWrapper(req, res, async (au) => {
+      if (!this.formAccess(au, id)) return this.json({}, 401);
+      else return this.repositories.memberPermission.convertAllToModel(au.churchId, await this.repositories.memberPermission.loadFormsByPerson(au.churchId, id));
+    });
+  }
+
   @httpGet("/form/:id")
   public async getByForm(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
