@@ -50,7 +50,7 @@ export class UserHelper {
         if (api.keyName === "MembershipApi") {
           for (let i = api.permissions.length - 1; i >= 0; i--) {
             const perm = api.permissions[i];
-            if ((perm.contentType === "Domain" && perm.action === "Admin") || (perm.contentType === "Server" && perm.action === "Admin")) {
+            if (perm.contentType === "Domain" && perm.action === "Admin") {
               api.permissions.splice(i, 1);
               UserHelper.addAllPermissions(luc);
             }
