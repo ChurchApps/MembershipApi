@@ -89,7 +89,11 @@ export class OAuthController extends MembershipBaseController {
         });
       } else if (grant_type === "refresh_token") {
         if (!refresh_token) return this.json({ error: "invalid_request" }, 400);
+        console.log("GETTING REFRESH TOKEN");
         const oldToken = await this.repositories.oAuthToken.loadByRefreshToken(refresh_token);
+        console.log("OLD TOKEN", oldToken);
+
+
         if (!oldToken || oldToken.clientId !== client.id) return this.json({ error: "invalid_grant" }, 400);
 
         // Create new access token
@@ -109,7 +113,7 @@ export class OAuthController extends MembershipBaseController {
         return this.json({
           access_token: token.accessToken,
           token_type: "Bearer",
-          expires_in: 3600 * 12,
+          expires_in: 120, // 3600 * 12,
           refresh_token: token.refreshToken,
           scope: token.scopes
         });
