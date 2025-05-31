@@ -82,7 +82,7 @@ export class OAuthController extends MembershipBaseController {
         return this.json({
           access_token: token.accessToken,
           token_type: "Bearer",
-          expires_in: 3600 * 12,
+          expires_in: 120, //3600 * 12,
           created_at: Math.floor(Date.now() / 1000),
           refresh_token: token.refreshToken,
           scope: token.scopes
