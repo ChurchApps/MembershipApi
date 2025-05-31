@@ -103,7 +103,7 @@ export class OAuthController extends MembershipBaseController {
           accessToken: UniqueIdHelper.shortId(),
           refreshToken: UniqueIdHelper.shortId(),
           scopes: oldToken.scopes,
-          expiresAt: new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours
+          expiresAt: new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours,
         };
         console.log("Saving new token", token);
         await this.repositories.oAuthToken.save(token);
@@ -115,6 +115,7 @@ export class OAuthController extends MembershipBaseController {
         return this.json({
           access_token: token.accessToken,
           token_type: "Bearer",
+          created_at: Math.floor(Date.now() / 1000),
           expires_in: 120, // 3600 * 12,
           refresh_token: token.refreshToken,
           scope: token.scopes
