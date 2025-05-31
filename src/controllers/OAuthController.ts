@@ -94,7 +94,7 @@ export class OAuthController extends MembershipBaseController {
         console.log("OLD TOKEN", oldToken);
 
 
-        if (!oldToken || oldToken.clientId !== client.id) return this.json({ error: "invalid_grant" }, 400);
+        if (!oldToken || oldToken.clientId !== client.clientId) return this.json({ error: "invalid_grant" }, 400);
 
         // Create new access token
         const token: OAuthToken = {
@@ -105,8 +105,10 @@ export class OAuthController extends MembershipBaseController {
           scopes: oldToken.scopes,
           expiresAt: new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours
         };
+        console.log("Saving new token", token);
         await this.repositories.oAuthToken.save(token);
 
+        console.log("Deleting old token")
         // Delete old token
         await this.repositories.oAuthToken.delete(oldToken.id);
 
