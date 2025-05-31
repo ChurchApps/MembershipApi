@@ -25,7 +25,7 @@ export class OAuthController extends MembershipBaseController {
       // Create authorization code
       const authCode: OAuthCode = {
         userChurchId: userChurch.id,
-        clientId: client.id,
+        clientId: client.clientId,
         code: UniqueIdHelper.shortId(),
         redirectUri: redirect_uri,
         scopes: scope,
@@ -52,7 +52,7 @@ export class OAuthController extends MembershipBaseController {
       if (grant_type === "authorization_code") {
         if (!code) return this.json({ error: "invalid_request" }, 400);
         const authCode = await this.repositories.oAuthCode.loadByCode(code);
-        if (!authCode || authCode.clientId !== client.id) return this.json({ error: "invalid_grant" }, 400);
+        if (!authCode || authCode.clientId !== client.clientId) return this.json({ error: "invalid_grant" }, 400);
         if (redirect_uri && authCode.redirectUri !== redirect_uri) return this.json({ error: "invalid_grant" }, 400);
 
         if (authCode.expiresAt && authCode.expiresAt < new Date()) {
@@ -67,7 +67,7 @@ export class OAuthController extends MembershipBaseController {
 
         // Create access token
         const token: OAuthToken = {
-          clientId: client.id,
+          clientId: client.clientId,
           userChurchId: authCode.userChurchId,
           accessToken: AuthenticatedUser.getChurchJwt(user, loginUserChurch),
           refreshToken: UniqueIdHelper.shortId(),
