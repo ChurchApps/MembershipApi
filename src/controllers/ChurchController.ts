@@ -419,7 +419,7 @@ export class ChurchController extends MembershipBaseController {
   }
 
   private async appendPersonInfo(userChurch: LoginUserChurch, au: AuthenticatedUser, churchId: string) {
-    const uc = await PersonHelper.claim(au, churchId)
+    const uc = (await PersonHelper.claim(au, churchId)).userChurch;
     const p = await Repositories.getCurrent().person.load(uc.churchId, uc.personId);
     const groups: Group[] = await this.repositories.group.loadForPerson(uc.personId);
     userChurch.person = { id: p.id, membershipStatus: p.membershipStatus }

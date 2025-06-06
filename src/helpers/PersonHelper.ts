@@ -48,17 +48,19 @@ export class PersonHelper extends BasePersonHelper {
         personId: person.id
       }
 
-      const existing: UserChurch = await Repositories.getCurrent().userChurch.loadByUserId(au.id, churchId);
+      let existing: UserChurch = await Repositories.getCurrent().userChurch.loadByUserId(au.id, churchId);
       if (!existing) {
-        const result = await Repositories.getCurrent().userChurch.save(userChurch);
-        return Repositories.getCurrent().userChurch.convertToModel(result);
+        existing = await Repositories.getCurrent().userChurch.save(userChurch);
+        // return Repositories.getCurrent().userChurch.convertToModel(result);
       } else {
         if (existing.personId !== person.id) {
           existing.personId = person.id;
           await Repositories.getCurrent().userChurch.save(existing);
         }
-        return existing;
+
+        // return existing;
       }
+      return { person, userChurch: existing || userChurch };
     }
   }
 
