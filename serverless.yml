@@ -13,12 +13,7 @@ custom:
         - sg-052314a1eec2f2567
       subnetIds:
         - subnet-01a6b61d749d10c46
-    demo:
-      securityGroupIds:
-        - sg-052314a1eec2f2567
-      subnetIds:
-        - subnet-01a6b61d749d10c46
-    current: ${self:custom.vpcSettings.${self:custom.env}}
+    current: ${ternary(${self:custom.env}, prod, ${self:custom.vpcSettings.prod}, ~)}
 
 provider:
   name: aws
