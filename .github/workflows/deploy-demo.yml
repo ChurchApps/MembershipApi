@@ -58,6 +58,7 @@ jobs:
 
           # Create .env file for initdb script
           echo "APP_ENV=Demo" > .env
+          echo "CONNECTION_STRING=$CONNECTION_STRING" >> .env
 
           # Run the initdb script to create tables and seed data
           npm run initdb
