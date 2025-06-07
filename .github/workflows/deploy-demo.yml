@@ -63,8 +63,8 @@ jobs:
           # Run the initdb script to create tables and seed data
           npm run initdb
 
-          # Run the demo.sql file to populate demo data
-          mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < tools/dbScripts/demo.sql
+          # Run the demo.mysql file to populate demo data
+          mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < tools/dbScripts/demo.mysql
 
   deploy:
     name: Deploy Demo

@@ -1,3 +1,15 @@
+-- Truncate all tables in correct order (respecting foreign key constraints)
+TRUNCATE TABLE roleMembers;
+TRUNCATE TABLE rolePermissions;
+TRUNCATE TABLE roles;
+TRUNCATE TABLE users;
+TRUNCATE TABLE groupMembers;
+TRUNCATE TABLE notes;
+TRUNCATE TABLE `groups`;
+TRUNCATE TABLE people;
+TRUNCATE TABLE households;
+TRUNCATE TABLE churches;
+
 -- Demo Church
 INSERT INTO churches (id, name, subDomain, address1, city, state, zip, country, latitude, longitude) VALUES 
 ('CHU00000001', 'Grace Community Church', 'grace', '123 Main Street', 'Springfield', 'IL', '62701', 'US', 39.7817, -89.6501);
