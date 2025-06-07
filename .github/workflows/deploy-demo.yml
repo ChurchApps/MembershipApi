@@ -43,7 +43,7 @@ jobs:
         run:
           |
           # Get connection string from Parameter Store
-          CONNECTION_STRING=$(aws ssm get-parameter --name "/demo/membership-api/connectionString" --with-decryption --query "Parameter.Value" --output text)
+          CONNECTION_STRING=$(aws ssm get-parameter --name "/demo/membershipApi/connectionString" --with-decryption --query "Parameter.Value" --output text)
 
           # Extract database name from connection string
           DB_NAME=$(echo $CONNECTION_STRING | sed -n 's/.*\/\/[^:]*:[^@]*@[^:]*:[0-9]*\/\([^?]*\).*/\1/p')
