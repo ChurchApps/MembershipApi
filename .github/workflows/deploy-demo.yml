@@ -35,8 +35,9 @@ jobs:
       - name: Remove Previous Demo Stack
         run:
           |
+          # This will fail if stack doesn't exist, which is expected for first-time deployments
           npm install -g serverless
-          serverless remove --stage demo --verbose
+          serverless remove --stage demo --verbose || echo "No existing stack to remove"
 
       - name: Reset and Initialize Database
         run:
@@ -91,14 +92,12 @@ jobs:
           aws-region: us-east-2
 
       - name: Setup Serverless
-        run:
-          |
-          export SERVERLESS_ACCESS_KEY="$SERVERLESS_ACCESS_KEY"
+        run: export SERVERLESS_ACCESS_KEY="$SERVERLESS_ACCESS_KEY"
 
       - name: Deploy API
         run:
           |
-          npm install
+          npm ci
           npm run build
           npm run copy-assets
-          serverless deploy --stage Demo --verbose
+          serverless deploy --stage demo --verbose
