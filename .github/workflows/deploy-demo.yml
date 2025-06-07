@@ -1,4 +1,4 @@
-name: Deploy Demo Environment
+name: Deploy Demo
 
 on:
   schedule:
@@ -13,19 +13,6 @@ jobs:
     name: Cleanup Previous Demo
     runs-on: ubuntu-latest
     steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
-      - name: Remove Previous Demo Stack
-        run:
-          |
-          npm install -g serverless
-          serverless remove --stage Demo --verbose
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -36,7 +23,20 @@ jobs:
           node-version: "18"
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Remove Previous Demo Stack
+        run:
+          |
+          npm install -g serverless
+          serverless remove --stage demo --verbose
 
       - name: Reset and Initialize Database
         run:
