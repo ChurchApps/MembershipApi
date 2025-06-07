@@ -49,7 +49,7 @@ INSERT INTO people (id, churchId, displayName, firstName, lastName, gender, mari
 -- Williams Family (Single parent + 2 children)
 ('PER00000011', 'CHU00000001', 'Jennifer Williams', 'Jennifer', 'Williams', 'Female', 'Divorced', '1985-11-30', 'jennifer.williams@email.com', 'HOU00000003', 'Head', 'Member'),
 ('PER00000012', 'CHU00000001', 'Christopher Williams', 'Christopher', 'Williams', 'Male', 'Single', '2011-03-15', NULL, 'HOU00000003', 'Child', 'Member'),
-('PER00000013', 'CHU00000001', 'Emma Williams', 'Emma', 'Williams', 'Female', 'Single', '2013-07-22', NULL, 'HOU00000003', 'Child', 'Member');
+('PER00000013', 'CHU00000001', 'Emma Williams', 'Emma', 'Williams', 'Female', 'Single', '2013-07-22', NULL, 'HOU00000003', 'Child', 'Member'),
 
 -- Brown Family (Young married couple)
 ('PER00000014', 'CHU00000001', 'Daniel Brown', 'Daniel', 'Brown', 'Male', 'Married', '1992-04-18', 'daniel.brown@email.com', 'HOU00000004', 'Head', 'Member'),
