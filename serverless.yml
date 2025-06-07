@@ -13,7 +13,12 @@ custom:
         - sg-052314a1eec2f2567
       subnetIds:
         - subnet-01a6b61d749d10c46
-    current: ${ternary(${self:custom.env}, prod, ${self:custom.vpcSettings.prod}, ~)}
+    demo:
+      securityGroupIds:
+        - sg-052314a1eec2f2567
+      subnetIds:
+        - subnet-01a6b61d749d10c46
+    current: ${self:custom.vpcSettings.${self:custom.env}}
 
 provider:
   name: aws
@@ -47,11 +52,13 @@ functions:
           method: ANY
     vpc: ${self:custom.vpcSettings.current}
     layers:
-      - {Ref: DependenciesLambdaLayer}
+      - {
+          Ref: DependenciesLambdaLayer
+        }
     package:
       patterns:
-        - '!node_modules/**'
-        - '!package-lock.json'
+        - "!node_modules/**"
+        - "!package-lock.json"
 
 plugins:
   - serverless-plugin-utils
