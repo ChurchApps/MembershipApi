@@ -97,7 +97,7 @@ jobs:
       - name: Deploy API
         run:
           |
-          npm ci
+          npm ci --include=dev
           npm run build
           npm run copy-assets
           serverless deploy --stage demo --verbose
