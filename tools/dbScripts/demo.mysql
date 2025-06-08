@@ -43,137 +43,137 @@ INSERT INTO households (id, churchId, name) VALUES
 ('HOU00000025', 'CHU00000001', 'Clark Family');
 
 -- Demo People (Sample of first 3 households to show structure - will add more in next edit)
-INSERT INTO people (id, churchId, displayName, firstName, lastName, gender, maritalStatus, birthDate, email, householdId, householdRole, membershipStatus, removed) VALUES
+INSERT INTO people (id, churchId, displayName, firstName, middleName, lastName, prefix, suffix, gender, maritalStatus, birthDate, email, householdId, householdRole, membershipStatus, homePhone, mobilePhone, workPhone, address1, city, state, zip, removed) VALUES
 -- Smith Family (Parents + 3 children)
-('PER00000001', 'CHU00000001', 'John Smith', 'John', 'Smith', 'Male', 'Married', '1975-06-15', 'john.smith@email.com', 'HOU00000001', 'Head', 'Member', 0),
-('PER00000002', 'CHU00000001', 'Mary Smith', 'Mary', 'Smith', 'Female', 'Married', '1978-03-22', 'mary.smith@email.com', 'HOU00000001', 'Spouse', 'Member', 0),
-('PER00000003', 'CHU00000001', 'James Smith', 'James', 'Smith', 'Male', 'Single', '2005-11-08', 'james.smith@email.com', 'HOU00000001', 'Child', 'Member', 0),
-('PER00000004', 'CHU00000001', 'Sarah Smith', 'Sarah', 'Smith', 'Female', 'Single', '2008-04-17', 'sarah.smith@email.com', 'HOU00000001', 'Child', 'Member', 0),
-('PER00000005', 'CHU00000001', 'Michael Smith', 'Michael', 'Smith', 'Male', 'Single', '2012-09-30', NULL, 'HOU00000001', 'Child', 'Member', 0),
+('PER00000001', 'CHU00000001', 'John Smith', 'John', 'Robert', 'Smith', 'Mr.', NULL, 'Male', 'Married', '1975-06-15', 'john.smith@email.com', 'HOU00000001', 'Head', 'Member', '(217) 555-0101', '(217) 555-0102', '(217) 555-0103', '123 Oak Street', 'Springfield', 'IL', '62701', 0),
+('PER00000002', 'CHU00000001', 'Mary Smith', 'Mary', 'Elizabeth', 'Smith', 'Mrs.', NULL, 'Female', 'Married', '1978-03-22', 'mary.smith@email.com', 'HOU00000001', 'Spouse', 'Member', '(217) 555-0101', '(217) 555-0104', NULL, '123 Oak Street', 'Springfield', 'IL', '62701', 0),
+('PER00000003', 'CHU00000001', 'James Smith', 'James', 'William', 'Smith', NULL, NULL, 'Male', 'Single', '2005-11-08', 'james.smith@email.com', 'HOU00000001', 'Child', 'Member', '(217) 555-0101', '(217) 555-0105', NULL, '123 Oak Street', 'Springfield', 'IL', '62701', 0),
+('PER00000004', 'CHU00000001', 'Sarah Smith', 'Sarah', 'Marie', 'Smith', NULL, NULL, 'Female', 'Single', '2008-04-17', 'sarah.smith@email.com', 'HOU00000001', 'Child', 'Member', '(217) 555-0101', '(217) 555-0106', NULL, '123 Oak Street', 'Springfield', 'IL', '62701', 0),
+('PER00000005', 'CHU00000001', 'Michael Smith', 'Michael', 'Thomas', 'Smith', NULL, NULL, 'Male', 'Single', '2012-09-30', NULL, 'HOU00000001', 'Child', 'Member', '(217) 555-0101', NULL, NULL, '123 Oak Street', 'Springfield', 'IL', '62701', 0),
 
 -- Johnson Family (Parents + 2 children + 1 grandparent)
-('PER00000006', 'CHU00000001', 'Robert Johnson', 'Robert', 'Johnson', 'Male', 'Married', '1980-01-10', 'robert.johnson@email.com', 'HOU00000002', 'Head', 'Member', 0),
-('PER00000007', 'CHU00000001', 'Patricia Johnson', 'Patricia', 'Johnson', 'Female', 'Married', '1982-07-25', 'patricia.johnson@email.com', 'HOU00000002', 'Spouse', 'Member', 0),
-('PER00000008', 'CHU00000001', 'Elizabeth Johnson', 'Elizabeth', 'Johnson', 'Female', 'Single', '2010-12-03', NULL, 'HOU00000002', 'Child', 'Member', 0),
-('PER00000009', 'CHU00000001', 'David Johnson', 'David', 'Johnson', 'Male', 'Single', '2014-05-19', NULL, 'HOU00000002', 'Child', 'Member', 0),
-('PER00000010', 'CHU00000001', 'Margaret Johnson', 'Margaret', 'Johnson', 'Female', 'Widowed', '1955-08-14', 'margaret.johnson@email.com', 'HOU00000002', 'Other', 'Member', 0),
+('PER00000006', 'CHU00000001', 'Robert Johnson', 'Robert', 'James', 'Johnson', 'Mr.', NULL, 'Male', 'Married', '1980-01-10', 'robert.johnson@email.com', 'HOU00000002', 'Head', 'Member', '(217) 555-0201', '(217) 555-0202', '(217) 555-0203', '456 Maple Avenue', 'Chatham', 'IL', '62629', 0),
+('PER00000007', 'CHU00000001', 'Patricia Johnson', 'Patricia', 'Ann', 'Johnson', 'Mrs.', NULL, 'Female', 'Married', '1982-07-25', 'patricia.johnson@email.com', 'HOU00000002', 'Spouse', 'Member', '(217) 555-0201', '(217) 555-0204', NULL, '456 Maple Avenue', 'Chatham', 'IL', '62629', 0),
+('PER00000008', 'CHU00000001', 'Elizabeth Johnson', 'Elizabeth', 'Grace', 'Johnson', NULL, NULL, 'Female', 'Single', '2010-12-03', NULL, 'HOU00000002', 'Child', 'Member', '(217) 555-0201', NULL, NULL, '456 Maple Avenue', 'Chatham', 'IL', '62629', 0),
+('PER00000009', 'CHU00000001', 'David Johnson', 'David', 'Michael', 'Johnson', NULL, NULL, 'Male', 'Single', '2014-05-19', NULL, 'HOU00000002', 'Child', 'Member', '(217) 555-0201', NULL, NULL, '456 Maple Avenue', 'Chatham', 'IL', '62629', 0),
+('PER00000010', 'CHU00000001', 'Margaret Johnson', 'Margaret', 'Louise', 'Johnson', 'Mrs.', NULL, 'Female', 'Widowed', '1955-08-14', 'margaret.johnson@email.com', 'HOU00000002', 'Other', 'Member', '(217) 555-0205', '(217) 555-0206', NULL, '456 Maple Avenue', 'Chatham', 'IL', '62629', 0),
 
 -- Williams Family (Single parent + 2 children)
-('PER00000011', 'CHU00000001', 'Jennifer Williams', 'Jennifer', 'Williams', 'Female', 'Divorced', '1985-11-30', 'jennifer.williams@email.com', 'HOU00000003', 'Head', 'Member', 0),
-('PER00000012', 'CHU00000001', 'Christopher Williams', 'Christopher', 'Williams', 'Male', 'Single', '2011-03-15', NULL, 'HOU00000003', 'Child', 'Member', 0),
-('PER00000013', 'CHU00000001', 'Emma Williams', 'Emma', 'Williams', 'Female', 'Single', '2013-07-22', NULL, 'HOU00000003', 'Child', 'Member', 0),
+('PER00000011', 'CHU00000001', 'Jennifer Williams', 'Jennifer', 'Lynn', 'Williams', 'Ms.', NULL, 'Female', 'Divorced', '1985-11-30', 'jennifer.williams@email.com', 'HOU00000003', 'Head', 'Member', '(217) 555-0301', '(217) 555-0302', '(217) 555-0303', '789 Pine Road', 'Rochester', 'IL', '62563', 0),
+('PER00000012', 'CHU00000001', 'Christopher Williams', 'Christopher', 'Allen', 'Williams', NULL, NULL, 'Male', 'Single', '2011-03-15', NULL, 'HOU00000003', 'Child', 'Member', '(217) 555-0301', NULL, NULL, '789 Pine Road', 'Rochester', 'IL', '62563', 0),
+('PER00000013', 'CHU00000001', 'Emma Williams', 'Emma', 'Rose', 'Williams', NULL, NULL, 'Female', 'Single', '2013-07-22', NULL, 'HOU00000003', 'Child', 'Member', '(217) 555-0301', NULL, NULL, '789 Pine Road', 'Rochester', 'IL', '62563', 0),
 
 -- Brown Family (Young married couple)
-('PER00000014', 'CHU00000001', 'Daniel Brown', 'Daniel', 'Brown', 'Male', 'Married', '1992-04-18', 'daniel.brown@email.com', 'HOU00000004', 'Head', 'Member', 0),
-('PER00000015', 'CHU00000001', 'Lisa Brown', 'Lisa', 'Brown', 'Female', 'Married', '1993-09-25', 'lisa.brown@email.com', 'HOU00000004', 'Spouse', 'Member', 0),
+('PER00000014', 'CHU00000001', 'Daniel Brown', 'Daniel', 'Joseph', 'Brown', 'Mr.', NULL, 'Male', 'Married', '1992-04-18', 'daniel.brown@email.com', 'HOU00000004', 'Head', 'Member', '(217) 555-0401', '(217) 555-0402', '(217) 555-0403', '321 Cedar Lane', 'Springfield', 'IL', '62704', 0),
+('PER00000015', 'CHU00000001', 'Lisa Brown', 'Lisa', 'Marie', 'Brown', 'Mrs.', NULL, 'Female', 'Married', '1993-09-25', 'lisa.brown@email.com', 'HOU00000004', 'Spouse', 'Member', '(217) 555-0401', '(217) 555-0404', NULL, '321 Cedar Lane', 'Springfield', 'IL', '62704', 0),
 
 -- Jones Family (Blended family)
-('PER00000016', 'CHU00000001', 'Thomas Jones', 'Thomas', 'Jones', 'Male', 'Married', '1982-11-30', 'thomas.jones@email.com', 'HOU00000005', 'Head', 'Member', 0),
-('PER00000017', 'CHU00000001', 'Rebecca Jones', 'Rebecca', 'Jones', 'Female', 'Married', '1984-05-12', 'rebecca.jones@email.com', 'HOU00000005', 'Spouse', 'Member', 0),
-('PER00000018', 'CHU00000001', 'Matthew Jones', 'Matthew', 'Jones', 'Male', 'Single', '2007-08-15', NULL, 'HOU00000005', 'Child', 'Member', 0),
-('PER00000019', 'CHU00000001', 'Sophia Jones', 'Sophia', 'Jones', 'Female', 'Single', '2010-02-28', NULL, 'HOU00000005', 'Child', 'Member', 0),
-('PER00000020', 'CHU00000001', 'Ethan Smith', 'Ethan', 'Smith', 'Male', 'Single', '2009-11-03', NULL, 'HOU00000005', 'Child', 'Member', 0),
+('PER00000016', 'CHU00000001', 'Thomas Jones', 'Thomas', 'Edward', 'Jones', 'Mr.', NULL, 'Male', 'Married', '1982-11-30', 'thomas.jones@email.com', 'HOU00000005', 'Head', 'Member', '(217) 555-0501', '(217) 555-0502', '(217) 555-0503', '654 Birch Court', 'Sherman', 'IL', '62684', 0),
+('PER00000017', 'CHU00000001', 'Rebecca Jones', 'Rebecca', 'Jean', 'Jones', 'Mrs.', NULL, 'Female', 'Married', '1984-05-12', 'rebecca.jones@email.com', 'HOU00000005', 'Spouse', 'Member', '(217) 555-0501', '(217) 555-0504', NULL, '654 Birch Court', 'Sherman', 'IL', '62684', 0),
+('PER00000018', 'CHU00000001', 'Matthew Jones', 'Matthew', 'David', 'Jones', NULL, NULL, 'Male', 'Single', '2007-08-15', NULL, 'HOU00000005', 'Child', 'Member', '(217) 555-0501', NULL, NULL, '654 Birch Court', 'Sherman', 'IL', '62684', 0),
+('PER00000019', 'CHU00000001', 'Sophia Jones', 'Sophia', 'Grace', 'Jones', NULL, NULL, 'Female', 'Single', '2010-02-28', NULL, 'HOU00000005', 'Child', 'Member', '(217) 555-0501', NULL, NULL, '654 Birch Court', 'Sherman', 'IL', '62684', 0),
+('PER00000020', 'CHU00000001', 'Ethan Smith', 'Ethan', 'James', 'Smith', NULL, NULL, 'Male', 'Single', '2009-11-03', NULL, 'HOU00000005', 'Child', 'Member', '(217) 555-0501', NULL, NULL, '654 Birch Court', 'Sherman', 'IL', '62684', 0),
 
 -- Garcia Family (Multi-generational)
-('PER00000021', 'CHU00000001', 'Carlos Garcia', 'Carlos', 'Garcia', 'Male', 'Married', '1978-07-22', 'carlos.garcia@email.com', 'HOU00000006', 'Head', 'Member', 0),
-('PER00000022', 'CHU00000001', 'Maria Garcia', 'Maria', 'Garcia', 'Female', 'Married', '1980-03-14', 'maria.garcia@email.com', 'HOU00000006', 'Spouse', 'Member', 0),
-('PER00000023', 'CHU00000001', 'Isabella Garcia', 'Isabella', 'Garcia', 'Female', 'Single', '2012-06-30', NULL, 'HOU00000006', 'Child', 'Member', 0),
-('PER00000024', 'CHU00000001', 'Antonio Garcia', 'Antonio', 'Garcia', 'Male', 'Widowed', '1952-12-05', 'antonio.garcia@email.com', 'HOU00000006', 'Other', 'Member', 0),
+('PER00000021', 'CHU00000001', 'Carlos Garcia', 'Carlos', 'Miguel', 'Garcia', 'Mr.', NULL, 'Male', 'Married', '1978-07-22', 'carlos.garcia@email.com', 'HOU00000006', 'Head', 'Member', '(217) 555-0601', '(217) 555-0602', '(217) 555-0603', '987 Walnut Street', 'Springfield', 'IL', '62703', 0),
+('PER00000022', 'CHU00000001', 'Maria Garcia', 'Maria', 'Isabel', 'Garcia', 'Mrs.', NULL, 'Female', 'Married', '1980-03-14', 'maria.garcia@email.com', 'HOU00000006', 'Spouse', 'Member', '(217) 555-0601', '(217) 555-0604', NULL, '987 Walnut Street', 'Springfield', 'IL', '62703', 0),
+('PER00000023', 'CHU00000001', 'Isabella Garcia', 'Isabella', 'Maria', 'Garcia', NULL, NULL, 'Female', 'Single', '2012-06-30', NULL, 'HOU00000006', 'Child', 'Member', '(217) 555-0601', NULL, NULL, '987 Walnut Street', 'Springfield', 'IL', '62703', 0),
+('PER00000024', 'CHU00000001', 'Antonio Garcia', 'Antonio', 'Jose', 'Garcia', 'Mr.', NULL, 'Male', 'Widowed', '1952-12-05', 'antonio.garcia@email.com', 'HOU00000006', 'Other', 'Member', '(217) 555-0605', '(217) 555-0606', NULL, '987 Walnut Street', 'Springfield', 'IL', '62703', 0),
 
 -- Miller Family (Empty nesters)
-('PER00000025', 'CHU00000001', 'Richard Miller', 'Richard', 'Miller', 'Male', 'Married', '1965-09-18', 'richard.miller@email.com', 'HOU00000007', 'Head', 'Member', 0),
-('PER00000026', 'CHU00000001', 'Susan Miller', 'Susan', 'Miller', 'Female', 'Married', '1967-02-25', 'susan.miller@email.com', 'HOU00000007', 'Spouse', 'Member', 0),
+('PER00000025', 'CHU00000001', 'Richard Miller', 'Richard', 'Alan', 'Miller', 'Mr.', NULL, 'Male', 'Married', '1965-09-18', 'richard.miller@email.com', 'HOU00000007', 'Head', 'Member', '(217) 555-0701', '(217) 555-0702', '(217) 555-0703', '147 Spruce Drive', 'Riverton', 'IL', '62561', 0),
+('PER00000026', 'CHU00000001', 'Susan Miller', 'Susan', 'Kay', 'Miller', 'Mrs.', NULL, 'Female', 'Married', '1967-02-25', 'susan.miller@email.com', 'HOU00000007', 'Spouse', 'Member', '(217) 555-0701', '(217) 555-0704', NULL, '147 Spruce Drive', 'Riverton', 'IL', '62561', 0),
 
 -- Davis Family (Young family)
-('PER00000027', 'CHU00000001', 'Michael Davis', 'Michael', 'Davis', 'Male', 'Married', '1988-05-20', 'michael.davis@email.com', 'HOU00000008', 'Head', 'Member', 0),
-('PER00000028', 'CHU00000001', 'Emily Davis', 'Emily', 'Davis', 'Female', 'Married', '1989-11-15', 'emily.davis@email.com', 'HOU00000008', 'Spouse', 'Member', 0),
-('PER00000029', 'CHU00000001', 'Olivia Davis', 'Olivia', 'Davis', 'Female', 'Single', '2018-03-10', NULL, 'HOU00000008', 'Child', 'Member', 0),
-('PER00000030', 'CHU00000001', 'Noah Davis', 'Noah', 'Davis', 'Male', 'Single', '2020-07-22', NULL, 'HOU00000008', 'Child', 'Member', 0),
+('PER00000027', 'CHU00000001', 'Michael Davis', 'Michael', 'James', 'Davis', 'Mr.', NULL, 'Male', 'Married', '1988-05-20', 'michael.davis@email.com', 'HOU00000008', 'Head', 'Member', '(217) 555-0801', '(217) 555-0802', '(217) 555-0803', '258 Elm Street', 'Williamsville', 'IL', '62693', 0),
+('PER00000028', 'CHU00000001', 'Emily Davis', 'Emily', 'Anne', 'Davis', 'Mrs.', NULL, 'Female', 'Married', '1989-11-15', 'emily.davis@email.com', 'HOU00000008', 'Spouse', 'Member', '(217) 555-0801', '(217) 555-0804', NULL, '258 Elm Street', 'Williamsville', 'IL', '62693', 0),
+('PER00000029', 'CHU00000001', 'Olivia Davis', 'Olivia', 'Grace', 'Davis', NULL, NULL, 'Female', 'Single', '2018-03-10', NULL, 'HOU00000008', 'Child', 'Member', '(217) 555-0801', NULL, NULL, '258 Elm Street', 'Williamsville', 'IL', '62693', 0),
+('PER00000030', 'CHU00000001', 'Noah Davis', 'Noah', 'James', 'Davis', NULL, NULL, 'Male', 'Single', '2020-07-22', NULL, 'HOU00000008', 'Child', 'Member', '(217) 555-0801', NULL, NULL, '258 Elm Street', 'Williamsville', 'IL', '62693', 0),
 
 -- Rodriguez Family (Single parent)
-('PER00000031', 'CHU00000001', 'Sofia Rodriguez', 'Sofia', 'Rodriguez', 'Female', 'Divorced', '1986-08-12', 'sofia.rodriguez@email.com', 'HOU00000009', 'Head', 'Member', 0),
-('PER00000032', 'CHU00000001', 'Lucas Rodriguez', 'Lucas', 'Rodriguez', 'Male', 'Single', '2013-04-25', NULL, 'HOU00000009', 'Child', 'Member', 0),
-('PER00000033', 'CHU00000001', 'Mia Rodriguez', 'Mia', 'Rodriguez', 'Female', 'Single', '2015-09-18', NULL, 'HOU00000009', 'Child', 'Member', 0),
+('PER00000031', 'CHU00000001', 'Sofia Rodriguez', 'Sofia', 'Maria', 'Rodriguez', 'Ms.', NULL, 'Female', 'Divorced', '1986-08-12', 'sofia.rodriguez@email.com', 'HOU00000009', 'Head', 'Member', '(217) 555-0901', '(217) 555-0902', '(217) 555-0903', '369 Ash Avenue', 'Springfield', 'IL', '62702', 0),
+('PER00000032', 'CHU00000001', 'Lucas Rodriguez', 'Lucas', 'Antonio', 'Rodriguez', NULL, NULL, 'Male', 'Single', '2013-04-25', NULL, 'HOU00000009', 'Child', 'Member', '(217) 555-0901', NULL, NULL, '369 Ash Avenue', 'Springfield', 'IL', '62702', 0),
+('PER00000033', 'CHU00000001', 'Mia Rodriguez', 'Mia', 'Isabella', 'Rodriguez', NULL, NULL, 'Female', 'Single', '2015-09-18', NULL, 'HOU00000009', 'Child', 'Member', '(217) 555-0901', NULL, NULL, '369 Ash Avenue', 'Springfield', 'IL', '62702', 0),
 
 -- Martinez Family (Senior couple)
-('PER00000034', 'CHU00000001', 'Jose Martinez', 'Jose', 'Martinez', 'Male', 'Married', '1958-03-15', 'jose.martinez@email.com', 'HOU00000010', 'Head', 'Member', 0),
-('PER00000035', 'CHU00000001', 'Carmen Martinez', 'Carmen', 'Martinez', 'Female', 'Married', '1960-07-28', 'carmen.martinez@email.com', 'HOU00000010', 'Spouse', 'Member', 0),
+('PER00000034', 'CHU00000001', 'Jose Martinez', 'Jose', 'Antonio', 'Martinez', 'Mr.', NULL, 'Male', 'Married', '1958-03-15', 'jose.martinez@email.com', 'HOU00000010', 'Head', 'Member', '(217) 555-1001', '(217) 555-1002', '(217) 555-1003', '741 Poplar Lane', 'Pawnee', 'IL', '62558', 0),
+('PER00000035', 'CHU00000001', 'Carmen Martinez', 'Carmen', 'Rosa', 'Martinez', 'Mrs.', NULL, 'Female', 'Married', '1960-07-28', 'carmen.martinez@email.com', 'HOU00000010', 'Spouse', 'Member', '(217) 555-1001', '(217) 555-1004', NULL, '741 Poplar Lane', 'Pawnee', 'IL', '62558', 0),
 
 -- Hernandez Family (Large family)
-('PER00000036', 'CHU00000001', 'Miguel Hernandez', 'Miguel', 'Hernandez', 'Male', 'Married', '1983-01-20', 'miguel.hernandez@email.com', 'HOU00000011', 'Head', 'Member', 0),
-('PER00000037', 'CHU00000001', 'Ana Hernandez', 'Ana', 'Hernandez', 'Female', 'Married', '1984-06-15', 'ana.hernandez@email.com', 'HOU00000011', 'Spouse', 'Member', 0),
-('PER00000038', 'CHU00000001', 'Diego Hernandez', 'Diego', 'Hernandez', 'Male', 'Single', '2009-11-30', NULL, 'HOU00000011', 'Child', 'Member', 0),
-('PER00000039', 'CHU00000001', 'Valentina Hernandez', 'Valentina', 'Hernandez', 'Female', 'Single', '2011-04-12', NULL, 'HOU00000011', 'Child', 'Member', 0),
-('PER00000040', 'CHU00000001', 'Gabriel Hernandez', 'Gabriel', 'Hernandez', 'Male', 'Single', '2014-08-25', NULL, 'HOU00000011', 'Child', 'Member', 0),
-('PER00000041', 'CHU00000001', 'Isabella Hernandez', 'Isabella', 'Hernandez', 'Female', 'Single', '2016-12-03', NULL, 'HOU00000011', 'Child', 'Member', 0),
+('PER00000036', 'CHU00000001', 'Miguel Hernandez', 'Miguel', 'Angel', 'Hernandez', 'Mr.', NULL, 'Male', 'Married', '1983-01-20', 'miguel.hernandez@email.com', 'HOU00000011', 'Head', 'Member', '(217) 555-1101', '(217) 555-1102', '(217) 555-1103', '852 Cherry Street', 'Springfield', 'IL', '62704', 0),
+('PER00000037', 'CHU00000001', 'Ana Hernandez', 'Ana', 'Maria', 'Hernandez', 'Mrs.', NULL, 'Female', 'Married', '1984-06-15', 'ana.hernandez@email.com', 'HOU00000011', 'Spouse', 'Member', '(217) 555-1101', '(217) 555-1104', NULL, '852 Cherry Street', 'Springfield', 'IL', '62704', 0),
+('PER00000038', 'CHU00000001', 'Diego Hernandez', 'Diego', 'Miguel', 'Hernandez', NULL, NULL, 'Male', 'Single', '2009-11-30', NULL, 'HOU00000011', 'Child', 'Member', '(217) 555-1101', NULL, NULL, '852 Cherry Street', 'Springfield', 'IL', '62704', 0),
+('PER00000039', 'CHU00000001', 'Valentina Hernandez', 'Valentina', 'Isabella', 'Hernandez', NULL, NULL, 'Female', 'Single', '2011-04-12', NULL, 'HOU00000011', 'Child', 'Member', '(217) 555-1101', NULL, NULL, '852 Cherry Street', 'Springfield', 'IL', '62704', 0),
+('PER00000040', 'CHU00000001', 'Gabriel Hernandez', 'Gabriel', 'Jose', 'Hernandez', NULL, NULL, 'Male', 'Single', '2014-08-25', NULL, 'HOU00000011', 'Child', 'Member', '(217) 555-1101', NULL, NULL, '852 Cherry Street', 'Springfield', 'IL', '62704', 0),
+('PER00000041', 'CHU00000001', 'Isabella Hernandez', 'Isabella', 'Maria', 'Hernandez', NULL, NULL, 'Female', 'Single', '2016-12-03', NULL, 'HOU00000011', 'Child', 'Member', '(217) 555-1101', NULL, NULL, '852 Cherry Street', 'Springfield', 'IL', '62704', 0),
 
 -- Lopez Family (Young professionals)
-('PER00000042', 'CHU00000001', 'David Lopez', 'David', 'Lopez', 'Male', 'Married', '1990-09-10', 'david.lopez@email.com', 'HOU00000012', 'Head', 'Member', 0),
-('PER00000043', 'CHU00000001', 'Laura Lopez', 'Laura', 'Lopez', 'Female', 'Married', '1991-12-05', 'laura.lopez@email.com', 'HOU00000012', 'Spouse', 'Member', 0),
+('PER00000042', 'CHU00000001', 'David Lopez', 'David', 'Robert', 'Lopez', 'Mr.', NULL, 'Male', 'Married', '1990-09-10', 'david.lopez@email.com', 'HOU00000012', 'Head', 'Member', '(217) 555-1201', '(217) 555-1202', '(217) 555-1203', '963 Magnolia Drive', 'Auburn', 'IL', '62615', 0),
+('PER00000043', 'CHU00000001', 'Laura Lopez', 'Laura', 'Elizabeth', 'Lopez', 'Mrs.', NULL, 'Female', 'Married', '1991-12-05', 'laura.lopez@email.com', 'HOU00000012', 'Spouse', 'Member', '(217) 555-1201', '(217) 555-1204', NULL, '963 Magnolia Drive', 'Auburn', 'IL', '62615', 0),
 
 -- Gonzalez Family (Multi-generational)
-('PER00000044', 'CHU00000001', 'Roberto Gonzalez', 'Roberto', 'Gonzalez', 'Male', 'Married', '1975-04-18', 'roberto.gonzalez@email.com', 'HOU00000013', 'Head', 'Member', 0),
-('PER00000045', 'CHU00000001', 'Elena Gonzalez', 'Elena', 'Gonzalez', 'Female', 'Married', '1977-08-22', 'elena.gonzalez@email.com', 'HOU00000013', 'Spouse', 'Member', 0),
-('PER00000046', 'CHU00000001', 'Adriana Gonzalez', 'Adriana', 'Gonzalez', 'Female', 'Single', '2010-03-15', NULL, 'HOU00000013', 'Child', 'Member', 0),
-('PER00000047', 'CHU00000001', 'Fernando Gonzalez', 'Fernando', 'Gonzalez', 'Male', 'Single', '2012-07-28', NULL, 'HOU00000013', 'Child', 'Member', 0),
-('PER00000048', 'CHU00000001', 'Rosa Gonzalez', 'Rosa', 'Gonzalez', 'Female', 'Widowed', '1950-11-30', 'rosa.gonzalez@email.com', 'HOU00000013', 'Other', 'Member', 0),
+('PER00000044', 'CHU00000001', 'Roberto Gonzalez', 'Roberto', 'Carlos', 'Gonzalez', 'Mr.', NULL, 'Male', 'Married', '1975-04-18', 'roberto.gonzalez@email.com', 'HOU00000013', 'Head', 'Member', '(217) 555-1301', '(217) 555-1302', '(217) 555-1303', '159 Sycamore Road', 'Springfield', 'IL', '62703', 0),
+('PER00000045', 'CHU00000001', 'Elena Gonzalez', 'Elena', 'Maria', 'Gonzalez', 'Mrs.', NULL, 'Female', 'Married', '1977-08-22', 'elena.gonzalez@email.com', 'HOU00000013', 'Spouse', 'Member', '(217) 555-1301', '(217) 555-1304', NULL, '159 Sycamore Road', 'Springfield', 'IL', '62703', 0),
+('PER00000046', 'CHU00000001', 'Adriana Gonzalez', 'Adriana', 'Isabella', 'Gonzalez', NULL, NULL, 'Female', 'Single', '2010-03-15', NULL, 'HOU00000013', 'Child', 'Member', '(217) 555-1301', NULL, NULL, '159 Sycamore Road', 'Springfield', 'IL', '62703', 0),
+('PER00000047', 'CHU00000001', 'Fernando Gonzalez', 'Fernando', 'Jose', 'Gonzalez', NULL, NULL, 'Male', 'Single', '2012-07-28', NULL, 'HOU00000013', 'Child', 'Member', '(217) 555-1301', NULL, NULL, '159 Sycamore Road', 'Springfield', 'IL', '62703', 0),
+('PER00000048', 'CHU00000001', 'Rosa Gonzalez', 'Rosa', 'Maria', 'Gonzalez', 'Mrs.', NULL, 'Female', 'Widowed', '1950-11-30', 'rosa.gonzalez@email.com', 'HOU00000013', 'Other', 'Member', '(217) 555-1305', '(217) 555-1306', NULL, '159 Sycamore Road', 'Springfield', 'IL', '62703', 0),
 
 -- Wilson Family (Blended family)
-('PER00000049', 'CHU00000001', 'James Wilson', 'James', 'Wilson', 'Male', 'Married', '1981-06-25', 'james.wilson@email.com', 'HOU00000014', 'Head', 'Member', 0),
-('PER00000050', 'CHU00000001', 'Sarah Wilson', 'Sarah', 'Wilson', 'Female', 'Married', '1983-02-14', 'sarah.wilson@email.com', 'HOU00000014', 'Spouse', 'Member', 0),
-('PER00000051', 'CHU00000001', 'Andrew Wilson', 'Andrew', 'Wilson', 'Male', 'Single', '2008-09-20', NULL, 'HOU00000014', 'Child', 'Member', 0),
-('PER00000052', 'CHU00000001', 'Emma Thompson', 'Emma', 'Thompson', 'Female', 'Single', '2011-05-12', NULL, 'HOU00000014', 'Child', 'Member', 0),
-('PER00000053', 'CHU00000001', 'Benjamin Wilson', 'Benjamin', 'Wilson', 'Male', 'Single', '2014-11-30', NULL, 'HOU00000014', 'Child', 'Member', 0),
+('PER00000049', 'CHU00000001', 'James Wilson', 'James', 'William', 'Wilson', 'Mr.', NULL, 'Male', 'Married', '1981-06-25', 'james.wilson@email.com', 'HOU00000014', 'Head', 'Member', '(217) 555-1401', '(217) 555-1402', '(217) 555-1403', '357 Oakwood Avenue', 'Virden', 'IL', '62690', 0),
+('PER00000050', 'CHU00000001', 'Sarah Wilson', 'Sarah', 'Elizabeth', 'Wilson', 'Mrs.', NULL, 'Female', 'Married', '1983-02-14', 'sarah.wilson@email.com', 'HOU00000014', 'Spouse', 'Member', '(217) 555-1401', '(217) 555-1404', NULL, '357 Oakwood Avenue', 'Virden', 'IL', '62690', 0),
+('PER00000051', 'CHU00000001', 'Andrew Wilson', 'Andrew', 'James', 'Wilson', NULL, NULL, 'Male', 'Single', '2008-09-20', NULL, 'HOU00000014', 'Child', 'Member', '(217) 555-1401', NULL, NULL, '357 Oakwood Avenue', 'Virden', 'IL', '62690', 0),
+('PER00000052', 'CHU00000001', 'Emma Thompson', 'Emma', 'Marie', 'Thompson', NULL, NULL, 'Female', 'Single', '2011-05-12', NULL, 'HOU00000014', 'Child', 'Member', '(217) 555-1401', NULL, NULL, '357 Oakwood Avenue', 'Virden', 'IL', '62690', 0),
+('PER00000053', 'CHU00000001', 'Benjamin Wilson', 'Benjamin', 'Thomas', 'Wilson', NULL, NULL, 'Male', 'Single', '2014-11-30', NULL, 'HOU00000014', 'Child', 'Member', '(217) 555-1401', NULL, NULL, '357 Oakwood Avenue', 'Virden', 'IL', '62690', 0),
 
 -- Anderson Family (Senior with adult child)
-('PER00000054', 'CHU00000001', 'William Anderson', 'William', 'Anderson', 'Male', 'Widowed', '1948-03-10', 'william.anderson@email.com', 'HOU00000015', 'Head', 'Member', 0),
-('PER00000055', 'CHU00000001', 'Elizabeth Anderson', 'Elizabeth', 'Anderson', 'Female', 'Single', '1975-08-15', 'elizabeth.anderson@email.com', 'HOU00000015', 'Child', 'Member', 0),
+('PER00000054', 'CHU00000001', 'William Anderson', 'William', 'Thomas', 'Anderson', 'Mr.', NULL, 'Male', 'Widowed', '1948-03-10', 'william.anderson@email.com', 'HOU00000015', 'Head', 'Member', '(217) 555-1501', '(217) 555-1502', NULL, '486 Pine Street', 'Springfield', 'IL', '62702', 0),
+('PER00000055', 'CHU00000001', 'Elizabeth Anderson', 'Elizabeth', 'Marie', 'Anderson', 'Ms.', NULL, 'Female', 'Single', '1975-08-15', 'elizabeth.anderson@email.com', 'HOU00000015', 'Child', 'Member', '(217) 555-1501', '(217) 555-1503', '(217) 555-1504', '486 Pine Street', 'Springfield', 'IL', '62702', 0),
 
 -- Thomas Family (Young family)
-('PER00000056', 'CHU00000001', 'Christopher Thomas', 'Christopher', 'Thomas', 'Male', 'Married', '1987-12-05', 'christopher.thomas@email.com', 'HOU00000016', 'Head', 'Member', 0),
-('PER00000057', 'CHU00000001', 'Amanda Thomas', 'Amanda', 'Thomas', 'Female', 'Married', '1989-04-18', 'amanda.thomas@email.com', 'HOU00000016', 'Spouse', 'Member', 0),
-('PER00000058', 'CHU00000001', 'Daniel Thomas', 'Daniel', 'Thomas', 'Male', 'Single', '2017-06-22', NULL, 'HOU00000016', 'Child', 'Member', 0),
-('PER00000059', 'CHU00000001', 'Sophia Thomas', 'Sophia', 'Thomas', 'Female', 'Single', '2019-09-15', NULL, 'HOU00000016', 'Child', 'Member', 0),
+('PER00000056', 'CHU00000001', 'Christopher Thomas', 'Christopher', 'Michael', 'Thomas', 'Mr.', NULL, 'Male', 'Married', '1987-12-05', 'christopher.thomas@email.com', 'HOU00000016', 'Head', 'Member', '(217) 555-1601', '(217) 555-1602', '(217) 555-1603', '753 Cedar Court', 'Springfield', 'IL', '62704', 0),
+('PER00000057', 'CHU00000001', 'Amanda Thomas', 'Amanda', 'Jean', 'Thomas', 'Mrs.', NULL, 'Female', 'Married', '1989-04-18', 'amanda.thomas@email.com', 'HOU00000016', 'Spouse', 'Member', '(217) 555-1601', '(217) 555-1604', NULL, '753 Cedar Court', 'Springfield', 'IL', '62704', 0),
+('PER00000058', 'CHU00000001', 'Daniel Thomas', 'Daniel', 'James', 'Thomas', NULL, NULL, 'Male', 'Single', '2017-06-22', NULL, 'HOU00000016', 'Child', 'Member', '(217) 555-1601', NULL, NULL, '753 Cedar Court', 'Springfield', 'IL', '62704', 0),
+('PER00000059', 'CHU00000001', 'Sophia Thomas', 'Sophia', 'Marie', 'Thomas', NULL, NULL, 'Female', 'Single', '2019-09-15', NULL, 'HOU00000016', 'Child', 'Member', '(217) 555-1601', NULL, NULL, '753 Cedar Court', 'Springfield', 'IL', '62704', 0),
 
 -- Taylor Family (Single adult)
-('PER00000060', 'CHU00000001', 'Jessica Taylor', 'Jessica', 'Taylor', 'Female', 'Single', '1992-07-30', 'jessica.taylor@email.com', 'HOU00000017', 'Head', 'Member', 0),
+('PER00000060', 'CHU00000001', 'Jessica Taylor', 'Jessica', 'Marie', 'Taylor', 'Ms.', NULL, 'Female', 'Single', '1992-07-30', 'jessica.taylor@email.com', 'HOU00000017', 'Head', 'Member', '(217) 555-1701', '(217) 555-1702', '(217) 555-1703', '951 Maple Lane', 'Springfield', 'IL', '62703', 0),
 
 -- Moore Family (Empty nesters)
-('PER00000061', 'CHU00000001', 'Robert Moore', 'Robert', 'Moore', 'Male', 'Married', '1962-05-12', 'robert.moore@email.com', 'HOU00000018', 'Head', 'Member', 0),
-('PER00000062', 'CHU00000001', 'Patricia Moore', 'Patricia', 'Moore', 'Female', 'Married', '1964-09-25', 'patricia.moore@email.com', 'HOU00000018', 'Spouse', 'Member', 0),
+('PER00000061', 'CHU00000001', 'Robert Moore', 'Robert', 'James', 'Moore', 'Mr.', NULL, 'Male', 'Married', '1962-05-12', 'robert.moore@email.com', 'HOU00000018', 'Head', 'Member', '(217) 555-1801', '(217) 555-1802', '(217) 555-1803', '264 Birch Street', 'Springfield', 'IL', '62701', 0),
+('PER00000062', 'CHU00000001', 'Patricia Moore', 'Patricia', 'Ann', 'Moore', 'Mrs.', NULL, 'Female', 'Married', '1964-09-25', 'patricia.moore@email.com', 'HOU00000018', 'Spouse', 'Member', '(217) 555-1801', '(217) 555-1804', NULL, '264 Birch Street', 'Springfield', 'IL', '62701', 0),
 
 -- Jackson Family (Multi-generational)
-('PER00000063', 'CHU00000001', 'Marcus Jackson', 'Marcus', 'Jackson', 'Male', 'Married', '1979-11-15', 'marcus.jackson@email.com', 'HOU00000019', 'Head', 'Member', 0),
-('PER00000064', 'CHU00000001', 'Nicole Jackson', 'Nicole', 'Jackson', 'Female', 'Married', '1981-03-28', 'nicole.jackson@email.com', 'HOU00000019', 'Spouse', 'Member', 0),
-('PER00000065', 'CHU00000001', 'Jordan Jackson', 'Jordan', 'Jackson', 'Male', 'Single', '2013-08-10', NULL, 'HOU00000019', 'Child', 'Member', 0),
-('PER00000066', 'CHU00000001', 'Grace Jackson', 'Grace', 'Jackson', 'Female', 'Single', '2015-12-22', NULL, 'HOU00000019', 'Child', 'Member', 0),
-('PER00000067', 'CHU00000001', 'Dorothy Jackson', 'Dorothy', 'Jackson', 'Female', 'Widowed', '1953-06-18', 'dorothy.jackson@email.com', 'HOU00000019', 'Other', 'Member', 0),
+('PER00000063', 'CHU00000001', 'Marcus Jackson', 'Marcus', 'Anthony', 'Jackson', 'Mr.', NULL, 'Male', 'Married', '1979-11-15', 'marcus.jackson@email.com', 'HOU00000019', 'Head', 'Member', '(217) 555-1901', '(217) 555-1902', '(217) 555-1903', '852 Walnut Court', 'Springfield', 'IL', '62704', 0),
+('PER00000064', 'CHU00000001', 'Nicole Jackson', 'Nicole', 'Marie', 'Jackson', 'Mrs.', NULL, 'Female', 'Married', '1981-03-28', 'nicole.jackson@email.com', 'HOU00000019', 'Spouse', 'Member', '(217) 555-1901', '(217) 555-1904', NULL, '852 Walnut Court', 'Springfield', 'IL', '62704', 0),
+('PER00000065', 'CHU00000001', 'Jordan Jackson', 'Jordan', 'Michael', 'Jackson', NULL, NULL, 'Male', 'Single', '2013-08-10', NULL, 'HOU00000019', 'Child', 'Member', '(217) 555-1901', NULL, NULL, '852 Walnut Court', 'Springfield', 'IL', '62704', 0),
+('PER00000066', 'CHU00000001', 'Grace Jackson', 'Grace', 'Elizabeth', 'Jackson', NULL, NULL, 'Female', 'Single', '2015-12-22', NULL, 'HOU00000019', 'Child', 'Member', '(217) 555-1901', NULL, NULL, '852 Walnut Court', 'Springfield', 'IL', '62704', 0),
+('PER00000067', 'CHU00000001', 'Dorothy Jackson', 'Dorothy', 'Jean', 'Jackson', 'Mrs.', NULL, 'Female', 'Widowed', '1953-06-18', 'dorothy.jackson@email.com', 'HOU00000019', 'Other', 'Member', '(217) 555-1905', '(217) 555-1906', NULL, '852 Walnut Court', 'Springfield', 'IL', '62704', 0),
 
 -- Martin Family (Young couple)
-('PER00000068', 'CHU00000001', 'Kevin Martin', 'Kevin', 'Martin', 'Male', 'Married', '1991-02-20', 'kevin.martin@email.com', 'HOU00000020', 'Head', 'Member', 0),
-('PER00000069', 'CHU00000001', 'Rachel Martin', 'Rachel', 'Martin', 'Female', 'Married', '1992-08-15', 'rachel.martin@email.com', 'HOU00000020', 'Spouse', 'Member', 0),
+('PER00000068', 'CHU00000001', 'Kevin Martin', 'Kevin', 'James', 'Martin', 'Mr.', NULL, 'Male', 'Married', '1991-02-20', 'kevin.martin@email.com', 'HOU00000020', 'Head', 'Member', '(217) 555-2001', '(217) 555-2002', '(217) 555-2003', '147 Elm Avenue', 'Springfield', 'IL', '62702', 0),
+('PER00000069', 'CHU00000001', 'Rachel Martin', 'Rachel', 'Elizabeth', 'Martin', 'Mrs.', NULL, 'Female', 'Married', '1992-08-15', 'rachel.martin@email.com', 'HOU00000020', 'Spouse', 'Member', '(217) 555-2001', '(217) 555-2004', NULL, '147 Elm Avenue', 'Springfield', 'IL', '62702', 0),
 
 -- Lee Family (Single parent)
-('PER00000070', 'CHU00000001', 'Michelle Lee', 'Michelle', 'Lee', 'Female', 'Divorced', '1984-10-05', 'michelle.lee@email.com', 'HOU00000021', 'Head', 'Member', 0),
-('PER00000071', 'CHU00000001', 'Ryan Lee', 'Ryan', 'Lee', 'Male', 'Single', '2012-01-18', NULL, 'HOU00000021', 'Child', 'Member', 0),
-('PER00000072', 'CHU00000001', 'Ava Lee', 'Ava', 'Lee', 'Female', 'Single', '2014-04-30', NULL, 'HOU00000021', 'Child', 'Member', 0),
+('PER00000070', 'CHU00000001', 'Michelle Lee', 'Michelle', 'Elizabeth', 'Lee', 'Ms.', NULL, 'Female', 'Divorced', '1984-10-05', 'michelle.lee@email.com', 'HOU00000021', 'Head', 'Member', '(217) 555-2101', '(217) 555-2102', '(217) 555-2103', '369 Pine Road', 'Springfield', 'IL', '62703', 0),
+('PER00000071', 'CHU00000001', 'Ryan Lee', 'Ryan', 'James', 'Lee', NULL, NULL, 'Male', 'Single', '2012-01-18', NULL, 'HOU00000021', 'Child', 'Member', '(217) 555-2101', NULL, NULL, '369 Pine Road', 'Springfield', 'IL', '62703', 0),
+('PER00000072', 'CHU00000001', 'Ava Lee', 'Ava', 'Marie', 'Lee', NULL, NULL, 'Female', 'Single', '2014-04-30', NULL, 'HOU00000021', 'Child', 'Member', '(217) 555-2101', NULL, NULL, '369 Pine Road', 'Springfield', 'IL', '62703', 0),
 
 -- Thompson Family (Senior couple)
-('PER00000073', 'CHU00000001', 'George Thompson', 'George', 'Thompson', 'Male', 'Married', '1956-07-22', 'george.thompson@email.com', 'HOU00000022', 'Head', 'Member', 0),
-('PER00000074', 'CHU00000001', 'Margaret Thompson', 'Margaret', 'Thompson', 'Female', 'Married', '1958-12-15', 'margaret.thompson@email.com', 'HOU00000022', 'Spouse', 'Member', 0),
+('PER00000073', 'CHU00000001', 'George Thompson', 'George', 'William', 'Thompson', 'Mr.', NULL, 'Male', 'Married', '1956-07-22', 'george.thompson@email.com', 'HOU00000022', 'Head', 'Member', '(217) 555-2201', '(217) 555-2202', '(217) 555-2203', '582 Cedar Lane', 'Springfield', 'IL', '62701', 0),
+('PER00000074', 'CHU00000001', 'Margaret Thompson', 'Margaret', 'Ann', 'Thompson', 'Mrs.', NULL, 'Female', 'Married', '1958-12-15', 'margaret.thompson@email.com', 'HOU00000022', 'Spouse', 'Member', '(217) 555-2201', '(217) 555-2204', NULL, '582 Cedar Lane', 'Springfield', 'IL', '62701', 0),
 
 -- White Family (Young family)
-('PER00000075', 'CHU00000001', 'Steven White', 'Steven', 'White', 'Male', 'Married', '1986-03-10', 'steven.white@email.com', 'HOU00000023', 'Head', 'Member', 0),
-('PER00000076', 'CHU00000001', 'Melissa White', 'Melissa', 'White', 'Female', 'Married', '1987-09-25', 'melissa.white@email.com', 'HOU00000023', 'Spouse', 'Member', 0),
-('PER00000077', 'CHU00000001', 'Jacob White', 'Jacob', 'White', 'Male', 'Single', '2016-05-18', NULL, 'HOU00000023', 'Child', 'Member', 0),
-('PER00000078', 'CHU00000001', 'Madison White', 'Madison', 'White', 'Female', 'Single', '2018-11-30', NULL, 'HOU00000023', 'Child', 'Member', 0),
+('PER00000075', 'CHU00000001', 'Steven White', 'Steven', 'James', 'White', 'Mr.', NULL, 'Male', 'Married', '1986-03-10', 'steven.white@email.com', 'HOU00000023', 'Head', 'Member', '(217) 555-2301', '(217) 555-2302', '(217) 555-2303', '753 Oak Street', 'Springfield', 'IL', '62704', 0),
+('PER00000076', 'CHU00000001', 'Melissa White', 'Melissa', 'Marie', 'White', 'Mrs.', NULL, 'Female', 'Married', '1987-09-25', 'melissa.white@email.com', 'HOU00000023', 'Spouse', 'Member', '(217) 555-2301', '(217) 555-2304', NULL, '753 Oak Street', 'Springfield', 'IL', '62704', 0),
+('PER00000077', 'CHU00000001', 'Jacob White', 'Jacob', 'Thomas', 'White', NULL, NULL, 'Male', 'Single', '2016-05-18', NULL, 'HOU00000023', 'Child', 'Member', '(217) 555-2301', NULL, NULL, '753 Oak Street', 'Springfield', 'IL', '62704', 0),
+('PER00000078', 'CHU00000001', 'Madison White', 'Madison', 'Elizabeth', 'White', NULL, NULL, 'Female', 'Single', '2018-11-30', NULL, 'HOU00000023', 'Child', 'Member', '(217) 555-2301', NULL, NULL, '753 Oak Street', 'Springfield', 'IL', '62704', 0),
 
 -- Harris Family (Single adult)
-('PER00000079', 'CHU00000001', 'Brian Harris', 'Brian', 'Harris', 'Male', 'Single', '1993-04-15', 'brian.harris@email.com', 'HOU00000024', 'Head', 'Member', 0),
+('PER00000079', 'CHU00000001', 'Brian Harris', 'Brian', 'James', 'Harris', 'Mr.', NULL, 'Male', 'Single', '1993-04-15', 'brian.harris@email.com', 'HOU00000024', 'Head', 'Member', '(217) 555-2401', '(217) 555-2402', '(217) 555-2403', '951 Maple Court', 'Springfield', 'IL', '62702', 0),
 
 -- Clark Family (Empty nesters)
-('PER00000080', 'CHU00000001', 'Donald Clark', 'Donald', 'Clark', 'Male', 'Married', '1960-08-28', 'donald.clark@email.com', 'HOU00000025', 'Head', 'Member', 0),
-('PER00000081', 'CHU00000001', 'Carol Clark', 'Carol', 'Clark', 'Female', 'Married', '1962-01-12', 'carol.clark@email.com', 'HOU00000025', 'Spouse', 'Member', 0);
+('PER00000080', 'CHU00000001', 'Donald Clark', 'Donald', 'James', 'Clark', 'Mr.', NULL, 'Male', 'Married', '1960-08-28', 'donald.clark@email.com', 'HOU00000025', 'Head', 'Member', '(217) 555-2501', '(217) 555-2502', '(217) 555-2503', '264 Birch Avenue', 'Springfield', 'IL', '62703', 0),
+('PER00000081', 'CHU00000001', 'Carol Clark', 'Carol', 'Marie', 'Clark', 'Mrs.', NULL, 'Female', 'Married', '1962-01-12', 'carol.clark@email.com', 'HOU00000025', 'Spouse', 'Member', '(217) 555-2501', '(217) 555-2504', NULL, '264 Birch Avenue', 'Springfield', 'IL', '62703', 0);
 
 -- Notes for various people
 INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, createdAt, contents, updatedAt) VALUES
@@ -400,3 +400,32 @@ INSERT INTO rolePermissions (id, churchId, roleId, apiName, contentType, action)
 -- Add User to Role
 INSERT INTO roleMembers (id, churchId, roleId, userId, dateAdded) VALUES
 ('RME00000001', 'CHU00000001', 'ROL00000001', 'USR00000001', '2024-01-01 00:00:00');
+
+-- Create Demo User Person Record
+INSERT INTO people (id, churchId, displayName, firstName, middleName, lastName, prefix, suffix, gender, maritalStatus, birthDate, email, householdId, householdRole, membershipStatus, homePhone, mobilePhone, workPhone, address1, city, state, zip, removed) VALUES
+('PER00000082', 'CHU00000001', 'Demo User', 'Demo', NULL, 'User', 'Mr.', NULL, 'Male', 'Single', '1990-01-01', 'demo@chums.org', 'HOU00000026', 'Head', 'Member', '(217) 555-2601', '(217) 555-2602', '(217) 555-2603', '123 Demo Street', 'Springfield', 'IL', '62701', 0);
+
+-- Create Demo User Household
+INSERT INTO households (id, churchId, name) VALUES 
+('HOU00000026', 'CHU00000001', 'Demo User');
+
+-- Create userChurches record
+INSERT INTO userChurches (id, userId, churchId, personId) VALUES
+('UCH00000001', 'USR00000001', 'CHU00000001', 'PER00000082');
+
+-- Add Demo User to Groups
+INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate, leader) VALUES
+-- Main worship service
+('GME00000096', 'CHU00000001', 'GRP00000001', 'PER00000082', '2024-01-01', 0),
+-- Adult Bible Class
+('GME00000097', 'CHU00000001', 'GRP00000004', 'PER00000082', '2024-01-01', 0),
+-- Men's Bible Study
+('GME00000098', 'CHU00000001', 'GRP00000016', 'PER00000082', '2024-01-01', 0),
+-- Praise Team
+('GME00000099', 'CHU00000001', 'GRP00000019', 'PER00000082', '2024-01-01', 0),
+-- Community Service Team
+('GME00000100', 'CHU00000001', 'GRP00000023', 'PER00000082', '2024-01-01', 0);
+
+-- Add a note for the Demo User
+INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, createdAt, contents, updatedAt) VALUES
+('NOT00000021', 'CHU00000001', 'person', 'PER00000082', 'General', 'PER00000001', '2024-03-01 12:00:00', 'Demo user account created for system testing and demonstrations.', '2024-03-01 12:00:00');
