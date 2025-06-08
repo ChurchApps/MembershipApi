@@ -43,137 +43,137 @@ INSERT INTO households (id, churchId, name) VALUES
 ('HOU00000025', 'CHU00000001', 'Clark Family');
 
 -- Demo People (Sample of first 3 households to show structure - will add more in next edit)
-INSERT INTO people (id, churchId, displayName, firstName, lastName, gender, maritalStatus, birthDate, email, householdId, householdRole, membershipStatus) VALUES
+INSERT INTO people (id, churchId, displayName, firstName, lastName, gender, maritalStatus, birthDate, email, householdId, householdRole, membershipStatus, removed) VALUES
 -- Smith Family (Parents + 3 children)
-('PER00000001', 'CHU00000001', 'John Smith', 'John', 'Smith', 'Male', 'Married', '1975-06-15', 'john.smith@email.com', 'HOU00000001', 'Head', 'Member'),
-('PER00000002', 'CHU00000001', 'Mary Smith', 'Mary', 'Smith', 'Female', 'Married', '1978-03-22', 'mary.smith@email.com', 'HOU00000001', 'Spouse', 'Member'),
-('PER00000003', 'CHU00000001', 'James Smith', 'James', 'Smith', 'Male', 'Single', '2005-11-08', 'james.smith@email.com', 'HOU00000001', 'Child', 'Member'),
-('PER00000004', 'CHU00000001', 'Sarah Smith', 'Sarah', 'Smith', 'Female', 'Single', '2008-04-17', 'sarah.smith@email.com', 'HOU00000001', 'Child', 'Member'),
-('PER00000005', 'CHU00000001', 'Michael Smith', 'Michael', 'Smith', 'Male', 'Single', '2012-09-30', NULL, 'HOU00000001', 'Child', 'Member'),
+('PER00000001', 'CHU00000001', 'John Smith', 'John', 'Smith', 'Male', 'Married', '1975-06-15', 'john.smith@email.com', 'HOU00000001', 'Head', 'Member', 0),
+('PER00000002', 'CHU00000001', 'Mary Smith', 'Mary', 'Smith', 'Female', 'Married', '1978-03-22', 'mary.smith@email.com', 'HOU00000001', 'Spouse', 'Member', 0),
+('PER00000003', 'CHU00000001', 'James Smith', 'James', 'Smith', 'Male', 'Single', '2005-11-08', 'james.smith@email.com', 'HOU00000001', 'Child', 'Member', 0),
+('PER00000004', 'CHU00000001', 'Sarah Smith', 'Sarah', 'Smith', 'Female', 'Single', '2008-04-17', 'sarah.smith@email.com', 'HOU00000001', 'Child', 'Member', 0),
+('PER00000005', 'CHU00000001', 'Michael Smith', 'Michael', 'Smith', 'Male', 'Single', '2012-09-30', NULL, 'HOU00000001', 'Child', 'Member', 0),
 
 -- Johnson Family (Parents + 2 children + 1 grandparent)
-('PER00000006', 'CHU00000001', 'Robert Johnson', 'Robert', 'Johnson', 'Male', 'Married', '1980-01-10', 'robert.johnson@email.com', 'HOU00000002', 'Head', 'Member'),
-('PER00000007', 'CHU00000001', 'Patricia Johnson', 'Patricia', 'Johnson', 'Female', 'Married', '1982-07-25', 'patricia.johnson@email.com', 'HOU00000002', 'Spouse', 'Member'),
-('PER00000008', 'CHU00000001', 'Elizabeth Johnson', 'Elizabeth', 'Johnson', 'Female', 'Single', '2010-12-03', NULL, 'HOU00000002', 'Child', 'Member'),
-('PER00000009', 'CHU00000001', 'David Johnson', 'David', 'Johnson', 'Male', 'Single', '2014-05-19', NULL, 'HOU00000002', 'Child', 'Member'),
-('PER00000010', 'CHU00000001', 'Margaret Johnson', 'Margaret', 'Johnson', 'Female', 'Widowed', '1955-08-14', 'margaret.johnson@email.com', 'HOU00000002', 'Other', 'Member'),
+('PER00000006', 'CHU00000001', 'Robert Johnson', 'Robert', 'Johnson', 'Male', 'Married', '1980-01-10', 'robert.johnson@email.com', 'HOU00000002', 'Head', 'Member', 0),
+('PER00000007', 'CHU00000001', 'Patricia Johnson', 'Patricia', 'Johnson', 'Female', 'Married', '1982-07-25', 'patricia.johnson@email.com', 'HOU00000002', 'Spouse', 'Member', 0),
+('PER00000008', 'CHU00000001', 'Elizabeth Johnson', 'Elizabeth', 'Johnson', 'Female', 'Single', '2010-12-03', NULL, 'HOU00000002', 'Child', 'Member', 0),
+('PER00000009', 'CHU00000001', 'David Johnson', 'David', 'Johnson', 'Male', 'Single', '2014-05-19', NULL, 'HOU00000002', 'Child', 'Member', 0),
+('PER00000010', 'CHU00000001', 'Margaret Johnson', 'Margaret', 'Johnson', 'Female', 'Widowed', '1955-08-14', 'margaret.johnson@email.com', 'HOU00000002', 'Other', 'Member', 0),
 
 -- Williams Family (Single parent + 2 children)
-('PER00000011', 'CHU00000001', 'Jennifer Williams', 'Jennifer', 'Williams', 'Female', 'Divorced', '1985-11-30', 'jennifer.williams@email.com', 'HOU00000003', 'Head', 'Member'),
-('PER00000012', 'CHU00000001', 'Christopher Williams', 'Christopher', 'Williams', 'Male', 'Single', '2011-03-15', NULL, 'HOU00000003', 'Child', 'Member'),
-('PER00000013', 'CHU00000001', 'Emma Williams', 'Emma', 'Williams', 'Female', 'Single', '2013-07-22', NULL, 'HOU00000003', 'Child', 'Member'),
+('PER00000011', 'CHU00000001', 'Jennifer Williams', 'Jennifer', 'Williams', 'Female', 'Divorced', '1985-11-30', 'jennifer.williams@email.com', 'HOU00000003', 'Head', 'Member', 0),
+('PER00000012', 'CHU00000001', 'Christopher Williams', 'Christopher', 'Williams', 'Male', 'Single', '2011-03-15', NULL, 'HOU00000003', 'Child', 'Member', 0),
+('PER00000013', 'CHU00000001', 'Emma Williams', 'Emma', 'Williams', 'Female', 'Single', '2013-07-22', NULL, 'HOU00000003', 'Child', 'Member', 0),
 
 -- Brown Family (Young married couple)
-('PER00000014', 'CHU00000001', 'Daniel Brown', 'Daniel', 'Brown', 'Male', 'Married', '1992-04-18', 'daniel.brown@email.com', 'HOU00000004', 'Head', 'Member'),
-('PER00000015', 'CHU00000001', 'Lisa Brown', 'Lisa', 'Brown', 'Female', 'Married', '1993-09-25', 'lisa.brown@email.com', 'HOU00000004', 'Spouse', 'Member'),
+('PER00000014', 'CHU00000001', 'Daniel Brown', 'Daniel', 'Brown', 'Male', 'Married', '1992-04-18', 'daniel.brown@email.com', 'HOU00000004', 'Head', 'Member', 0),
+('PER00000015', 'CHU00000001', 'Lisa Brown', 'Lisa', 'Brown', 'Female', 'Married', '1993-09-25', 'lisa.brown@email.com', 'HOU00000004', 'Spouse', 'Member', 0),
 
 -- Jones Family (Blended family)
-('PER00000016', 'CHU00000001', 'Thomas Jones', 'Thomas', 'Jones', 'Male', 'Married', '1982-11-30', 'thomas.jones@email.com', 'HOU00000005', 'Head', 'Member'),
-('PER00000017', 'CHU00000001', 'Rebecca Jones', 'Rebecca', 'Jones', 'Female', 'Married', '1984-05-12', 'rebecca.jones@email.com', 'HOU00000005', 'Spouse', 'Member'),
-('PER00000018', 'CHU00000001', 'Matthew Jones', 'Matthew', 'Jones', 'Male', 'Single', '2007-08-15', NULL, 'HOU00000005', 'Child', 'Member'),
-('PER00000019', 'CHU00000001', 'Sophia Jones', 'Sophia', 'Jones', 'Female', 'Single', '2010-02-28', NULL, 'HOU00000005', 'Child', 'Member'),
-('PER00000020', 'CHU00000001', 'Ethan Smith', 'Ethan', 'Smith', 'Male', 'Single', '2009-11-03', NULL, 'HOU00000005', 'Child', 'Member'),
+('PER00000016', 'CHU00000001', 'Thomas Jones', 'Thomas', 'Jones', 'Male', 'Married', '1982-11-30', 'thomas.jones@email.com', 'HOU00000005', 'Head', 'Member', 0),
+('PER00000017', 'CHU00000001', 'Rebecca Jones', 'Rebecca', 'Jones', 'Female', 'Married', '1984-05-12', 'rebecca.jones@email.com', 'HOU00000005', 'Spouse', 'Member', 0),
+('PER00000018', 'CHU00000001', 'Matthew Jones', 'Matthew', 'Jones', 'Male', 'Single', '2007-08-15', NULL, 'HOU00000005', 'Child', 'Member', 0),
+('PER00000019', 'CHU00000001', 'Sophia Jones', 'Sophia', 'Jones', 'Female', 'Single', '2010-02-28', NULL, 'HOU00000005', 'Child', 'Member', 0),
+('PER00000020', 'CHU00000001', 'Ethan Smith', 'Ethan', 'Smith', 'Male', 'Single', '2009-11-03', NULL, 'HOU00000005', 'Child', 'Member', 0),
 
 -- Garcia Family (Multi-generational)
-('PER00000021', 'CHU00000001', 'Carlos Garcia', 'Carlos', 'Garcia', 'Male', 'Married', '1978-07-22', 'carlos.garcia@email.com', 'HOU00000006', 'Head', 'Member'),
-('PER00000022', 'CHU00000001', 'Maria Garcia', 'Maria', 'Garcia', 'Female', 'Married', '1980-03-14', 'maria.garcia@email.com', 'HOU00000006', 'Spouse', 'Member'),
-('PER00000023', 'CHU00000001', 'Isabella Garcia', 'Isabella', 'Garcia', 'Female', 'Single', '2012-06-30', NULL, 'HOU00000006', 'Child', 'Member'),
-('PER00000024', 'CHU00000001', 'Antonio Garcia', 'Antonio', 'Garcia', 'Male', 'Widowed', '1952-12-05', 'antonio.garcia@email.com', 'HOU00000006', 'Other', 'Member'),
+('PER00000021', 'CHU00000001', 'Carlos Garcia', 'Carlos', 'Garcia', 'Male', 'Married', '1978-07-22', 'carlos.garcia@email.com', 'HOU00000006', 'Head', 'Member', 0),
+('PER00000022', 'CHU00000001', 'Maria Garcia', 'Maria', 'Garcia', 'Female', 'Married', '1980-03-14', 'maria.garcia@email.com', 'HOU00000006', 'Spouse', 'Member', 0),
+('PER00000023', 'CHU00000001', 'Isabella Garcia', 'Isabella', 'Garcia', 'Female', 'Single', '2012-06-30', NULL, 'HOU00000006', 'Child', 'Member', 0),
+('PER00000024', 'CHU00000001', 'Antonio Garcia', 'Antonio', 'Garcia', 'Male', 'Widowed', '1952-12-05', 'antonio.garcia@email.com', 'HOU00000006', 'Other', 'Member', 0),
 
 -- Miller Family (Empty nesters)
-('PER00000025', 'CHU00000001', 'Richard Miller', 'Richard', 'Miller', 'Male', 'Married', '1965-09-18', 'richard.miller@email.com', 'HOU00000007', 'Head', 'Member'),
-('PER00000026', 'CHU00000001', 'Susan Miller', 'Susan', 'Miller', 'Female', 'Married', '1967-02-25', 'susan.miller@email.com', 'HOU00000007', 'Spouse', 'Member'),
+('PER00000025', 'CHU00000001', 'Richard Miller', 'Richard', 'Miller', 'Male', 'Married', '1965-09-18', 'richard.miller@email.com', 'HOU00000007', 'Head', 'Member', 0),
+('PER00000026', 'CHU00000001', 'Susan Miller', 'Susan', 'Miller', 'Female', 'Married', '1967-02-25', 'susan.miller@email.com', 'HOU00000007', 'Spouse', 'Member', 0),
 
 -- Davis Family (Young family)
-('PER00000027', 'CHU00000001', 'Michael Davis', 'Michael', 'Davis', 'Male', 'Married', '1988-05-20', 'michael.davis@email.com', 'HOU00000008', 'Head', 'Member'),
-('PER00000028', 'CHU00000001', 'Emily Davis', 'Emily', 'Davis', 'Female', 'Married', '1989-11-15', 'emily.davis@email.com', 'HOU00000008', 'Spouse', 'Member'),
-('PER00000029', 'CHU00000001', 'Olivia Davis', 'Olivia', 'Davis', 'Female', 'Single', '2018-03-10', NULL, 'HOU00000008', 'Child', 'Member'),
-('PER00000030', 'CHU00000001', 'Noah Davis', 'Noah', 'Davis', 'Male', 'Single', '2020-07-22', NULL, 'HOU00000008', 'Child', 'Member'),
+('PER00000027', 'CHU00000001', 'Michael Davis', 'Michael', 'Davis', 'Male', 'Married', '1988-05-20', 'michael.davis@email.com', 'HOU00000008', 'Head', 'Member', 0),
+('PER00000028', 'CHU00000001', 'Emily Davis', 'Emily', 'Davis', 'Female', 'Married', '1989-11-15', 'emily.davis@email.com', 'HOU00000008', 'Spouse', 'Member', 0),
+('PER00000029', 'CHU00000001', 'Olivia Davis', 'Olivia', 'Davis', 'Female', 'Single', '2018-03-10', NULL, 'HOU00000008', 'Child', 'Member', 0),
+('PER00000030', 'CHU00000001', 'Noah Davis', 'Noah', 'Davis', 'Male', 'Single', '2020-07-22', NULL, 'HOU00000008', 'Child', 'Member', 0),
 
 -- Rodriguez Family (Single parent)
-('PER00000031', 'CHU00000001', 'Sofia Rodriguez', 'Sofia', 'Rodriguez', 'Female', 'Divorced', '1986-08-12', 'sofia.rodriguez@email.com', 'HOU00000009', 'Head', 'Member'),
-('PER00000032', 'CHU00000001', 'Lucas Rodriguez', 'Lucas', 'Rodriguez', 'Male', 'Single', '2013-04-25', NULL, 'HOU00000009', 'Child', 'Member'),
-('PER00000033', 'CHU00000001', 'Mia Rodriguez', 'Mia', 'Rodriguez', 'Female', 'Single', '2015-09-18', NULL, 'HOU00000009', 'Child', 'Member'),
+('PER00000031', 'CHU00000001', 'Sofia Rodriguez', 'Sofia', 'Rodriguez', 'Female', 'Divorced', '1986-08-12', 'sofia.rodriguez@email.com', 'HOU00000009', 'Head', 'Member', 0),
+('PER00000032', 'CHU00000001', 'Lucas Rodriguez', 'Lucas', 'Rodriguez', 'Male', 'Single', '2013-04-25', NULL, 'HOU00000009', 'Child', 'Member', 0),
+('PER00000033', 'CHU00000001', 'Mia Rodriguez', 'Mia', 'Rodriguez', 'Female', 'Single', '2015-09-18', NULL, 'HOU00000009', 'Child', 'Member', 0),
 
 -- Martinez Family (Senior couple)
-('PER00000034', 'CHU00000001', 'Jose Martinez', 'Jose', 'Martinez', 'Male', 'Married', '1958-03-15', 'jose.martinez@email.com', 'HOU00000010', 'Head', 'Member'),
-('PER00000035', 'CHU00000001', 'Carmen Martinez', 'Carmen', 'Martinez', 'Female', 'Married', '1960-07-28', 'carmen.martinez@email.com', 'HOU00000010', 'Spouse', 'Member'),
+('PER00000034', 'CHU00000001', 'Jose Martinez', 'Jose', 'Martinez', 'Male', 'Married', '1958-03-15', 'jose.martinez@email.com', 'HOU00000010', 'Head', 'Member', 0),
+('PER00000035', 'CHU00000001', 'Carmen Martinez', 'Carmen', 'Martinez', 'Female', 'Married', '1960-07-28', 'carmen.martinez@email.com', 'HOU00000010', 'Spouse', 'Member', 0),
 
 -- Hernandez Family (Large family)
-('PER00000036', 'CHU00000001', 'Miguel Hernandez', 'Miguel', 'Hernandez', 'Male', 'Married', '1983-01-20', 'miguel.hernandez@email.com', 'HOU00000011', 'Head', 'Member'),
-('PER00000037', 'CHU00000001', 'Ana Hernandez', 'Ana', 'Hernandez', 'Female', 'Married', '1984-06-15', 'ana.hernandez@email.com', 'HOU00000011', 'Spouse', 'Member'),
-('PER00000038', 'CHU00000001', 'Diego Hernandez', 'Diego', 'Hernandez', 'Male', 'Single', '2009-11-30', NULL, 'HOU00000011', 'Child', 'Member'),
-('PER00000039', 'CHU00000001', 'Valentina Hernandez', 'Valentina', 'Hernandez', 'Female', 'Single', '2011-04-12', NULL, 'HOU00000011', 'Child', 'Member'),
-('PER00000040', 'CHU00000001', 'Gabriel Hernandez', 'Gabriel', 'Hernandez', 'Male', 'Single', '2014-08-25', NULL, 'HOU00000011', 'Child', 'Member'),
-('PER00000041', 'CHU00000001', 'Isabella Hernandez', 'Isabella', 'Hernandez', 'Female', 'Single', '2016-12-03', NULL, 'HOU00000011', 'Child', 'Member'),
+('PER00000036', 'CHU00000001', 'Miguel Hernandez', 'Miguel', 'Hernandez', 'Male', 'Married', '1983-01-20', 'miguel.hernandez@email.com', 'HOU00000011', 'Head', 'Member', 0),
+('PER00000037', 'CHU00000001', 'Ana Hernandez', 'Ana', 'Hernandez', 'Female', 'Married', '1984-06-15', 'ana.hernandez@email.com', 'HOU00000011', 'Spouse', 'Member', 0),
+('PER00000038', 'CHU00000001', 'Diego Hernandez', 'Diego', 'Hernandez', 'Male', 'Single', '2009-11-30', NULL, 'HOU00000011', 'Child', 'Member', 0),
+('PER00000039', 'CHU00000001', 'Valentina Hernandez', 'Valentina', 'Hernandez', 'Female', 'Single', '2011-04-12', NULL, 'HOU00000011', 'Child', 'Member', 0),
+('PER00000040', 'CHU00000001', 'Gabriel Hernandez', 'Gabriel', 'Hernandez', 'Male', 'Single', '2014-08-25', NULL, 'HOU00000011', 'Child', 'Member', 0),
+('PER00000041', 'CHU00000001', 'Isabella Hernandez', 'Isabella', 'Hernandez', 'Female', 'Single', '2016-12-03', NULL, 'HOU00000011', 'Child', 'Member', 0),
 
 -- Lopez Family (Young professionals)
-('PER00000042', 'CHU00000001', 'David Lopez', 'David', 'Lopez', 'Male', 'Married', '1990-09-10', 'david.lopez@email.com', 'HOU00000012', 'Head', 'Member'),
-('PER00000043', 'CHU00000001', 'Laura Lopez', 'Laura', 'Lopez', 'Female', 'Married', '1991-12-05', 'laura.lopez@email.com', 'HOU00000012', 'Spouse', 'Member'),
+('PER00000042', 'CHU00000001', 'David Lopez', 'David', 'Lopez', 'Male', 'Married', '1990-09-10', 'david.lopez@email.com', 'HOU00000012', 'Head', 'Member', 0),
+('PER00000043', 'CHU00000001', 'Laura Lopez', 'Laura', 'Lopez', 'Female', 'Married', '1991-12-05', 'laura.lopez@email.com', 'HOU00000012', 'Spouse', 'Member', 0),
 
 -- Gonzalez Family (Multi-generational)
-('PER00000044', 'CHU00000001', 'Roberto Gonzalez', 'Roberto', 'Gonzalez', 'Male', 'Married', '1975-04-18', 'roberto.gonzalez@email.com', 'HOU00000013', 'Head', 'Member'),
-('PER00000045', 'CHU00000001', 'Elena Gonzalez', 'Elena', 'Gonzalez', 'Female', 'Married', '1977-08-22', 'elena.gonzalez@email.com', 'HOU00000013', 'Spouse', 'Member'),
-('PER00000046', 'CHU00000001', 'Adriana Gonzalez', 'Adriana', 'Gonzalez', 'Female', 'Single', '2010-03-15', NULL, 'HOU00000013', 'Child', 'Member'),
-('PER00000047', 'CHU00000001', 'Fernando Gonzalez', 'Fernando', 'Gonzalez', 'Male', 'Single', '2012-07-28', NULL, 'HOU00000013', 'Child', 'Member'),
-('PER00000048', 'CHU00000001', 'Rosa Gonzalez', 'Rosa', 'Gonzalez', 'Female', 'Widowed', '1950-11-30', 'rosa.gonzalez@email.com', 'HOU00000013', 'Other', 'Member'),
+('PER00000044', 'CHU00000001', 'Roberto Gonzalez', 'Roberto', 'Gonzalez', 'Male', 'Married', '1975-04-18', 'roberto.gonzalez@email.com', 'HOU00000013', 'Head', 'Member', 0),
+('PER00000045', 'CHU00000001', 'Elena Gonzalez', 'Elena', 'Gonzalez', 'Female', 'Married', '1977-08-22', 'elena.gonzalez@email.com', 'HOU00000013', 'Spouse', 'Member', 0),
+('PER00000046', 'CHU00000001', 'Adriana Gonzalez', 'Adriana', 'Gonzalez', 'Female', 'Single', '2010-03-15', NULL, 'HOU00000013', 'Child', 'Member', 0),
+('PER00000047', 'CHU00000001', 'Fernando Gonzalez', 'Fernando', 'Gonzalez', 'Male', 'Single', '2012-07-28', NULL, 'HOU00000013', 'Child', 'Member', 0),
+('PER00000048', 'CHU00000001', 'Rosa Gonzalez', 'Rosa', 'Gonzalez', 'Female', 'Widowed', '1950-11-30', 'rosa.gonzalez@email.com', 'HOU00000013', 'Other', 'Member', 0),
 
 -- Wilson Family (Blended family)
-('PER00000049', 'CHU00000001', 'James Wilson', 'James', 'Wilson', 'Male', 'Married', '1981-06-25', 'james.wilson@email.com', 'HOU00000014', 'Head', 'Member'),
-('PER00000050', 'CHU00000001', 'Sarah Wilson', 'Sarah', 'Wilson', 'Female', 'Married', '1983-02-14', 'sarah.wilson@email.com', 'HOU00000014', 'Spouse', 'Member'),
-('PER00000051', 'CHU00000001', 'Andrew Wilson', 'Andrew', 'Wilson', 'Male', 'Single', '2008-09-20', NULL, 'HOU00000014', 'Child', 'Member'),
-('PER00000052', 'CHU00000001', 'Emma Thompson', 'Emma', 'Thompson', 'Female', 'Single', '2011-05-12', NULL, 'HOU00000014', 'Child', 'Member'),
-('PER00000053', 'CHU00000001', 'Benjamin Wilson', 'Benjamin', 'Wilson', 'Male', 'Single', '2014-11-30', NULL, 'HOU00000014', 'Child', 'Member'),
+('PER00000049', 'CHU00000001', 'James Wilson', 'James', 'Wilson', 'Male', 'Married', '1981-06-25', 'james.wilson@email.com', 'HOU00000014', 'Head', 'Member', 0),
+('PER00000050', 'CHU00000001', 'Sarah Wilson', 'Sarah', 'Wilson', 'Female', 'Married', '1983-02-14', 'sarah.wilson@email.com', 'HOU00000014', 'Spouse', 'Member', 0),
+('PER00000051', 'CHU00000001', 'Andrew Wilson', 'Andrew', 'Wilson', 'Male', 'Single', '2008-09-20', NULL, 'HOU00000014', 'Child', 'Member', 0),
+('PER00000052', 'CHU00000001', 'Emma Thompson', 'Emma', 'Thompson', 'Female', 'Single', '2011-05-12', NULL, 'HOU00000014', 'Child', 'Member', 0),
+('PER00000053', 'CHU00000001', 'Benjamin Wilson', 'Benjamin', 'Wilson', 'Male', 'Single', '2014-11-30', NULL, 'HOU00000014', 'Child', 'Member', 0),
 
 -- Anderson Family (Senior with adult child)
-('PER00000054', 'CHU00000001', 'William Anderson', 'William', 'Anderson', 'Male', 'Widowed', '1948-03-10', 'william.anderson@email.com', 'HOU00000015', 'Head', 'Member'),
-('PER00000055', 'CHU00000001', 'Elizabeth Anderson', 'Elizabeth', 'Anderson', 'Female', 'Single', '1975-08-15', 'elizabeth.anderson@email.com', 'HOU00000015', 'Child', 'Member'),
+('PER00000054', 'CHU00000001', 'William Anderson', 'William', 'Anderson', 'Male', 'Widowed', '1948-03-10', 'william.anderson@email.com', 'HOU00000015', 'Head', 'Member', 0),
+('PER00000055', 'CHU00000001', 'Elizabeth Anderson', 'Elizabeth', 'Anderson', 'Female', 'Single', '1975-08-15', 'elizabeth.anderson@email.com', 'HOU00000015', 'Child', 'Member', 0),
 
 -- Thomas Family (Young family)
-('PER00000056', 'CHU00000001', 'Christopher Thomas', 'Christopher', 'Thomas', 'Male', 'Married', '1987-12-05', 'christopher.thomas@email.com', 'HOU00000016', 'Head', 'Member'),
-('PER00000057', 'CHU00000001', 'Amanda Thomas', 'Amanda', 'Thomas', 'Female', 'Married', '1989-04-18', 'amanda.thomas@email.com', 'HOU00000016', 'Spouse', 'Member'),
-('PER00000058', 'CHU00000001', 'Daniel Thomas', 'Daniel', 'Thomas', 'Male', 'Single', '2017-06-22', NULL, 'HOU00000016', 'Child', 'Member'),
-('PER00000059', 'CHU00000001', 'Sophia Thomas', 'Sophia', 'Thomas', 'Female', 'Single', '2019-09-15', NULL, 'HOU00000016', 'Child', 'Member'),
+('PER00000056', 'CHU00000001', 'Christopher Thomas', 'Christopher', 'Thomas', 'Male', 'Married', '1987-12-05', 'christopher.thomas@email.com', 'HOU00000016', 'Head', 'Member', 0),
+('PER00000057', 'CHU00000001', 'Amanda Thomas', 'Amanda', 'Thomas', 'Female', 'Married', '1989-04-18', 'amanda.thomas@email.com', 'HOU00000016', 'Spouse', 'Member', 0),
+('PER00000058', 'CHU00000001', 'Daniel Thomas', 'Daniel', 'Thomas', 'Male', 'Single', '2017-06-22', NULL, 'HOU00000016', 'Child', 'Member', 0),
+('PER00000059', 'CHU00000001', 'Sophia Thomas', 'Sophia', 'Thomas', 'Female', 'Single', '2019-09-15', NULL, 'HOU00000016', 'Child', 'Member', 0),
 
 -- Taylor Family (Single adult)
-('PER00000060', 'CHU00000001', 'Jessica Taylor', 'Jessica', 'Taylor', 'Female', 'Single', '1992-07-30', 'jessica.taylor@email.com', 'HOU00000017', 'Head', 'Member'),
+('PER00000060', 'CHU00000001', 'Jessica Taylor', 'Jessica', 'Taylor', 'Female', 'Single', '1992-07-30', 'jessica.taylor@email.com', 'HOU00000017', 'Head', 'Member', 0),
 
 -- Moore Family (Empty nesters)
-('PER00000061', 'CHU00000001', 'Robert Moore', 'Robert', 'Moore', 'Male', 'Married', '1962-05-12', 'robert.moore@email.com', 'HOU00000018', 'Head', 'Member'),
-('PER00000062', 'CHU00000001', 'Patricia Moore', 'Patricia', 'Moore', 'Female', 'Married', '1964-09-25', 'patricia.moore@email.com', 'HOU00000018', 'Spouse', 'Member'),
+('PER00000061', 'CHU00000001', 'Robert Moore', 'Robert', 'Moore', 'Male', 'Married', '1962-05-12', 'robert.moore@email.com', 'HOU00000018', 'Head', 'Member', 0),
+('PER00000062', 'CHU00000001', 'Patricia Moore', 'Patricia', 'Moore', 'Female', 'Married', '1964-09-25', 'patricia.moore@email.com', 'HOU00000018', 'Spouse', 'Member', 0),
 
 -- Jackson Family (Multi-generational)
-('PER00000063', 'CHU00000001', 'Marcus Jackson', 'Marcus', 'Jackson', 'Male', 'Married', '1979-11-15', 'marcus.jackson@email.com', 'HOU00000019', 'Head', 'Member'),
-('PER00000064', 'CHU00000001', 'Nicole Jackson', 'Nicole', 'Jackson', 'Female', 'Married', '1981-03-28', 'nicole.jackson@email.com', 'HOU00000019', 'Spouse', 'Member'),
-('PER00000065', 'CHU00000001', 'Jordan Jackson', 'Jordan', 'Jackson', 'Male', 'Single', '2013-08-10', NULL, 'HOU00000019', 'Child', 'Member'),
-('PER00000066', 'CHU00000001', 'Grace Jackson', 'Grace', 'Jackson', 'Female', 'Single', '2015-12-22', NULL, 'HOU00000019', 'Child', 'Member'),
-('PER00000067', 'CHU00000001', 'Dorothy Jackson', 'Dorothy', 'Jackson', 'Female', 'Widowed', '1953-06-18', 'dorothy.jackson@email.com', 'HOU00000019', 'Other', 'Member'),
+('PER00000063', 'CHU00000001', 'Marcus Jackson', 'Marcus', 'Jackson', 'Male', 'Married', '1979-11-15', 'marcus.jackson@email.com', 'HOU00000019', 'Head', 'Member', 0),
+('PER00000064', 'CHU00000001', 'Nicole Jackson', 'Nicole', 'Jackson', 'Female', 'Married', '1981-03-28', 'nicole.jackson@email.com', 'HOU00000019', 'Spouse', 'Member', 0),
+('PER00000065', 'CHU00000001', 'Jordan Jackson', 'Jordan', 'Jackson', 'Male', 'Single', '2013-08-10', NULL, 'HOU00000019', 'Child', 'Member', 0),
+('PER00000066', 'CHU00000001', 'Grace Jackson', 'Grace', 'Jackson', 'Female', 'Single', '2015-12-22', NULL, 'HOU00000019', 'Child', 'Member', 0),
+('PER00000067', 'CHU00000001', 'Dorothy Jackson', 'Dorothy', 'Jackson', 'Female', 'Widowed', '1953-06-18', 'dorothy.jackson@email.com', 'HOU00000019', 'Other', 'Member', 0),
 
 -- Martin Family (Young couple)
-('PER00000068', 'CHU00000001', 'Kevin Martin', 'Kevin', 'Martin', 'Male', 'Married', '1991-02-20', 'kevin.martin@email.com', 'HOU00000020', 'Head', 'Member'),
-('PER00000069', 'CHU00000001', 'Rachel Martin', 'Rachel', 'Martin', 'Female', 'Married', '1992-08-15', 'rachel.martin@email.com', 'HOU00000020', 'Spouse', 'Member'),
+('PER00000068', 'CHU00000001', 'Kevin Martin', 'Kevin', 'Martin', 'Male', 'Married', '1991-02-20', 'kevin.martin@email.com', 'HOU00000020', 'Head', 'Member', 0),
+('PER00000069', 'CHU00000001', 'Rachel Martin', 'Rachel', 'Martin', 'Female', 'Married', '1992-08-15', 'rachel.martin@email.com', 'HOU00000020', 'Spouse', 'Member', 0),
 
 -- Lee Family (Single parent)
-('PER00000070', 'CHU00000001', 'Michelle Lee', 'Michelle', 'Lee', 'Female', 'Divorced', '1984-10-05', 'michelle.lee@email.com', 'HOU00000021', 'Head', 'Member'),
-('PER00000071', 'CHU00000001', 'Ryan Lee', 'Ryan', 'Lee', 'Male', 'Single', '2012-01-18', NULL, 'HOU00000021', 'Child', 'Member'),
-('PER00000072', 'CHU00000001', 'Ava Lee', 'Ava', 'Lee', 'Female', 'Single', '2014-04-30', NULL, 'HOU00000021', 'Child', 'Member'),
+('PER00000070', 'CHU00000001', 'Michelle Lee', 'Michelle', 'Lee', 'Female', 'Divorced', '1984-10-05', 'michelle.lee@email.com', 'HOU00000021', 'Head', 'Member', 0),
+('PER00000071', 'CHU00000001', 'Ryan Lee', 'Ryan', 'Lee', 'Male', 'Single', '2012-01-18', NULL, 'HOU00000021', 'Child', 'Member', 0),
+('PER00000072', 'CHU00000001', 'Ava Lee', 'Ava', 'Lee', 'Female', 'Single', '2014-04-30', NULL, 'HOU00000021', 'Child', 'Member', 0),
 
 -- Thompson Family (Senior couple)
-('PER00000073', 'CHU00000001', 'George Thompson', 'George', 'Thompson', 'Male', 'Married', '1956-07-22', 'george.thompson@email.com', 'HOU00000022', 'Head', 'Member'),
-('PER00000074', 'CHU00000001', 'Margaret Thompson', 'Margaret', 'Thompson', 'Female', 'Married', '1958-12-15', 'margaret.thompson@email.com', 'HOU00000022', 'Spouse', 'Member'),
+('PER00000073', 'CHU00000001', 'George Thompson', 'George', 'Thompson', 'Male', 'Married', '1956-07-22', 'george.thompson@email.com', 'HOU00000022', 'Head', 'Member', 0),
+('PER00000074', 'CHU00000001', 'Margaret Thompson', 'Margaret', 'Thompson', 'Female', 'Married', '1958-12-15', 'margaret.thompson@email.com', 'HOU00000022', 'Spouse', 'Member', 0),
 
 -- White Family (Young family)
-('PER00000075', 'CHU00000001', 'Steven White', 'Steven', 'White', 'Male', 'Married', '1986-03-10', 'steven.white@email.com', 'HOU00000023', 'Head', 'Member'),
-('PER00000076', 'CHU00000001', 'Melissa White', 'Melissa', 'White', 'Female', 'Married', '1987-09-25', 'melissa.white@email.com', 'HOU00000023', 'Spouse', 'Member'),
-('PER00000077', 'CHU00000001', 'Jacob White', 'Jacob', 'White', 'Male', 'Single', '2016-05-18', NULL, 'HOU00000023', 'Child', 'Member'),
-('PER00000078', 'CHU00000001', 'Madison White', 'Madison', 'White', 'Female', 'Single', '2018-11-30', NULL, 'HOU00000023', 'Child', 'Member'),
+('PER00000075', 'CHU00000001', 'Steven White', 'Steven', 'White', 'Male', 'Married', '1986-03-10', 'steven.white@email.com', 'HOU00000023', 'Head', 'Member', 0),
+('PER00000076', 'CHU00000001', 'Melissa White', 'Melissa', 'White', 'Female', 'Married', '1987-09-25', 'melissa.white@email.com', 'HOU00000023', 'Spouse', 'Member', 0),
+('PER00000077', 'CHU00000001', 'Jacob White', 'Jacob', 'White', 'Male', 'Single', '2016-05-18', NULL, 'HOU00000023', 'Child', 'Member', 0),
+('PER00000078', 'CHU00000001', 'Madison White', 'Madison', 'White', 'Female', 'Single', '2018-11-30', NULL, 'HOU00000023', 'Child', 'Member', 0),
 
 -- Harris Family (Single adult)
-('PER00000079', 'CHU00000001', 'Brian Harris', 'Brian', 'Harris', 'Male', 'Single', '1993-04-15', 'brian.harris@email.com', 'HOU00000024', 'Head', 'Member'),
+('PER00000079', 'CHU00000001', 'Brian Harris', 'Brian', 'Harris', 'Male', 'Single', '1993-04-15', 'brian.harris@email.com', 'HOU00000024', 'Head', 'Member', 0),
 
 -- Clark Family (Empty nesters)
-('PER00000080', 'CHU00000001', 'Donald Clark', 'Donald', 'Clark', 'Male', 'Married', '1960-08-28', 'donald.clark@email.com', 'HOU00000025', 'Head', 'Member'),
-('PER00000081', 'CHU00000001', 'Carol Clark', 'Carol', 'Clark', 'Female', 'Married', '1962-01-12', 'carol.clark@email.com', 'HOU00000025', 'Spouse', 'Member');
+('PER00000080', 'CHU00000001', 'Donald Clark', 'Donald', 'Clark', 'Male', 'Married', '1960-08-28', 'donald.clark@email.com', 'HOU00000025', 'Head', 'Member', 0),
+('PER00000081', 'CHU00000001', 'Carol Clark', 'Carol', 'Clark', 'Female', 'Married', '1962-01-12', 'carol.clark@email.com', 'HOU00000025', 'Spouse', 'Member', 0);
 
 -- Notes for various people
 INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, createdAt, contents, updatedAt) VALUES
@@ -387,7 +387,7 @@ INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate, leader) VAL
 
 -- Create Demo User
 INSERT INTO users (id, email, password, displayName, firstName, lastName, registrationDate) VALUES
-('USR00000001', 'demo@chums.org', '$2a$10$8K1p/a0dR1xqM8K1p/a0dR1xqM8K1p/a0dR1xqM8K1p/a0dR1xqM', 'Demo User', 'Demo', 'User', '2024-01-01 00:00:00');
+('USR00000001', 'demo@chums.org', '$2a$10$qBWddIw2QMUlRrX9/6Cdz.nW.L5FqE45R1NTLF.V71LyhjY6I0lFu', 'Demo User', 'Demo', 'User', '2024-01-01 00:00:00');
 
 -- Create Domain Admin Role
 INSERT INTO roles (id, churchId, name) VALUES
