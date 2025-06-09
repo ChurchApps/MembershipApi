@@ -215,8 +215,13 @@ INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, crea
 ('NOT00000019', 'CHU00000001', 'person', 'PER00000075', 'Outreach', 'PER00000001', '2024-03-01 10:45:00', 'Steven and Melissa volunteered for community food drive. Great community connections.', '2024-03-01 10:45:00'),
 ('NOT00000020', 'CHU00000001', 'person', 'PER00000061', 'Outreach', 'PER00000001', '2024-03-02 11:30:00', 'Robert and Patricia hosting neighborhood Bible study in their home.', '2024-03-02 11:30:00');
 
--- Church Groups
 INSERT INTO `groups` (id, churchId, categoryName, name, trackAttendance, parentPickup, printNametag, about, meetingTime, meetingLocation, tags, labels, slug, removed) VALUES
+-- Ministries
+('GRP0000000a', 'CHU00000001', '', 'Worship', 1, 0, 1, 'Worship ministry volunteer scheduling', '', '', 'ministry', '', '', 0),
+('GRP0000000b', 'CHU00000001', 'GRP0000000a', 'Band Members', 1, 0, 1, '', '', '', 'team', '', '', 0),
+
+-- Church Groups
+
 -- Worship Services
 ('GRP00000001', 'CHU00000001', 'Worship', 'Sunday Morning Service', 1, 0, 1, 'Our main Sunday worship service featuring contemporary worship and biblical teaching.', 'Sunday 10:00 AM', 'Main Sanctuary', 'standard', 'worship,service,main', 'sunday-morning', 0),
 ('GRP00000002', 'CHU00000001', 'Worship', 'Sunday Evening Service', 1, 0, 1, 'A more intimate evening service with traditional hymns and deeper Bible study.', 'Sunday 6:00 PM', 'Main Sanctuary', 'standard', 'worship,service,evening', 'sunday-evening', 0),
@@ -411,7 +416,7 @@ INSERT INTO households (id, churchId, name) VALUES
 
 -- Create userChurches record
 INSERT INTO userChurches (id, userId, churchId, personId) VALUES
-('UCH00000001', 'USR00000001', 'CHU00000001', 'PER00000082');
+('UCH00000082', 'USR00000001', 'CHU00000001', 'PER00000082');
 
 -- Add Demo User to Groups
 INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate, leader) VALUES
@@ -429,3 +434,30 @@ INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate, leader) VAL
 -- Add a note for the Demo User
 INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, createdAt, contents, updatedAt) VALUES
 ('NOT00000021', 'CHU00000001', 'person', 'PER00000082', 'General', 'PER00000001', '2024-03-01 12:00:00', 'Demo user account created for system testing and demonstrations.', '2024-03-01 12:00:00');
+
+-- Band Members Group Assignments (20 adults)
+INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate, leader) VALUES
+-- Band Leader
+('GME00000101', 'CHU00000001', 'GRP0000000b', 'PER00000027', '2024-01-01', 1), -- Michael Davis (Band Leader)
+-- Vocalists
+('GME00000102', 'CHU00000001', 'GRP0000000b', 'PER00000028', '2024-01-01', 0), -- Emily Davis
+('GME00000103', 'CHU00000001', 'GRP0000000b', 'PER00000002', '2024-01-01', 0), -- Mary Smith
+('GME00000104', 'CHU00000001', 'GRP0000000b', 'PER00000017', '2024-01-01', 0), -- Rebecca Jones
+('GME00000105', 'CHU00000001', 'GRP0000000b', 'PER00000043', '2024-01-01', 0), -- Laura Lopez
+-- Instrumentalists
+('GME00000106', 'CHU00000001', 'GRP0000000b', 'PER00000001', '2024-01-01', 0), -- John Smith (Guitar)
+('GME00000107', 'CHU00000001', 'GRP0000000b', 'PER00000042', '2024-01-01', 0), -- David Lopez (Bass)
+('GME00000108', 'CHU00000001', 'GRP0000000b', 'PER00000016', '2024-01-01', 0), -- Thomas Jones (Drums)
+('GME00000109', 'CHU00000001', 'GRP0000000b', 'PER00000021', '2024-01-01', 0), -- Carlos Garcia (Keyboard)
+('GME00000110', 'CHU00000001', 'GRP0000000b', 'PER00000036', '2024-01-01', 0), -- Miguel Hernandez (Guitar)
+('GME00000111', 'CHU00000001', 'GRP0000000b', 'PER00000049', '2024-01-01', 0), -- James Wilson (Drums)
+('GME00000112', 'CHU00000001', 'GRP0000000b', 'PER00000056', '2024-01-01', 0), -- Christopher Thomas (Bass)
+('GME00000113', 'CHU00000001', 'GRP0000000b', 'PER00000063', '2024-01-01', 0), -- Marcus Jackson (Keyboard)
+('GME00000114', 'CHU00000001', 'GRP0000000b', 'PER00000068', '2024-01-01', 0), -- Kevin Martin (Guitar)
+('GME00000115', 'CHU00000001', 'GRP0000000b', 'PER00000075', '2024-01-01', 0), -- Steven White (Drums)
+-- Additional Vocalists and Support
+('GME00000116', 'CHU00000001', 'GRP0000000b', 'PER00000022', '2024-01-01', 0), -- Maria Garcia
+('GME00000117', 'CHU00000001', 'GRP0000000b', 'PER00000037', '2024-01-01', 0), -- Ana Hernandez
+('GME00000118', 'CHU00000001', 'GRP0000000b', 'PER00000050', '2024-01-01', 0), -- Sarah Wilson
+('GME00000119', 'CHU00000001', 'GRP0000000b', 'PER00000057', '2024-01-01', 0), -- Amanda Thomas
+('GME00000120', 'CHU00000001', 'GRP0000000b', 'PER00000082', '2024-01-01', 0); -- Demo User

@@ -32,13 +32,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Remove Previous Demo Stack
-        run:
-          |
-          # This will fail if stack doesn't exist, which is expected for first-time deployments
-          npm install -g serverless
-          serverless remove --stage demo --verbose || echo "No existing stack to remove"
-
       - name: Reset and Initialize Database
         run:
           |
