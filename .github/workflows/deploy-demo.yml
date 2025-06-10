@@ -1,67 +1,17 @@
 name: Deploy Demo
 
 on:
-  schedule:
-    - cron: "0 2 * * *" # Runs at 2 AM UTC every day
+  push:
+    branches:
+      - main
   workflow_dispatch: # Allows manual triggering
 
 env:
   SERVERLESS_ACCESS_KEY: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
 
 jobs:
-  cleanup:
-    name: Cleanup Previous Demo
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: "true"
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "18"
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
-      - name: Reset and Initialize Database
-        run:
-          |
-          # Get connection string from Parameter Store
-          CONNECTION_STRING=$(aws ssm get-parameter --name "/demo/membershipApi/connectionString" --with-decryption --query "Parameter.Value" --output text)
-
-          # Extract database name from connection string
-          DB_NAME=$(echo $CONNECTION_STRING | sed -n 's/.*\/\/[^:]*:[^@]*@[^:]*:[0-9]*\/\([^?]*\).*/\1/p')
-
-          # Extract host, user, and password from connection string
-          DB_HOST=$(echo $CONNECTION_STRING | sed -n 's/.*@\([^:]*\):[0-9]*\/.*/\1/p')
-          DB_USER=$(echo $CONNECTION_STRING | sed -n 's/.*:\/\/\([^:]*\):.*/\1/p')
-          DB_PASS=$(echo $CONNECTION_STRING | sed -n 's/.*:\/\/[^:]*:\([^@]*\)@.*/\1/p')
-
-          # Drop and recreate database
-          mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" -e "DROP DATABASE IF EXISTS ${DB_NAME}; CREATE DATABASE ${DB_NAME};"
-
-          # Create .env file for initdb script
-          echo "APP_ENV=Demo" > .env
-          echo "CONNECTION_STRING=$CONNECTION_STRING" >> .env
-
-          # Run the initdb script to create tables and seed data
-          npm run initdb
-
-          # Run the demo.mysql file to populate demo data
-          mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < tools/dbScripts/demo.mysql
-
   deploy:
     name: Deploy Demo
-    needs: cleanup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -116,3 +66,21 @@ jobs:
           |
           npx serverless package --stage Demo
           ls -R .serverless
+
+  cleanup:
+    name: Trigger Database Cleanup
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cleanup Demo Workflow
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script:
+            |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'cleanup-demo.yml',
+              ref: 'main'
+            })

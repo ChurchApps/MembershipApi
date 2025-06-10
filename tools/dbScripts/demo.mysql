@@ -3,6 +3,7 @@ TRUNCATE TABLE roleMembers;
 TRUNCATE TABLE rolePermissions;
 TRUNCATE TABLE roles;
 TRUNCATE TABLE users;
+TRUNCATE TABLE userChurches;
 TRUNCATE TABLE groupMembers;
 TRUNCATE TABLE notes;
 TRUNCATE TABLE `groups`;
@@ -406,34 +407,60 @@ INSERT INTO rolePermissions (id, churchId, roleId, apiName, contentType, action)
 INSERT INTO roleMembers (id, churchId, roleId, userId, dateAdded) VALUES
 ('RME00000001', 'CHU00000001', 'ROL00000001', 'USR00000001', '2024-01-01 00:00:00');
 
--- Create Demo User Person Record
+-- Create Demo User Person Record and Family
 INSERT INTO people (id, churchId, displayName, firstName, middleName, lastName, prefix, suffix, gender, maritalStatus, birthDate, email, householdId, householdRole, membershipStatus, homePhone, mobilePhone, workPhone, address1, city, state, zip, removed) VALUES
-('PER00000082', 'CHU00000001', 'Demo User', 'Demo', NULL, 'User', 'Mr.', NULL, 'Male', 'Single', '1990-01-01', 'demo@chums.org', 'HOU00000026', 'Head', 'Member', '(217) 555-2601', '(217) 555-2602', '(217) 555-2603', '123 Demo Street', 'Springfield', 'IL', '62701', 0);
+('PER00000082', 'CHU00000001', 'Demo User', 'Demo', NULL, 'User', 'Mr.', NULL, 'Male', 'Married', '1990-01-01', 'demo@chums.org', 'HOU00000026', 'Head', 'Member', '(217) 555-2601', '(217) 555-2602', '(217) 555-2603', '123 Demo Street', 'Springfield', 'IL', '62701', 0),
+('PER00000083', 'CHU00000001', 'Jane User', 'Jane', 'Marie', 'User', 'Mrs.', NULL, 'Female', 'Married', '1992-05-15', 'jane.user@email.com', 'HOU00000026', 'Spouse', 'Member', '(217) 555-2601', '(217) 555-2604', NULL, '123 Demo Street', 'Springfield', 'IL', '62701', 0),
+('PER00000084', 'CHU00000001', 'Alex User', 'Alex', 'James', 'User', NULL, NULL, 'Male', 'Single', '2015-08-20', NULL, 'HOU00000026', 'Child', 'Member', '(217) 555-2601', NULL, NULL, '123 Demo Street', 'Springfield', 'IL', '62701', 0),
+('PER00000085', 'CHU00000001', 'Emma User', 'Emma', 'Grace', 'User', NULL, NULL, 'Female', 'Single', '2018-03-12', NULL, 'HOU00000026', 'Child', 'Member', '(217) 555-2601', NULL, NULL, '123 Demo Street', 'Springfield', 'IL', '62701', 0);
 
 -- Create Demo User Household
 INSERT INTO households (id, churchId, name) VALUES 
-('HOU00000026', 'CHU00000001', 'Demo User');
+('HOU00000026', 'CHU00000001', 'User Family');
 
 -- Create userChurches record
 INSERT INTO userChurches (id, userId, churchId, personId) VALUES
-('UCH00000082', 'USR00000001', 'CHU00000001', 'PER00000082');
+('UCH00000001', 'USR00000001', 'CHU00000001', 'PER00000082');
 
--- Add Demo User to Groups
+-- Add Demo User Family to Groups
 INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate, leader) VALUES
--- Main worship service
-('GME00000096', 'CHU00000001', 'GRP00000001', 'PER00000082', '2024-01-01', 0),
--- Adult Bible Class
-('GME00000097', 'CHU00000001', 'GRP00000004', 'PER00000082', '2024-01-01', 0),
+-- Main worship service (whole family)
+('GME00000096', 'CHU00000001', 'GRP00000001', 'PER00000082', '2024-01-01', 0), -- Demo User
+('GME00000121', 'CHU00000001', 'GRP00000001', 'PER00000083', '2024-01-01', 0), -- Jane User
+('GME00000122', 'CHU00000001', 'GRP00000001', 'PER00000084', '2024-01-01', 0), -- Alex User
+('GME00000123', 'CHU00000001', 'GRP00000001', 'PER00000085', '2024-01-01', 0), -- Emma User
+-- Adult Bible Class (parents)
+('GME00000097', 'CHU00000001', 'GRP00000004', 'PER00000082', '2024-01-01', 0), -- Demo User
+('GME00000124', 'CHU00000001', 'GRP00000004', 'PER00000083', '2024-01-01', 0), -- Jane User
 -- Men's Bible Study
-('GME00000098', 'CHU00000001', 'GRP00000016', 'PER00000082', '2024-01-01', 0),
+('GME00000098', 'CHU00000001', 'GRP00000016', 'PER00000082', '2024-01-01', 0), -- Demo User
+-- Women's Bible Study
+('GME00000125', 'CHU00000001', 'GRP00000017', 'PER00000083', '2024-01-01', 0), -- Jane User
 -- Praise Team
-('GME00000099', 'CHU00000001', 'GRP00000019', 'PER00000082', '2024-01-01', 0),
+('GME00000099', 'CHU00000001', 'GRP00000019', 'PER00000082', '2024-01-01', 0), -- Demo User
+('GME00000126', 'CHU00000001', 'GRP00000019', 'PER00000083', '2024-01-01', 0), -- Jane User
 -- Community Service Team
-('GME00000100', 'CHU00000001', 'GRP00000023', 'PER00000082', '2024-01-01', 0);
+('GME00000100', 'CHU00000001', 'GRP00000023', 'PER00000082', '2024-01-01', 0), -- Demo User
+('GME00000127', 'CHU00000001', 'GRP00000023', 'PER00000083', '2024-01-01', 0), -- Jane User
+-- Young Families Group
+('GME00000128', 'CHU00000001', 'GRP00000014', 'PER00000082', '2024-01-01', 0), -- Demo User
+('GME00000129', 'CHU00000001', 'GRP00000014', 'PER00000083', '2024-01-01', 0), -- Jane User
+-- Children's Ministry (Alex - Elementary 3-5)
+('GME00000130', 'CHU00000001', 'GRP00000010', 'PER00000084', '2024-01-01', 0), -- Alex User
+-- Children's Ministry (Emma - Preschool)
+('GME00000131', 'CHU00000001', 'GRP00000008', 'PER00000085', '2024-01-01', 0), -- Emma User
+-- Children's Choir (Alex)
+('GME00000132', 'CHU00000001', 'GRP00000020', 'PER00000084', '2024-01-01', 0), -- Alex User
+-- VBS (both children)
+('GME00000133', 'CHU00000001', 'GRP00000030', 'PER00000084', '2024-01-01', 0), -- Alex User
+('GME00000134', 'CHU00000001', 'GRP00000030', 'PER00000085', '2024-01-01', 0); -- Emma User
 
--- Add a note for the Demo User
+-- Add notes for the Demo User Family
 INSERT INTO notes (id, churchId, contentType, contentId, noteType, addedBy, createdAt, contents, updatedAt) VALUES
-('NOT00000021', 'CHU00000001', 'person', 'PER00000082', 'General', 'PER00000001', '2024-03-01 12:00:00', 'Demo user account created for system testing and demonstrations.', '2024-03-01 12:00:00');
+('NOT00000021', 'CHU00000001', 'person', 'PER00000082', 'General', 'PER00000001', '2024-03-01 12:00:00', 'Demo user account created for system testing and demonstrations.', '2024-03-01 12:00:00'),
+('NOT00000022', 'CHU00000001', 'person', 'PER00000083', 'General', 'PER00000001', '2024-03-01 12:15:00', 'Jane is very active in women''s ministry and has a heart for worship.', '2024-03-01 12:15:00'),
+('NOT00000023', 'CHU00000001', 'person', 'PER00000084', 'General', 'PER00000001', '2024-03-01 12:30:00', 'Alex is doing well in elementary Sunday school and loves to sing in children''s choir.', '2024-03-01 12:30:00'),
+('NOT00000024', 'CHU00000001', 'person', 'PER00000085', 'General', 'PER00000001', '2024-03-01 12:45:00', 'Emma is a bright and energetic preschooler who enjoys Bible stories.', '2024-03-01 12:45:00');
 
 -- Band Members Group Assignments (20 adults)
 INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate, leader) VALUES
