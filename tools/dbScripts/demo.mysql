@@ -1,5 +1,12 @@
--- Truncate all tables in correct order (respecting foreign key constraints)
-TRUNCATE TABLE roleMembers;
+DROP PROCEDURE IF EXISTS resetDemoData;
+
+-- Create stored procedure to reset demo data
+DELIMITER //
+CREATE PROCEDURE resetDemoData()
+BEGIN
+
+    -- Truncate all tables in correct order (respecting foreign key constraints)
+    TRUNCATE TABLE roleMembers;
 TRUNCATE TABLE rolePermissions;
 TRUNCATE TABLE roles;
 TRUNCATE TABLE users;
@@ -488,3 +495,36 @@ INSERT INTO groupMembers (id, churchId, groupId, personId, joinDate, leader) VAL
 ('GME00000118', 'CHU00000001', 'GRP0000000b', 'PER00000050', '2024-01-01', 0), -- Sarah Wilson
 ('GME00000119', 'CHU00000001', 'GRP0000000b', 'PER00000057', '2024-01-01', 0), -- Amanda Thomas
 ('GME00000120', 'CHU00000001', 'GRP0000000b', 'PER00000082', '2024-01-01', 0); -- Demo User
+
+END //
+DELIMITER ;
+
+-- Execute the stored procedure to populate demo data
+CALL resetDemoData();
+
+DROP PROCEDURE IF EXISTS resetAllDemoData;
+
+-- Create stored procedure to reset demo data across all API databases
+DELIMITER //
+CREATE PROCEDURE resetAllDemoData()
+BEGIN
+    -- Reset demo data for MembershipApi
+    CALL membership.resetDemoData();
+    
+    -- Reset demo data for AttendanceApi
+    CALL attendance.resetDemoData();
+    
+    -- Reset demo data for GivingApi
+    CALL givingapi.resetDemoData();
+    
+    -- Reset demo data for ContentApi
+    CALL content.resetDemoData();
+    
+    -- Reset demo data for MessagingApi
+    CALL messaging.resetDemoData();
+    
+    -- Reset demo data for DoingApi
+    CALL doing.resetDemoData();
+    
+END //
+DELIMITER ;
