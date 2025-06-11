@@ -39,17 +39,51 @@ export const init = async () => {
       res.sendStatus(200);
     });
     
-    // Debug middleware to understand request body state
+    // Handle body parsing from @codegenie/serverless-express
     expApp.use((req, res, next) => {
-      console.log('Request method:', req.method);
-      console.log('Request content-type:', req.headers['content-type']);
-      console.log('Request body type:', typeof req.body);
-      console.log('Request body:', req.body ? JSON.stringify(req.body).substring(0, 200) : 'undefined');
+      const contentType = req.headers['content-type'] || '';
+      
+      // Handle Buffer instances (most common case with serverless-express)
+      if (Buffer.isBuffer(req.body)) {
+        try {
+          const bodyString = req.body.toString('utf8');
+          if (contentType.includes('application/json')) {
+            req.body = JSON.parse(bodyString);
+          } else {
+            req.body = bodyString;
+          }
+        } catch (e) {
+          console.error('Failed to parse Buffer body:', e.message);
+          req.body = {};
+        }
+      }
+      // Handle Buffer-like objects
+      else if (req.body && req.body.type === 'Buffer' && Array.isArray(req.body.data)) {
+        try {
+          const bodyString = Buffer.from(req.body.data).toString('utf8');
+          if (contentType.includes('application/json')) {
+            req.body = JSON.parse(bodyString);
+          } else {
+            req.body = bodyString;
+          }
+        } catch (e) {
+          console.error('Failed to parse Buffer-like body:', e.message);
+          req.body = {};
+        }
+      }
+      // Handle string JSON bodies
+      else if (typeof req.body === 'string' && req.body.length > 0) {
+        try {
+          if (contentType.includes('application/json')) {
+            req.body = JSON.parse(req.body);
+          }
+        } catch (e) {
+          console.error('Failed to parse string body as JSON:', e.message);
+        }
+      }
+      
       next();
     });
-    
-    // Let @codegenie/serverless-express handle body parsing completely
-    // No Express body parsing middleware - serverless-express will handle it
   };
 
   const server = app.setConfig(configFunction).build();

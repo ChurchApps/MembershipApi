@@ -14,15 +14,7 @@ let handler;
 
 const universal = async function universal(event, context) {
   try {
-    console.log('Lambda invocation started');
-    console.log('Event keys:', Object.keys(event));
-    console.log('Event version:', event.version);
-    console.log('Event httpMethod:', event.httpMethod);
-    console.log('Event requestContext:', JSON.stringify(event.requestContext || {}, null, 2));
-    
-    // Log body info for debugging
-    console.log('Event body type:', typeof event.body);
-    console.log('Event body (first 200 chars):', JSON.stringify(event.body || '').substring(0, 200));
+    console.log('Lambda invocation:', event.httpMethod, event.path);
     
     await checkPool();
     
