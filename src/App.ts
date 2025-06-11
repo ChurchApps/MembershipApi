@@ -24,11 +24,33 @@ export const init = async () => {
 
 
   const configFunction = (expApp: express.Application) => {
-    // expApp.use(bodyParser({ limit: "50mb" }));
-    // expApp.use()
-    expApp.use(bodyParser.urlencoded({ extended: true }));
-    expApp.use(bodyParser.json({ limit: "50mb" }));
-    expApp.use(cors());
+    // Configure CORS first
+    expApp.use(cors({
+      origin: true,
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+    }));
+    
+    // Configure body parsers with proper limits and error handling
+    expApp.use(bodyParser.urlencoded({ 
+      extended: true, 
+      limit: '50mb',
+      parameterLimit: 50000
+    }));
+    
+    expApp.use(bodyParser.json({ 
+      limit: '50mb',
+      strict: false
+    }));
+    
+    // Handle preflight requests
+    expApp.options('*', (req, res) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
+      res.sendStatus(200);
+    });
   };
 
   const server = app.setConfig(configFunction).build();
