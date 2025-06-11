@@ -31,7 +31,7 @@ provider:
 
 functions:
   api:
-    name: membership-api-${sls:stage}-api
+    name: membership-api-${sls:stage}-api-v2
     handler: lambda.universal
     events:
       - http:

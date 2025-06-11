@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
 import "reflect-metadata";
 import { Container } from "inversify";
 import { InversifyExpressServer } from "inversify-express-utils";
@@ -32,14 +31,15 @@ export const init = async () => {
       allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
     }));
     
-    // Configure body parsers with proper limits and error handling
-    expApp.use(bodyParser.urlencoded({ 
+    // Use built-in Express body parsers instead of body-parser package
+    // This avoids conflicts with @vendia/serverless-express
+    expApp.use(express.urlencoded({ 
       extended: true, 
       limit: '50mb',
       parameterLimit: 50000
     }));
     
-    expApp.use(bodyParser.json({ 
+    expApp.use(express.json({ 
       limit: '50mb',
       strict: false
     }));
