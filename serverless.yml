@@ -31,33 +31,15 @@ provider:
 
 functions:
   api:
-    name: membership-api-${sls:stage}-api-v2
+    name: membership-api-${sls:stage}-api
     handler: lambda.universal
     events:
       - http:
           path: /{proxy+}
           method: ANY
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-              - X-Requested-With
-              - Accept
-              - Origin
-            allowCredentials: true
       - http:
           path: /
           method: ANY
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-              - X-Requested-With
-              - Accept
-              - Origin
-            allowCredentials: true
     vpc: ${self:custom.vpcSettings.current}
     package:
       patterns:
@@ -69,6 +51,9 @@ functions:
         - "!DeployProd.bat"
         - "!DeployStaging.bat"
         - "!Dockerfile"
+        - "!.git/**"
+        - "!.gitignore"
+        - "!README.md"
 
 plugins:
   - serverless-plugin-utils
