@@ -37,7 +37,9 @@ const universal = async function universal(event, context) {
           'image/*',
           'application/pdf'
         ],
-        stripBasePath: true
+        stripBasePath: true,
+        respondWithErrors: true,
+        eventSourceName: 'AWS_API_GATEWAY'
       });
     }
     
