@@ -39,9 +39,17 @@ export const init = async () => {
       res.sendStatus(200);
     });
     
-    // Body parsing - Express built-in parsers work with @codegenie/serverless-express
-    expApp.use(express.json({ limit: '50mb' }));
-    expApp.use(express.urlencoded({ extended: true, limit: '50mb' }));
+    // Debug middleware to understand request body state
+    expApp.use((req, res, next) => {
+      console.log('Request method:', req.method);
+      console.log('Request content-type:', req.headers['content-type']);
+      console.log('Request body type:', typeof req.body);
+      console.log('Request body:', req.body ? JSON.stringify(req.body).substring(0, 200) : 'undefined');
+      next();
+    });
+    
+    // Let @codegenie/serverless-express handle body parsing completely
+    // No Express body parsing middleware - serverless-express will handle it
   };
 
   const server = app.setConfig(configFunction).build();

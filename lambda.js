@@ -20,6 +20,10 @@ const universal = async function universal(event, context) {
     console.log('Event httpMethod:', event.httpMethod);
     console.log('Event requestContext:', JSON.stringify(event.requestContext || {}, null, 2));
     
+    // Log body info for debugging
+    console.log('Event body type:', typeof event.body);
+    console.log('Event body (first 200 chars):', JSON.stringify(event.body || '').substring(0, 200));
+    
     await checkPool();
     
     // Initialize the handler only once
@@ -30,10 +34,13 @@ const universal = async function universal(event, context) {
         app,
         binaryMimeTypes: [
           'application/octet-stream',
-          'font/*',
+          'font/*', 
           'image/*',
           'application/pdf'
-        ]
+        ],
+        // Force serverless-express to handle body parsing
+        stripBasePath: false,
+        resolutionMode: 'PROMISE'
       });
     }
     
