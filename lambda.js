@@ -26,7 +26,15 @@ const universal = async function universal(event, context) {
     if (!handler) {
       console.log('Initializing serverless express handler...');
       const app = await init();
-      handler = serverlessExpress({ app });
+      handler = serverlessExpress({ 
+        app,
+        binaryMimeTypes: [
+          'application/octet-stream',
+          'font/*',
+          'image/*',
+          'application/pdf'
+        ]
+      });
     }
     
     return handler(event, context);
