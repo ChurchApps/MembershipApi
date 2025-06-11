@@ -88,12 +88,8 @@ export class OAuthController extends MembershipBaseController {
           scope: token.scopes
         });
       } else if (grant_type === "refresh_token") {
-        console.log("Called refresh_token grant type", refresh_token);
         if (!refresh_token) return this.json({ error: "invalid_request" }, 400);
         const oldToken = await this.repositories.oAuthToken.loadByRefreshToken(refresh_token);
-        console.log("Old token found?", oldToken);
-
-        console.log("Client ID matches?", oldToken?.clientId === client.clientId, oldToken?.clientId, client.clientId);
 
         if (!oldToken || oldToken.clientId !== client.clientId) return this.json({ error: "invalid_grant" }, 400);
 
@@ -144,7 +140,7 @@ export class OAuthController extends MembershipBaseController {
   @httpGet("/clients/clientId/:clientId")
   public async getClientByClientId(@requestParam("clientId") clientId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      const result = await this.repositories.oAuthClient.loadByClientId(clientId);;
+      const result = await this.repositories.oAuthClient.loadByClientId(clientId);
       result.clientSecret = null;
       return result;
     });

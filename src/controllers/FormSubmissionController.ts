@@ -4,7 +4,7 @@ import { MembershipBaseController } from "./MembershipBaseController";
 import { FormSubmission, Answer, Form, Church } from "../models";
 import { Permissions, EmailHelper, Environment } from "../helpers";
 import { MemberPermission, Person } from "../models";
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 
 
 @controller("/formsubmissions")

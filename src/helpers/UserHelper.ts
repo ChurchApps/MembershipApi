@@ -64,8 +64,6 @@ export class UserHelper {
     if (!appName) appName = "Church Apps";
     if (!appUrl) appUrl = Environment.chumsRoot;
 
-    console.log(appUrl);
-    console.log(loginLink);
     const contents = "<h2>Welcome to " + appName + "</h2>"
       + "<p>Please click the login link below to set your password and continue registration.</p>"
       + `<p><a href="${appUrl + loginLink}" class="btn btn-primary">Set Password</a></p>`;

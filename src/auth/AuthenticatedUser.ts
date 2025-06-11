@@ -1,6 +1,6 @@
 import { Principal, AuthenticatedUser as BaseAuthenticatedUser } from '@churchapps/apihelper'
 import { Api, Church, LoginResponse, LoginUserChurch, User, UserChurch } from '../models'
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 import { Repositories } from '../repositories';
 import { Environment } from '../helpers';
 
@@ -33,7 +33,8 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
     userChurch.groups?.forEach(g => groupIds.push(g.id));
     const leaderGroupIds: string[] = [];
     userChurch.groups?.forEach(g => leaderGroupIds.push(g.id));
-    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, apiName: api.keyName, permissions: permList, groupIds, leaderGroupIds, membershipStatus: userChurch.person?.membershipStatus }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
+    const options: SignOptions = { expiresIn: Environment.jwtExpiration as any };
+    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, apiName: api.keyName, permissions: permList, groupIds, leaderGroupIds, membershipStatus: userChurch.person?.membershipStatus }, Environment.jwtSecret, options);
   }
 
   public static getChurchJwt(user: User, userChurch: LoginUserChurch) {
@@ -41,7 +42,8 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
     userChurch.groups?.forEach(g => groupIds.push(g.id));
     const leaderGroupIds: string[] = [];
     userChurch.groups?.forEach(g => leaderGroupIds.push(g.id));
-    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, groupIds, leaderGroupIds, membershipStatus: userChurch.person?.membershipStatus }, Environment.jwtSecret, { expiresIn: Environment.jwtExpiration });
+    const options: SignOptions = { expiresIn: Environment.jwtExpiration as any };
+    return jwt.sign({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, churchId: userChurch.church.id, personId: userChurch.person.id, groupIds, leaderGroupIds, membershipStatus: userChurch.person?.membershipStatus }, Environment.jwtSecret, options);
   }
 
   public static getUserJwt(user: User) {

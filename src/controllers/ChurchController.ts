@@ -20,20 +20,6 @@ const churchRegisterValidation = [
 @controller("/churches")
 export class ChurchController extends MembershipBaseController {
 
-  /*
-  @httpGet("/addHubspot")
-  public async addHubspot(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
-    return this.actionWrapperAnon(req, res, async () => {
-      const churches = await this.repositories.church.loadAll();
-      for (const church of churches) {
-        const comp = await HubspotHelper.lookupCompany(church.name);
-        console.log(church.name, comp);
-        if (comp) {
-          await HubspotHelper.setProperties(comp.id, { church_id: church.id });
-        }
-      }
-    });
-  }*/
 
   @httpGet("/all")
   public async loadAll(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
@@ -143,59 +129,13 @@ export class ChurchController extends MembershipBaseController {
     });
   }
 
-  /*
-  @httpGet("/test")
-  public async test(req: express.Request<{}, {}, RegistrationRequest>, res: express.Response): Promise<interfaces.IHttpActionResult> {
-    return this.actionWrapperAnon(req, res, async () => {
-
-      // const church = await this.repositories.church.loadById("2HQxvHkiB3L");
-      // await GeoHelper.updateChurchAddress(church);
-
-      const churches = await this.repositories.church.loadAll();
-      for (const church of churches) {
-        if (church.address1 && !church.latitude) {
-          try {
-            await GeoHelper.updateChurchAddress(church);
-          } catch (ex) {
-            console.log(ex)
-          }
-        }
-      }
-
-
-
-    });
-  }
-  */
 
   @httpGet("/:id")
   public async get(@requestParam("id") id: string, req: express.Request<{}, {}, RegistrationRequest>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      // const churchId = id.toString();
-      // let hasAccess = au.checkAccess(Permissions.server.admin) || au.churchId === churchId;
-      // if (!hasAccess) {
-      //  const churches = await this.repositories.rolePermission.loadForUser(au.id, true);
-      //  churches.forEach(c => { if (c.id === churchId) hasAccess = true; });
-      // }
-
-      // if (!hasAccess) return this.json({}, 401);
-      // else {
       const data = await this.repositories.church.loadById(id);
       const church = this.repositories.church.convertToModel(data);
-
-      // I don't believe permissions are needed for this route.  Will need to be reworked if so since permissions are on the user church level now.
-      /*
-      // This block could be simplified
-      if (this.include(req, "permissions")) {
-        let universalChurch = null;
-        const churches = await this.repositories.rolePermission.loadForUser(au.id, false);
-        churches.forEach(c => { if (c.id === "") universalChurch = c; });
-        const result = await this.repositories.rolePermission.loadForChurch(id, universalChurch);
-        if (result !== null) church.apis = result.apis;
-      }*/
-
       return church;
-      // }
     });
   }
 
@@ -317,7 +257,6 @@ export class ChurchController extends MembershipBaseController {
         churches.forEach((church) => {
           if (church.id !== au.churchId) return this.json({}, 401);
           else {
-            const c: Church = null;
             const p = ChurchController.validateSave(church, this.repositories).then(errors => {
               if (errors.length === 0) {
                 promises.push(this.repositories.church.save(church).then(async ch => {

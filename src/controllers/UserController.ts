@@ -2,14 +2,13 @@ import { controller, httpDelete, httpPost, interfaces } from "inversify-express-
 import express from "express";
 import bcrypt from "bcryptjs";
 import { body, oneOf, validationResult } from "express-validator";
-import { LoginRequest, User, ResetPasswordRequest, LoadCreateUserRequest, RegisterUserRequest, Church, EmailPassword, NewPasswordRequest, UserChurch, LoginUserChurch, RolePermission } from "../models";
+import { LoginRequest, User, ResetPasswordRequest, LoadCreateUserRequest, RegisterUserRequest, Church, EmailPassword, NewPasswordRequest, UserChurch, LoginUserChurch } from "../models";
 import { AuthenticatedUser } from "../auth";
 import { MembershipBaseController } from "./MembershipBaseController"
 import { EmailHelper, UserHelper, UniqueIdHelper, Environment } from "../helpers";
 import { v4 } from 'uuid';
 import { ChurchHelper } from "../helpers";
 import { ArrayHelper } from "@churchapps/apihelper"
-import { permissionsList } from "../helpers/Permissions"
 
 const emailPasswordValidation = [
   body("email").isEmail().trim().normalizeEmail({ gmail_remove_dots: false }).withMessage("enter a valid email address"),

@@ -11,7 +11,6 @@ export class DomainController extends MembershipBaseController {
   @httpGet("/caddy")
   public async caddy(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
-      console.log("made it")
       const jsonData = await CaddyHelper.generateJsonData();
       await CaddyHelper.updateCaddy();
       return jsonData;
@@ -21,10 +20,7 @@ export class DomainController extends MembershipBaseController {
   @httpGet("/test")
   public async test(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
-      console.log("made it")
       const jsonData = await CaddyHelper.generateJsonData();
-      // await CaddyHelper.updateCaddy();
-      console.log("JSON", jsonData)
       return jsonData;
     });
   }

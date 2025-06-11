@@ -1,4 +1,4 @@
-const { createServer, proxy } = require('aws-serverless-express');
+const { configure } = require('@vendia/serverless-express');
 const { init } = require('./dist/App');
 const { Pool } = require('@churchapps/apihelper');
 const { Environment } = require('./dist/helpers/Environment');
@@ -10,13 +10,13 @@ const checkPool = async () => {
   }
 }
 
-const universal = function universal(event, context) {
-  checkPool().then(() => {
-    init().then(app => {
-      const server = createServer(app);
-      return proxy(server, event, context);
-    });
-  });
+let serverlessExpressInstance;
+
+const universal = async function universal(event, context) {
+  await checkPool();
+  const app = await init();
+  serverlessExpressInstance = configure({ app });
+  return serverlessExpressInstance(event, context);
 }
 
 module.exports.universal = universal;
