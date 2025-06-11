@@ -97,13 +97,6 @@ export class OAuthController extends MembershipBaseController {
 
         if (!oldToken || oldToken.clientId !== client.clientId) return this.json({ error: "invalid_grant" }, 400);
 
-        // Check if refresh token has expired
-        if (oldToken.expiresAt && oldToken.expiresAt < new Date()) {
-          console.log("Refresh token expired, deleting old token", oldToken.id, oldToken.expiresAt, new Date());
-          await this.repositories.oAuthToken.delete(oldToken.id);
-          return this.json({ error: "invalid_grant" }, 400);
-        }
-
         // Fetch user/church data to generate proper JWT
         const userChurch = await this.repositories.userChurch.load(oldToken.userChurchId);
         const user = await this.repositories.user.load(userChurch.userId);
