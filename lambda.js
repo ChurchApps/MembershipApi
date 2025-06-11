@@ -1,4 +1,4 @@
-const { configure } = require('@vendia/serverless-express');
+const serverlessExpress = require('@codegenie/serverless-express');
 const { init } = require('./dist/App');
 const { Pool } = require('@churchapps/apihelper');
 const { Environment } = require('./dist/helpers/Environment');
@@ -10,40 +10,26 @@ const checkPool = async () => {
   }
 }
 
-let serverlessExpressInstance;
-let app;
+let handler;
 
 const universal = async function universal(event, context) {
   try {
     console.log('Lambda invocation started');
-    console.log('Node modules path check:', require.resolve('express'));
+    console.log('Event keys:', Object.keys(event));
+    console.log('Event version:', event.version);
+    console.log('Event httpMethod:', event.httpMethod);
+    console.log('Event requestContext:', JSON.stringify(event.requestContext || {}, null, 2));
     
     await checkPool();
     
-    // Initialize app only once to prevent multiple body parser registrations
-    if (!app) {
-      console.log('Initializing Express app...');
-      app = await init();
+    // Initialize the handler only once
+    if (!handler) {
+      console.log('Initializing serverless express handler...');
+      const app = await init();
+      handler = serverlessExpress({ app });
     }
     
-    // Configure serverless express only once
-    if (!serverlessExpressInstance) {
-      console.log('Configuring serverless express...');
-      serverlessExpressInstance = configure({ 
-        app,
-        binaryMimeTypes: [
-          'application/octet-stream',
-          'font/*',
-          'image/*',
-          'application/pdf'
-        ],
-        stripBasePath: true,
-        respondWithErrors: true,
-        eventSourceName: 'AWS_API_GATEWAY'
-      });
-    }
-    
-    return serverlessExpressInstance(event, context);
+    return handler(event, context);
   } catch (error) {
     console.error('Lambda handler error:', error);
     console.error('Error stack:', error.stack);

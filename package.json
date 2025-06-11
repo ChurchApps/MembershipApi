@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "@churchapps/apihelper": "0.0.24",
+    "@codegenie/serverless-express": "^4.16.0",
     "@hubspot/api-client": "^13.0.0",
-    "@vendia/serverless-express": "^4.12.6",
     "axios": "^1.9.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

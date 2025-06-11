@@ -23,7 +23,7 @@ export const init = async () => {
 
 
   const configFunction = (expApp: express.Application) => {
-    // Configure CORS first
+    // Configure CORS
     expApp.use(cors({
       origin: true,
       credentials: true,
@@ -31,28 +31,16 @@ export const init = async () => {
       allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
     }));
     
-    // Handle preflight requests early
+    // Use Express built-in body parsers
+    expApp.use(express.json({ limit: '50mb' }));
+    expApp.use(express.urlencoded({ extended: true, limit: '50mb' }));
+    
+    // Handle preflight requests
     expApp.options('*', (req, res) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
       res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
       res.sendStatus(200);
-    });
-    
-    // Middleware to ensure body is available for POST requests
-    expApp.use((req, res, next) => {
-      console.log('Request method:', req.method);
-      console.log('Content-Type:', req.headers['content-type']);
-      console.log('Body available:', req.body !== undefined);
-      console.log('Raw body available:', (req as any).rawBody !== undefined);
-      
-      // @vendia/serverless-express should populate req.body automatically
-      // If it's not there, set an empty object
-      if (req.body === undefined) {
-        req.body = {};
-      }
-      
-      next();
     });
   };
 
