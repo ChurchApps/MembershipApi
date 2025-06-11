@@ -72,7 +72,7 @@ export class OAuthController extends MembershipBaseController {
           accessToken: AuthenticatedUser.getChurchJwt(user, loginUserChurch),
           refreshToken: UniqueIdHelper.shortId(),
           scopes: authCode.scopes,
-          expiresAt: new Date(Date.now() + 61) //new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours
+          expiresAt: new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours
         };
         await this.repositories.oAuthToken.save(token);
 
@@ -82,7 +82,7 @@ export class OAuthController extends MembershipBaseController {
         return this.json({
           access_token: token.accessToken,
           token_type: "Bearer",
-          expires_in: 61, //3600 * 12,
+          expires_in: 3600 * 12,
           created_at: Math.floor(Date.now() / 1000),
           refresh_token: token.refreshToken,
           scope: token.scopes
@@ -124,7 +124,7 @@ export class OAuthController extends MembershipBaseController {
           access_token: token.accessToken,
           token_type: "Bearer",
           created_at: Math.floor(Date.now() / 1000),
-          expires_in: 61, //3600 * 12,
+          expires_in: 3600 * 12,
           refresh_token: token.refreshToken,
           scope: token.scopes
         });
