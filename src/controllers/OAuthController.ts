@@ -72,7 +72,7 @@ export class OAuthController extends MembershipBaseController {
           accessToken: AuthenticatedUser.getChurchJwt(user, loginUserChurch),
           refreshToken: UniqueIdHelper.shortId(),
           scopes: authCode.scopes,
-          expiresAt: new Date(Date.now() + 120) //new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours
+          expiresAt: new Date(Date.now() + 61) //new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours
         };
         await this.repositories.oAuthToken.save(token);
 
@@ -82,19 +82,24 @@ export class OAuthController extends MembershipBaseController {
         return this.json({
           access_token: token.accessToken,
           token_type: "Bearer",
-          expires_in: 120, //3600 * 12,
+          expires_in: 61, //3600 * 12,
           created_at: Math.floor(Date.now() / 1000),
           refresh_token: token.refreshToken,
           scope: token.scopes
         });
       } else if (grant_type === "refresh_token") {
+        console.log("Called refresh_token grant type", refresh_token);
         if (!refresh_token) return this.json({ error: "invalid_request" }, 400);
         const oldToken = await this.repositories.oAuthToken.loadByRefreshToken(refresh_token);
+        console.log("Old token found?", oldToken);
+
+        console.log("Client ID matches?", oldToken?.clientId === client.clientId, oldToken?.clientId, client.clientId);
 
         if (!oldToken || oldToken.clientId !== client.clientId) return this.json({ error: "invalid_grant" }, 400);
 
         // Check if refresh token has expired
         if (oldToken.expiresAt && oldToken.expiresAt < new Date()) {
+          console.log("Refresh token expired, deleting old token", oldToken.id, oldToken.expiresAt, new Date());
           await this.repositories.oAuthToken.delete(oldToken.id);
           return this.json({ error: "invalid_grant" }, 400);
         }
@@ -126,7 +131,7 @@ export class OAuthController extends MembershipBaseController {
           access_token: token.accessToken,
           token_type: "Bearer",
           created_at: Math.floor(Date.now() / 1000),
-          expires_in: 120, //3600 * 12,
+          expires_in: 61, //3600 * 12,
           refresh_token: token.refreshToken,
           scope: token.scopes
         });
