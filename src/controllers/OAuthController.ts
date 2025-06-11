@@ -91,17 +91,32 @@ export class OAuthController extends MembershipBaseController {
         if (!refresh_token) return this.json({ error: "invalid_request" }, 400);
         const oldToken = await this.repositories.oAuthToken.loadByRefreshToken(refresh_token);
 
-
         if (!oldToken || oldToken.clientId !== client.clientId) return this.json({ error: "invalid_grant" }, 400);
+        
+        // Check if refresh token has expired
+        if (oldToken.expiresAt && oldToken.expiresAt < new Date()) {
+          await this.repositories.oAuthToken.delete(oldToken.id);
+          return this.json({ error: "invalid_grant" }, 400);
+        }
 
-        // Create new access token
+        // Fetch user/church data to generate proper JWT
+        const userChurch = await this.repositories.userChurch.load(oldToken.userChurchId);
+        const user = await this.repositories.user.load(userChurch.userId);
+        const church = await this.repositories.church.loadById(userChurch.churchId);
+        const loginUserChurch: LoginUserChurch = { 
+          church: { id: church.id, name: church.churchName, subDomain: church.subDomain }, 
+          person: { id: userChurch.personId, membershipStatus: "Guest" }, 
+          apis: [] 
+        };
+
+        // Create new access token with proper JWT
         const token: OAuthToken = {
-          clientId: client.id,
+          clientId: client.clientId,
           userChurchId: oldToken.userChurchId,
-          accessToken: UniqueIdHelper.shortId(),
+          accessToken: AuthenticatedUser.getChurchJwt(user, loginUserChurch),
           refreshToken: UniqueIdHelper.shortId(),
           scopes: oldToken.scopes,
-          expiresAt: new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours,
+          expiresAt: new Date(Date.now() + 60 * 60 * 1000 * 12) // 12 hours
         };
         await this.repositories.oAuthToken.save(token);
 
