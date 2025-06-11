@@ -16,8 +16,7 @@ export class Permissions extends BasePermissions {
   }
   static forms = {
     admin: { contentType: "Forms", action: "Admin" },
-    edit: { contentType: "Forms", action: "Edit" },
-    access: { contentType: "Forms", action: "Admin" } || { contentType: "Forms", action: "Edit" }
+    edit: { contentType: "Forms", action: "Edit" }
   };
   static plans = {
     edit: { contentType: "Plans", action: "Edit" },

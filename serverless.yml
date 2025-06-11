@@ -32,7 +32,7 @@ layers:
     name: ${self:service}-${sls:stage}-dependencies
     description: Dependencies for ${self:service}
     compatibleRuntimes:
-      - nodejs18.x
+      - nodejs20.x
 
 functions:
   api:
