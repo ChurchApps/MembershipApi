@@ -20,17 +20,17 @@ const universal = async function universal(event, context) {
     
     // Initialize the handler only once
     if (!handler) {
-      console.log('Initializing serverless express handler...');
       const app = await init();
       handler = serverlessExpress({ 
         app,
-        binaryMimeTypes: [
-          'application/octet-stream',
-          'font/*', 
-          'image/*',
-          'application/pdf'
-        ],
-        // Force serverless-express to handle body parsing
+        binarySettings: {
+          contentTypes: [
+            'application/octet-stream',
+            'font/*', 
+            'image/*',
+            'application/pdf'
+          ]
+        },
         stripBasePath: false,
         resolutionMode: 'PROMISE'
       });

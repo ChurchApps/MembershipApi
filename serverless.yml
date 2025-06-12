@@ -29,10 +29,21 @@ provider:
   environment:
     APP_ENV: ${self:custom.env}
 
+layers:
+  nodeDependencies:
+    path: layer
+    name: membership-api-${sls:stage}-node-dependencies
+    description: Node.js dependencies for membership-api
+    compatibleRuntimes:
+      - nodejs20.x
+    retain: false
+
 functions:
   api:
     name: membership-api-${sls:stage}-api
     handler: lambda.universal
+    layers:
+      - { Ref: NodeDependenciesLambdaLayer }
     events:
       - http:
           path: /{proxy+}
@@ -54,6 +65,7 @@ functions:
         - "!.git/**"
         - "!.gitignore"
         - "!README.md"
+        - "!node_modules/**"
 
 plugins:
   - serverless-plugin-utils
