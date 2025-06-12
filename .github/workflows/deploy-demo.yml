@@ -68,11 +68,11 @@ jobs:
           ls -R .serverless
 
   cleanup:
-    name: Trigger Database Cleanup
+    name: Recreate Database
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Cleanup Demo Workflow
+      - name: Trigger Recreate Demo Database Workflow
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -81,6 +81,6 @@ jobs:
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'cleanup-demo.yml',
+              workflow_id: 'recreate-demo-database.yml',
               ref: 'main'
             })

@@ -1,8 +1,6 @@
 name: Recreate Demo Database
 
 on:
-  schedule:
-    - cron: "0 2 * * *" # Runs at 2 AM UTC every day
   workflow_dispatch: # Allows manual triggering
 
 jobs:
@@ -33,7 +31,7 @@ jobs:
         run:
           |
           # Get connection string from Parameter Store
-          CONNECTION_STRING=$(aws ssm get-parameter --name "/demo/attendanceApi/connectionString" --with-decryption --query "Parameter.Value" --output text)
+          CONNECTION_STRING=$(aws ssm get-parameter --name "/demo/membershipApi/connectionString" --with-decryption --query "Parameter.Value" --output text)
 
           # Extract database name from connection string
           DB_NAME=$(echo $CONNECTION_STRING | sed -n 's/.*\/\/[^:]*:[^@]*@[^:]*:[0-9]*\/\([^?]*\).*/\1/p')
