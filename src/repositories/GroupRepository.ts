@@ -39,7 +39,7 @@ export class GroupRepository {
   }
 
   public loadPublicSlug(churchId: string, slug: string) {
-    const sql = "SELECT * FROM groups"
+    const sql = "SELECT * FROM `groups`"
       + " WHERE churchId = ? AND slug = ? AND removed=0";
     return DB.queryOne(sql, [churchId, slug]);
   }
