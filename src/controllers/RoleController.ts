@@ -1,9 +1,9 @@
 import { controller, httpPost, httpGet, requestParam, httpDelete } from "inversify-express-utils";
 import { Role } from "../models";
 import express from "express";
-import { AuthenticatedUser } from '../auth';
-import { MembershipBaseController } from "./MembershipBaseController"
-import { Permissions, IPermission } from '../helpers'
+import { AuthenticatedUser } from "../auth";
+import { MembershipBaseController } from "./MembershipBaseController";
+import { Permissions, IPermission } from "../helpers";
 
 @controller("/roles")
 export class RoleController extends MembershipBaseController {
@@ -15,7 +15,7 @@ export class RoleController extends MembershipBaseController {
       else {
         return this.repositories.role.convertAllToModel(churchId, await this.repositories.role.loadByChurchId(churchId));
       }
-    })
+    });
   }
 
   @httpGet("/:id")

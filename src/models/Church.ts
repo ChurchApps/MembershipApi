@@ -1,4 +1,3 @@
-import { Api } from '.'
 export class Church {
   public id?: string;
   public name: string;

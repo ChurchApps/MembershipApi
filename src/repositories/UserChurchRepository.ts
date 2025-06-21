@@ -1,6 +1,6 @@
-import { DB } from '@churchapps/apihelper';
-import { UserChurch } from '../models';
-import { UniqueIdHelper, DateHelper } from '../helpers';
+import { DB } from "@churchapps/apihelper";
+import { UserChurch } from "../models";
+import { UniqueIdHelper, DateHelper } from "../helpers";
 
 export class UserChurchRepository {
 
@@ -11,7 +11,7 @@ export class UserChurchRepository {
   private async create(userChurch: UserChurch) {
     userChurch.id = UniqueIdHelper.shortId();
     const { id, userId, churchId, personId } = userChurch;
-    const sql = `INSERT INTO userChurches (id, userId, churchId, personId, lastAccessed) values (?, ?, ?, ?, NOW())`;
+    const sql = "INSERT INTO userChurches (id, userId, churchId, personId, lastAccessed) values (?, ?, ?, ?, NOW())";
     const params = [id, userId, churchId, personId];
     await DB.query(sql, params);
     return userChurch;
@@ -26,12 +26,12 @@ export class UserChurchRepository {
   }
 
   public delete(userId: string) {
-    const query = "DELETE FROM userChurches WHERE userId=?"
-    return DB.query(query, [userId])
+    const query = "DELETE FROM userChurches WHERE userId=?";
+    return DB.query(query, [userId]);
   }
 
   public deleteRecord(userId: string, churchId: string, personId: string) {
-    const sql = "DELETE FROM userChurches WHERE userId=? AND churchId=? AND personId=?;"
+    const sql = "DELETE FROM userChurches WHERE userId=? AND churchId=? AND personId=?;";
     return DB.query(sql, [userId, churchId, personId]);
   }
 

@@ -2,8 +2,8 @@ import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } f
 import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest, LoginUserChurch, Group, RoleMember, User } from "../models";
 import express from "express";
 import { body, validationResult } from "express-validator";
-import { AuthenticatedUser } from '../auth';
-import { MembershipBaseController } from "./MembershipBaseController"
+import { AuthenticatedUser } from "../auth";
+import { MembershipBaseController } from "./MembershipBaseController";
 import { Utils, Permissions, ChurchHelper, RoleHelper, Environment, HubspotHelper, GeoHelper, PersonHelper, UserHelper } from "../helpers";
 import { Repositories } from "../repositories";
 import { ArrayHelper, EmailHelper } from "@churchapps/apihelper";
@@ -14,8 +14,8 @@ const churchRegisterValidation = [
   body("city").notEmpty().withMessage("Enter a city"),
   body("state").notEmpty().withMessage("Select a state"),
   body("zip").notEmpty().withMessage("Enter a zip"),
-  body("country").notEmpty().withMessage("Enter a country"),
-]
+  body("country").notEmpty().withMessage("Enter a country")
+];
 
 @controller("/churches")
 export class ChurchController extends MembershipBaseController {
@@ -36,15 +36,15 @@ export class ChurchController extends MembershipBaseController {
   @httpPost("/search")
   public async searchPost(req: express.Request<{}, {}, { name: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     try {
-      let result: Church[] = []
+      let result: Church[] = [];
       if (req.body.name !== undefined) {
         const data = await this.repositories.church.search(
           // decode URI encoded character e.g. replace %20 with ' '
           decodeURIComponent(
             // decode unicode characters '\uXXXX'
-            JSON.parse('"' + req.body.name.toString()
+            JSON.parse("\"" + req.body.name.toString()
               // prepare unicode characters '\uXXXX' for decoding
-              .replace(/%u/g, '\\u') + '"')
+              .replace(/%u/g, "\\u") + "\"")
           ), false);
         result = this.repositories.church.convertAllToModel(data);
         await ChurchHelper.appendLogos(result);
@@ -60,16 +60,16 @@ export class ChurchController extends MembershipBaseController {
   @httpGet("/search/")
   public async search(req: express.Request<{}, {}, []>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     try {
-      let result: Church[] = []
+      let result: Church[] = [];
       if (req.query.name !== undefined) {
         const app = (req.query.app === undefined) ? "" : req.query.app.toString();
         const data = await this.repositories.church.search(
           // decode URI encoded character e.g. replace %20 with ' '
           decodeURIComponent(
             // decode unicode characters '\uXXXX'
-            JSON.parse('"' + req.query.name.toString()
+            JSON.parse("\"" + req.query.name.toString()
               // prepare unicode characters '\uXXXX' for decoding
-              .replace(/%u/g, '\\u') + '"')
+              .replace(/%u/g, "\\u") + "\"")
           ), false);
         result = this.repositories.church.convertAllToModel(data);
         await ChurchHelper.appendLogos(result);
@@ -85,7 +85,7 @@ export class ChurchController extends MembershipBaseController {
   @httpGet("/lookup/")
   public async getBySubDomain(req: express.Request<{}, {}, RegistrationRequest>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     try {
-      let result = {}
+      let result = {};
       if (req.query.subDomain !== undefined) {
         const data = await this.repositories.church.loadBySubDomain(req.query.subDomain.toString());
         if (data) {
@@ -189,13 +189,13 @@ export class ChurchController extends MembershipBaseController {
 
         return churchWithAuth;
       }
-    })
+    });
   }
 
   @httpGet("/")
   public async loadForUser(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
-      const churches = await this.repositories.rolePermission.loadForUser(au.id, true)
+      const churches = await this.repositories.rolePermission.loadForUser(au.id, true);
       return this.json(churches, 200);
     });
   }
@@ -204,7 +204,7 @@ export class ChurchController extends MembershipBaseController {
   @httpPost("/byIds")
   public async loadByIds(req: express.Request<{}, {}, string[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
-      let result: Church[] = []
+      let result: Church[] = [];
       const ids = req.body;
       if (ids.length > 0) {
         const data = await this.repositories.church.loadByIds(ids);
@@ -312,8 +312,8 @@ export class ChurchController extends MembershipBaseController {
         church = await this.repositories.church.save(church);
 
         // Configure church
-        const instance = new RoleHelper(church.id, au.id)
-        await instance.init() // Setup roles and permissions
+        const instance = new RoleHelper(church.id, au.id);
+        await instance.init(); // Setup roles and permissions
 
         if (Environment.emailOnRegistration) {
           await EmailHelper.sendTemplatedEmail(Environment.supportEmail, Environment.supportEmail, church.appName, null, "New Church Registration", "<h2>" + church.name + "</h2><h3>App: " + (church.appName || "unknown") + "</h3>");
@@ -321,8 +321,8 @@ export class ChurchController extends MembershipBaseController {
 
         try {
           if (Environment.hubspotKey) await HubspotHelper.register(church.id, church.name, au.firstName, au.lastName, church.address1, church.city, church.state, church.zip, church.country, au.email, church.appName);
-        } catch (ex) {
-          console.log(ex);
+        } catch (_ex) {
+          // Hubspot registration failed - continuing without error
         }
         return church;
       }
@@ -349,19 +349,19 @@ export class ChurchController extends MembershipBaseController {
         const selectedChurch: Church = await this.repositories.church.loadBySubDomain(req.body.subDomain);
         churchId = selectedChurch.id;
       }
-      const userChurch = await this.fetchChurchPermissions(au, churchId)
+      const userChurch = await this.fetchChurchPermissions(au, churchId);
       const user = await this.repositories.user.load(au.id);
 
       const data = await AuthenticatedUser.login([userChurch], user);
       return this.json(data.userChurches[0], 200);
-    })
+    });
   }
 
   private async appendPersonInfo(userChurch: LoginUserChurch, au: AuthenticatedUser, churchId: string) {
     const uc = (await PersonHelper.claim(au, churchId)).userChurch;
     const p = await Repositories.getCurrent().person.load(uc.churchId, uc.personId);
     const groups: Group[] = await this.repositories.group.loadForPerson(uc.personId);
-    userChurch.person = { id: p.id, membershipStatus: p.membershipStatus }
+    userChurch.person = { id: p.id, membershipStatus: p.membershipStatus };
     userChurch.groups = [];
     groups.forEach(g => userChurch.groups.push({ id: g.id, tags: g.tags, name: g.name, leader: false }));
   }
@@ -389,7 +389,7 @@ export class ChurchController extends MembershipBaseController {
         result.apis.push(currentApi);
       }
 
-      const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType }
+      const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType };
       currentApi.permissions.push(permission);
     });
 

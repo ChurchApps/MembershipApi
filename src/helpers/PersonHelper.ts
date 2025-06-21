@@ -1,15 +1,15 @@
 import { Repositories } from "../repositories";
 import { Household, Person, UserChurch } from "../models";
 import { AuthenticatedUser } from "../auth";
-import { Permissions } from '../helpers/Permissions'
-import { PersonHelper as BasePersonHelper } from "@churchapps/apihelper"
+import { Permissions } from "../helpers/Permissions";
+import { PersonHelper as BasePersonHelper } from "@churchapps/apihelper";
 
 export class PersonHelper extends BasePersonHelper {
 
   public static async getPerson(churchId: string, email: string, firstName: string, lastName: string, canEdit: boolean) {
     const data: Person[] = await Repositories.getCurrent().person.searchEmail(churchId, email);
     if (data.length === 0) {
-      const household: Household = { churchId, name: lastName }
+      const household: Household = { churchId, name: lastName };
       await Repositories.getCurrent().household.save(household);
       let newPerson: Person = {
         churchId,
@@ -18,7 +18,7 @@ export class PersonHelper extends BasePersonHelper {
         name: { first: firstName, last: lastName },
         membershipStatus: "Guest",
         contactInfo: { email }
-      }
+      };
       newPerson = await Repositories.getCurrent().person.save(newPerson);
       data.push(await Repositories.getCurrent().person.load(newPerson.churchId, newPerson.id));
     }
@@ -46,7 +46,7 @@ export class PersonHelper extends BasePersonHelper {
         userId: au.id,
         churchId,
         personId: person.id
-      }
+      };
 
       let existing: UserChurch = await Repositories.getCurrent().userChurch.loadByUserId(au.id, churchId);
       if (!existing) {

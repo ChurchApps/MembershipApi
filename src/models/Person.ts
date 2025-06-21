@@ -1,6 +1,6 @@
-import { ContactInfo, } from "./ContactInfo"
-import { Name } from "./Name"
-import { FormSubmission } from "../models/FormSubmission"
+import { ContactInfo } from "./ContactInfo";
+import { Name } from "./Name";
+import { FormSubmission } from "../models/FormSubmission";
 
 export class Person {
   public id?: string;

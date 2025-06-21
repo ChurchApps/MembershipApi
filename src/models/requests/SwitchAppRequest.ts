@@ -1,4 +1,4 @@
 export type SwitchAppRequest = {
-    appName: string;
-    churchId: number;
+  appName: string;
+  churchId: number;
 };

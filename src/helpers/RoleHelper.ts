@@ -10,8 +10,8 @@ export class RoleHelper {
 
   public async init() {
     await this.createDomainAdminRole();
-    await this.createAllMembersRole()
-    await this.createEveryoneRole()
+    await this.createAllMembersRole();
+    await this.createEveryoneRole();
     // await this.createChumsRole()
     // await this.createB1Role()
     // await this.createLessonsRole()
@@ -20,7 +20,7 @@ export class RoleHelper {
   }
 
   private async createRole(name: string, permissions: RolePermission[]): Promise<string> {
-    let role: Role = {}
+    let role: Role = {};
     if (name) {
       role = await this.repositories.role.save({ churchId: this.churchId, name });
     }
@@ -55,25 +55,25 @@ export class RoleHelper {
     ]);*/
 
     const roleId: string = await this.createRole("Domain Admins", [
-      { apiName: "MembershipApi", contentType: "Domain", action: "Admin" },
+      { apiName: "MembershipApi", contentType: "Domain", action: "Admin" }
     ]);
 
-    await this.createRoleMember(roleId)
+    await this.createRoleMember(roleId);
   }
 
   private async createAllMembersRole() {
     const roleId: string = await this.createRole("All Members", [
       { apiName: "MembershipApi", contentType: "People", action: "View Members" }
-    ])
+    ]);
 
-    await this.createRoleMember(roleId)
+    await this.createRoleMember(roleId);
   }
 
   private async createEveryoneRole() {
     await this.createRole("", [
       { apiName: "MembershipApi", contentType: "People", action: "Edit Self", roleId: null },
       { apiName: "AttendanceApi", contentType: "Attendance", action: "Checkin", roleId: null }
-    ])
+    ]);
   }
 
   private async createChumsRole() {
@@ -98,9 +98,9 @@ export class RoleHelper {
       { apiName: "MembershipApi", contentType: "People", action: "Edit Self" },
       { apiName: "MembershipApi", contentType: "People", action: "View Members" },
       { apiName: "MembershipApi", contentType: "People", action: "View" }
-    ])
+    ]);
 
-    await this.createRoleMember(roleId)
+    await this.createRoleMember(roleId);
   }
 
   private async createB1Role() {
@@ -123,35 +123,35 @@ export class RoleHelper {
       { apiName: "GivingApi", contentType: "Donations", action: "View Summary" },
       { apiName: "GivingApi", contentType: "Donations", action: "View" },
       { apiName: "GivingApi", contentType: "Settings", action: "View" }
-    ])
+    ]);
 
-    await this.createRoleMember(roleId)
+    await this.createRoleMember(roleId);
   }
 
   private async createLessonsRole() {
     const roleId: string = await this.createRole("Lessons Admins", [
       { apiName: "LessonsApi", contentType: "Schedules", action: "Edit" }
-    ])
+    ]);
 
-    await this.createRoleMember(roleId)
+    await this.createRoleMember(roleId);
   }
 
   private async createWebsiteAdminRole() {
     const roleId: string = await this.createRole("Website Admins", [
       { apiName: "ContentApi", contentType: "Links", action: "Edit" },
       { apiName: "ContentApi", contentType: "Content", action: "Edit" }
-    ])
+    ]);
 
-    await this.createRoleMember(roleId)
+    await this.createRoleMember(roleId);
   }
 
 
   private async createStreamingHostRole() {
     const roleId: string = await this.createRole("Streaming Hosts", [
       { apiName: "ContentApi", contentType: "Chat", action: "Host" }
-    ])
+    ]);
 
-    await this.createRoleMember(roleId)
+    await this.createRoleMember(roleId);
   }
 
 }

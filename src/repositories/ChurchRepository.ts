@@ -54,13 +54,13 @@ export class ChurchRepository {
     return result;
   }
 
-  public async getAbandoned(noMonths: number = 6) {
+  public async getAbandoned(noMonths = 6) {
     const sql = "SELECT churchId FROM (SELECT churchId, MAX(lastAccessed) lastAccessed FROM userChurches GROUP BY churchId) groupedChurches WHERE lastAccessed <= DATE_SUB(NOW(), INTERVAL " + noMonths + " MONTH);";
     const rows = await DB.query(sql, []);
     return rows;
   }
 
-  public async deleteAbandoned(noMonths: number = 7) {
+  public async deleteAbandoned(noMonths = 7) {
     const sql = "DELETE churches FROM churches LEFT JOIN (SELECT churchId, MAX(lastAccessed) lastAccessed FROM userChurches GROUP BY churchId) groupedChurches ON churches.id = groupedChurches.churchId WHERE groupedChurches.lastAccessed <= DATE_SUB(NOW(), INTERVAL " + noMonths + " MONTH);";
     return await DB.query(sql, []);
   }
@@ -72,14 +72,14 @@ export class ChurchRepository {
   private async create(church: Church) {
     church.id = UniqueIdHelper.shortId();
     const sql = "INSERT INTO churches (id, name, subDomain, registrationDate, address1, address2, city, state, zip, country, archivedDate, latitude, longitude) VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    const params = [church.id, church.name, church.subDomain, church.address1, church.address2, church.city, church.state, church.zip, church.country, church.archivedDate, church.latitude, church.longitude]
+    const params = [church.id, church.name, church.subDomain, church.address1, church.address2, church.city, church.state, church.zip, church.country, church.archivedDate, church.latitude, church.longitude];
     await DB.query(sql, params);
     return church;
   }
 
   private async update(church: Church) {
     const sql = "UPDATE churches SET name=?, subDomain=?, address1=?, address2=?, city=?, state=?, zip=?, country=?, archivedDate=?, latitude=?, longitude=? WHERE id=?;";
-    const params = [church.name, church.subDomain, church.address1, church.address2, church.city, church.state, church.zip, church.country, church.archivedDate, church.latitude, church.longitude, church.id]
+    const params = [church.name, church.subDomain, church.address1, church.address2, church.city, church.state, church.zip, church.country, church.archivedDate, church.latitude, church.longitude, church.id];
     await DB.query(sql, params);
     return church;
   }

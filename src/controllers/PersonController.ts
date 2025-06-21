@@ -1,10 +1,10 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
-import { MembershipBaseController } from "./MembershipBaseController"
-import { Person, Household, SearchCondition, Group, VisibilityPreference } from "../models"
-import { FormSubmission, Form } from "../models"
-import { ArrayHelper, Environment, FileStorageHelper, PersonHelper } from "../helpers"
-import { Permissions } from '../helpers/Permissions'
+import { MembershipBaseController } from "./MembershipBaseController";
+import { Person, Household, SearchCondition, Group, VisibilityPreference } from "../models";
+import { FormSubmission, Form } from "../models";
+import { ArrayHelper, Environment, FileStorageHelper, PersonHelper } from "../helpers";
+import { Permissions } from "../helpers/Permissions";
 import { AuthenticatedUser, EmailHelper } from "@churchapps/apihelper";
 
 @controller("/people")
@@ -89,7 +89,7 @@ export class PersonController extends MembershipBaseController {
     return this.actionWrapperAnon(req, res, async () => {
       const { churchId, email, firstName, lastName } = req.body;
       const person: Person = await PersonHelper.getPerson(churchId, email, firstName, lastName, false);
-      return { id: person.id, name: person.name, contactInfo: person.contactInfo }
+      return { id: person.id, name: person.name, contactInfo: person.contactInfo };
     });
   }
 
@@ -108,7 +108,7 @@ export class PersonController extends MembershipBaseController {
         const dbPeople = await this.repositories.person.loadByHousehold(au.churchId, householdId);
         dbPeople.forEach((dbPerson: Person) => {
           let match = false;
-          req.body.forEach(person => { if (person.id === dbPerson.id) match = true; })
+          req.body.forEach(person => { if (person.id === dbPerson.id) match = true; });
           if (!match) {
             const p = this.repositories.person.convertToModel(au.churchId, dbPerson, au.checkAccess(Permissions.people.edit));
             p.churchId = au.churchId;
@@ -177,7 +177,7 @@ export class PersonController extends MembershipBaseController {
         const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
       }
-    })
+    });
   }
 
   @httpGet("/search")
@@ -203,11 +203,11 @@ export class PersonController extends MembershipBaseController {
   @httpGet("/basic")
   public async getBasic(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      const idList = req.query.ids.toString().split(',');
+      const idList = req.query.ids.toString().split(",");
       const ids: string[] = [];
       idList.forEach(id => ids.push(id));
       const data = await this.repositories.person.loadByIds(au.churchId, ids);
-      const result = this.repositories.person.convertAllToBasicModel(au.churchId, data)
+      const result = this.repositories.person.convertAllToBasicModel(au.churchId, data);
       return this.filterPeople(result, au);
     });
   }
@@ -236,7 +236,7 @@ export class PersonController extends MembershipBaseController {
           return result;
         }
       }
-    })
+    });
   }
 
   @httpGet("/ids")
@@ -244,11 +244,11 @@ export class PersonController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.people.view) && ! await this.isMember(au.membershipStatus)) return this.json({}, 401);
       else {
-        const idList = req.query.ids.toString().split(',');
+        const idList = req.query.ids.toString().split(",");
         const ids: string[] = [];
         idList.forEach(id => ids.push(id));
         const data = await this.repositories.person.loadByIds(au.churchId, ids);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit))
+        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
       }
     });
@@ -261,7 +261,7 @@ export class PersonController extends MembershipBaseController {
       else {
         const data = await this.repositories.person.load(au.churchId, id);
         if (!data) return null;
-        const result = this.repositories.person.convertToModel(au.churchId, data, au.checkAccess(Permissions.people.edit))
+        const result = this.repositories.person.convertToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         await this.appendFormSubmissions(au.churchId, result);
         return result;
       }
@@ -339,7 +339,7 @@ export class PersonController extends MembershipBaseController {
               break;
           }
 
-        })
+        });
         const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
         return this.filterPeople(result, au);
       }
@@ -349,7 +349,7 @@ export class PersonController extends MembershipBaseController {
   @httpPost("/")
   public async save(req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      let isSelfPermissionValid: boolean = false;
+      let isSelfPermissionValid = false;
       if (au.checkAccess(Permissions.people.editSelf)) {
         isSelfPermissionValid = req.body[0].id === au.personId;
       }
@@ -387,9 +387,9 @@ export class PersonController extends MembershipBaseController {
 
 
   private async savePhoto(churchId: string, person: Person) {
-    const base64 = person.photo.split(',')[1];
+    const base64 = person.photo.split(",")[1];
     const key = "/" + churchId + "/membership/people/" + person.id + ".png";
-    return FileStorageHelper.store(key, "image/png", Buffer.from(base64, 'base64')).then(async () => {
+    return FileStorageHelper.store(key, "image/png", Buffer.from(base64, "base64")).then(async () => {
       person.photoUpdated = new Date();
       person.photo = key + "?dt=" + person.photoUpdated.getTime().toString();
       await this.repositories.person.save(person);
@@ -400,14 +400,14 @@ export class PersonController extends MembershipBaseController {
     const submissions: FormSubmission[] = this.repositories.formSubmission.convertAllToModel(churchId, await this.repositories.formSubmission.loadForContent(churchId, "person", person.id));
     if (submissions.length > 0) {
       const formIds: string[] = [];
-      submissions.forEach(s => { if (formIds.indexOf(s.formId) === -1) formIds.push(s.formId) });
+      submissions.forEach(s => { if (formIds.indexOf(s.formId) === -1) formIds.push(s.formId); });
       const forms: Form[] = this.repositories.form.convertAllToModel(churchId, await this.repositories.form.loadByIds(churchId, formIds));
 
       person.formSubmissions = [];
       submissions.forEach(s => {
         forms.forEach(f => { if (f.id === s.formId) s.form = f; });
         if (s.form !== undefined) person.formSubmissions.push(s);
-      })
+      });
     }
   }
 
@@ -415,7 +415,7 @@ export class PersonController extends MembershipBaseController {
     if (au.checkAccess(Permissions.people.view)) return people;
     else {
       const result: Person[] = [];
-      people.forEach(p => { if (p.membershipStatus === "Member" || p.membershipStatus === "Staff") result.push(p) });
+      people.forEach(p => { if (p.membershipStatus === "Member" || p.membershipStatus === "Staff") result.push(p); });
       return result;
     }
   }
@@ -470,15 +470,13 @@ export class PersonController extends MembershipBaseController {
   }
 
   private async getPreferences (churchId: string, personId: string) {
-    let pref: { address: string, phone: string, email: string };
-
     const personPreferences: VisibilityPreference = await this.repositories.visibilityPreference.loadForPerson(churchId, personId);
-    pref = { address: personPreferences?.address, phone: personPreferences?.phoneNumber, email: personPreferences?.email }
+    const pref = { address: personPreferences?.address, phone: personPreferences?.phoneNumber, email: personPreferences?.email };
 
-    if (!personPreferences || !personPreferences?.address || !personPreferences?.phoneNumber || !personPreferences?.email) {
+    if (!personPreferences?.address || !personPreferences?.phoneNumber || !personPreferences?.email) {
       const churchSettings = this.repositories.setting.convertAllToModel(churchId, await this.repositories.setting.loadPublicSettings(churchId));
-      const publicSettings: any = {}
-      churchSettings?.forEach((s: any) => { publicSettings[s.keyName] = s.value });
+      const publicSettings: any = {};
+      churchSettings?.forEach((s: any) => { publicSettings[s.keyName] = s.value; });
 
       if (!pref.address || pref.address === "") {
         if (publicSettings?.addressVisibility && publicSettings.addressVisibility !== "") pref.address = publicSettings.addressVisibility;

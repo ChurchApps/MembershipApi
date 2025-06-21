@@ -20,14 +20,14 @@ export class UserHelper {
       );
 
       if (!existing) {
-        const permission: RolePermission = { action: perm.action, contentType: perm.section, contentId: "" }
+        const permission: RolePermission = { action: perm.action, contentType: perm.section, contentId: "" };
         api.permissions.push(permission);
       }
     });
   }
 
   public static addAllReportingPermissions(lucs: LoginUserChurch[]) {
-    lucs.forEach(luc => { this.addReportingPermissions(luc) });
+    lucs.forEach(luc => { this.addReportingPermissions(luc); });
   }
 
   private static addReportingPermissions(luc: LoginUserChurch) {

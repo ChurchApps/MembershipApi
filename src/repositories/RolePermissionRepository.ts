@@ -1,12 +1,12 @@
 import { DB } from "@churchapps/apihelper";
-import { RolePermission, Church, Api, UserChurch, LoginUserChurch } from "../models";
+import { RolePermission, Api, LoginUserChurch } from "../models";
 import { UniqueIdHelper } from "../helpers";
 import { ArrayHelper } from "@churchapps/apihelper";
 
 export class RolePermissionRepository {
 
   public save(rolePermission: RolePermission) {
-    return rolePermission.id ? this.update(rolePermission) : this.create(rolePermission)
+    return rolePermission.id ? this.update(rolePermission) : this.create(rolePermission);
   }
 
   private async create(rolePermission: RolePermission) {
@@ -25,13 +25,13 @@ export class RolePermissionRepository {
   }
 
   public deleteForRole(churchId: string, roleId: string) {
-    const sql = "DELETE FROM rolePermissions WHERE churchId=? AND roleId=?"
+    const sql = "DELETE FROM rolePermissions WHERE churchId=? AND roleId=?";
     const params = [churchId, roleId];
     return DB.query(sql, params);
   }
 
   public delete(churchId: string, id: string) {
-    const sql = "DELETE FROM rolePermissions WHERE churchId=? AND id=?"
+    const sql = "DELETE FROM rolePermissions WHERE churchId=? AND id=?";
     const params = [churchId, id];
     return DB.query(sql, params);
   }
@@ -62,7 +62,7 @@ export class RolePermissionRepository {
         };
         result.push(currentUserChurch);
         currentApi = null;
-        reportingApi = { keyName: "ReportingApi", permissions: [] }
+        reportingApi = { keyName: "ReportingApi", permissions: [] };
         currentUserChurch.apis.push(reportingApi);
       }
       if (currentApi === null || row.apiName !== currentApi.keyName) {
@@ -70,7 +70,7 @@ export class RolePermissionRepository {
         currentUserChurch.apis.push(currentApi);
       }
 
-      const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType }
+      const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType };
       currentApi.permissions.push(permission);
 
       // const reportingPermission = { ...permission, apiName: row.apiName };
@@ -95,7 +95,7 @@ export class RolePermissionRepository {
       + " WHERE c.id=?"
       + " GROUP BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action"
       + " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action";
-    const data = await DB.query(query, [churchId])
+    const data = await DB.query(query, [churchId]);
     let result: LoginUserChurch = null;
     let currentApi: Api = null;
     data.forEach((row: any) => {
@@ -108,11 +108,11 @@ export class RolePermissionRepository {
         currentApi = { keyName: row.apiName, permissions: [] };
         result.apis.push(currentApi);
         // Apply universal permissions
-        if (univeralChurch !== null) univeralChurch.apis.forEach(universalApi => { if (universalApi.keyName === currentApi.keyName) universalApi.permissions.forEach(perm => { currentApi.permissions.push(perm) }); });
+        if (univeralChurch !== null) univeralChurch.apis.forEach(universalApi => { if (universalApi.keyName === currentApi.keyName) universalApi.permissions.forEach(perm => { currentApi.permissions.push(perm); }); });
 
       }
 
-      const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType }
+      const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType };
       currentApi.permissions.push(permission);
     });
     /*
@@ -152,7 +152,7 @@ export class RolePermissionRepository {
         result.apis.push(currentApi);
       }
 
-      const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType }
+      const permission: RolePermission = { action: row.action, contentId: row.contentId, contentType: row.contentType };
       currentApi.permissions.push(permission);
     });
 
@@ -169,7 +169,7 @@ export class RolePermissionRepository {
         const api = ArrayHelper.getOne(currentUserChurch.apis, "keyName", universalApi.keyName);
         if (api === null) currentUserChurch.apis.push({ ...universalApi });
         else {
-          universalApi.permissions.forEach(perm => { api.permissions.push(perm) });
+          universalApi.permissions.forEach(perm => { api.permissions.push(perm); });
         }
       });
     }

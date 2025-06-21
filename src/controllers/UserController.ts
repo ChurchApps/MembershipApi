@@ -2,13 +2,13 @@ import { controller, httpDelete, httpPost, interfaces } from "inversify-express-
 import express from "express";
 import bcrypt from "bcryptjs";
 import { body, oneOf, validationResult } from "express-validator";
-import { LoginRequest, User, ResetPasswordRequest, LoadCreateUserRequest, RegisterUserRequest, Church, EmailPassword, NewPasswordRequest, UserChurch, LoginUserChurch } from "../models";
+import { LoginRequest, User, ResetPasswordRequest, LoadCreateUserRequest, RegisterUserRequest, Church, EmailPassword, NewPasswordRequest, LoginUserChurch } from "../models";
 import { AuthenticatedUser } from "../auth";
-import { MembershipBaseController } from "./MembershipBaseController"
+import { MembershipBaseController } from "./MembershipBaseController";
 import { EmailHelper, UserHelper, UniqueIdHelper, Environment } from "../helpers";
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 import { ChurchHelper } from "../helpers";
-import { ArrayHelper } from "@churchapps/apihelper"
+import { ArrayHelper } from "@churchapps/apihelper";
 
 const emailPasswordValidation = [
   body("email").isEmail().trim().normalizeEmail({ gmail_remove_dots: false }).withMessage("enter a valid email address"),
@@ -19,33 +19,33 @@ const loadOrCreateValidation = [
   oneOf([
     [
       body("userEmail").exists().isEmail().withMessage("enter a valid email address").trim().normalizeEmail({ gmail_remove_dots: false }),
-      body('firstName').exists().withMessage("enter first name").not().isEmpty().trim().escape(),
-      body('lastName').exists().withMessage("enter last name").not().isEmpty().trim().escape()
+      body("firstName").exists().withMessage("enter first name").not().isEmpty().trim().escape(),
+      body("lastName").exists().withMessage("enter last name").not().isEmpty().trim().escape()
     ],
     body("userId").exists().withMessage("enter userId").isString()
   ])
-]
+];
 
 const registerValidation = [
   oneOf([
     [
       body("email").exists().isEmail().withMessage("enter a valid email address").trim().normalizeEmail({ gmail_remove_dots: false }),
-      body('firstName').exists().withMessage("enter first name").not().isEmpty().trim().escape(),
-      body('lastName').exists().withMessage("enter last name").not().isEmpty().trim().escape()
-    ],
+      body("firstName").exists().withMessage("enter first name").not().isEmpty().trim().escape(),
+      body("lastName").exists().withMessage("enter last name").not().isEmpty().trim().escape()
+    ]
   ])
-]
+];
 
 const setDisplayNameValidation = [
   body("userId").optional().isString(),
-  body('firstName').exists().withMessage("enter first name").not().isEmpty().trim().escape(),
-  body('lastName').exists().withMessage("enter last name").not().isEmpty().trim().escape()
-]
+  body("firstName").exists().withMessage("enter first name").not().isEmpty().trim().escape(),
+  body("lastName").exists().withMessage("enter last name").not().isEmpty().trim().escape()
+];
 
 const updateEmailValidation = [
   body("userId").optional().isString(),
   body("email").isEmail().trim().normalizeEmail({ gmail_remove_dots: false }).withMessage("enter a valid email address")
-]
+];
 
 @controller("/users")
 export class UserController extends MembershipBaseController {
@@ -101,7 +101,7 @@ export class UserController extends MembershipBaseController {
 
     const start = new Date();
     // Load user churches via Roles
-    const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true)  // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
+    const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true);  // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
 
 
     UserHelper.replaceDomainAdminPermissions(roleUserChurches);
@@ -115,7 +115,7 @@ export class UserController extends MembershipBaseController {
     });
 
     const peopleIds: string[] = [];
-    roleUserChurches.forEach(uc => { if (uc.person.id) peopleIds.push(uc.person.id) })
+    roleUserChurches.forEach(uc => { if (uc.person.id) peopleIds.push(uc.person.id); });
 
     const allPeople = (peopleIds.length > 0) ? await this.repositories.person.loadByIdsOnly(peopleIds) : [];
     const allGroups = (peopleIds.length > 0) ? await this.repositories.groupMember.loadForPeople(peopleIds) : [];
@@ -148,13 +148,13 @@ export class UserController extends MembershipBaseController {
       if (!passwordMatched) {
         return this.denyAccess(["Incorrect password"]);
       }
-      const userChurches = await this.repositories.rolePermission.loadForUser(user.id, false)
+      const userChurches = await this.repositories.rolePermission.loadForUser(user.id, false);
       const churchNames = userChurches.map(uc => uc.church.name);
 
       return this.json({ churches: churchNames }, 200);
     } catch (e) {
       this.logger.error(e);
-      return this.error([e.toString()])
+      return this.error([e.toString()]);
     }
   }
 
@@ -226,7 +226,7 @@ export class UserController extends MembershipBaseController {
             await EmailHelper.sendTemplatedEmail(Environment.supportEmail, Environment.supportEmail, register.appName, register.appUrl, "New User Registration", emailBody);
           }
         } catch (err) {
-          return this.json({ errors: [err.toString()] })
+          return this.json({ errors: [err.toString()] });
           // return this.json({ errors: ["Email address does not exist."] })
         }
         const userCount = await this.repositories.user.loadCount();
@@ -237,7 +237,7 @@ export class UserController extends MembershipBaseController {
         if (userCount === 0) {
           this.repositories.role.loadAll().then(roles => {
             this.repositories.roleMember.save({ roleId: roles[0].id, userId: user.id, addedBy: user.id });
-          })
+          });
         }
 
       }
@@ -253,7 +253,7 @@ export class UserController extends MembershipBaseController {
       if (user !== null) {
         user.authGuid = "";
         const hashedPass = bcrypt.hashSync(req.body.newPassword, 10);
-        user.password = hashedPass
+        user.password = hashedPass;
         await this.repositories.user.save(user);
         return { success: true };
       } else return { success: false };
@@ -348,7 +348,7 @@ export class UserController extends MembershipBaseController {
       let user = await this.repositories.user.load(au.id);
       if (user !== null) {
         const hashedPass = bcrypt.hashSync(req.body.newPassword, 10);
-        user.password = hashedPass
+        user.password = hashedPass;
         user = await this.repositories.user.save(user);
       }
       user.password = null;
@@ -363,7 +363,7 @@ export class UserController extends MembershipBaseController {
       await this.repositories.userChurch.delete(au.id);
       await this.repositories.roleMember.deleteUser(au.id);
       return this.json({});
-    })
+    });
   }
 
 }

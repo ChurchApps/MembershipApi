@@ -35,7 +35,7 @@ export class PersonRepository {
     const params = [
       optedOut,
       personId
-    ]
+    ];
     return DB.query(sql, params);
   }
 
@@ -150,7 +150,7 @@ export class PersonRepository {
       contactInfo: { address1: data.address1, address2: data.address2, city: data.city, state: data.state, zip: data.zip, homePhone: data.homePhone, workPhone: data.workPhone, email: data.email, mobilePhone: data.mobilePhone },
       photo: data.photo, anniversary: data.anniversary, birthDate: data.birthDate, gender: data.gender, householdId: data.householdId, householdRole: data.householdRole, maritalStatus: data.maritalStatus, nametagNotes: data.nametagNotes,
       membershipStatus: data.membershipStatus, photoUpdated: data.photoUpdated, id: data.id, importKey: data.importKey, optedOut: data.optedOut
-    }
+    };
     if (canEdit) result.conversationId = data.conversationId;
     if (result.photo === undefined) result.photo = PersonHelper.getPhotoPath(churchId, result);
     return result;
@@ -176,7 +176,7 @@ export class PersonRepository {
       photoUpdated: data.photoUpdated,
       membershipStatus: data.membershipStatus,
       id: data.id
-    }
+    };
     if (result.photo === undefined) result.photo = PersonHelper.getPhotoPath(churchId, result);
     return result;
   }
@@ -189,7 +189,7 @@ export class PersonRepository {
       photoUpdated: data.photoUpdated,
       membershipStatus: data.membershipStatus,
       id: data.id
-    }
+    };
     if (result.photo === undefined) result.photo = PersonHelper.getPhotoPath(churchId, result);
     return result;
   }

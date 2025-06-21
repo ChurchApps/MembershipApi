@@ -1,1 +1,1 @@
-export { AuthenticatedUser } from "./AuthenticatedUser"
+export { AuthenticatedUser } from "./AuthenticatedUser";

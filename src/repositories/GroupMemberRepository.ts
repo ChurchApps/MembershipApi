@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { DB } from "@churchapps/apihelper";
 import { GroupMember } from "../models";
-import { PersonHelper } from "../helpers"
+import { PersonHelper } from "../helpers";
 import { UniqueIdHelper } from "../helpers";
 
 @injectable()
@@ -43,7 +43,7 @@ export class GroupMemberRepository {
       + " FROM groupMembers gm"
       + " INNER JOIN people p on p.id=gm.personId"
       + " WHERE gm.churchId=? AND gm.groupId=?"
-      + " ORDER BY gm.leader desc, p.lastName, p.firstName;"
+      + " ORDER BY gm.leader desc, p.lastName, p.firstName;";
     return DB.query(sql, [churchId, groupId]);
   }
 
@@ -52,7 +52,7 @@ export class GroupMemberRepository {
       + " FROM groupMembers gm"
       + " INNER JOIN people p on p.id=gm.personId"
       + " WHERE gm.churchId=? AND gm.groupId=? and gm.leader=1"
-      + " ORDER BY p.lastName, p.firstName;"
+      + " ORDER BY p.lastName, p.firstName;";
     return DB.query(sql, [churchId, groupId]);
   }
 
@@ -61,7 +61,7 @@ export class GroupMemberRepository {
       + " FROM groupMembers gm"
       + " INNER JOIN people p on p.id=gm.personId"
       + " WHERE gm.churchId=? AND gm.groupId IN (?)"
-      + " ORDER BY gm.leader desc, p.lastName, p.firstName;"
+      + " ORDER BY gm.leader desc, p.lastName, p.firstName;";
     return DB.query(sql, [churchId, groupIds]);
   }
 
@@ -70,7 +70,7 @@ export class GroupMemberRepository {
       + " FROM groupMembers gm"
       + " INNER JOIN `groups` g on g.Id=gm.groupId"
       + " WHERE gm.churchId=? AND gm.personId=? AND g.removed=0"
-      + " ORDER BY g.name;"
+      + " ORDER BY g.name;";
     return DB.query(sql, [churchId, personId]);
   }
 
@@ -78,13 +78,13 @@ export class GroupMemberRepository {
     const sql = "SELECT gm.*, g.name, g.tags"
       + " FROM groupMembers gm"
       + " INNER JOIN `groups` g on g.Id=gm.groupId"
-      + " WHERE gm.personId IN (?);"
+      + " WHERE gm.personId IN (?);";
     return DB.query(sql, [peopleIds]);
   }
 
 
   public convertToModel(churchId: string, data: any) {
-    const result: GroupMember = { id: data.id, groupId: data.groupId, personId: data.personId, joinDate: data.joinDate, leader: data.leader }
+    const result: GroupMember = { id: data.id, groupId: data.groupId, personId: data.personId, joinDate: data.joinDate, leader: data.leader };
     if (data.displayName !== undefined) {
       result.person = { id: result.personId, photoUpdated: data.photoUpdated, name: { display: data.displayName }, contactInfo: { email: data.email } };
       result.person.photo = PersonHelper.getPhotoPath(churchId, result.person);
@@ -112,7 +112,7 @@ export class GroupMemberRepository {
       groupId: data.groupId,
       personId: data.personId,
       displayName: data.displayName
-    }
+    };
     return result;
   }
 

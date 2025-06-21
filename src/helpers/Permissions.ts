@@ -13,22 +13,22 @@ export class Permissions extends BasePermissions {
     viewMembers: { contentType: "People", action: "View Members" },
     edit: { contentType: "People", action: "Edit" },
     editSelf: { contentType: "People", action: "Edit Self" }
-  }
+  };
   static forms = {
     admin: { contentType: "Forms", action: "Admin" },
     edit: { contentType: "Forms", action: "Edit" }
   };
   static plans = {
-    edit: { contentType: "Plans", action: "Edit" },
+    edit: { contentType: "Plans", action: "Edit" }
   };
 
   static server = {
-    admin: { contentType: "Server", action: "Admin" },
+    admin: { contentType: "Server", action: "Admin" }
   };
 
   static roles = {
     edit: { contentType: "Roles", action: "Edit" },
-    view: { contentType: "Roles", action: "View" },
+    view: { contentType: "Roles", action: "View" }
   };
 }
 
@@ -61,8 +61,8 @@ export const permissionsList: IPermission[] = [
   { apiName: "ContentApi", section: "Content", action: "Edit", displaySection: "Content", displayAction: "Edit Content" },
   { apiName: "ContentApi", section: "Settings", action: "Edit", displaySection: "Content", displayAction: "Edit Settings" },
   { apiName: "ContentApi", section: "StreamingServices", action: "Edit", displaySection: "Content", displayAction: "Edit Services" },
-  { apiName: "ContentApi", section: "Chat", action: "Host", displaySection: "Content", displayAction: "Host Chat" },
-]
+  { apiName: "ContentApi", section: "Chat", action: "Host", displaySection: "Content", displayAction: "Host Chat" }
+];
 
 interface IPermission {
   apiName: ApiName;

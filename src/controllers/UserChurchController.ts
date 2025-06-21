@@ -2,8 +2,6 @@ import { controller, httpDelete, httpGet, httpPatch, httpPost, requestParam } fr
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
 import { UserChurch } from "../models";
-import jwt from "jsonwebtoken";
-import { Environment } from "../helpers";
 
 
 @controller("/userchurch")
@@ -16,7 +14,7 @@ export class UserChurchController extends MembershipBaseController {
       await this.repositories.accessLog.create({ appName: appName || "", churchId, userId });
       const existing = await this.repositories.userChurch.loadByUserId(userId, churchId);
       if (!existing) {
-        return this.json({ message: 'No church found for user' }, 400);
+        return this.json({ message: "No church found for user" }, 400);
       } else {
         const updatedUserChrurch: UserChurch = {
           id: existing?.id,
@@ -24,11 +22,11 @@ export class UserChurchController extends MembershipBaseController {
           personId: existing.personId,
           churchId,
           lastAccessed: new Date()
-        }
+        };
         await this.repositories.userChurch.save(updatedUserChrurch);
       }
       return existing;
-    })
+    });
   }
 
   @httpPost("/")
@@ -36,20 +34,20 @@ export class UserChurchController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       const userId = req.query.userId || au.id;
       const record = await this.repositories.userChurch.loadByUserId(userId, au.churchId);
-      let result: any = {}
+      let result: any = {};
       if (record) {
-        if (record.userId !== userId) return this.json({ message: 'User already has a linked person record' }, 400);
+        if (record.userId !== userId) return this.json({ message: "User already has a linked person record" }, 400);
       } else {
         const userChurch: UserChurch = {
           userId,
           churchId: au.churchId,
           personId: req.body.personId
-        }
+        };
         const data = await this.repositories.userChurch.save(userChurch);
-        result = this.repositories.userChurch.convertToModel(data)
+        result = this.repositories.userChurch.convertToModel(data);
       }
       return result;
-    })
+    });
   }
 
   @httpGet("/userid/:userId")
@@ -57,7 +55,7 @@ export class UserChurchController extends MembershipBaseController {
     return this.actionWrapper(req, res, async ({ churchId }) => {
       const record = await this.repositories.userChurch.loadByUserId(userId, churchId);
       return this.repositories.userChurch.convertToModel(record);
-    })
+    });
   }
 
   @httpDelete("/record/:userId/:churchId/:personId")
@@ -65,7 +63,7 @@ export class UserChurchController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       await this.repositories.userChurch.deleteRecord(userId, churchId, personId);
       return this.json({});
-    })
+    });
   }
 
 }

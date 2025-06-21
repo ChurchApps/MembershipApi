@@ -81,7 +81,7 @@ export class FormSubmissionController extends MembershipBaseController {
               if (!answer.churchId) answer.churchId = churchId;
               answer.formSubmissionId = savedSubmissions.id;
               answerPromises.push(this.repositories.answer.save(answer));
-            })
+            });
             if (answerPromises.length > 0) {
               await Promise.all(answerPromises);
             }
@@ -97,7 +97,7 @@ export class FormSubmissionController extends MembershipBaseController {
       }
 
       // return { error: "Please check body. formsubmissions is required" }
-    })
+    });
   };
 
   private async sendEmails(formSubmission: FormSubmission, form: Form, churchId: string) {
@@ -114,17 +114,17 @@ export class FormSubmissionController extends MembershipBaseController {
             formSubmission.answers.forEach(a => {
               if (q.id === a.questionId) {
                 contentRows.push(
-                  `<tr><th style="font-size: 16px" width="30%">` + q.title + `</th><td style="font-size: 15px">` + a.value + `</td></tr>`
-                )
+                  "<tr><th style=\"font-size: 16px\" width=\"30%\">" + q.title + "</th><td style=\"font-size: 15px\">" + a.value + "</td></tr>"
+                );
               }
-            })
-          })
+            });
+          });
 
-          const contents = `<table role="presentation" style="text-align: left;" cellspacing="8" width="80%"><tablebody>` + contentRows.join(" ") + `</tablebody></table>`
+          const contents = "<table role=\"presentation\" style=\"text-align: left;\" cellspacing=\"8\" width=\"80%\"><tablebody>" + contentRows.join(" ") + "</tablebody></table>";
           const promises: Promise<any>[] = [];
           people.forEach((p: Person) => {
             promises.push(EmailHelper.sendTemplatedEmail(Environment.supportEmail, p.email, church.name, Environment.chumsRoot, "New Submissions for " + form.name, contents));
-          })
+          });
           promises.push(this.sendNotifications(churchId, form, ids));
           await Promise.all(promises);
         }

@@ -47,7 +47,7 @@ export class UserRepository {
   }
 
   public delete(id: string) {
-    return DB.query("DELETE FROM users WHERE id=?", [id])
+    return DB.query("DELETE FROM users WHERE id=?", [id]);
   }
 
   public async loadCount() {

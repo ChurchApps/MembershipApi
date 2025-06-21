@@ -1,8 +1,8 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
-import { MembershipBaseController } from "./MembershipBaseController"
-import { GroupMember } from "../models"
-import { Permissions } from '../helpers/Permissions'
+import { MembershipBaseController } from "./MembershipBaseController";
+import { GroupMember } from "../models";
+import { Permissions } from "../helpers/Permissions";
 
 @controller("/groupmembers")
 export class GroupMemberController extends MembershipBaseController {
@@ -27,7 +27,7 @@ export class GroupMemberController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       const result = await this.repositories.groupMember.loadForGroup(au.churchId, groupId);
       return this.repositories.groupMember.convertAllToBasicModel(au.churchId, result);
-    })
+    });
   }
 
   @httpGet("/:id")
@@ -44,12 +44,12 @@ export class GroupMemberController extends MembershipBaseController {
       let hasAccess = false;
       if (au.checkAccess(Permissions.groupMembers.view)) hasAccess = true;
       else if (req.query.groupId && au.groupIds && au.groupIds.includes(req.query.groupId.toString())) hasAccess = true;
-      else if (req.query.personId && au.personId === req.query.personId.toString()) hasAccess = true
+      else if (req.query.personId && au.personId === req.query.personId.toString()) hasAccess = true;
       if (!hasAccess) return this.json({}, 401);
       else {
         let result = null;
         if (req.query.groupId !== undefined) result = await this.repositories.groupMember.loadForGroup(au.churchId, req.query.groupId.toString());
-        else if (req.query.groupIds !== undefined) result = await this.repositories.groupMember.loadForGroups(au.churchId, req.query.groupIds.toString().split(','));
+        else if (req.query.groupIds !== undefined) result = await this.repositories.groupMember.loadForGroups(au.churchId, req.query.groupIds.toString().split(","));
         else if (req.query.personId !== undefined) result = await this.repositories.groupMember.loadForPerson(au.churchId, req.query.personId.toString());
         else result = await this.repositories.groupMember.loadAll(au.churchId);
         return this.repositories.groupMember.convertAllToModel(au.churchId, result);

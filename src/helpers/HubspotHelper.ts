@@ -6,17 +6,17 @@ import { AssociationTypes } from "@hubspot/api-client";
 export class HubspotHelper {
 
   private static getClient = () => {
-    const hubspot = require('@hubspot/api-client')
-    const client = new hubspot.Client({ accessToken: Environment.hubspotKey })
+    const hubspot = require("@hubspot/api-client");
+    const client = new hubspot.Client({ accessToken: Environment.hubspotKey });
     return client;
-  }
+  };
 
   static lookupCompany = async (query: string) => {
     const client = this.getClient();
-    const req: PublicObjectSearchRequest = { query, limit: 1, after: "", sorts: [], properties: [], filterGroups: [] }
+    const req: PublicObjectSearchRequest = { query, limit: 1, after: "", sorts: [], properties: [], filterGroups: [] };
     const response = await client.crm.companies.searchApi.doSearch(req);
     return response.results[0];
-  }
+  };
 
   static register = async (churchId: string, companyName: string, firstName: string, lastName: string, address: string, city: string, state: string, zip: string, country: string, email: string, initialApp: string) => {
     if (Environment.hubspotKey) {
@@ -24,11 +24,11 @@ export class HubspotHelper {
 
       const company: any = {
         properties: { church_id: churchId, name: companyName, description: initialApp, address, city, state, zip, country }
-      }
+      };
 
       const contact: any = {
         properties: { firstname: firstName, lastname: lastName, email, company: companyName, address, city, state, zip, country, initial_app: initialApp }
-      }
+      };
 
 
       const [companyResponse, contactResponse] = await Promise.all([
@@ -42,7 +42,7 @@ export class HubspotHelper {
       }]);
 
     }
-  }
+  };
 
   static setProperties = async (companyId: string, properties: any) => {
     const client = this.getClient();
@@ -50,10 +50,9 @@ export class HubspotHelper {
       const response = await client.crm.companies.basicApi.update(companyId, { properties });
       return response;
     } catch (error) {
-      console.log(error);
       return { error };
     }
-  }
+  };
 
 
 

@@ -46,7 +46,7 @@ export class MemberPermissionRepository {
   }
 
   public loadByEmailNotification(churchId: string, emailNotification: boolean) {
-    return DB.query("SELECT * FROM memberPermissions WHERE churchId=? AND emailNotification=?;", [churchId, emailNotification])
+    return DB.query("SELECT * FROM memberPermissions WHERE churchId=? AND emailNotification=?;", [churchId, emailNotification]);
   }
 
   public loadFormsByPerson(churchId: string, personId: string) {
@@ -54,7 +54,7 @@ export class MemberPermissionRepository {
       + " FROM memberPermissions mp"
       + " INNER JOIN `people` p on p.id=mp.memberId"
       + " WHERE mp.churchId=? AND mp.memberId=?"
-      + " ORDER BY mp.action, mp.emailNotification desc;"
+      + " ORDER BY mp.action, mp.emailNotification desc;";
     return DB.query(sql, [churchId, personId]);
   }
 
@@ -63,7 +63,7 @@ export class MemberPermissionRepository {
       + " FROM memberPermissions mp"
       + " INNER JOIN `people` p on p.id=mp.memberId"
       + " WHERE mp.churchId=? AND mp.contentId=?"
-      + " ORDER BY mp.action, mp.emailNotification desc;"
+      + " ORDER BY mp.action, mp.emailNotification desc;";
     return DB.query(sql, [churchId, formId]);
   }
 

@@ -8,4 +8,4 @@ export class ClientError {
   public errorType?: string;
   public message?: string;
   public details?: string;
- };
+};

@@ -10,15 +10,15 @@ export class CaddyHelper {
     if (Environment.caddyHost && Environment.caddyPort) {
       const adminUrl = "https://" + Environment.caddyHost + ":" + Environment.caddyPort + "/load";
       const jsonData = await this.generateJsonData();
-      await axios.post(adminUrl, jsonData)
+      await axios.post(adminUrl, jsonData);
     }
   }
 
   static async generateJsonData() {
     const hostDials: HostDial[] = await Repositories.getCurrent().domain.loadPairs();
     const routes: any[] = [];
-    hostDials.forEach(hd => { routes.push(this.getRoute(hd.host, hd.dial, true)) });
-    hostDials.forEach(hd => { routes.push(this.getWwwRoute(hd.host, hd.dial, true)) });
+    hostDials.forEach(hd => { routes.push(this.getRoute(hd.host, hd.dial, true)); });
+    hostDials.forEach(hd => { routes.push(this.getWwwRoute(hd.host, hd.dial, true)); });
 
     const result = {
       apps: {
@@ -35,7 +35,7 @@ export class CaddyHelper {
           }
         }
       }
-    }
+    };
     return result;
   }
 
@@ -48,7 +48,7 @@ export class CaddyHelper {
         }
       },
       upstreams: [{ dial }]
-    }
+    };
   }
 
   private static getRewrite(host: string, dial: string) {
@@ -72,7 +72,7 @@ export class CaddyHelper {
           "replace": "=" + dialKey
         }
       ]
-    }
+    };
   }
 
 
@@ -80,7 +80,7 @@ export class CaddyHelper {
     const rewrite = this.getRewrite(host, dial);
     const handle:any = this.getReverseProxyHandler(host, dial);
     if (rewrite) handle.rewrite = rewrite;
-    if (useHttps) handle.transport = { protocol: "http", tls: {} }
+    if (useHttps) handle.transport = { protocol: "http", tls: {} };
 
 
     const result: any = {
@@ -97,7 +97,7 @@ export class CaddyHelper {
   }
 
 
-  private static getWwwRoute(host: string, dial: string, useHttps: boolean) {
+  private static getWwwRoute(host: string, _dial: string, _useHttps: boolean) {
 
     const result: any = {
       handle: [{

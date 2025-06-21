@@ -1,10 +1,10 @@
 import { controller, httpPost, httpGet, httpDelete, requestParam } from "inversify-express-utils";
 import { RoleMember, User } from "../models";
 import express from "express";
-import { AuthenticatedUser } from '../auth';
-import { MembershipBaseController } from "./MembershipBaseController"
-import { Permissions } from '../helpers'
-import { IPermission } from "@churchapps/apihelper"
+import { AuthenticatedUser } from "../auth";
+import { MembershipBaseController } from "./MembershipBaseController";
+import { Permissions } from "../helpers";
+import { IPermission } from "@churchapps/apihelper";
 
 @controller("/rolemembers")
 export class RoleMemberController extends MembershipBaseController {
@@ -89,7 +89,7 @@ export class RoleMemberController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       await this.repositories.roleMember.deleteSelf(churchId, userId);
       return this.json([], 200);
-    })
+    });
   }
 
   private async checkAccess(members: RoleMember[], permission: IPermission, au: AuthenticatedUser) {

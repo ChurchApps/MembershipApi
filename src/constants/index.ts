@@ -1,1 +1,1 @@
-export { RoleContentType, RoleAction } from './enums'
+export { RoleContentType, RoleAction } from "./enums";

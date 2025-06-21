@@ -1,5 +1,5 @@
 import { Repositories } from "../repositories";
-import { CustomBaseController } from "@churchapps/apihelper"
+import { CustomBaseController } from "@churchapps/apihelper";
 import { Permissions } from "../helpers";
 import { AuthenticatedUser } from "@churchapps/apihelper";
 

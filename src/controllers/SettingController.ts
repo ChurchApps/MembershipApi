@@ -1,8 +1,8 @@
-import { controller, httpPost, httpGet, interfaces, requestParam } from "inversify-express-utils"
-import express from "express"
-import { Setting } from "../models"
-import { Permissions, FileStorageHelper, Environment } from "../helpers"
-import { MembershipBaseController } from "./MembershipBaseController"
+import { controller, httpPost, httpGet, interfaces, requestParam } from "inversify-express-utils";
+import express from "express";
+import { Setting } from "../models";
+import { Permissions, FileStorageHelper, Environment } from "../helpers";
+import { MembershipBaseController } from "./MembershipBaseController";
 
 
 @controller("/settings")
@@ -15,7 +15,7 @@ export class SettingController extends MembershipBaseController {
       else {
         return this.repositories.setting.convertAllToModel(au.churchId, await this.repositories.setting.loadAll(au.churchId));
       }
-    })
+    });
   }
 
   @httpPost("/")
@@ -23,15 +23,15 @@ export class SettingController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.settings.edit)) return this.json({}, 401);
       else {
-        const promises: Promise<Setting>[] = []
+        const promises: Promise<Setting>[] = [];
         req.body.forEach(setting => {
           setting.churchId = au.churchId;
           promises.push(this.saveSetting(setting));
-        })
+        });
         const result = await Promise.all(promises);
         return this.repositories.setting.convertAllToModel(au.churchId, result);
       }
-    })
+    });
   }
 
   @httpGet("/public/:churchId")
@@ -41,7 +41,7 @@ export class SettingController extends MembershipBaseController {
       const result: any = {};
       settings.forEach(s => {
         result[s.keyName] = s.value;
-      })
+      });
       return this.json(result, 200);
     } catch (e) {
       this.logger.error(e);
@@ -56,9 +56,9 @@ export class SettingController extends MembershipBaseController {
   }
 
   private async saveImage(setting: Setting) {
-    const base64 = setting.value.split(',')[1];
+    const base64 = setting.value.split(",")[1];
     const key = "/" + setting.churchId + "/settings/" + setting.keyName + ".png";
-    await FileStorageHelper.store(key, "image/png", Buffer.from(base64, 'base64'));
+    await FileStorageHelper.store(key, "image/png", Buffer.from(base64, "base64"));
     const photoUpdated = new Date();
     setting.value = Environment.contentRoot + key + "?dt=" + photoUpdated.getTime().toString();
     return setting;

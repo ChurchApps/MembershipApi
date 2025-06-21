@@ -1,8 +1,8 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
 import express from "express";
-import { MembershipBaseController } from "./MembershipBaseController"
-import { Domain } from "../models"
-import { Permissions } from '../helpers/Permissions'
+import { MembershipBaseController } from "./MembershipBaseController";
+import { Domain } from "../models";
+import { Permissions } from "../helpers/Permissions";
 import { CaddyHelper, Environment } from "../helpers";
 
 @controller("/domains")
@@ -29,7 +29,7 @@ export class DomainController extends MembershipBaseController {
   public async test2(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       const adminUrl = "https://" + Environment.caddyHost + ":" + Environment.caddyPort + "/load";
-      return { adminUrl }
+      return { adminUrl };
     });
   }
 
@@ -51,7 +51,7 @@ export class DomainController extends MembershipBaseController {
   public async getPublicByName(@requestParam("domainName") domainName: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       return await this.repositories.domain.loadByName(domainName);
-    })
+    });
   }
 
 

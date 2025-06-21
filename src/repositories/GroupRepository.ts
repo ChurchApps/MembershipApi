@@ -71,7 +71,7 @@ export class GroupRepository {
     const sql = "SELECT * FROM `groups`"
       + " WHERE churchId = ? AND labels LIKE ? AND removed=0"
       + " ORDER BY name";
-    return DB.query(sql, [churchId, '%' + label + '%']);
+    return DB.query(sql, [churchId, "%" + label + "%"]);
   }
 
   public search(churchId: string, campusId: string, serviceId: string, serviceTimeId: string) {

@@ -1,8 +1,8 @@
-import { Principal, AuthenticatedUser as BaseAuthenticatedUser } from '@churchapps/apihelper'
-import { Api, Church, LoginResponse, LoginUserChurch, User, UserChurch } from '../models'
+import { Principal, AuthenticatedUser as BaseAuthenticatedUser } from "@churchapps/apihelper";
+import { Api, LoginResponse, LoginUserChurch, User } from "../models";
 import jwt, { SignOptions } from "jsonwebtoken";
-import { Repositories } from '../repositories';
-import { Environment } from '../helpers';
+import { Repositories } from "../repositories";
+import { Environment } from "../helpers";
 
 export class AuthenticatedUser extends BaseAuthenticatedUser {
 
@@ -16,7 +16,7 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
     const result: LoginResponse = {
       user: { email: user.email, firstName: user.firstName, lastName: user.lastName, id: user.id, jwt: AuthenticatedUser.getUserJwt(user) },
       userChurches
-    }
+    };
     return result;
     // }
   }
@@ -24,8 +24,8 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
   public static getApiJwt(api: Api, user: User, userChurch: LoginUserChurch) {
     const permList: string[] = [];
     api.permissions?.forEach(p => {
-      let permString = p.contentType + "_" + String(p.contentId).replace('null', '') + "_" + p.action
-      if (p.apiName) permString = p.apiName + "_" + p.contentType + "_" + String(p.contentId).replace('null', '') + "_" + p.action
+      let permString = p.contentType + "_" + String(p.contentId).replace("null", "") + "_" + p.action;
+      if (p.apiName) permString = p.apiName + "_" + p.contentType + "_" + String(p.contentId).replace("null", "") + "_" + p.action;
       permList.push(permString);
     });
 
@@ -56,7 +56,7 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
         api.jwt = AuthenticatedUser.getApiJwt(api, user, uc);
         if (api.keyName === "ReportingApi") api.permissions = []; // We just need the jwt, not the list
       });
-      uc.jwt = AuthenticatedUser.getChurchJwt(user, uc)
+      uc.jwt = AuthenticatedUser.getChurchJwt(user, uc);
     });
   }
 
@@ -66,7 +66,9 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
       const decoded = new Principal(jwt.verify(token, Environment.jwtSecret));
       const userId: string = decoded.details.id;
       result = await repositories.user.load(userId);
-    } catch { console.log('No match'); };
+    } catch {
+      // JWT verification failed - user not found
+    };
     return result;
   }
 

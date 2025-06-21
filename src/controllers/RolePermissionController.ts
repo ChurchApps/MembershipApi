@@ -1,9 +1,9 @@
 import { controller, httpPost, httpGet, requestParam, httpDelete } from "inversify-express-utils";
 import { RolePermission } from "../models";
 import express from "express";
-import { MembershipBaseController } from "./MembershipBaseController"
-import { AuthenticatedUser } from '../auth';
-import { Permissions, IPermission } from '../helpers'
+import { MembershipBaseController } from "./MembershipBaseController";
+import { AuthenticatedUser } from "../auth";
+import { Permissions, IPermission } from "../helpers";
 
 @controller("/rolepermissions")
 export class RolePermissionController extends MembershipBaseController {
@@ -17,7 +17,7 @@ export class RolePermissionController extends MembershipBaseController {
         // when "id" is null, return roles associated with every member of church
         if (id === "null") {
           const everyonePermission = await this.repositories.rolePermission.loadForEveryone(au.churchId);
-          permissions = everyonePermission.map((e: any) => { delete e.churchName; delete e.subDomain; return e });
+          permissions = everyonePermission.map((e: any) => { delete e.churchName; delete e.subDomain; return e; });
         }
         else permissions = await this.repositories.rolePermission.loadByRoleId(au.churchId, id);
 
@@ -31,7 +31,7 @@ export class RolePermissionController extends MembershipBaseController {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.roles.edit)) return this.json({}, 401);
       else {
-        await this.repositories.rolePermission.delete(au.churchId, id)
+        await this.repositories.rolePermission.delete(au.churchId, id);
         return this.json([], 200);
       }
     });
@@ -46,7 +46,7 @@ export class RolePermissionController extends MembershipBaseController {
         let rolePermissions: RolePermission[] = req.body;
         const promises: Promise<RolePermission>[] = [];
         rolePermissions.forEach((rolePermission) => {
-          rolePermission.churchId = au.churchId
+          rolePermission.churchId = au.churchId;
           promises.push(this.repositories.rolePermission.save(rolePermission));
         });
         rolePermissions = await Promise.all(promises);
