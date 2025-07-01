@@ -28,6 +28,10 @@ provider:
     role: arn:aws:iam::428019619026:role/ChurchAppsRole
   environment:
     APP_ENV: ${self:custom.env}
+  apiGateway:
+    throttle:
+      rateLimit: 5     # 5 requests per second per IP
+      burstLimit: 20   # Allow bursts up to 20 requests per second
 
 layers:
   nodeDependencies:
