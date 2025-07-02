@@ -9,5 +9,4 @@ export class RoleMember {
   public addedBy?: string;
 
   public user?: User;
-
 }

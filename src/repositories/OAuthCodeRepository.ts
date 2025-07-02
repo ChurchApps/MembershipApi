@@ -10,16 +10,34 @@ export class OAuthCodeRepository {
   private async create(authCode: OAuthCode) {
     authCode.id = UniqueIdHelper.shortId();
     const expiresAt = DateHelper.toMysqlDate(authCode.expiresAt);
-    const sql = "INSERT INTO oAuthCodes (id, code, clientId, userChurchId, redirectUri, scopes, expiresAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, NOW());";
-    const params = [authCode.id, authCode.code, authCode.clientId, authCode.userChurchId, authCode.redirectUri, authCode.scopes, expiresAt];
+    const sql =
+      "INSERT INTO oAuthCodes (id, code, clientId, userChurchId, redirectUri, scopes, expiresAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, NOW());";
+    const params = [
+      authCode.id,
+      authCode.code,
+      authCode.clientId,
+      authCode.userChurchId,
+      authCode.redirectUri,
+      authCode.scopes,
+      expiresAt
+    ];
     await DB.query(sql, params);
     return authCode;
   }
 
   private async update(authCode: OAuthCode) {
     const expiresAt = DateHelper.toMysqlDate(authCode.expiresAt);
-    const sql = "UPDATE oAuthCodes SET code=?, clientId=?, userChurchId=?, redirectUri=?, scopes=?, expiresAt=? WHERE id=?;";
-    const params = [authCode.code, authCode.clientId, authCode.userChurchId, authCode.redirectUri, authCode.scopes, expiresAt, authCode.id];
+    const sql =
+      "UPDATE oAuthCodes SET code=?, clientId=?, userChurchId=?, redirectUri=?, scopes=?, expiresAt=? WHERE id=?;";
+    const params = [
+      authCode.code,
+      authCode.clientId,
+      authCode.userChurchId,
+      authCode.redirectUri,
+      authCode.scopes,
+      expiresAt,
+      authCode.id
+    ];
     await DB.query(sql, params);
     return authCode;
   }

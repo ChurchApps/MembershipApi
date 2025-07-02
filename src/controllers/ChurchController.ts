@@ -1,10 +1,30 @@
 import { controller, httpPost, httpGet, interfaces, requestParam, httpDelete } from "inversify-express-utils";
-import { RegistrationRequest, Church, RolePermission, Api, RegisterChurchRequest, LoginUserChurch, Group, RoleMember, User } from "../models";
+import {
+  RegistrationRequest,
+  Church,
+  RolePermission,
+  Api,
+  RegisterChurchRequest,
+  LoginUserChurch,
+  Group,
+  RoleMember,
+  User
+} from "../models";
 import express from "express";
 import { body, validationResult } from "express-validator";
 import { AuthenticatedUser } from "../auth";
 import { MembershipBaseController } from "./MembershipBaseController";
-import { Utils, Permissions, ChurchHelper, RoleHelper, Environment, HubspotHelper, GeoHelper, PersonHelper, UserHelper } from "../helpers";
+import {
+  Utils,
+  Permissions,
+  ChurchHelper,
+  RoleHelper,
+  Environment,
+  HubspotHelper,
+  GeoHelper,
+  PersonHelper,
+  UserHelper
+} from "../helpers";
 import { Repositories } from "../repositories";
 import { ArrayHelper, EmailHelper } from "@churchapps/apihelper";
 
@@ -19,8 +39,6 @@ const churchRegisterValidation = [
 
 @controller("/churches")
 export class ChurchController extends MembershipBaseController {
-
-
   @httpGet("/all")
   public async loadAll(req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
@@ -34,7 +52,10 @@ export class ChurchController extends MembershipBaseController {
   }
 
   @httpPost("/search")
-  public async searchPost(req: express.Request<{}, {}, { name: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async searchPost(
+    req: express.Request<{}, {}, { name: string }>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     try {
       let result: Church[] = [];
       if (req.body.name !== undefined) {
@@ -42,10 +63,17 @@ export class ChurchController extends MembershipBaseController {
           // decode URI encoded character e.g. replace %20 with ' '
           decodeURIComponent(
             // decode unicode characters '\uXXXX'
-            JSON.parse("\"" + req.body.name.toString()
-              // prepare unicode characters '\uXXXX' for decoding
-              .replace(/%u/g, "\\u") + "\"")
-          ), false);
+            JSON.parse(
+              '"' +
+                req.body.name
+                  .toString()
+                  // prepare unicode characters '\uXXXX' for decoding
+                  .replace(/%u/g, "\\u") +
+                '"'
+            )
+          ),
+          false
+        );
         result = this.repositories.church.convertAllToModel(data);
         await ChurchHelper.appendLogos(result);
         if (result.length > 0 && this.include(req, "favicon_400x400")) await this.appendLogos(result);
@@ -62,15 +90,22 @@ export class ChurchController extends MembershipBaseController {
     try {
       let result: Church[] = [];
       if (req.query.name !== undefined) {
-        const app = (req.query.app === undefined) ? "" : req.query.app.toString();
+        const app = req.query.app === undefined ? "" : req.query.app.toString();
         const data = await this.repositories.church.search(
           // decode URI encoded character e.g. replace %20 with ' '
           decodeURIComponent(
             // decode unicode characters '\uXXXX'
-            JSON.parse("\"" + req.query.name.toString()
-              // prepare unicode characters '\uXXXX' for decoding
-              .replace(/%u/g, "\\u") + "\"")
-          ), false);
+            JSON.parse(
+              '"' +
+                req.query.name
+                  .toString()
+                  // prepare unicode characters '\uXXXX' for decoding
+                  .replace(/%u/g, "\\u") +
+                '"'
+            )
+          ),
+          false
+        );
         result = this.repositories.church.convertAllToModel(data);
         await ChurchHelper.appendLogos(result);
         if (result.length > 0 && this.include(req, "favicon_400x400")) await this.appendLogos(result);
@@ -83,7 +118,10 @@ export class ChurchController extends MembershipBaseController {
   }
 
   @httpGet("/lookup/")
-  public async getBySubDomain(req: express.Request<{}, {}, RegistrationRequest>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getBySubDomain(
+    req: express.Request<{}, {}, RegistrationRequest>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     try {
       let result = {};
       if (req.query.subDomain !== undefined) {
@@ -107,7 +145,10 @@ export class ChurchController extends MembershipBaseController {
   }
 
   @httpDelete("/deleteAbandoned")
-  public async deleteAbandoned(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async deleteAbandoned(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       else {
@@ -117,21 +158,34 @@ export class ChurchController extends MembershipBaseController {
     });
   }
 
-
   @httpGet("/test")
-  public async test(req: express.Request<{}, {}, RegistrationRequest>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async test(
+    req: express.Request<{}, {}, RegistrationRequest>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
-
-      HubspotHelper.register("6", "Test Church6", "John", "Doe5", "123 Main St", "Anytown", "TX", "12345", "USA", "jdoe6@gmail.com", "Test App");
-
-
-
+      HubspotHelper.register(
+        "6",
+        "Test Church6",
+        "John",
+        "Doe5",
+        "123 Main St",
+        "Anytown",
+        "TX",
+        "12345",
+        "USA",
+        "jdoe6@gmail.com",
+        "Test App"
+      );
     });
   }
 
-
   @httpGet("/:id")
-  public async get(@requestParam("id") id: string, req: express.Request<{}, {}, RegistrationRequest>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async get(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, RegistrationRequest>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       const data = await this.repositories.church.loadById(id);
       const church = this.repositories.church.convertToModel(data);
@@ -141,7 +195,11 @@ export class ChurchController extends MembershipBaseController {
 
   // This is just to get a church's server/domain admin without any permissions.
   @httpGet("/:id/getDomainAdmin")
-  public async getDomainAdmin(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getDomainAdmin(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       const roles = await this.repositories.role.loadByChurchId(id);
       const domainRole = ArrayHelper.getOne(roles, "name", "Domain Admins");
@@ -161,7 +219,11 @@ export class ChurchController extends MembershipBaseController {
   }
 
   @httpGet("/:id/impersonate")
-  public async impersonate(@requestParam("id") id: string, req: express.Request<{}, {}, {}>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async impersonate(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, {}>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       const churchId = id.toString();
       const hasAccess = au.checkAccess(Permissions.server.admin) || au.churchId === churchId;
@@ -172,7 +234,9 @@ export class ChurchController extends MembershipBaseController {
 
         let universalChurch = null;
         const churches = await this.repositories.rolePermission.loadForUser(au.id, false);
-        churches.forEach(c => { if (c.church.id === "0") universalChurch = c; });
+        churches.forEach((c) => {
+          if (c.church.id === "0") universalChurch = c;
+        });
         const result = await this.repositories.rolePermission.loadForChurch(churchId, universalChurch);
 
         // Make sure the impersonated church has domain admin permission
@@ -200,9 +264,11 @@ export class ChurchController extends MembershipBaseController {
     });
   }
 
-
   @httpPost("/byIds")
-  public async loadByIds(req: express.Request<{}, {}, string[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async loadByIds(
+    req: express.Request<{}, {}, string[]>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       let result: Church[] = [];
       const ids = req.body;
@@ -214,15 +280,13 @@ export class ChurchController extends MembershipBaseController {
     });
   }
 
-
-
-
   static async validateSave(church: Church, repositories: Repositories) {
     const result: string[] = [];
     if (Utils.isEmpty(church.name)) result.push("Church name required");
     if (Utils.isEmpty(church.subDomain)) result.push("Subdomain required");
     else {
-      if (/^([a-z0-9]{1,99})$/.test(church.subDomain) === false) result.push("Please enter only lower case letters and numbers for the subdomain.  Example: firstchurch");
+      if (/^([a-z0-9]{1,99})$/.test(church.subDomain) === false)
+        result.push("Please enter only lower case letters and numbers for the subdomain.  Example: firstchurch");
       else {
         const c = await repositories.church.loadBySubDomain(church.subDomain);
         if (c !== null && c.id !== church.id) result.push("Subdomain unavailable");
@@ -233,7 +297,11 @@ export class ChurchController extends MembershipBaseController {
   }
 
   @httpPost("/:id/archive")
-  public async archive(@requestParam("id") id: string, req: express.Request<{}, {}, { archived: boolean }>, res: express.Response): Promise<any> {
+  public async archive(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, { archived: boolean }>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       else {
@@ -257,15 +325,15 @@ export class ChurchController extends MembershipBaseController {
         churches.forEach((church) => {
           if (church.id !== au.churchId) return this.json({}, 401);
           else {
-            const p = ChurchController.validateSave(church, this.repositories).then(errors => {
+            const p = ChurchController.validateSave(church, this.repositories).then((errors) => {
               if (errors.length === 0) {
-                promises.push(this.repositories.church.save(church).then(async ch => {
-                  await GeoHelper.updateChurchAddress(ch);
-                  return ch;
-                })
+                promises.push(
+                  this.repositories.church.save(church).then(async (ch) => {
+                    await GeoHelper.updateChurchAddress(ch);
+                    return ch;
+                  })
                 );
-              }
-              else allErrors.push(...errors);
+              } else allErrors.push(...errors);
             });
             promises.push(p);
           }
@@ -281,7 +349,8 @@ export class ChurchController extends MembershipBaseController {
     const result: string[] = [];
     // Verify subdomain isn't taken
     if (church.subDomain) {
-      if (/^([a-z0-9]{1,99})$/.test(church.subDomain) === false) result.push("Please enter only lower case letters and numbers for the subdomain.  Example: firstchurch");
+      if (/^([a-z0-9]{1,99})$/.test(church.subDomain) === false)
+        result.push("Please enter only lower case letters and numbers for the subdomain.  Example: firstchurch");
       else {
         const c = await this.repositories.church.loadBySubDomain(church.subDomain);
         if (c !== null) {
@@ -316,11 +385,31 @@ export class ChurchController extends MembershipBaseController {
         await instance.init(); // Setup roles and permissions
 
         if (Environment.emailOnRegistration) {
-          await EmailHelper.sendTemplatedEmail(Environment.supportEmail, Environment.supportEmail, church.appName, null, "New Church Registration", "<h2>" + church.name + "</h2><h3>App: " + (church.appName || "unknown") + "</h3>");
+          await EmailHelper.sendTemplatedEmail(
+            Environment.supportEmail,
+            Environment.supportEmail,
+            church.appName,
+            null,
+            "New Church Registration",
+            "<h2>" + church.name + "</h2><h3>App: " + (church.appName || "unknown") + "</h3>"
+          );
         }
 
         try {
-          if (Environment.hubspotKey) await HubspotHelper.register(church.id, church.name, au.firstName, au.lastName, church.address1, church.city, church.state, church.zip, church.country, au.email, church.appName);
+          if (Environment.hubspotKey)
+            await HubspotHelper.register(
+              church.id,
+              church.name,
+              au.firstName,
+              au.lastName,
+              church.address1,
+              church.city,
+              church.state,
+              church.zip,
+              church.country,
+              au.email,
+              church.appName
+            );
         } catch (_ex) {
           // Hubspot registration failed - continuing without error
         }
@@ -342,7 +431,10 @@ export class ChurchController extends MembershipBaseController {
   // Used by select church modal after registration.
   // if both values (churchId and subDomain) are found in body, churchId will have first preference.
   @httpPost("/select")
-  public async select(req: express.Request<{}, {}, { churchId: string, subDomain: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async select(
+    req: express.Request<{}, {}, { churchId: string; subDomain: string }>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       let { churchId } = req.body;
       if (req.body.subDomain && !churchId) {
@@ -363,7 +455,7 @@ export class ChurchController extends MembershipBaseController {
     const groups: Group[] = await this.repositories.group.loadForPerson(uc.personId);
     userChurch.person = { id: p.id, membershipStatus: p.membershipStatus };
     userChurch.groups = [];
-    groups.forEach(g => userChurch.groups.push({ id: g.id, tags: g.tags, name: g.name, leader: false }));
+    groups.forEach((g) => userChurch.groups.push({ id: g.id, tags: g.tags, name: g.name, leader: false }));
   }
 
   private async fetchChurchPermissions(au: AuthenticatedUser, churchId: string): Promise<LoginUserChurch> {
@@ -401,7 +493,4 @@ export class ChurchController extends MembershipBaseController {
     await this.appendPersonInfo(result, au, churchId);
     return result;
   }
-
 }
-
-

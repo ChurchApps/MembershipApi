@@ -7,7 +7,6 @@ import { CaddyHelper, Environment } from "../helpers";
 
 @controller("/domains")
 export class DomainController extends MembershipBaseController {
-
   @httpGet("/caddy")
   public async caddy(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
@@ -34,41 +33,61 @@ export class DomainController extends MembershipBaseController {
   }
 
   @httpGet("/:id")
-  public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async get(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       return await this.repositories.domain.load(au.churchId, id);
     });
   }
 
   @httpGet("/lookup/:domainName")
-  public async getByName(@requestParam("domainName") domainName: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getByName(
+    @requestParam("domainName") domainName: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       return await this.repositories.domain.loadByName(domainName);
     });
   }
 
   @httpGet("/public/lookup/:domainName")
-  public async getPublicByName(@requestParam("domainName") domainName: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getPublicByName(
+    @requestParam("domainName") domainName: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       return await this.repositories.domain.loadByName(domainName);
     });
   }
 
-
   @httpGet("/")
-  public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getAll(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       return await this.repositories.domain.loadAll(au.churchId);
     });
   }
 
   @httpPost("/")
-  public async save(req: express.Request<{}, {}, Domain[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async save(
+    req: express.Request<{}, {}, Domain[]>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.settings.edit)) return this.json({}, 401);
       else {
         const promises: Promise<Domain>[] = [];
-        req.body.forEach(domain => { domain.churchId = au.churchId; promises.push(this.repositories.domain.save(domain)); });
+        req.body.forEach((domain) => {
+          domain.churchId = au.churchId;
+          promises.push(this.repositories.domain.save(domain));
+        });
         const result = await Promise.all(promises);
         await CaddyHelper.updateCaddy();
         return result;
@@ -77,14 +96,17 @@ export class DomainController extends MembershipBaseController {
   }
 
   @httpDelete("/:id")
-  public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async delete(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.settings.edit)) return this.json({}, 401);
       else {
         await this.repositories.domain.delete(au.churchId, id);
         return this.json({});
-      };
+      }
     });
   }
-
 }

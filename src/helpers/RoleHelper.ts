@@ -4,7 +4,10 @@ import { Role, RoleMember, RolePermission } from "../models";
 export class RoleHelper {
   private repositories: Repositories;
 
-  constructor(private churchId: string, private userId: string) {
+  constructor(
+    private churchId: string,
+    private userId: string
+  ) {
     this.repositories = Repositories.getCurrent();
   }
 
@@ -145,7 +148,6 @@ export class RoleHelper {
     await this.createRoleMember(roleId);
   }
 
-
   private async createStreamingHostRole() {
     const roleId: string = await this.createRole("Streaming Hosts", [
       { apiName: "ContentApi", contentType: "Chat", action: "Host" }
@@ -153,5 +155,4 @@ export class RoleHelper {
 
     await this.createRoleMember(roleId);
   }
-
 }

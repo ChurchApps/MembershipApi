@@ -4,7 +4,6 @@ import { Permissions } from "../helpers";
 import { AuthenticatedUser } from "@churchapps/apihelper";
 
 export class MembershipBaseController extends CustomBaseController {
-
   public repositories: Repositories;
 
   constructor() {
@@ -20,5 +19,4 @@ export class MembershipBaseController extends CustomBaseController {
     if (au.checkAccess(Permissions.forms.edit)) return true;
     return false;
   }
-
 }

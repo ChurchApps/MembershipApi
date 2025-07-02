@@ -7,19 +7,29 @@ import { Permissions, IPermission } from "../helpers";
 
 @controller("/roles")
 export class RoleController extends MembershipBaseController {
-
   @httpGet("/church/:churchId")
-  public async loadByChurchId(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+  public async loadByChurchId(
+    @requestParam("churchId") churchId: string,
+    req: express.Request<{}, {}, []>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.roles.view)) return this.json({}, 401);
       else {
-        return this.repositories.role.convertAllToModel(churchId, await this.repositories.role.loadByChurchId(churchId));
+        return this.repositories.role.convertAllToModel(
+          churchId,
+          await this.repositories.role.loadByChurchId(churchId)
+        );
       }
     });
   }
 
   @httpGet("/:id")
-  public async loadById(@requestParam("id") id: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+  public async loadById(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, []>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const role: Role = await this.repositories.role.loadById(au.churchId, id);
       const roles: Role[] = [role];
@@ -47,7 +57,11 @@ export class RoleController extends MembershipBaseController {
   }
 
   @httpDelete("/:id")
-  public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+  public async delete(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, []>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const role: Role = await this.repositories.role.loadById(au.churchId, id);
       const roles: Role[] = [role];
@@ -55,7 +69,7 @@ export class RoleController extends MembershipBaseController {
       else {
         await this.repositories.rolePermission.deleteForRole(au.churchId, id);
         await this.repositories.roleMember.deleteForRole(au.churchId, id);
-        await new Promise(resolve => setTimeout(resolve, 500)); // I think it takes a split second for the FK restraints to see the members were deleted sometimes and the delete below fails if I don't wait.
+        await new Promise((resolve) => setTimeout(resolve, 500)); // I think it takes a split second for the FK restraints to see the members were deleted sometimes and the delete below fails if I don't wait.
         await this.repositories.role.delete(au.churchId, id);
         return this.json([], 200);
       }
@@ -69,5 +83,4 @@ export class RoleController extends MembershipBaseController {
     }
     return hasAccess;
   }
-
 }

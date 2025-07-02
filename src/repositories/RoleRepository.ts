@@ -3,7 +3,6 @@ import { Role } from "../models";
 import { UniqueIdHelper } from "../helpers";
 
 export class RoleRepository {
-
   public save(role: Role) {
     return role.id ? this.update(role) : this.create(role);
   }
@@ -30,21 +29,21 @@ export class RoleRepository {
   }
 
   public loadById(churchId: string, id: string) {
-    return DB.queryOne(
-      "SELECT * FROM roles WHERE churchId=? AND id=?",
-      [churchId, id]
-    ).then((row: Role) => { return row; });
+    return DB.queryOne("SELECT * FROM roles WHERE churchId=? AND id=?", [churchId, id]).then((row: Role) => {
+      return row;
+    });
   }
 
   public loadByIds(ids: string[]) {
-    return DB.query(
-      "SELECT * FROM roles WHERE id IN (?)",
-      [ids]
-    ).then((rows: Role[]) => { return rows; });
+    return DB.query("SELECT * FROM roles WHERE id IN (?)", [ids]).then((rows: Role[]) => {
+      return rows;
+    });
   }
 
   public loadAll() {
-    return DB.query("SELECT * FROM roles", []).then((rows: Role[]) => { return rows; });
+    return DB.query("SELECT * FROM roles", []).then((rows: Role[]) => {
+      return rows;
+    });
   }
 
   public loadByChurchId(id: string) {
@@ -58,8 +57,7 @@ export class RoleRepository {
 
   public convertAllToModel(churchId: string, data: any[]) {
     const result: Role[] = [];
-    data.forEach(r => result.push(this.convertToModel(churchId, r)));
+    data.forEach((r) => result.push(this.convertToModel(churchId, r)));
     return result;
   }
-
 }

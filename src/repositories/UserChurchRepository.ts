@@ -3,7 +3,6 @@ import { UserChurch } from "../models";
 import { UniqueIdHelper, DateHelper } from "../helpers";
 
 export class UserChurchRepository {
-
   public save(userChurch: UserChurch) {
     return userChurch.id ? this.update(userChurch) : this.create(userChurch);
   }
@@ -54,8 +53,7 @@ export class UserChurchRepository {
 
   public convertAllToModel(data: any[]) {
     const result: UserChurch[] = [];
-    data.forEach(d => result.push(this.convertToModel(d)));
+    data.forEach((d) => result.push(this.convertToModel(d)));
     return result;
   }
-
 }

@@ -9,9 +9,11 @@ import { AuthenticatedUser, EmailHelper } from "@churchapps/apihelper";
 
 @controller("/people")
 export class PersonController extends MembershipBaseController {
-
   @httpPost("/apiEmails")
-  public async apiEmails(req: express.Request<{}, {}, any>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async apiEmails(
+    req: express.Request<{}, {}, any>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       const jwtSecret = req.body.jwtSecret;
       const peopleIds = req.body.peopleIds;
@@ -19,14 +21,19 @@ export class PersonController extends MembershipBaseController {
       else {
         const people: any[] = await this.repositories.person.loadByIdsOnly(peopleIds);
         const result: any[] = [];
-        people.forEach(p => { result.push({ id: p.id, email: p.email }); });
+        people.forEach((p) => {
+          result.push({ id: p.id, email: p.email });
+        });
         return result;
       }
     });
   }
 
   @httpPost("/public/email")
-  public async publicEmail(req: express.Request<{}, {}, any>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async publicEmail(
+    req: express.Request<{}, {}, any>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       const churchId = req.body.churchId;
       const personId = req.body.personId;
@@ -43,14 +50,21 @@ export class PersonController extends MembershipBaseController {
   }
 
   @httpGet("/timeline")
-  public async timeline(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async timeline(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      const result: { people: Person[], groups: Group[] } = { people: [], groups: [] };
-      const peopleIds: string[] = (req.query.personIds) ? req.query.personIds.toString().split(",") : [];
-      const groupIds: string[] = (req.query.groupIds) ? req.query.groupIds.toString().split(",") : [];
+      const result: { people: Person[]; groups: Group[] } = { people: [], groups: [] };
+      const peopleIds: string[] = req.query.personIds ? req.query.personIds.toString().split(",") : [];
+      const groupIds: string[] = req.query.groupIds ? req.query.groupIds.toString().split(",") : [];
       if (peopleIds.length > 0) {
         const tmpPeople = await this.repositories.person.loadByIds(au.churchId, peopleIds);
-        result.people = this.repositories.person.convertAllToModel(au.churchId, tmpPeople, au.checkAccess(Permissions.people.edit));
+        result.people = this.repositories.person.convertAllToModel(
+          au.churchId,
+          tmpPeople,
+          au.checkAccess(Permissions.people.edit)
+        );
       }
       if (groupIds.length > 0) result.groups = await this.repositories.group.loadByIds(au.churchId, groupIds);
       return result;
@@ -58,34 +72,57 @@ export class PersonController extends MembershipBaseController {
   }
 
   @httpGet("/claim/:churchId")
-  public async claim(@requestParam("churchId") churchId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async claim(
+    @requestParam("churchId") churchId: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       return PersonHelper.claim(au, churchId);
     });
   }
 
   @httpGet("/recent")
-  public async getRecent(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getRecent(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.people.view) && !(await this.isMember(au.membershipStatus)))
+        return this.json({}, 401);
       else {
         const filterOptedOut = au.checkAccess(Permissions.server.admin) ? false : true;
         const data = await this.repositories.person.loadRecent(au.churchId, filterOptedOut);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        const result = this.repositories.person.convertAllToModel(
+          au.churchId,
+          data,
+          au.checkAccess(Permissions.people.edit)
+        );
         return this.filterPeople(result, au);
       }
     });
   }
 
   @httpGet("/household/:householdId")
-  public async getHouseholdMembers(@requestParam("householdId") householdId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getHouseholdMembers(
+    @requestParam("householdId") householdId: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      return this.repositories.person.convertAllToModel(au.churchId, await this.repositories.person.loadByHousehold(au.churchId, householdId), au.checkAccess(Permissions.people.edit));
+      return this.repositories.person.convertAllToModel(
+        au.churchId,
+        await this.repositories.person.loadByHousehold(au.churchId, householdId),
+        au.checkAccess(Permissions.people.edit)
+      );
     });
   }
 
   @httpPost("/loadOrCreate")
-  public async loadOrCreate(req: express.Request<{}, {}, any>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async loadOrCreate(
+    req: express.Request<{}, {}, any>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       const { churchId, email, firstName, lastName } = req.body;
       const person: Person = await PersonHelper.getPerson(churchId, email, firstName, lastName, false);
@@ -94,13 +131,20 @@ export class PersonController extends MembershipBaseController {
   }
 
   @httpPost("/household/:householdId")
-  public async saveMembers(@requestParam("householdId") householdId: string, req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async saveMembers(
+    @requestParam("householdId") householdId: string,
+    req: express.Request<{}, {}, Person[]>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
       else {
         // save submitted
         const promises: Promise<Person>[] = [];
-        req.body.forEach(person => { person.churchId = au.churchId; promises.push(this.repositories.person.updateHousehold(person)); });
+        req.body.forEach((person) => {
+          person.churchId = au.churchId;
+          promises.push(this.repositories.person.updateHousehold(person));
+        });
         const result = await Promise.all(promises);
 
         // remove missing
@@ -108,9 +152,15 @@ export class PersonController extends MembershipBaseController {
         const dbPeople = await this.repositories.person.loadByHousehold(au.churchId, householdId);
         dbPeople.forEach((dbPerson: Person) => {
           let match = false;
-          req.body.forEach(person => { if (person.id === dbPerson.id) match = true; });
+          req.body.forEach((person) => {
+            if (person.id === dbPerson.id) match = true;
+          });
           if (!match) {
-            const p = this.repositories.person.convertToModel(au.churchId, dbPerson, au.checkAccess(Permissions.people.edit));
+            const p = this.repositories.person.convertToModel(
+              au.churchId,
+              dbPerson,
+              au.checkAccess(Permissions.people.edit)
+            );
             p.churchId = au.churchId;
             removePromises.push(this.removeFromHousehold(p));
           }
@@ -124,7 +174,7 @@ export class PersonController extends MembershipBaseController {
 
   private async removeFromHousehold(person: Person) {
     const household: Household = { churchId: person.churchId, name: person.name.last };
-    return this.repositories.household.save(household).then(async h => {
+    return this.repositories.household.save(household).then(async (h) => {
       person.householdId = h.id;
       person.householdRole = "Head";
       await this.repositories.person.updateHousehold(person);
@@ -132,40 +182,64 @@ export class PersonController extends MembershipBaseController {
   }
 
   @httpGet("/attendance")
-  public async loadAttendees(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async loadAttendees(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
       else {
-        const campusId = (req.query.campusId === undefined) ? "" : req.query.campusId.toString();
-        const serviceId = (req.query.serviceId === undefined) ? "" : req.query.serviceId.toString();
-        const serviceTimeId = (req.query.serviceTimeId === undefined) ? "" : req.query.serviceTimeId.toString();
-        const groupId = (req.query.groupId === undefined) ? "" : req.query.groupId.toString();
-        const categoryName = (req.query.categoryName === undefined) ? "" : req.query.categoryName.toString();
-        const startDate = (req.query.startDate === undefined) ? null : new Date(req.query.startDate.toString());
-        const endDate = (req.query.endDate === undefined) ? null : new Date(req.query.endDate.toString());
-        const data = await this.repositories.person.loadAttendees(au.churchId, campusId, serviceId, serviceTimeId, categoryName, groupId, startDate, endDate);
+        const campusId = req.query.campusId === undefined ? "" : req.query.campusId.toString();
+        const serviceId = req.query.serviceId === undefined ? "" : req.query.serviceId.toString();
+        const serviceTimeId = req.query.serviceTimeId === undefined ? "" : req.query.serviceTimeId.toString();
+        const groupId = req.query.groupId === undefined ? "" : req.query.groupId.toString();
+        const categoryName = req.query.categoryName === undefined ? "" : req.query.categoryName.toString();
+        const startDate = req.query.startDate === undefined ? null : new Date(req.query.startDate.toString());
+        const endDate = req.query.endDate === undefined ? null : new Date(req.query.endDate.toString());
+        const data = await this.repositories.person.loadAttendees(
+          au.churchId,
+          campusId,
+          serviceId,
+          serviceTimeId,
+          categoryName,
+          groupId,
+          startDate,
+          endDate
+        );
         return this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
       }
     });
   }
 
   @httpGet("/search/phone")
-  public async searchPhone(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async searchPhone(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.people.view) && !(await this.isMember(au.membershipStatus)))
+        return this.json({}, 401);
       else {
         const phoneNumber: string = req.query.number.toString();
         const data = await this.repositories.person.searchPhone(au.churchId, phoneNumber);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        const result = this.repositories.person.convertAllToModel(
+          au.churchId,
+          data,
+          au.checkAccess(Permissions.people.edit)
+        );
         return this.filterPeople(result, au);
       }
     });
   }
 
   @httpGet("/search/group")
-  public async searchGroup(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async searchGroup(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.people.view) && !(await this.isMember(au.membershipStatus)))
+        return this.json({}, 401);
       else {
         let data: any[] = [];
         const members = await this.repositories.groupMember.loadForGroup(au.churchId, req.query.groupId.toString());
@@ -174,16 +248,24 @@ export class PersonController extends MembershipBaseController {
         }
         const peopleIds = ArrayHelper.getIds(members, "personId");
         data = await this.repositories.person.loadByIds(au.churchId, peopleIds);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        const result = this.repositories.person.convertAllToModel(
+          au.churchId,
+          data,
+          au.checkAccess(Permissions.people.edit)
+        );
         return this.filterPeople(result, au);
       }
     });
   }
 
   @httpGet("/search")
-  public async search(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async search(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && !await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.people.view) && !(await this.isMember(au.membershipStatus)))
+        return this.json({}, 401);
       else {
         let data = null;
         const email: string = req.query.email?.toString();
@@ -194,18 +276,25 @@ export class PersonController extends MembershipBaseController {
           const filterOptedOut = au.checkAccess(Permissions.server.admin) ? false : true;
           data = await this.repositories.person.search(au.churchId, term, filterOptedOut);
         }
-        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        const result = this.repositories.person.convertAllToModel(
+          au.churchId,
+          data,
+          au.checkAccess(Permissions.people.edit)
+        );
         return this.filterPeople(result, au);
       }
     });
   }
 
   @httpGet("/basic")
-  public async getBasic(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getBasic(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       const idList = req.query.ids.toString().split(",");
       const ids: string[] = [];
-      idList.forEach(id => ids.push(id));
+      idList.forEach((id) => ids.push(id));
       const data = await this.repositories.person.loadByIds(au.churchId, ids);
       const result = this.repositories.person.convertAllToBasicModel(au.churchId, data);
       return this.filterPeople(result, au);
@@ -213,25 +302,43 @@ export class PersonController extends MembershipBaseController {
   }
 
   @httpGet("/directory/:id")
-  public async getDirectoryPeople(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getDirectoryPeople(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (au.personId !== id && !au.checkAccess(Permissions.people.view)) {
         if (id === "all") {
-          return this.repositories.person.convertAllToBasicModel(au.churchId, await this.repositories.person.loadAll(au.churchId));
+          return this.repositories.person.convertAllToBasicModel(
+            au.churchId,
+            await this.repositories.person.loadAll(au.churchId)
+          );
         } else {
           const data = await this.repositories.person.load(au.churchId, id);
           if (!data) return null;
           const result = this.repositories.person.convertToModel(au.churchId, data, false);
-          return this.repositories.person.convertToPreferenceModel(au.churchId, await this.checkVisibilityPref(id, au, result));
+          return this.repositories.person.convertToPreferenceModel(
+            au.churchId,
+            await this.checkVisibilityPref(id, au, result)
+          );
           // return result;
         }
       } else {
         if (id === "all") {
-          return this.repositories.person.convertAllToModel(au.churchId, await this.repositories.person.loadAll(au.churchId), false);
+          return this.repositories.person.convertAllToModel(
+            au.churchId,
+            await this.repositories.person.loadAll(au.churchId),
+            false
+          );
         } else {
           const data = await this.repositories.person.load(au.churchId, id);
           if (!data) return null;
-          const result = this.repositories.person.convertToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+          const result = this.repositories.person.convertToModel(
+            au.churchId,
+            data,
+            au.checkAccess(Permissions.people.edit)
+          );
           await this.appendFormSubmissions(au.churchId, result);
           return result;
         }
@@ -240,28 +347,45 @@ export class PersonController extends MembershipBaseController {
   }
 
   @httpGet("/ids")
-  public async getMultiple(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getMultiple(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && ! await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.people.view) && !(await this.isMember(au.membershipStatus)))
+        return this.json({}, 401);
       else {
         const idList = req.query.ids.toString().split(",");
         const ids: string[] = [];
-        idList.forEach(id => ids.push(id));
+        idList.forEach((id) => ids.push(id));
         const data = await this.repositories.person.loadByIds(au.churchId, ids);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        const result = this.repositories.person.convertAllToModel(
+          au.churchId,
+          data,
+          au.checkAccess(Permissions.people.edit)
+        );
         return this.filterPeople(result, au);
       }
     });
   }
 
   @httpGet("/:id")
-  public async get(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async get(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (au.personId !== id && !au.checkAccess(Permissions.people.view) && ! await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      if (au.personId !== id && !au.checkAccess(Permissions.people.view) && !(await this.isMember(au.membershipStatus)))
+        return this.json({}, 401);
       else {
         const data = await this.repositories.person.load(au.churchId, id);
         if (!data) return null;
-        const result = this.repositories.person.convertToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        const result = this.repositories.person.convertToModel(
+          au.churchId,
+          data,
+          au.checkAccess(Permissions.people.edit)
+        );
         await this.appendFormSubmissions(au.churchId, result);
         return result;
       }
@@ -269,23 +393,35 @@ export class PersonController extends MembershipBaseController {
   }
 
   @httpGet("/")
-  public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getAll(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && ! await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.people.view) && !(await this.isMember(au.membershipStatus)))
+        return this.json({}, 401);
       else {
-        const data = (au.checkAccess(Permissions.people.view))
+        const data = au.checkAccess(Permissions.people.view)
           ? await this.repositories.person.loadAll(au.churchId)
           : await this.repositories.person.loadMembers(au.churchId);
-        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        const result = this.repositories.person.convertAllToModel(
+          au.churchId,
+          data,
+          au.checkAccess(Permissions.people.edit)
+        );
         return this.filterPeople(result, au);
       }
     });
   }
 
   @httpPost("/search")
-  public async searchPost(req: express.Request<{}, {}, { email?: string, term?: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async searchPost(
+    req: express.Request<{}, {}, { email?: string; term?: string }>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && ! await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.people.view) && !(await this.isMember(au.membershipStatus)))
+        return this.json({}, 401);
       else {
         let data = null;
         const email: string = req.body.email?.toString();
@@ -295,34 +431,50 @@ export class PersonController extends MembershipBaseController {
           if (term === null) term = "";
           data = await this.repositories.person.search(au.churchId, term);
         }
-        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        const result = this.repositories.person.convertAllToModel(
+          au.churchId,
+          data,
+          au.checkAccess(Permissions.people.edit)
+        );
         return this.filterPeople(result, au);
       }
     });
   }
 
   @httpPost("/advancedSearch")
-  public async advancedSearch(req: express.Request<{}, {}, SearchCondition[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async advancedSearch(
+    req: express.Request<{}, {}, SearchCondition[]>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
-      if (!au.checkAccess(Permissions.people.view) && ! await this.isMember(au.membershipStatus)) return this.json({}, 401);
+      if (!au.checkAccess(Permissions.people.view) && !(await this.isMember(au.membershipStatus)))
+        return this.json({}, 401);
       else {
         let data: any[] = await this.repositories.person.loadAll(au.churchId);
-        req.body.forEach(c => {
+        req.body.forEach((c) => {
           switch (c.field) {
             case "age":
-              data.forEach(p => { p.age = PersonHelper.getAge(p.birthDate); });
+              data.forEach((p) => {
+                p.age = PersonHelper.getAge(p.birthDate);
+              });
               data = ArrayHelper.getAllOperator(data, "age", c.value, c.operator, "number");
               break;
             case "yearsMarried":
-              data.forEach(p => { p.yearsMarried = PersonHelper.getAge(p.anniversaryDate); });
+              data.forEach((p) => {
+                p.yearsMarried = PersonHelper.getAge(p.anniversaryDate);
+              });
               data = ArrayHelper.getAllOperator(data, "yearsMarried", c.value, c.operator, "number");
               break;
             case "birthMonth":
-              data.forEach(p => { p.birthMonth = PersonHelper.getBirthMonth(p.birthDate); });
+              data.forEach((p) => {
+                p.birthMonth = PersonHelper.getBirthMonth(p.birthDate);
+              });
               data = ArrayHelper.getAllOperator(data, "birthMonth", c.value, c.operator, "number");
               break;
             case "anniversaryMonth":
-              data.forEach(p => { p.anniversaryMonth = PersonHelper.getBirthMonth(p.anniversaryDate); });
+              data.forEach((p) => {
+                p.anniversaryMonth = PersonHelper.getBirthMonth(p.anniversaryDate);
+              });
               data = ArrayHelper.getAllOperator(data, "anniversaryMonth", c.value, c.operator, "number");
               break;
             case "phone":
@@ -338,16 +490,22 @@ export class PersonController extends MembershipBaseController {
               data = ArrayHelper.getAllOperator(data, c.field, c.value, c.operator);
               break;
           }
-
         });
-        const result = this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+        const result = this.repositories.person.convertAllToModel(
+          au.churchId,
+          data,
+          au.checkAccess(Permissions.people.edit)
+        );
         return this.filterPeople(result, au);
       }
     });
   }
 
   @httpPost("/")
-  public async save(req: express.Request<{}, {}, Person[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async save(
+    req: express.Request<{}, {}, Person[]>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       let isSelfPermissionValid = false;
       if (au.checkAccess(Permissions.people.editSelf)) {
@@ -356,25 +514,34 @@ export class PersonController extends MembershipBaseController {
       if (!au.checkAccess(Permissions.people.edit) && !isSelfPermissionValid) return this.json({}, 401);
       else {
         const promises: Promise<Person>[] = [];
-        req.body.forEach(person => {
+        req.body.forEach((person) => {
           person.churchId = au.churchId;
           if (person.contactInfo === undefined) person.contactInfo = {};
           promises.push(
             this.repositories.person.save(person).then(async (p) => {
               // const r = this.repositories.person.convertToModel(au.churchId, p);
               p.churchId = au.churchId;
-              if (p.photo !== undefined && p.photo.startsWith("data:image/png;base64,")) await this.savePhoto(au.churchId, p);
+              if (p.photo !== undefined && p.photo.startsWith("data:image/png;base64,"))
+                await this.savePhoto(au.churchId, p);
               return p;
             })
           );
         });
-        return this.repositories.person.convertAllToModel(au.churchId, await Promise.all(promises), au.checkAccess(Permissions.people.edit));
+        return this.repositories.person.convertAllToModel(
+          au.churchId,
+          await Promise.all(promises),
+          au.checkAccess(Permissions.people.edit)
+        );
       }
     });
   }
 
   @httpDelete("/:id")
-  public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async delete(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
       else {
@@ -383,8 +550,6 @@ export class PersonController extends MembershipBaseController {
       }
     });
   }
-
-
 
   private async savePhoto(churchId: string, person: Person) {
     const base64 = person.photo.split(",")[1];
@@ -397,15 +562,25 @@ export class PersonController extends MembershipBaseController {
   }
 
   private async appendFormSubmissions(churchId: string, person: Person) {
-    const submissions: FormSubmission[] = this.repositories.formSubmission.convertAllToModel(churchId, await this.repositories.formSubmission.loadForContent(churchId, "person", person.id));
+    const submissions: FormSubmission[] = this.repositories.formSubmission.convertAllToModel(
+      churchId,
+      await this.repositories.formSubmission.loadForContent(churchId, "person", person.id)
+    );
     if (submissions.length > 0) {
       const formIds: string[] = [];
-      submissions.forEach(s => { if (formIds.indexOf(s.formId) === -1) formIds.push(s.formId); });
-      const forms: Form[] = this.repositories.form.convertAllToModel(churchId, await this.repositories.form.loadByIds(churchId, formIds));
+      submissions.forEach((s) => {
+        if (formIds.indexOf(s.formId) === -1) formIds.push(s.formId);
+      });
+      const forms: Form[] = this.repositories.form.convertAllToModel(
+        churchId,
+        await this.repositories.form.loadByIds(churchId, formIds)
+      );
 
       person.formSubmissions = [];
-      submissions.forEach(s => {
-        forms.forEach(f => { if (f.id === s.formId) s.form = f; });
+      submissions.forEach((s) => {
+        forms.forEach((f) => {
+          if (f.id === s.formId) s.form = f;
+        });
         if (s.form !== undefined) person.formSubmissions.push(s);
       });
     }
@@ -415,7 +590,9 @@ export class PersonController extends MembershipBaseController {
     if (au.checkAccess(Permissions.people.view)) return people;
     else {
       const result: Person[] = [];
-      people.forEach(p => { if (p.membershipStatus === "Member" || p.membershipStatus === "Staff") result.push(p); });
+      people.forEach((p) => {
+        if (p.membershipStatus === "Member" || p.membershipStatus === "Staff") result.push(p);
+      });
       return result;
     }
   }
@@ -427,13 +604,16 @@ export class PersonController extends MembershipBaseController {
   }
 
   private async checkVisibilityPref(personId: string, au: AuthenticatedUser, person: Person) {
-    const personPref: { address: string, phone: string, email: string } = await this.getPreferences(au.churchId, personId);
+    const personPref: { address: string; phone: string; email: string } = await this.getPreferences(
+      au.churchId,
+      personId
+    );
     const p = { ...person };
 
     // check address visibility preferences
     if (personPref.address === "everyone") {
       p.contactInfo.address1 = person.contactInfo.address1; // show to everyone
-    } else if (personPref.address === "members" && !await this.isMember(au.membershipStatus)) {
+    } else if (personPref.address === "members" && !(await this.isMember(au.membershipStatus))) {
       p.contactInfo.address1 = undefined; // hide from non-members
     } else if (personPref.address === "groups") {
       const isInGroup = await this.checkGroupMembership(au, personId);
@@ -445,7 +625,7 @@ export class PersonController extends MembershipBaseController {
       p.contactInfo.mobilePhone = person.contactInfo.mobilePhone;
       p.contactInfo.homePhone = person.contactInfo.homePhone;
       p.contactInfo.workPhone = person.contactInfo.workPhone;
-    } else if (personPref.phone === "members" && !await this.isMember(au.membershipStatus)) {
+    } else if (personPref.phone === "members" && !(await this.isMember(au.membershipStatus))) {
       p.contactInfo.mobilePhone = undefined;
       p.contactInfo.homePhone = undefined;
       p.contactInfo.workPhone = undefined;
@@ -459,7 +639,7 @@ export class PersonController extends MembershipBaseController {
     // check email visibility preference
     if (personPref.email === "everyone") {
       p.contactInfo.email = person.contactInfo.email;
-    } else if (personPref.email === "members" && !await this.isMember(au.membershipStatus)) {
+    } else if (personPref.email === "members" && !(await this.isMember(au.membershipStatus))) {
       p.contactInfo.email = undefined;
     } else if (personPref.email === "groups") {
       const isInGroup = await this.checkGroupMembership(au, personId);
@@ -469,25 +649,40 @@ export class PersonController extends MembershipBaseController {
     return p;
   }
 
-  private async getPreferences (churchId: string, personId: string) {
-    const personPreferences: VisibilityPreference = await this.repositories.visibilityPreference.loadForPerson(churchId, personId);
-    const pref = { address: personPreferences?.address, phone: personPreferences?.phoneNumber, email: personPreferences?.email };
+  private async getPreferences(churchId: string, personId: string) {
+    const personPreferences: VisibilityPreference = await this.repositories.visibilityPreference.loadForPerson(
+      churchId,
+      personId
+    );
+    const pref = {
+      address: personPreferences?.address,
+      phone: personPreferences?.phoneNumber,
+      email: personPreferences?.email
+    };
 
     if (!personPreferences?.address || !personPreferences?.phoneNumber || !personPreferences?.email) {
-      const churchSettings = this.repositories.setting.convertAllToModel(churchId, await this.repositories.setting.loadPublicSettings(churchId));
+      const churchSettings = this.repositories.setting.convertAllToModel(
+        churchId,
+        await this.repositories.setting.loadPublicSettings(churchId)
+      );
       const publicSettings: any = {};
-      churchSettings?.forEach((s: any) => { publicSettings[s.keyName] = s.value; });
+      churchSettings?.forEach((s: any) => {
+        publicSettings[s.keyName] = s.value;
+      });
 
       if (!pref.address || pref.address === "") {
-        if (publicSettings?.addressVisibility && publicSettings.addressVisibility !== "") pref.address = publicSettings.addressVisibility;
+        if (publicSettings?.addressVisibility && publicSettings.addressVisibility !== "")
+          pref.address = publicSettings.addressVisibility;
         else pref.address = "members";
       }
       if (!pref.phone || pref.phone === "") {
-        if (publicSettings?.phoneVisibility && publicSettings.phoneVisibility !== "") pref.phone = publicSettings.phoneVisibility;
+        if (publicSettings?.phoneVisibility && publicSettings.phoneVisibility !== "")
+          pref.phone = publicSettings.phoneVisibility;
         else pref.phone = "members";
       }
       if (!pref.email || pref.email === "") {
-        if (publicSettings?.emailVisibility && publicSettings.emailVisibility !== "") pref.email = publicSettings.emailVisibility;
+        if (publicSettings?.emailVisibility && publicSettings.emailVisibility !== "")
+          pref.email = publicSettings.emailVisibility;
         else pref.email = "members";
       }
     }
@@ -501,5 +696,4 @@ export class PersonController extends MembershipBaseController {
     const personGroups = await this.repositories.groupMember.loadForPerson(au.churchId, personId);
     return groups?.some((group: any) => personGroups.some((personGroup: any) => personGroup.groupId === group.groupId));
   }
-
 }

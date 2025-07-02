@@ -3,12 +3,14 @@ import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
 import { UserChurch } from "../models";
 
-
 @controller("/userchurch")
 export class UserChurchController extends MembershipBaseController {
-
   @httpPatch("/:userId")
-  public async update(@requestParam("userId") userId: string, req: express.Request, res: express.Response): Promise<any> {
+  public async update(
+    @requestParam("userId") userId: string,
+    req: express.Request,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async () => {
       const { churchId, appName } = req.body;
       await this.repositories.accessLog.create({ appName: appName || "", churchId, userId });
@@ -51,7 +53,11 @@ export class UserChurchController extends MembershipBaseController {
   }
 
   @httpGet("/userid/:userId")
-  public async getByUserId(@requestParam("userId") userId: string, req: express.Request, res: express.Response): Promise<any> {
+  public async getByUserId(
+    @requestParam("userId") userId: string,
+    req: express.Request,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async ({ churchId }) => {
       const record = await this.repositories.userChurch.loadByUserId(userId, churchId);
       return this.repositories.userChurch.convertToModel(record);
@@ -59,11 +65,16 @@ export class UserChurchController extends MembershipBaseController {
   }
 
   @httpDelete("/record/:userId/:churchId/:personId")
-  public async deleteRecord(@requestParam("userId") userId: string, @requestParam("churchId") churchId: string, @requestParam("personId") personId: string, req: express.Request, res: express.Response): Promise<any> {
+  public async deleteRecord(
+    @requestParam("userId") userId: string,
+    @requestParam("churchId") churchId: string,
+    @requestParam("personId") personId: string,
+    req: express.Request,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       await this.repositories.userChurch.deleteRecord(userId, churchId, personId);
       return this.json({});
     });
   }
-
 }

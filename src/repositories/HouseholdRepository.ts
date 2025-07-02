@@ -5,7 +5,6 @@ import { UniqueIdHelper } from "../helpers";
 
 @injectable()
 export class HouseholdRepository {
-
   public save(household: Household) {
     return household.id ? this.update(household) : this.create(household);
   }
@@ -26,7 +25,10 @@ export class HouseholdRepository {
   }
 
   public deleteUnused(churchId: string) {
-    return DB.query("DELETE FROM households WHERE churchId=? AND id not in (SELECT householdId FROM people WHERE churchId=? AND householdId IS NOT NULL group by householdId)", [churchId, churchId]);
+    return DB.query(
+      "DELETE FROM households WHERE churchId=? AND id not in (SELECT householdId FROM people WHERE churchId=? AND householdId IS NOT NULL group by householdId)",
+      [churchId, churchId]
+    );
   }
 
   public delete(churchId: string, id: string) {
@@ -48,8 +50,7 @@ export class HouseholdRepository {
 
   public convertAllToModel(churchId: string, data: any[]) {
     const result: Household[] = [];
-    data.forEach(d => result.push(this.convertToModel(churchId, d)));
+    data.forEach((d) => result.push(this.convertToModel(churchId, d)));
     return result;
   }
-
 }

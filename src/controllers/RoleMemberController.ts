@@ -8,10 +8,12 @@ import { IPermission } from "@churchapps/apihelper";
 
 @controller("/rolemembers")
 export class RoleMemberController extends MembershipBaseController {
-
-
   @httpGet("/roles/:id")
-  public async loadByRole(@requestParam("id") id: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+  public async loadByRole(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, []>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const members = await this.repositories.roleMember.loadByRoleId(id, au.churchId);
       const hasAccess = await this.checkAccess(members, Permissions.roles.view, au);
@@ -19,14 +21,16 @@ export class RoleMemberController extends MembershipBaseController {
       else {
         if (this.include(req, "users")) {
           const userIds: string[] = [];
-          members.forEach(m => { if (userIds.indexOf(m.userId) === -1) userIds.push(m.userId); });
+          members.forEach((m) => {
+            if (userIds.indexOf(m.userId) === -1) userIds.push(m.userId);
+          });
           if (userIds.length > 0) {
             const users = await this.repositories.user.loadByIds(userIds);
-            users.forEach(u => {
+            users.forEach((u) => {
               u.password = null;
               u.registrationDate = null;
               u.lastLogin = null;
-              members.forEach(m => {
+              members.forEach((m) => {
                 if (m.userId === u.id) m.user = u;
               });
             });
@@ -48,13 +52,13 @@ export class RoleMemberController extends MembershipBaseController {
         for (const member of members) {
           member.churchId = au.churchId;
           if (member.addedBy === undefined || member.addedBy === null) member.addedBy = au.id;
-          if (member.userId === undefined || member.userId === null || member.userId === "") member.userId = await this.getUserId(member.user);
+          if (member.userId === undefined || member.userId === null || member.userId === "")
+            member.userId = await this.getUserId(member.user);
           promises.push(this.repositories.roleMember.save(member));
         }
         members = await Promise.all(promises);
         return this.json(members, 200);
       }
-
     });
   }
 
@@ -70,9 +74,12 @@ export class RoleMemberController extends MembershipBaseController {
     }
   }
 
-
   @httpDelete("/:id")
-  public async delete(@requestParam("id") id: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+  public async delete(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, []>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const member = await this.repositories.roleMember.loadById(id, au.churchId);
       const hasAccess = await this.checkAccess([member], Permissions.roles.view, au);
@@ -85,7 +92,12 @@ export class RoleMemberController extends MembershipBaseController {
   }
 
   @httpDelete("/self/:churchId/:userId")
-  public async deleteSelf(@requestParam("churchId") churchId: string, @requestParam("userId") userId: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+  public async deleteSelf(
+    @requestParam("churchId") churchId: string,
+    @requestParam("userId") userId: string,
+    req: express.Request<{}, {}, []>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       await this.repositories.roleMember.deleteSelf(churchId, userId);
       return this.json([], 200);
@@ -105,5 +117,4 @@ export class RoleMemberController extends MembershipBaseController {
     }*/
     return hasAccess;
   }
-
 }

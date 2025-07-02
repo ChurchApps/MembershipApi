@@ -3,11 +3,22 @@ import NodeGeocoder from "node-geocoder";
 import { Repositories } from "../repositories";
 
 export class GeoHelper {
-
   static async updateChurchAddress(church: Church) {
     const options: NodeGeocoder.Options = { provider: "openstreetmap" };
     const geocoder = NodeGeocoder(options);
-    const resp: NodeGeocoder.Entry[] = await geocoder.geocode(church.address1 + " " + church.address2 + " " + church.city + ", " + church.state + " " + church.zip + " " + church.country);
+    const resp: NodeGeocoder.Entry[] = await geocoder.geocode(
+      church.address1 +
+        " " +
+        church.address2 +
+        " " +
+        church.city +
+        ", " +
+        church.state +
+        " " +
+        church.zip +
+        " " +
+        church.country
+    );
     if (resp.length > 0) {
       const r = resp[0];
       if (r.streetNumber) {
@@ -22,6 +33,4 @@ export class GeoHelper {
       Repositories.getCurrent().church.save(church);
     }
   }
-
 }
-

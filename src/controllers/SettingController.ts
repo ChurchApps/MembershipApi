@@ -4,27 +4,31 @@ import { Setting } from "../models";
 import { Permissions, FileStorageHelper, Environment } from "../helpers";
 import { MembershipBaseController } from "./MembershipBaseController";
 
-
 @controller("/settings")
 export class SettingController extends MembershipBaseController {
-
   @httpGet("/")
   public async get(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.settings.edit)) return this.json({}, 401);
       else {
-        return this.repositories.setting.convertAllToModel(au.churchId, await this.repositories.setting.loadAll(au.churchId));
+        return this.repositories.setting.convertAllToModel(
+          au.churchId,
+          await this.repositories.setting.loadAll(au.churchId)
+        );
       }
     });
   }
 
   @httpPost("/")
-  public async post(req: express.Request<{}, {}, Setting[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async post(
+    req: express.Request<{}, {}, Setting[]>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.settings.edit)) return this.json({}, 401);
       else {
         const promises: Promise<Setting>[] = [];
-        req.body.forEach(setting => {
+        req.body.forEach((setting) => {
           setting.churchId = au.churchId;
           promises.push(this.saveSetting(setting));
         });
@@ -35,11 +39,18 @@ export class SettingController extends MembershipBaseController {
   }
 
   @httpGet("/public/:churchId")
-  public async publicRoute(@requestParam("churchId") churchId: string, req: express.Request, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async publicRoute(
+    @requestParam("churchId") churchId: string,
+    req: express.Request,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     try {
-      const settings = this.repositories.setting.convertAllToModel(churchId, await this.repositories.setting.loadPublicSettings(churchId));
+      const settings = this.repositories.setting.convertAllToModel(
+        churchId,
+        await this.repositories.setting.loadPublicSettings(churchId)
+      );
       const result: any = {};
-      settings.forEach(s => {
+      settings.forEach((s) => {
         result[s.keyName] = s.value;
       });
       return this.json(result, 200);
@@ -63,5 +74,4 @@ export class SettingController extends MembershipBaseController {
     setting.value = Environment.contentRoot + key + "?dt=" + photoUpdated.getTime().toString();
     return setting;
   }
-
 }

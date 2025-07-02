@@ -16,7 +16,15 @@ import {
   OAuthCodeRepository,
   OAuthClientRepository
 } from ".";
-import { UserRepository, ChurchRepository, RoleRepository, RoleMemberRepository, RolePermissionRepository, UserChurchRepository, AccessLogRepository } from ".";
+import {
+  UserRepository,
+  ChurchRepository,
+  RoleRepository,
+  RoleMemberRepository,
+  RolePermissionRepository,
+  UserChurchRepository,
+  AccessLogRepository
+} from ".";
 
 export class Repositories {
   public groupMember: GroupMemberRepository;
@@ -79,6 +87,5 @@ export class Repositories {
     this.oAuthClient = new OAuthClientRepository();
 
     this.clientError = new ClientErrorRepository();
-
   }
 }

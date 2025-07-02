@@ -5,7 +5,6 @@ import { UniqueIdHelper } from "../helpers";
 
 @injectable()
 export class AnswerRepository {
-
   public save(answer: Answer) {
     return answer.id ? this.update(answer) : this.create(answer);
   }
@@ -46,14 +45,18 @@ export class AnswerRepository {
   }
 
   public convertToModel(churchId: string, data: any) {
-    const result: Answer = { id: data.id, formSubmissionId: data.formSubmissionId, questionId: data.questionId, value: data.value };
+    const result: Answer = {
+      id: data.id,
+      formSubmissionId: data.formSubmissionId,
+      questionId: data.questionId,
+      value: data.value
+    };
     return result;
   }
 
   public convertAllToModel(churchId: string, data: any[]) {
     const result: Answer[] = [];
-    data.forEach(d => result.push(this.convertToModel(churchId, d)));
+    data.forEach((d) => result.push(this.convertToModel(churchId, d)));
     return result;
   }
-
 }

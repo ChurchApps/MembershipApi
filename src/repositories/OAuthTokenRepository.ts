@@ -10,16 +10,34 @@ export class OAuthTokenRepository {
   private async create(token: OAuthToken) {
     token.id = UniqueIdHelper.shortId();
     const expiresAt = DateHelper.toMysqlDate(token.expiresAt);
-    const sql = "INSERT INTO oAuthTokens (id, accessToken, refreshToken, clientId, userChurchId, scopes, expiresAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, NOW());";
-    const params = [token.id, token.accessToken, token.refreshToken, token.clientId, token.userChurchId, token.scopes, expiresAt];
+    const sql =
+      "INSERT INTO oAuthTokens (id, accessToken, refreshToken, clientId, userChurchId, scopes, expiresAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, NOW());";
+    const params = [
+      token.id,
+      token.accessToken,
+      token.refreshToken,
+      token.clientId,
+      token.userChurchId,
+      token.scopes,
+      expiresAt
+    ];
     await DB.query(sql, params);
     return token;
   }
 
   private async update(token: OAuthToken) {
     const expiresAt = DateHelper.toMysqlDate(token.expiresAt);
-    const sql = "UPDATE oAuthTokens SET accessToken=?, refreshToken=?, clientId=?, userChurchId=?, scopes=?, expiresAt=? WHERE id=?;";
-    const params = [token.accessToken, token.refreshToken, token.clientId, token.userChurchId, token.scopes, expiresAt, token.id];
+    const sql =
+      "UPDATE oAuthTokens SET accessToken=?, refreshToken=?, clientId=?, userChurchId=?, scopes=?, expiresAt=? WHERE id=?;";
+    const params = [
+      token.accessToken,
+      token.refreshToken,
+      token.clientId,
+      token.userChurchId,
+      token.scopes,
+      expiresAt,
+      token.id
+    ];
     await DB.query(sql, params);
     return token;
   }

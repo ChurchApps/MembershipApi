@@ -9,4 +9,3 @@ export class OAuthCode {
   public scopes?: string;
   public createdAt?: Date;
 }
-

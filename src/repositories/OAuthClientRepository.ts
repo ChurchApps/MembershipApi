@@ -9,7 +9,8 @@ export class OAuthClientRepository {
 
   private async create(client: OAuthClient) {
     client.id = UniqueIdHelper.shortId();
-    const sql = "INSERT INTO oAuthClients (id, name, clientId, clientSecret, redirectUris, scopes, createdAt) VALUES (?, ?, ?, ?, ?, ?, NOW());";
+    const sql =
+      "INSERT INTO oAuthClients (id, name, clientId, clientSecret, redirectUris, scopes, createdAt) VALUES (?, ?, ?, ?, ?, ?, NOW());";
     const params = [client.id, client.name, client.clientId, client.clientSecret, client.redirectUris, client.scopes];
     await DB.query(sql, params);
     return client;

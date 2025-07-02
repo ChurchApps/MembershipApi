@@ -7,9 +7,12 @@ import { Permissions, IPermission } from "../helpers";
 
 @controller("/rolepermissions")
 export class RolePermissionController extends MembershipBaseController {
-
   @httpGet("/roles/:id")
-  public async loadByRole(@requestParam("id") id: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+  public async loadByRole(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, []>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.roles.view)) return this.json({}, 401);
       else {
@@ -17,9 +20,12 @@ export class RolePermissionController extends MembershipBaseController {
         // when "id" is null, return roles associated with every member of church
         if (id === "null") {
           const everyonePermission = await this.repositories.rolePermission.loadForEveryone(au.churchId);
-          permissions = everyonePermission.map((e: any) => { delete e.churchName; delete e.subDomain; return e; });
-        }
-        else permissions = await this.repositories.rolePermission.loadByRoleId(au.churchId, id);
+          permissions = everyonePermission.map((e: any) => {
+            delete e.churchName;
+            delete e.subDomain;
+            return e;
+          });
+        } else permissions = await this.repositories.rolePermission.loadByRoleId(au.churchId, id);
 
         return this.json(permissions, 200);
       }
@@ -27,7 +33,11 @@ export class RolePermissionController extends MembershipBaseController {
   }
 
   @httpDelete("/:id")
-  public async deletePermission(@requestParam("id") id: string, req: express.Request<{}, {}, []>, res: express.Response): Promise<any> {
+  public async deletePermission(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, []>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.roles.edit)) return this.json({}, 401);
       else {
@@ -36,7 +46,6 @@ export class RolePermissionController extends MembershipBaseController {
       }
     });
   }
-
 
   @httpPost("/")
   public async save(req: express.Request<{}, {}, RolePermission[]>, res: express.Response): Promise<any> {
@@ -55,7 +64,6 @@ export class RolePermissionController extends MembershipBaseController {
     });
   }
 
-
   private async checkAccess(permissions: RolePermission[], permission: IPermission, au: AuthenticatedUser) {
     const hasAccess = au.checkAccess(permission);
     /*
@@ -69,5 +77,4 @@ export class RolePermissionController extends MembershipBaseController {
     }*/
     return hasAccess;
   }
-
 }

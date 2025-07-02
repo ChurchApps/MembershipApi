@@ -3,7 +3,6 @@ import { User } from "../models";
 import { UniqueIdHelper, DateHelper } from "../helpers";
 
 export class UserRepository {
-
   public save(user: User) {
     return user.id ? this.update(user) : this.create(user);
   }
@@ -19,12 +18,21 @@ export class UserRepository {
   private async update(user: User) {
     const registrationDate = DateHelper.toMysqlDate(user.registrationDate);
     const lastLogin = DateHelper.toMysqlDate(user.lastLogin);
-    const sql = "UPDATE users SET email=?, password=?, authGuid=?, firstName=?, lastName=?, registrationDate=?, lastLogin=? WHERE id=?;";
-    const params = [user.email, user.password, user.authGuid, user.firstName, user.lastName, registrationDate, lastLogin, user.id];
+    const sql =
+      "UPDATE users SET email=?, password=?, authGuid=?, firstName=?, lastName=?, registrationDate=?, lastLogin=? WHERE id=?;";
+    const params = [
+      user.email,
+      user.password,
+      user.authGuid,
+      user.firstName,
+      user.lastName,
+      registrationDate,
+      lastLogin,
+      user.id
+    ];
     await DB.query(sql, params);
     return user;
   }
-
 
   public load(id: string): Promise<User> {
     return DB.queryOne("SELECT * FROM users WHERE id=?", [id]);
@@ -54,5 +62,4 @@ export class UserRepository {
     const data = await DB.queryOne("SELECT COUNT(*) as count FROM users", []);
     return parseInt(data.count, 0);
   }
-
 }

@@ -5,7 +5,6 @@ import { UniqueIdHelper } from "@churchapps/apihelper";
 
 @injectable()
 export class SettingRepository {
-
   public save(setting: Setting) {
     return setting.id ? this.update(setting) : this.create(setting);
   }
@@ -34,7 +33,10 @@ export class SettingRepository {
   }
 
   public loadMulipleChurches(keyNames: string[], churchIds: string[]) {
-    return DB.query("SELECT * FROM settings WHERE keyName in (?) AND churchId IN (?) AND public=1", [keyNames, churchIds]);
+    return DB.query("SELECT * FROM settings WHERE keyName in (?) AND churchId IN (?) AND public=1", [
+      keyNames,
+      churchIds
+    ]);
   }
 
   public convertToModel(churchId: string, data: any) {
@@ -49,7 +51,7 @@ export class SettingRepository {
 
   public convertAllToModel(churchId: string, data: any[]) {
     const result: Setting[] = [];
-    data.forEach(d => result.push(this.convertToModel(churchId, d)));
+    data.forEach((d) => result.push(this.convertToModel(churchId, d)));
     return result;
   }
 }

@@ -5,9 +5,11 @@ import { VisibilityPreference } from "../models";
 
 @controller("/visibilityPreferences")
 export class VisibilityPreferenceController extends MembershipBaseController {
-
   @httpPost("/")
-  public async save(req: express.Request<{}, {}, VisibilityPreference[]>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async save(
+    req: express.Request<{}, {}, VisibilityPreference[]>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       const promises: Promise<VisibilityPreference>[] = [];
       req.body.forEach((v) => {

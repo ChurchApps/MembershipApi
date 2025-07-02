@@ -18,7 +18,6 @@ export class Environment extends EnvironmentBase {
     if (environment === "staging") file = "staging.json";
     if (environment === "prod") file = "prod.json";
 
-
     const relativePath = "../../config/" + file;
     const physicalPath = path.resolve(__dirname, relativePath);
 
@@ -31,10 +30,8 @@ export class Environment extends EnvironmentBase {
     this.supportEmail = data.supportEmail;
     this.chumsRoot = data.chumsRoot;
     this.messagingApi = process.env.MESSAGING_API || data.messagingApi;
-    this.hubspotKey = process.env.HUBSPOT_KEY || await AwsHelper.readParameter(`/${environment}/hubspotKey`);
-    this.caddyHost = process.env.CADDY_HOST || await AwsHelper.readParameter(`/${environment}/caddyHost`);
-    this.caddyPort = process.env.CADDY_PORT || await AwsHelper.readParameter(`/${environment}/caddyPort`);
-
+    this.hubspotKey = process.env.HUBSPOT_KEY || (await AwsHelper.readParameter(`/${environment}/hubspotKey`));
+    this.caddyHost = process.env.CADDY_HOST || (await AwsHelper.readParameter(`/${environment}/caddyHost`));
+    this.caddyPort = process.env.CADDY_PORT || (await AwsHelper.readParameter(`/${environment}/caddyPort`));
   }
-
 }

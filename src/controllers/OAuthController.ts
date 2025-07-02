@@ -6,12 +6,17 @@ import { Permissions } from "../helpers/Permissions";
 import { UniqueIdHelper } from "../helpers";
 import { AuthenticatedUser } from "../auth";
 
-
 @controller("/oauth")
 export class OAuthController extends MembershipBaseController {
-
   @httpPost("/authorize")
-  public async authorize(req: express.Request<{}, {}, { client_id: string, redirect_uri: string, response_type: string, scope: string, state?: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async authorize(
+    req: express.Request<
+      {},
+      {},
+      { client_id: string; redirect_uri: string; response_type: string; scope: string; state?: string }
+    >,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       const { client_id, redirect_uri, response_type, scope, state } = req.body;
 
@@ -42,7 +47,21 @@ export class OAuthController extends MembershipBaseController {
   }
 
   @httpPost("/token")
-  public async token(req: express.Request<{}, {}, { grant_type: string, code?: string, refresh_token?: string, client_id: string, client_secret: string, redirect_uri?: string }>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async token(
+    req: express.Request<
+      {},
+      {},
+      {
+        grant_type: string;
+        code?: string;
+        refresh_token?: string;
+        client_id: string;
+        client_secret: string;
+        redirect_uri?: string;
+      }
+    >,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapperAnon(req, res, async () => {
       const { grant_type, code, refresh_token, client_id, client_secret, redirect_uri } = req.body;
 
@@ -63,7 +82,11 @@ export class OAuthController extends MembershipBaseController {
         const userChurch = await this.repositories.userChurch.load(authCode.userChurchId);
         const user = await this.repositories.user.load(userChurch.userId);
         const church = await this.repositories.church.loadById(userChurch.churchId);
-        const loginUserChurch: LoginUserChurch = { church: { id: church.id, name: church.churchName, subDomain: church.subDomain }, person: { id: userChurch.personId, membershipStatus: "Guest" }, apis: [] };
+        const loginUserChurch: LoginUserChurch = {
+          church: { id: church.id, name: church.churchName, subDomain: church.subDomain },
+          person: { id: userChurch.personId, membershipStatus: "Guest" },
+          apis: []
+        };
 
         // Create access token
         const token: OAuthToken = {
@@ -125,12 +148,14 @@ export class OAuthController extends MembershipBaseController {
           scope: token.scopes
         });
       } else return this.json({ error: "unsupported_grant_type" }, 400);
-
     });
   }
 
   @httpGet("/clients")
-  public async getClients(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getClients(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       return await this.repositories.oAuthClient.loadAll();
@@ -138,7 +163,11 @@ export class OAuthController extends MembershipBaseController {
   }
 
   @httpGet("/clients/clientId/:clientId")
-  public async getClientByClientId(@requestParam("clientId") clientId: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getClientByClientId(
+    @requestParam("clientId") clientId: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       const result = await this.repositories.oAuthClient.loadByClientId(clientId);
       result.clientSecret = null;
@@ -147,7 +176,11 @@ export class OAuthController extends MembershipBaseController {
   }
 
   @httpGet("/clients/:id")
-  public async getClient(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getClient(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       return await this.repositories.oAuthClient.load(id);
@@ -155,7 +188,10 @@ export class OAuthController extends MembershipBaseController {
   }
 
   @httpPost("/clients")
-  public async saveClient(req: express.Request<{}, {}, OAuthClient>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async saveClient(
+    req: express.Request<{}, {}, OAuthClient>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       return await this.repositories.oAuthClient.save(req.body);
@@ -163,12 +199,15 @@ export class OAuthController extends MembershipBaseController {
   }
 
   @httpDelete("/clients/:id")
-  public async deleteClient(@requestParam("id") id: string, req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async deleteClient(
+    @requestParam("id") id: string,
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       await this.repositories.oAuthClient.delete(id);
       return this.json({}, 200);
     });
   }
-
 }

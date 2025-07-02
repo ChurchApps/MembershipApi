@@ -1,22 +1,13 @@
 {
+  "semi": true,
+  "trailingComma": "none",
+  "singleQuote": false,
   "printWidth": 120,
   "tabWidth": 2,
   "useTabs": false,
-  "semi": true,
-  "singleQuote": false,
-  "quoteProps": "as-needed",
-  "trailingComma": "none",
   "bracketSpacing": true,
-  "bracketSameLine": false,
-  "arrowParens": "avoid",
+  "arrowParens": "always",
   "endOfLine": "lf",
-  "overrides": [
-    {
-      "files": ["*.sql", "*.mysql"],
-      "options": {
-        "printWidth": 120,
-        "parser": "sql"
-      }
-    }
-  ]
+  "bracketSameLine": false,
+  "quoteProps": "as-needed"
 }

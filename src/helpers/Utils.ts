@@ -7,4 +7,3 @@ export class Utils {
     return value.charAt(0).toUpperCase() + value.substr(1).toLowerCase();
   }
 }
-

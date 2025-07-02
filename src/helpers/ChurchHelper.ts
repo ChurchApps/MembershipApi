@@ -2,12 +2,10 @@ import { ArrayHelper } from "@churchapps/apihelper";
 import { Repositories } from "../repositories";
 import { Church } from "../models";
 
-
 export class ChurchHelper {
-
   static async selectSubDomain(name: string) {
     const subDomain = this.suggestSubDomain(name) || "church";
-    const churches:Church[] = await Repositories.getCurrent().church.loadContainingSubDomain(subDomain);
+    const churches: Church[] = await Repositories.getCurrent().church.loadContainingSubDomain(subDomain);
     let result = subDomain;
     let i = 1;
     while (ArrayHelper.getOne(churches, "subDomain", result)) {
@@ -18,7 +16,12 @@ export class ChurchHelper {
   }
 
   static suggestSubDomain(name: string) {
-    const result = name.toLowerCase().replaceAll("christian", "").replaceAll("church", "").replaceAll(" ", "").replace(/[^A-Za-z0-9]/g, "");
+    const result = name
+      .toLowerCase()
+      .replaceAll("christian", "")
+      .replaceAll("church", "")
+      .replaceAll(" ", "")
+      .replace(/[^A-Za-z0-9]/g, "");
     return result;
   }
 
@@ -32,6 +35,4 @@ export class ChurchHelper {
       church.settings.push(s);
     });
   }
-
 }
-

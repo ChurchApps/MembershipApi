@@ -2,7 +2,17 @@ import { controller, httpDelete, httpPost, interfaces } from "inversify-express-
 import express from "express";
 import bcrypt from "bcryptjs";
 import { body, oneOf, validationResult } from "express-validator";
-import { LoginRequest, User, ResetPasswordRequest, LoadCreateUserRequest, RegisterUserRequest, Church, EmailPassword, NewPasswordRequest, LoginUserChurch } from "../models";
+import {
+  LoginRequest,
+  User,
+  ResetPasswordRequest,
+  LoadCreateUserRequest,
+  RegisterUserRequest,
+  Church,
+  EmailPassword,
+  NewPasswordRequest,
+  LoginUserChurch
+} from "../models";
 import { AuthenticatedUser } from "../auth";
 import { MembershipBaseController } from "./MembershipBaseController";
 import { EmailHelper, UserHelper, UniqueIdHelper, Environment } from "../helpers";
@@ -11,14 +21,23 @@ import { ChurchHelper } from "../helpers";
 import { ArrayHelper } from "@churchapps/apihelper";
 
 const emailPasswordValidation = [
-  body("email").isEmail().trim().normalizeEmail({ gmail_remove_dots: false }).withMessage("enter a valid email address"),
+  body("email")
+    .isEmail()
+    .trim()
+    .normalizeEmail({ gmail_remove_dots: false })
+    .withMessage("enter a valid email address"),
   body("password").isLength({ min: 6 }).withMessage("must be at least 6 chars long")
 ];
 
 const loadOrCreateValidation = [
   oneOf([
     [
-      body("userEmail").exists().isEmail().withMessage("enter a valid email address").trim().normalizeEmail({ gmail_remove_dots: false }),
+      body("userEmail")
+        .exists()
+        .isEmail()
+        .withMessage("enter a valid email address")
+        .trim()
+        .normalizeEmail({ gmail_remove_dots: false }),
       body("firstName").exists().withMessage("enter first name").not().isEmpty().trim().escape(),
       body("lastName").exists().withMessage("enter last name").not().isEmpty().trim().escape()
     ],
@@ -29,7 +48,12 @@ const loadOrCreateValidation = [
 const registerValidation = [
   oneOf([
     [
-      body("email").exists().isEmail().withMessage("enter a valid email address").trim().normalizeEmail({ gmail_remove_dots: false }),
+      body("email")
+        .exists()
+        .isEmail()
+        .withMessage("enter a valid email address")
+        .trim()
+        .normalizeEmail({ gmail_remove_dots: false }),
       body("firstName").exists().withMessage("enter first name").not().isEmpty().trim().escape(),
       body("lastName").exists().withMessage("enter last name").not().isEmpty().trim().escape()
     ]
@@ -49,7 +73,6 @@ const updateEmailValidation = [
 
 @controller("/users")
 export class UserController extends MembershipBaseController {
-
   @httpPost("/login")
   public async login(req: express.Request<{}, {}, LoginRequest>, res: express.Response): Promise<any> {
     const start = new Date();
@@ -57,8 +80,7 @@ export class UserController extends MembershipBaseController {
       let user: User = null;
       if (req.body.jwt !== undefined && req.body.jwt !== "") {
         user = await AuthenticatedUser.loadUserByJwt(req.body.jwt, this.repositories);
-      }
-      else if (req.body.authGuid !== undefined && req.body.authGuid !== "") {
+      } else if (req.body.authGuid !== undefined && req.body.authGuid !== "") {
         user = await this.repositories.user.loadByAuthGuid(req.body.authGuid);
         if (user !== null) {
           // user.authGuid = "";
@@ -76,9 +98,9 @@ export class UserController extends MembershipBaseController {
         const userChurches = await this.getUserChurches(user.id);
 
         const churchesOnly: Church[] = [];
-        userChurches.forEach(uc => churchesOnly.push(uc.church));
+        userChurches.forEach((uc) => churchesOnly.push(uc.church));
         await ChurchHelper.appendLogos(churchesOnly);
-        userChurches.forEach(uc => {
+        userChurches.forEach((uc) => {
           uc.church.settings = ArrayHelper.getOne(churchesOnly, "id", uc.church.id).settings;
         });
 
@@ -96,13 +118,10 @@ export class UserController extends MembershipBaseController {
     }
   }
 
-
   private async getUserChurches(id: string): Promise<LoginUserChurch[]> {
-
     const start = new Date();
     // Load user churches via Roles
-    const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true);  // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
-
+    const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true); // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
 
     UserHelper.replaceDomainAdminPermissions(roleUserChurches);
     UserHelper.addAllReportingPermissions(roleUserChurches);
@@ -110,22 +129,24 @@ export class UserController extends MembershipBaseController {
     // Load churches via userChurches relationships
     const userChurches: LoginUserChurch[] = await this.repositories.church.loadForUser(id);
 
-    userChurches.forEach(uc => {
+    userChurches.forEach((uc) => {
       if (!ArrayHelper.getOne(roleUserChurches, "church.id", uc.church.id)) roleUserChurches.push(uc);
     });
 
     const peopleIds: string[] = [];
-    roleUserChurches.forEach(uc => { if (uc.person.id) peopleIds.push(uc.person.id); });
+    roleUserChurches.forEach((uc) => {
+      if (uc.person.id) peopleIds.push(uc.person.id);
+    });
 
-    const allPeople = (peopleIds.length > 0) ? await this.repositories.person.loadByIdsOnly(peopleIds) : [];
-    const allGroups = (peopleIds.length > 0) ? await this.repositories.groupMember.loadForPeople(peopleIds) : [];
-    roleUserChurches.forEach(uc => {
+    const allPeople = peopleIds.length > 0 ? await this.repositories.person.loadByIdsOnly(peopleIds) : [];
+    const allGroups = peopleIds.length > 0 ? await this.repositories.groupMember.loadForPeople(peopleIds) : [];
+    roleUserChurches.forEach((uc) => {
       const person = ArrayHelper.getOne(allPeople, "id", uc.person.id);
       if (person) uc.person.membershipStatus = person.membershipStatus;
       const groups = ArrayHelper.getAll(allGroups, "personId", uc.person.id);
       uc.groups = [];
       // PASS groupId TO ID FIELD. OR CREATE NEW groupId FIELD.
-      groups.forEach(g => uc.groups.push({ id: g.groupId, tags: g.tags, name: g.name, leader: g.leader }));
+      groups.forEach((g) => uc.groups.push({ id: g.groupId, tags: g.tags, name: g.name, leader: g.leader }));
     });
 
     return roleUserChurches;
@@ -149,7 +170,7 @@ export class UserController extends MembershipBaseController {
         return this.denyAccess(["Incorrect password"]);
       }
       const userChurches = await this.repositories.rolePermission.loadForUser(user.id, false);
-      const churchNames = userChurches.map(uc => uc.church.name);
+      const churchNames = userChurches.map((uc) => uc.church.name);
 
       return this.json({ churches: churchNames }, 200);
     } catch (e) {
@@ -160,11 +181,15 @@ export class UserController extends MembershipBaseController {
 
   private async grantAdminAccess(userChurches: LoginUserChurch[], churchId: string) {
     let universalChurch = null;
-    userChurches.forEach(uc => { if (uc.church.id === "") universalChurch = uc; });
+    userChurches.forEach((uc) => {
+      if (uc.church.id === "") universalChurch = uc;
+    });
 
     if (universalChurch !== null) {
       let selectedChurch = null;
-      userChurches.forEach(uc => { if (uc.church.id === churchId) selectedChurch = uc; });
+      userChurches.forEach((uc) => {
+        if (uc.church.id === churchId) selectedChurch = uc;
+      });
       if (selectedChurch === null) {
         selectedChurch = await this.repositories.rolePermission.loadForChurch(churchId, universalChurch);
         userChurches.push(selectedChurch);
@@ -193,7 +218,12 @@ export class UserController extends MembershipBaseController {
         user.password = bcrypt.hashSync(tempPassword, 10);
         user.authGuid = v4();
         user = await this.repositories.user.save(user);
-        await UserHelper.sendWelcomeEmail(user.email, `/login?auth=${user.authGuid}&timestamp=${timestamp}`, null, null);
+        await UserHelper.sendWelcomeEmail(
+          user.email,
+          `/login?auth=${user.authGuid}&timestamp=${timestamp}`,
+          null,
+          null
+        );
       }
       user.password = null;
       return this.json(user, 200);
@@ -219,11 +249,31 @@ export class UserController extends MembershipBaseController {
 
         try {
           const timestamp = Date.now();
-          await UserHelper.sendWelcomeEmail(register.email, `/login?auth=${user.authGuid}&timestamp=${timestamp}`, register.appName, register.appUrl);
+          await UserHelper.sendWelcomeEmail(
+            register.email,
+            `/login?auth=${user.authGuid}&timestamp=${timestamp}`,
+            register.appName,
+            register.appUrl
+          );
 
           if (Environment.emailOnRegistration) {
-            const emailBody = "Name: " + register.firstName + " " + register.lastName + "<br/>Email: " + register.email + "<br/>App: " + register.appName;
-            await EmailHelper.sendTemplatedEmail(Environment.supportEmail, Environment.supportEmail, register.appName, register.appUrl, "New User Registration", emailBody);
+            const emailBody =
+              "Name: " +
+              register.firstName +
+              " " +
+              register.lastName +
+              "<br/>Email: " +
+              register.email +
+              "<br/>App: " +
+              register.appName;
+            await EmailHelper.sendTemplatedEmail(
+              Environment.supportEmail,
+              Environment.supportEmail,
+              register.appName,
+              register.appUrl,
+              "New User Registration",
+              emailBody
+            );
           }
         } catch (err) {
           return this.json({ errors: [err.toString()] });
@@ -235,11 +285,10 @@ export class UserController extends MembershipBaseController {
 
         // Add first user to server admins group
         if (userCount === 0) {
-          this.repositories.role.loadAll().then(roles => {
+          this.repositories.role.loadAll().then((roles) => {
             this.repositories.roleMember.save({ roleId: roles[0].id, userId: user.id, addedBy: user.id });
           });
         }
-
       }
       user.password = null;
       return this.json(user, 200);
@@ -263,7 +312,14 @@ export class UserController extends MembershipBaseController {
     }
   }
 
-  @httpPost("/forgot", body("userEmail").exists().trim().normalizeEmail({ gmail_remove_dots: false }).withMessage("enter a valid email address"))
+  @httpPost(
+    "/forgot",
+    body("userEmail")
+      .exists()
+      .trim()
+      .normalizeEmail({ gmail_remove_dots: false })
+      .withMessage("enter a valid email address")
+  )
   public async forgotPassword(req: express.Request<{}, {}, ResetPasswordRequest>, res: express.Response): Promise<any> {
     try {
       const errors = validationResult(req);
@@ -278,7 +334,14 @@ export class UserController extends MembershipBaseController {
         const promises = [];
         const timestamp = Date.now();
         promises.push(this.repositories.user.save(user));
-        promises.push(UserHelper.sendForgotEmail(user.email, `/login?auth=${user.authGuid}&timestamp=${timestamp}`, req.body.appName, req.body.appUrl));
+        promises.push(
+          UserHelper.sendForgotEmail(
+            user.email,
+            `/login?auth=${user.authGuid}&timestamp=${timestamp}`,
+            req.body.appName,
+            req.body.appUrl
+          )
+        );
         await Promise.all(promises);
         return this.json({ emailed: true }, 200);
       }
@@ -288,9 +351,11 @@ export class UserController extends MembershipBaseController {
     }
   }
 
-
   @httpPost("/setDisplayName", ...setDisplayNameValidation)
-  public async setDisplayName(req: express.Request<{}, {}, { firstName: string, lastName: string, userId?: string }>, res: express.Response): Promise<any> {
+  public async setDisplayName(
+    req: express.Request<{}, {}, { firstName: string; lastName: string; userId?: string }>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -309,7 +374,10 @@ export class UserController extends MembershipBaseController {
   }
 
   @httpPost("/updateEmail", ...updateEmailValidation)
-  public async updateEmail(req: express.Request<{}, {}, { email: string, userId?: string }>, res: express.Response): Promise<any> {
+  public async updateEmail(
+    req: express.Request<{}, {}, { email: string; userId?: string }>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const workingUserId = req.body.userId || au.id;
       const errors = validationResult(req);
@@ -332,13 +400,19 @@ export class UserController extends MembershipBaseController {
   }
 
   @httpPost("/updateOptedOut")
-  public async updateOptedOut(req: express.Request<{}, {}, { personId: string, optedOut: boolean }>, res: express.Response): Promise<any> {
+  public async updateOptedOut(
+    req: express.Request<{}, {}, { personId: string; optedOut: boolean }>,
+    res: express.Response
+  ): Promise<any> {
     this.repositories.person.updateOptedOut(req.body.personId, req.body.optedOut);
     return this.json({}, 200);
   }
 
   @httpPost("/updatePassword", body("newPassword").isLength({ min: 6 }).withMessage("must be at least 6 chars long"))
-  public async updatePassword(req: express.Request<{}, {}, { newPassword: string }>, res: express.Response): Promise<any> {
+  public async updatePassword(
+    req: express.Request<{}, {}, { newPassword: string }>,
+    res: express.Response
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -357,7 +431,10 @@ export class UserController extends MembershipBaseController {
   }
 
   @httpDelete("/")
-  public async Delete(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async Delete(
+    req: express.Request<{}, {}, null>,
+    res: express.Response
+  ): Promise<interfaces.IHttpActionResult> {
     return this.actionWrapper(req, res, async (au) => {
       await this.repositories.user.delete(au.id);
       await this.repositories.userChurch.delete(au.id);
@@ -365,5 +442,4 @@ export class UserController extends MembershipBaseController {
       return this.json({});
     });
   }
-
 }

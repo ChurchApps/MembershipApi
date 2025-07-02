@@ -9,4 +9,3 @@ export class OAuthToken {
   public expiresAt?: Date;
   public createdAt?: Date;
 }
-
