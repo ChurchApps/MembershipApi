@@ -8,7 +8,7 @@ import { CaddyHelper, Environment } from "../helpers";
 @controller("/domains")
 export class DomainController extends MembershipBaseController {
   @httpGet("/caddy")
-  public async caddy(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async caddy(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapperAnon(req, res, async () => {
       const jsonData = await CaddyHelper.generateJsonData();
       await CaddyHelper.updateCaddy();
@@ -17,7 +17,7 @@ export class DomainController extends MembershipBaseController {
   }
 
   @httpGet("/test")
-  public async test(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async test(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapperAnon(req, res, async () => {
       const jsonData = await CaddyHelper.generateJsonData();
       return jsonData;
@@ -25,7 +25,7 @@ export class DomainController extends MembershipBaseController {
   }
 
   @httpGet("/test2")
-  public async test2(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async test2(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapperAnon(req, res, async () => {
       const adminUrl = "https://" + Environment.caddyHost + ":" + Environment.caddyPort + "/load";
       return { adminUrl };
@@ -37,7 +37,7 @@ export class DomainController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       return await this.repositories.domain.load(au.churchId, id);
     });
@@ -48,7 +48,7 @@ export class DomainController extends MembershipBaseController {
     @requestParam("domainName") domainName: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       return await this.repositories.domain.loadByName(domainName);
     });
@@ -59,27 +59,21 @@ export class DomainController extends MembershipBaseController {
     @requestParam("domainName") domainName: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapperAnon(req, res, async () => {
       return await this.repositories.domain.loadByName(domainName);
     });
   }
 
   @httpGet("/")
-  public async getAll(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       return await this.repositories.domain.loadAll(au.churchId);
     });
   }
 
   @httpPost("/")
-  public async save(
-    req: express.Request<{}, {}, Domain[]>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async save(req: express.Request<{}, {}, Domain[]>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.settings.edit)) return this.json({}, 401);
       else {
@@ -100,7 +94,7 @@ export class DomainController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.settings.edit)) return this.json({}, 401);
       else {

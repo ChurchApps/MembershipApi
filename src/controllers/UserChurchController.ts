@@ -18,10 +18,11 @@ export class UserChurchController extends MembershipBaseController {
       if (!existing) {
         return this.json({ message: "No church found for user" }, 400);
       } else {
+        const existingUserChurch = existing as UserChurch;
         const updatedUserChrurch: UserChurch = {
-          id: existing?.id,
+          id: existingUserChurch?.id,
           userId,
-          personId: existing.personId,
+          personId: existingUserChurch.personId,
           churchId,
           lastAccessed: new Date()
         };
@@ -38,7 +39,9 @@ export class UserChurchController extends MembershipBaseController {
       const record = await this.repositories.userChurch.loadByUserId(userId, au.churchId);
       let result: any = {};
       if (record) {
-        if (record.userId !== userId) return this.json({ message: "User already has a linked person record" }, 400);
+        const userChurchRecord = record as UserChurch;
+        if (userChurchRecord.userId !== userId)
+          return this.json({ message: "User already has a linked person record" }, 400);
       } else {
         const userChurch: UserChurch = {
           userId,

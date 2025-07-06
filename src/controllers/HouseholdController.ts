@@ -11,7 +11,7 @@ export class HouseholdController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       return this.repositories.household.convertToModel(
         au.churchId,
@@ -21,23 +21,17 @@ export class HouseholdController extends MembershipBaseController {
   }
 
   @httpGet("/")
-  public async getAll(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       return this.repositories.household.convertAllToModel(
         au.churchId,
-        await this.repositories.household.loadAll(au.churchId)
+        (await this.repositories.household.loadAll(au.churchId)) as any[]
       );
     });
   }
 
   @httpPost("/")
-  public async save(
-    req: express.Request<{}, {}, Household[]>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async save(req: express.Request<{}, {}, Household[]>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
       else {
@@ -57,7 +51,7 @@ export class HouseholdController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.people.edit)) return this.json({}, 401);
       else {

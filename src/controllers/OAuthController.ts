@@ -16,16 +16,16 @@ export class OAuthController extends MembershipBaseController {
       { client_id: string; redirect_uri: string; response_type: string; scope: string; state?: string }
     >,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const { client_id, redirect_uri, response_type, scope, state } = req.body;
 
-      const client = await this.repositories.oAuthClient.loadByClientId(client_id);
+      const client = (await this.repositories.oAuthClient.loadByClientId(client_id)) as any;
       if (!client) return this.json({ error: "invalid_client" }, 400);
       if (!client.redirectUris?.includes(redirect_uri)) return this.json({ error: "invalid_redirect_uri" }, 400);
       if (response_type !== "code") return this.json({ error: "unsupported_response_type" }, 400);
 
-      const userChurch = await this.repositories.userChurch.loadByUserId(au.id, au.churchId);
+      const userChurch = (await this.repositories.userChurch.loadByUserId(au.id, au.churchId)) as any;
 
       // Create authorization code
       const authCode: OAuthCode = {
@@ -61,16 +61,16 @@ export class OAuthController extends MembershipBaseController {
       }
     >,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapperAnon(req, res, async () => {
       const { grant_type, code, refresh_token, client_id, client_secret, redirect_uri } = req.body;
 
-      const client = await this.repositories.oAuthClient.loadByClientIdAndSecret(client_id, client_secret);
+      const client = (await this.repositories.oAuthClient.loadByClientIdAndSecret(client_id, client_secret)) as any;
       if (!client) return this.json({ error: "invalid_client" }, 400);
 
       if (grant_type === "authorization_code") {
         if (!code) return this.json({ error: "invalid_request" }, 400);
-        const authCode = await this.repositories.oAuthCode.loadByCode(code);
+        const authCode = (await this.repositories.oAuthCode.loadByCode(code)) as any;
         if (!authCode || authCode.clientId !== client.clientId) return this.json({ error: "invalid_grant" }, 400);
         if (redirect_uri && authCode.redirectUri !== redirect_uri) return this.json({ error: "invalid_grant" }, 400);
 
@@ -79,9 +79,9 @@ export class OAuthController extends MembershipBaseController {
           return this.json({ error: "invalid_grant" }, 400);
         }
 
-        const userChurch = await this.repositories.userChurch.load(authCode.userChurchId);
-        const user = await this.repositories.user.load(userChurch.userId);
-        const church = await this.repositories.church.loadById(userChurch.churchId);
+        const userChurch = (await this.repositories.userChurch.load(authCode.userChurchId)) as any;
+        const user = (await this.repositories.user.load(userChurch.userId)) as any;
+        const church = (await this.repositories.church.loadById(userChurch.churchId)) as any;
         const loginUserChurch: LoginUserChurch = {
           church: { id: church.id, name: church.churchName, subDomain: church.subDomain },
           person: { id: userChurch.personId, membershipStatus: "Guest" },
@@ -112,14 +112,14 @@ export class OAuthController extends MembershipBaseController {
         });
       } else if (grant_type === "refresh_token") {
         if (!refresh_token) return this.json({ error: "invalid_request" }, 400);
-        const oldToken = await this.repositories.oAuthToken.loadByRefreshToken(refresh_token);
+        const oldToken = (await this.repositories.oAuthToken.loadByRefreshToken(refresh_token)) as any;
 
         if (!oldToken || oldToken.clientId !== client.clientId) return this.json({ error: "invalid_grant" }, 400);
 
         // Fetch user/church data to generate proper JWT
-        const userChurch = await this.repositories.userChurch.load(oldToken.userChurchId);
-        const user = await this.repositories.user.load(userChurch.userId);
-        const church = await this.repositories.church.loadById(userChurch.churchId);
+        const userChurch = (await this.repositories.userChurch.load(oldToken.userChurchId)) as any;
+        const user = (await this.repositories.user.load(userChurch.userId)) as any;
+        const church = (await this.repositories.church.loadById(userChurch.churchId)) as any;
         const loginUserChurch: LoginUserChurch = {
           church: { id: church.id, name: church.churchName, subDomain: church.subDomain },
           person: { id: userChurch.personId, membershipStatus: "Guest" },
@@ -152,10 +152,7 @@ export class OAuthController extends MembershipBaseController {
   }
 
   @httpGet("/clients")
-  public async getClients(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async getClients(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       return await this.repositories.oAuthClient.loadAll();
@@ -167,9 +164,9 @@ export class OAuthController extends MembershipBaseController {
     @requestParam("clientId") clientId: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
-      const result = await this.repositories.oAuthClient.loadByClientId(clientId);
+      const result = (await this.repositories.oAuthClient.loadByClientId(clientId)) as any;
       result.clientSecret = null;
       return result;
     });
@@ -180,7 +177,7 @@ export class OAuthController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       return await this.repositories.oAuthClient.load(id);
@@ -188,10 +185,7 @@ export class OAuthController extends MembershipBaseController {
   }
 
   @httpPost("/clients")
-  public async saveClient(
-    req: express.Request<{}, {}, OAuthClient>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async saveClient(req: express.Request<{}, {}, OAuthClient>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       return await this.repositories.oAuthClient.save(req.body);
@@ -203,7 +197,7 @@ export class OAuthController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       await this.repositories.oAuthClient.delete(id);

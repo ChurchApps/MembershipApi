@@ -20,7 +20,7 @@ export class RolePermissionController extends MembershipBaseController {
         // when "id" is null, return roles associated with every member of church
         if (id === "null") {
           const everyonePermission = await this.repositories.rolePermission.loadForEveryone(au.churchId);
-          permissions = everyonePermission.map((e: any) => {
+          permissions = (everyonePermission as any[]).map((e: any) => {
             delete e.churchName;
             delete e.subDomain;
             return e;

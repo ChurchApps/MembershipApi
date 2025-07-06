@@ -21,15 +21,16 @@ export const init = async () => {
   await container.loadAsync(bindings);
   const app = new InversifyExpressServer(container, null, null, null, CustomAuthProvider);
 
-
   const configFunction = (expApp: express.Application) => {
     // Configure CORS first
-    expApp.use(cors({
-      origin: true,
-      credentials: true,
-      methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"]
-    }));
+    expApp.use(
+      cors({
+        origin: true,
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"]
+      })
+    );
 
     // Handle preflight requests early
     expApp.options("*", (req, res) => {
@@ -85,7 +86,6 @@ export const init = async () => {
   };
 
   const server = app.setConfig(configFunction).build();
-
 
   return server;
 };

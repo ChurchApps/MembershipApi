@@ -10,7 +10,7 @@ export class MemberPermissionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!this.formAccess(au, id, "view")) return this.json({}, 401);
       else
@@ -26,13 +26,13 @@ export class MemberPermissionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!this.formAccess(au, id)) return this.json({}, 401);
       else
         return this.repositories.memberPermission.convertAllToModel(
           au.churchId,
-          await this.repositories.memberPermission.loadFormsByPerson(au.churchId, id)
+          (await this.repositories.memberPermission.loadFormsByPerson(au.churchId, id)) as any[]
         );
     });
   }
@@ -42,13 +42,13 @@ export class MemberPermissionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!this.formAccess(au, id)) return this.json({}, 401);
       else
         return this.repositories.memberPermission.convertAllToModel(
           au.churchId,
-          await this.repositories.memberPermission.loadPeopleByForm(au.churchId, id)
+          (await this.repositories.memberPermission.loadPeopleByForm(au.churchId, id)) as any[]
         );
     });
   }
@@ -58,7 +58,7 @@ export class MemberPermissionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!this.formAccess(au, id)) return this.json({}, 401);
       else
@@ -70,10 +70,7 @@ export class MemberPermissionController extends MembershipBaseController {
   }
 
   @httpPost("/")
-  public async save(
-    req: express.Request<{}, {}, MemberPermission[]>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async save(req: express.Request<{}, {}, MemberPermission[]>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const promises: Promise<MemberPermission>[] = [];
       req.body.forEach((memberPermission: MemberPermission) => {
@@ -92,7 +89,7 @@ export class MemberPermissionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const formId = req?.query?.formId.toString();
       if (!this.formAccess(au, formId)) return this.json({}, 401);
@@ -105,7 +102,7 @@ export class MemberPermissionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const formId = req?.query?.formId.toString();
       if (!formId || !this.formAccess(au, formId)) return this.json({}, 401);

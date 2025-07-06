@@ -10,7 +10,7 @@ export class QuestionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       return await this.repositories.question.moveQuestionUp(id);
     });
@@ -21,24 +21,21 @@ export class QuestionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       return await this.repositories.question.moveQuestionDown(id);
     });
   }
 
   @httpGet("/unrestricted")
-  public async getUnrestricted(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async getUnrestricted(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const formId = req?.query?.formId?.toString() || null;
       if (!formId) return this.json({}, 401);
       else
         return this.repositories.question.convertAllToModel(
           "",
-          await this.repositories.question.loadForUnrestrictedForm(formId)
+          (await this.repositories.question.loadForUnrestrictedForm(formId)) as any[]
         );
     });
   }
@@ -48,7 +45,7 @@ export class QuestionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const formId = req?.query?.formId?.toString() || null;
       if (!this.formAccess(au, formId, "view")) return this.json({}, 401);
@@ -61,34 +58,31 @@ export class QuestionController extends MembershipBaseController {
   }
 
   @httpGet("/")
-  public async getAll(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const formId = req?.query?.formId?.toString() || null;
       if (!this.formAccess(au, formId, "view")) return this.json({}, 401);
       else
         return this.repositories.question.convertAllToModel(
           au.churchId,
-          await this.repositories.question.loadForForm(au.churchId, formId)
+          (await this.repositories.question.loadForForm(au.churchId, formId)) as any[]
         );
     });
   }
 
   @httpPost("/")
-  public async save(
-    req: express.Request<{}, {}, Question[]>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async save(req: express.Request<{}, {}, Question[]>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const promises: Promise<Question>[] = [];
       const questions = req.body;
       for (let i = 0; i < questions.length; i++) {
         const question = questions[i];
         if (this.formAccess(au, question.formId)) {
-          const availableQuestions = await this.repositories.question.loadForForm(au.churchId, question.formId);
-          const maxValue = Math.max(...availableQuestions.map((q: any) => q.sort));
+          const availableQuestions = (await this.repositories.question.loadForForm(
+            au.churchId,
+            question.formId
+          )) as any[];
+          const maxValue = Math.max(...(availableQuestions as any[]).map((q: any) => q.sort));
           const addBy = i + 1;
           const sort = availableQuestions.length > 0 ? maxValue + addBy : 1;
           question.churchId = au.churchId;
@@ -106,7 +100,7 @@ export class QuestionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const formId = req?.query?.formId?.toString() || null;
       if (!this.formAccess(au, formId)) return this.json({}, 401);

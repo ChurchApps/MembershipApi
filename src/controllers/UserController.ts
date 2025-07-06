@@ -141,9 +141,9 @@ export class UserController extends MembershipBaseController {
     const allPeople = peopleIds.length > 0 ? await this.repositories.person.loadByIdsOnly(peopleIds) : [];
     const allGroups = peopleIds.length > 0 ? await this.repositories.groupMember.loadForPeople(peopleIds) : [];
     roleUserChurches.forEach((uc) => {
-      const person = ArrayHelper.getOne(allPeople, "id", uc.person.id);
+      const person = ArrayHelper.getOne(allPeople as any[], "id", uc.person.id);
       if (person) uc.person.membershipStatus = person.membershipStatus;
-      const groups = ArrayHelper.getAll(allGroups, "personId", uc.person.id);
+      const groups = ArrayHelper.getAll(allGroups as any[], "personId", uc.person.id);
       uc.groups = [];
       // PASS groupId TO ID FIELD. OR CREATE NEW groupId FIELD.
       groups.forEach((g) => uc.groups.push({ id: g.groupId, tags: g.tags, name: g.name, leader: g.leader }));
@@ -431,10 +431,7 @@ export class UserController extends MembershipBaseController {
   }
 
   @httpDelete("/")
-  public async Delete(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async Delete(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       await this.repositories.user.delete(au.id);
       await this.repositories.userChurch.delete(au.id);

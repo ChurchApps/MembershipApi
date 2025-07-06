@@ -7,23 +7,20 @@ import { MembershipBaseController } from "./MembershipBaseController";
 @controller("/settings")
 export class SettingController extends MembershipBaseController {
   @httpGet("/")
-  public async get(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async get(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.settings.edit)) return this.json({}, 401);
       else {
         return this.repositories.setting.convertAllToModel(
           au.churchId,
-          await this.repositories.setting.loadAll(au.churchId)
+          (await this.repositories.setting.loadAll(au.churchId)) as any[]
         );
       }
     });
   }
 
   @httpPost("/")
-  public async post(
-    req: express.Request<{}, {}, Setting[]>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async post(req: express.Request<{}, {}, Setting[]>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.settings.edit)) return this.json({}, 401);
       else {
@@ -43,12 +40,10 @@ export class SettingController extends MembershipBaseController {
     @requestParam("churchId") churchId: string,
     req: express.Request,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     try {
-      const settings = this.repositories.setting.convertAllToModel(
-        churchId,
-        await this.repositories.setting.loadPublicSettings(churchId)
-      );
+      const publicSettings = await this.repositories.setting.loadPublicSettings(churchId);
+      const settings = this.repositories.setting.convertAllToModel(churchId, publicSettings as any[]);
       const result: any = {};
       settings.forEach((s) => {
         result[s.keyName] = s.value;

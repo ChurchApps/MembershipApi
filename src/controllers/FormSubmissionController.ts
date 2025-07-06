@@ -13,7 +13,7 @@ export class FormSubmissionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.forms.admin) || !au.checkAccess(Permissions.forms.edit))
         return this.json({}, 401);
@@ -29,10 +29,7 @@ export class FormSubmissionController extends MembershipBaseController {
   }
 
   @httpGet("/")
-  public async getAll(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.forms.admin) || !au.checkAccess(Permissions.forms.edit))
         return this.json({}, 401);
@@ -57,13 +54,13 @@ export class FormSubmissionController extends MembershipBaseController {
     @requestParam("formId") formId: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!this.formAccess(au, formId)) return this.json([], 401);
       else {
         const formSubmissions = await this.repositories.formSubmission.convertAllToModel(
           au.churchId,
-          await this.repositories.formSubmission.loadByFormId(au.churchId, formId)
+          (await this.repositories.formSubmission.loadByFormId(au.churchId, formId)) as any[]
         );
         const promises: Promise<FormSubmission>[] = [];
         formSubmissions.forEach((formSubmission: FormSubmission) => {
@@ -78,10 +75,7 @@ export class FormSubmissionController extends MembershipBaseController {
   }
 
   @httpPost("/")
-  public async save(
-    req: express.Request<{}, {}, FormSubmission[]>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async save(req: express.Request<{}, {}, FormSubmission[]>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (req.body?.length > 0) {
         const results: any[] = [];
@@ -126,13 +120,13 @@ export class FormSubmissionController extends MembershipBaseController {
 
   private async sendEmails(formSubmission: FormSubmission, form: Form, churchId: string) {
     // send email to form members that have emailNotification set to true
-    const memberPermissions = await this.repositories.memberPermission.loadByEmailNotification(churchId, true);
+    const memberPermissions = (await this.repositories.memberPermission.loadByEmailNotification(churchId, true)) as any;
     const church: Church = await this.repositories.church.loadById(churchId);
-    if (memberPermissions?.length > 0) {
-      const ids = memberPermissions.map((mp: MemberPermission) => mp.memberId);
+    if ((memberPermissions as any[])?.length > 0) {
+      const ids = (memberPermissions as any[]).map((mp: MemberPermission) => mp.memberId);
       if (ids?.length > 0) {
-        const people = await this.repositories.person.loadByIds(formSubmission.churchId, ids);
-        if (people?.length > 0) {
+        const people = (await this.repositories.person.loadByIds(formSubmission.churchId, ids)) as any[];
+        if ((people as any[])?.length > 0) {
           const contentRows: any[] = [];
           formSubmission.questions.forEach((q) => {
             formSubmission.answers.forEach((a) => {
@@ -153,7 +147,7 @@ export class FormSubmissionController extends MembershipBaseController {
             contentRows.join(" ") +
             "</tablebody></table>";
           const promises: Promise<any>[] = [];
-          people.forEach((p: Person) => {
+          (people as any[]).forEach((p: Person) => {
             promises.push(
               EmailHelper.sendTemplatedEmail(
                 Environment.supportEmail,
@@ -190,7 +184,7 @@ export class FormSubmissionController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.forms.admin) || !au.checkAccess(Permissions.forms.edit))
         return this.json({}, 401);
@@ -210,13 +204,13 @@ export class FormSubmissionController extends MembershipBaseController {
   }
 
   private async appendQuestions(churchId: string, formSubmission: FormSubmission) {
-    const data = await this.repositories.question.loadForForm(churchId, formSubmission.formId);
+    const data = (await this.repositories.question.loadForForm(churchId, formSubmission.formId)) as any[];
     formSubmission.questions = this.repositories.question.convertAllToModel(churchId, data);
     return formSubmission;
   }
 
   private async appendAnswers(churchId: string, formSubmission: FormSubmission) {
-    const data = await this.repositories.answer.loadForFormSubmission(churchId, formSubmission.id);
+    const data = (await this.repositories.answer.loadForFormSubmission(churchId, formSubmission.id)) as any[];
     formSubmission.answers = this.repositories.answer.convertAllToModel(churchId, data);
     return formSubmission;
   }

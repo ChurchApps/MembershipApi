@@ -7,7 +7,7 @@ import { Permissions } from "../helpers/Permissions";
 @controller("/groupmembers")
 export class GroupMemberController extends MembershipBaseController {
   @httpGet("/my")
-  public async getMy(req: express.Request<{}, {}, null>, res: express.Response): Promise<interfaces.IHttpActionResult> {
+  public async getMy(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       return this.repositories.groupMember.loadForPerson(au.churchId, au.personId);
     });
@@ -19,9 +19,9 @@ export class GroupMemberController extends MembershipBaseController {
     @requestParam("groupId") groupId: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapperAnon(req, res, async () => {
-      const result = await this.repositories.groupMember.loadLeadersForGroup(churchId, groupId);
+      const result = (await this.repositories.groupMember.loadLeadersForGroup(churchId, groupId)) as any[];
       return this.repositories.groupMember.convertAllToModel(churchId, result);
     });
   }
@@ -31,9 +31,9 @@ export class GroupMemberController extends MembershipBaseController {
     @requestParam("groupId") groupId: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
-      const result = await this.repositories.groupMember.loadForGroup(au.churchId, groupId);
+      const result = (await this.repositories.groupMember.loadForGroup(au.churchId, groupId)) as any[];
       return this.repositories.groupMember.convertAllToBasicModel(au.churchId, result);
     });
   }
@@ -43,7 +43,7 @@ export class GroupMemberController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.groupMembers.view)) return this.json({}, 401);
       else
@@ -55,10 +55,7 @@ export class GroupMemberController extends MembershipBaseController {
   }
 
   @httpGet("/")
-  public async getAll(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       let hasAccess = false;
       if (au.checkAccess(Permissions.groupMembers.view)) hasAccess = true;
@@ -83,10 +80,7 @@ export class GroupMemberController extends MembershipBaseController {
   }
 
   @httpPost("/")
-  public async save(
-    req: express.Request<{}, {}, GroupMember[]>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async save(req: express.Request<{}, {}, GroupMember[]>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.groupMembers.edit)) return this.json({}, 401);
       else {
@@ -106,7 +100,7 @@ export class GroupMemberController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.groupMembers.edit)) return this.json({}, 401);
       else {

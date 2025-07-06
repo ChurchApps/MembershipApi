@@ -6,7 +6,7 @@ const port = process.env.SERVER_PORT;
 Environment.init(process.env.APP_ENV).then(() => {
   Pool.initPool();
 
-  init().then(app => {
+  init().then((app) => {
     app.listen(port, () => {
       // Server started - this is development mode only
     });

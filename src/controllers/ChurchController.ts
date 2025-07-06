@@ -145,10 +145,7 @@ export class ChurchController extends MembershipBaseController {
   }
 
   @httpDelete("/deleteAbandoned")
-  public async deleteAbandoned(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async deleteAbandoned(req: express.Request<{}, {}, null>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.server.admin)) return this.json({}, 401);
       else {
@@ -159,10 +156,7 @@ export class ChurchController extends MembershipBaseController {
   }
 
   @httpGet("/test")
-  public async test(
-    req: express.Request<{}, {}, RegistrationRequest>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async test(req: express.Request<{}, {}, RegistrationRequest>, res: express.Response): Promise<any> {
     return this.actionWrapperAnon(req, res, async () => {
       HubspotHelper.register(
         "6",
@@ -177,6 +171,7 @@ export class ChurchController extends MembershipBaseController {
         "jdoe6@gmail.com",
         "Test App"
       );
+      return this.json({ success: true }, 200);
     });
   }
 
@@ -185,7 +180,7 @@ export class ChurchController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, RegistrationRequest>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const data = await this.repositories.church.loadById(id);
       const church = this.repositories.church.convertToModel(data);
@@ -199,15 +194,15 @@ export class ChurchController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, null>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
-      const roles = await this.repositories.role.loadByChurchId(id);
+      const roles = (await this.repositories.role.loadByChurchId(id)) as any[];
       const domainRole = ArrayHelper.getOne(roles, "name", "Domain Admins");
-      const members = await this.repositories.roleMember.loadByRoleId(domainRole.id, au.churchId);
+      const members = (await this.repositories.roleMember.loadByRoleId(domainRole.id, au.churchId)) as any[];
       let domainAdmin: RoleMember;
       if (members.length > 0) {
         const member: RoleMember = members[0];
-        const user: User = await this.repositories.user.load(member.userId);
+        const user: User = (await this.repositories.user.load(member.userId)) as User;
         user.password = null;
         user.registrationDate = null;
         user.lastLogin = null;
@@ -223,7 +218,7 @@ export class ChurchController extends MembershipBaseController {
     @requestParam("id") id: string,
     req: express.Request<{}, {}, {}>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       const churchId = id.toString();
       const hasAccess = au.checkAccess(Permissions.server.admin) || au.churchId === churchId;
@@ -265,10 +260,7 @@ export class ChurchController extends MembershipBaseController {
   }
 
   @httpPost("/byIds")
-  public async loadByIds(
-    req: express.Request<{}, {}, string[]>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async loadByIds(req: express.Request<{}, {}, string[]>, res: express.Response): Promise<any> {
     return this.actionWrapperAnon(req, res, async () => {
       let result: Church[] = [];
       const ids = req.body;
@@ -276,7 +268,7 @@ export class ChurchController extends MembershipBaseController {
         const data = await this.repositories.church.loadByIds(ids);
         result = this.repositories.church.convertAllToModel(data);
       }
-      return result;
+      return this.json(result, 200);
     });
   }
 
@@ -421,7 +413,7 @@ export class ChurchController extends MembershipBaseController {
   private async appendLogos(churches: Church[]) {
     const ids = ArrayHelper.getIds(churches, "id");
     const settings = await this.repositories.setting.loadMulipleChurches(["favicon_400x400"], ids);
-    settings.forEach((s: any) => {
+    (settings as any[]).forEach((s: any) => {
       const church = ArrayHelper.getOne(churches, "id", s.churchId);
       if (church.settings === undefined) church.settings = [];
       church.settings.push(s);
@@ -434,7 +426,7 @@ export class ChurchController extends MembershipBaseController {
   public async select(
     req: express.Request<{}, {}, { churchId: string; subDomain: string }>,
     res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  ): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
       let { churchId } = req.body;
       if (req.body.subDomain && !churchId) {
@@ -451,8 +443,8 @@ export class ChurchController extends MembershipBaseController {
 
   private async appendPersonInfo(userChurch: LoginUserChurch, au: AuthenticatedUser, churchId: string) {
     const uc = (await PersonHelper.claim(au, churchId)).userChurch;
-    const p = await Repositories.getCurrent().person.load(uc.churchId, uc.personId);
-    const groups: Group[] = await this.repositories.group.loadForPerson(uc.personId);
+    const p = (await Repositories.getCurrent().person.load(uc.churchId, uc.personId)) as any;
+    const groups: Group[] = (await this.repositories.group.loadForPerson(uc.personId)) as Group[];
     userChurch.person = { id: p.id, membershipStatus: p.membershipStatus };
     userChurch.groups = [];
     groups.forEach((g) => userChurch.groups.push({ id: g.id, tags: g.tags, name: g.name, leader: false }));
@@ -470,7 +462,7 @@ export class ChurchController extends MembershipBaseController {
     const everyonePermission = await this.repositories.rolePermission.loadForEveryone(churchId);
     let result: LoginUserChurch = null;
     let currentApi: Api = null;
-    everyonePermission.forEach((row: any) => {
+    (everyonePermission as any[]).forEach((row: any) => {
       if (result === null) {
         result = { church: { id: row.churchId, subDomain: row.subDomain, name: row.churchName }, person: {}, apis: [] };
         currentApi = null;
