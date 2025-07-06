@@ -1,6 +1,6 @@
 import { Principal, AuthenticatedUser as BaseAuthenticatedUser } from "@churchapps/apihelper";
 import { Api, LoginResponse, LoginUserChurch, User } from "../models";
-import jwt, { SignOptions } from "jsonwebtoken";
+import jwt, { SignOptions, JwtPayload } from "jsonwebtoken";
 import { Repositories } from "../repositories";
 import { Environment } from "../helpers";
 
@@ -103,8 +103,12 @@ export class AuthenticatedUser extends BaseAuthenticatedUser {
   public static async loadUserByJwt(token: string, repositories: Repositories) {
     let result: User = null;
     try {
-      const decoded = new Principal(jwt.verify(token, Environment.jwtSecret));
-      const userId: string = decoded.details.id;
+      const decoded = jwt.verify(token, Environment.jwtSecret);
+      if (typeof decoded === "string") {
+        throw new Error("Invalid token format");
+      }
+      const principal = new Principal(decoded as JwtPayload);
+      const userId: string = principal.details.id;
       result = await repositories.user.load(userId);
     } catch {
       // JWT verification failed - user not found

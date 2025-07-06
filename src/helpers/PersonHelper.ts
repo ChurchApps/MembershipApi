@@ -12,7 +12,7 @@ export class PersonHelper extends BasePersonHelper {
     lastName: string,
     canEdit: boolean
   ) {
-    const data: Person[] = await Repositories.getCurrent().person.searchEmail(churchId, email);
+    const data: Person[] = (await Repositories.getCurrent().person.searchEmail(churchId, email)) as Person[];
     if (data.length === 0) {
       const household: Household = { churchId, name: lastName };
       await Repositories.getCurrent().household.save(household);

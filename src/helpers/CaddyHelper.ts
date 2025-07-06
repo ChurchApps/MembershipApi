@@ -17,7 +17,7 @@ export class CaddyHelper {
   }
 
   static async generateJsonData() {
-    const hostDials: HostDial[] = await Repositories.getCurrent().domain.loadPairs();
+    const hostDials: HostDial[] = (await Repositories.getCurrent().domain.loadPairs()) as HostDial[];
     const routes: any[] = [];
     hostDials.forEach((hd) => {
       routes.push(this.getRoute(hd.host, hd.dial, true));

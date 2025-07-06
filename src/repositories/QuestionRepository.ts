@@ -51,7 +51,10 @@ export class QuestionRepository {
   }
 
   public async delete(churchId: string, id: string) {
-    const question = await DB.queryOne("SELECT formId, sort FROM questions WHERE id=?", [id]);
+    const question = (await DB.queryOne("SELECT formId, sort FROM questions WHERE id=?", [id])) as {
+      formId: string;
+      sort: number;
+    };
     const result = await DB.query("UPDATE questions SET sort=sort-1 WHERE formId=? AND sort>?;", [
       question.formId,
       +question.sort
@@ -82,7 +85,10 @@ export class QuestionRepository {
   }
 
   public async moveQuestionUp(id: string) {
-    const question = await DB.queryOne("SELECT formId, sort FROM questions WHERE id=?", [id]);
+    const question = (await DB.queryOne("SELECT formId, sort FROM questions WHERE id=?", [id])) as {
+      formId: string;
+      sort: number;
+    };
     let result = await DB.query("UPDATE questions SET sort=sort+1 WHERE formId=? AND sort=?;", [
       question.formId,
       +question.sort - 1
@@ -91,7 +97,10 @@ export class QuestionRepository {
   }
 
   public async moveQuestionDown(id: string) {
-    const question = await DB.queryOne("SELECT formId, sort FROM questions WHERE id=?", [id]);
+    const question = (await DB.queryOne("SELECT formId, sort FROM questions WHERE id=?", [id])) as {
+      formId: string;
+      sort: number;
+    };
     let result = await DB.query("UPDATE questions SET sort=sort-1 WHERE formId=? AND sort=?;", [
       question.formId,
       +question.sort + 1

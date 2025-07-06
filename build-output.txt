@@ -1,0 +1,1411 @@
+
+> membership-api@1.0.0 tsc
+> tsc
+
+[96msrc/controllers/ChurchController.ts[0m:[93m152[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m152[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/ChurchController.ts[0m:[93m166[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m166[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/ChurchController.ts[0m:[93m189[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m189[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/ChurchController.ts[0m:[93m203[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m203[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/ChurchController.ts[0m:[93m227[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m227[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/ChurchController.ts[0m:[93m272[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m272[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/ChurchController.ts[0m:[93m424[0m:[93m14[0m - [91merror[0m[90m TS2339: [0mProperty 'forEach' does not exist on type 'unknown'.
+
+[7m424[0m     settings.forEach((s: any) => {
+[7m   [0m [91m             ~~~~~~~[0m
+
+[96msrc/controllers/ChurchController.ts[0m:[93m438[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m438[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/ChurchController.ts[0m:[93m455[0m:[93m11[0m - [91merror[0m[90m TS2740: [0mType '{}' is missing the following properties from type 'Group[]': length, pop, push, concat, and 35 more.
+
+[7m455[0m     const groups: Group[] = await this.repositories.group.loadForPerson(uc.personId);
+[7m   [0m [91m          ~~~~~~[0m
+
+[96msrc/controllers/ChurchController.ts[0m:[93m456[0m:[93m33[0m - [91merror[0m[90m TS2339: [0mProperty 'id' does not exist on type 'unknown'.
+
+[7m456[0m     userChurch.person = { id: p.id, membershipStatus: p.membershipStatus };
+[7m   [0m [91m                                ~~[0m
+
+[96msrc/controllers/ChurchController.ts[0m:[93m456[0m:[93m57[0m - [91merror[0m[90m TS2339: [0mProperty 'membershipStatus' does not exist on type 'unknown'.
+
+[7m456[0m     userChurch.person = { id: p.id, membershipStatus: p.membershipStatus };
+[7m   [0m [91m                                                        ~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/ChurchController.ts[0m:[93m473[0m:[93m24[0m - [91merror[0m[90m TS2339: [0mProperty 'forEach' does not exist on type 'unknown'.
+
+[7m473[0m     everyonePermission.forEach((row: any) => {
+[7m   [0m [91m                       ~~~~~~~[0m
+
+[96msrc/controllers/DomainController.ts[0m:[93m12[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m12[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/DomainController.ts[0m:[93m21[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m21[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/DomainController.ts[0m:[93m29[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m29[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/DomainController.ts[0m:[93m41[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m41[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/DomainController.ts[0m:[93m52[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m52[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/DomainController.ts[0m:[93m63[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m63[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/DomainController.ts[0m:[93m73[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m73[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/DomainController.ts[0m:[93m83[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m83[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/DomainController.ts[0m:[93m104[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m104[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormController.ts[0m:[93m14[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m14[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormController.ts[0m:[93m18[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m18[0m           await this.repositories.form.loadAllArchived(au.churchId)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/FormController.ts[0m:[93m23[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m23[0m           await this.repositories.form.loadMemberArchivedForms(au.churchId, au.personId)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/FormController.ts[0m:[93m28[0m:[93m15[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m28[0m               await this.repositories.form.loadNonMemberArchivedForms(au.churchId)
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/FormController.ts[0m:[93m42[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m42[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormController.ts[0m:[93m56[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m56[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormController.ts[0m:[93m71[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m71[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormController.ts[0m:[93m75[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m75[0m           await this.repositories.form.loadAll(au.churchId)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/FormController.ts[0m:[93m80[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m80[0m           await this.repositories.form.loadMemberForms(au.churchId, au.personId)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/FormController.ts[0m:[93m85[0m:[93m15[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m85[0m               await this.repositories.form.loadNonMemberForms(au.churchId)
+[7m  [0m [91m              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/FormController.ts[0m:[93m98[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m98[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormController.ts[0m:[93m140[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m140[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m17[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m17[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m36[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m36[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m61[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m61[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m66[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m66[0m           await this.repositories.formSubmission.loadByFormId(au.churchId, formId)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m85[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m85[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m131[0m:[93m28[0m - [91merror[0m[90m TS2339: [0mProperty 'length' does not exist on type 'unknown'.
+
+[7m131[0m     if (memberPermissions?.length > 0) {
+[7m   [0m [91m                           ~~~~~~[0m
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m132[0m:[93m37[0m - [91merror[0m[90m TS2339: [0mProperty 'map' does not exist on type 'unknown'.
+
+[7m132[0m       const ids = memberPermissions.map((mp: MemberPermission) => mp.memberId);
+[7m   [0m [91m                                    ~~~[0m
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m135[0m:[93m21[0m - [91merror[0m[90m TS2339: [0mProperty 'length' does not exist on type 'unknown'.
+
+[7m135[0m         if (people?.length > 0) {
+[7m   [0m [91m                    ~~~~~~[0m
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m156[0m:[93m18[0m - [91merror[0m[90m TS2339: [0mProperty 'forEach' does not exist on type 'unknown'.
+
+[7m156[0m           people.forEach((p: Person) => {
+[7m   [0m [91m                 ~~~~~~~[0m
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m194[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m194[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m214[0m:[93m87[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m214[0m     formSubmission.questions = this.repositories.question.convertAllToModel(churchId, data);
+[7m   [0m [91m                                                                                      ~~~~[0m
+
+[96msrc/controllers/FormSubmissionController.ts[0m:[93m220[0m:[93m83[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m220[0m     formSubmission.answers = this.repositories.answer.convertAllToModel(churchId, data);
+[7m   [0m [91m                                                                                  ~~~~[0m
+
+[96msrc/controllers/GroupController.ts[0m:[93m15[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m15[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m21[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m21[0m         await this.repositories.group.search(au.churchId, campusId, serviceId, serviceTimeId)
+[7m  [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/GroupController.ts[0m:[93m28[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m28[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m31[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m31[0m         await this.repositories.group.loadForPerson(au.personId)
+[7m  [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/GroupController.ts[0m:[93m42[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m42[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m54[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m54[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m68[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m68[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m72[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m72[0m         await this.repositories.group.publicLabel(churchId, label)
+[7m  [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/GroupController.ts[0m:[93m84[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m84[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m95[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m95[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m98[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m98[0m         await this.repositories.group.loadByTag(au.churchId, tag)
+[7m  [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/GroupController.ts[0m:[93m110[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m110[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m113[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m113[0m         await this.repositories.group.loadByTag(churchId, tag)
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/GroupController.ts[0m:[93m123[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m123[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m124[0m:[93m69[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m124[0m       return this.repositories.group.convertAllToModel(au.churchId, await this.repositories.group.loadAll(au.churchId));
+[7m   [0m [91m                                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/GroupController.ts[0m:[93m133[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m133[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m154[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m154[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupController.ts[0m:[93m160[0m:[93m52[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m160[0m           const ministryTeams = ArrayHelper.getAll(AllTeams, "categoryName", id);
+[7m   [0m [91m                                                   ~~~~~~~~[0m
+
+[96msrc/controllers/GroupMemberController.ts[0m:[93m11[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m11[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupMemberController.ts[0m:[93m23[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m23[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupMemberController.ts[0m:[93m25[0m:[93m72[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m25[0m       return this.repositories.groupMember.convertAllToModel(churchId, result);
+[7m  [0m [91m                                                                       ~~~~~~[0m
+
+[96msrc/controllers/GroupMemberController.ts[0m:[93m35[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m35[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupMemberController.ts[0m:[93m37[0m:[93m80[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m37[0m       return this.repositories.groupMember.convertAllToBasicModel(au.churchId, result);
+[7m  [0m [91m                                                                               ~~~~~~[0m
+
+[96msrc/controllers/GroupMemberController.ts[0m:[93m47[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m47[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupMemberController.ts[0m:[93m62[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m62[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupMemberController.ts[0m:[93m90[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m90[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/GroupMemberController.ts[0m:[93m110[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m110[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/HouseholdController.ts[0m:[93m15[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m15[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/HouseholdController.ts[0m:[93m28[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m28[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/HouseholdController.ts[0m:[93m31[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m31[0m         await this.repositories.household.loadAll(au.churchId)
+[7m  [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/HouseholdController.ts[0m:[93m41[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m41[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/HouseholdController.ts[0m:[93m61[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m61[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/MemberPermissionController.ts[0m:[93m14[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m14[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/MemberPermissionController.ts[0m:[93m30[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m30[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/MemberPermissionController.ts[0m:[93m35[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m35[0m           await this.repositories.memberPermission.loadFormsByPerson(au.churchId, id)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/MemberPermissionController.ts[0m:[93m46[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m46[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/MemberPermissionController.ts[0m:[93m51[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m51[0m           await this.repositories.memberPermission.loadPeopleByForm(au.churchId, id)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/MemberPermissionController.ts[0m:[93m62[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m62[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/MemberPermissionController.ts[0m:[93m77[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m77[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/MemberPermissionController.ts[0m:[93m96[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m96[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/MemberPermissionController.ts[0m:[93m109[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m109[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/MembershipBaseController.ts[0m:[93m18[0m:[93m19[0m - [91merror[0m[90m TS2339: [0mProperty 'contentType' does not exist on type 'unknown'.
+
+[7m18[0m     if (formData?.contentType === "form") return formData.action === "admin" || formData.action === access;
+[7m  [0m [91m                  ~~~~~~~~~~~[0m
+
+[96msrc/controllers/MembershipBaseController.ts[0m:[93m18[0m:[93m59[0m - [91merror[0m[90m TS2339: [0mProperty 'action' does not exist on type 'unknown'.
+
+[7m18[0m     if (formData?.contentType === "form") return formData.action === "admin" || formData.action === access;
+[7m  [0m [91m                                                          ~~~~~~[0m
+
+[96msrc/controllers/MembershipBaseController.ts[0m:[93m18[0m:[93m90[0m - [91merror[0m[90m TS2339: [0mProperty 'action' does not exist on type 'unknown'.
+
+[7m18[0m     if (formData?.contentType === "form") return formData.action === "admin" || formData.action === access;
+[7m  [0m [91m                                                                                         ~~~~~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m20[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m20[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/OAuthController.ts[0m:[93m32[0m:[93m34[0m - [91merror[0m[90m TS2339: [0mProperty 'id' does not exist on type 'unknown'.
+
+[7m32[0m         userChurchId: userChurch.id,
+[7m  [0m [91m                                 ~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m65[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m65[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/OAuthController.ts[0m:[93m83[0m:[93m67[0m - [91merror[0m[90m TS2339: [0mProperty 'userId' does not exist on type 'unknown'.
+
+[7m83[0m         const user = await this.repositories.user.load(userChurch.userId);
+[7m  [0m [91m                                                                  ~~~~~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m84[0m:[93m75[0m - [91merror[0m[90m TS2339: [0mProperty 'churchId' does not exist on type 'unknown'.
+
+[7m84[0m         const church = await this.repositories.church.loadById(userChurch.churchId);
+[7m  [0m [91m                                                                          ~~~~~~~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m86[0m:[93m49[0m - [91merror[0m[90m TS2339: [0mProperty 'churchName' does not exist on type 'Church'.
+
+[7m86[0m           church: { id: church.id, name: church.churchName, subDomain: church.subDomain },
+[7m  [0m [91m                                                ~~~~~~~~~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m87[0m:[93m36[0m - [91merror[0m[90m TS2339: [0mProperty 'personId' does not exist on type 'unknown'.
+
+[7m87[0m           person: { id: userChurch.personId, membershipStatus: "Guest" },
+[7m  [0m [91m                                   ~~~~~~~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m121[0m:[93m67[0m - [91merror[0m[90m TS2339: [0mProperty 'userId' does not exist on type 'unknown'.
+
+[7m121[0m         const user = await this.repositories.user.load(userChurch.userId);
+[7m   [0m [91m                                                                  ~~~~~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m122[0m:[93m75[0m - [91merror[0m[90m TS2339: [0mProperty 'churchId' does not exist on type 'unknown'.
+
+[7m122[0m         const church = await this.repositories.church.loadById(userChurch.churchId);
+[7m   [0m [91m                                                                          ~~~~~~~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m124[0m:[93m49[0m - [91merror[0m[90m TS2339: [0mProperty 'churchName' does not exist on type 'Church'.
+
+[7m124[0m           church: { id: church.id, name: church.churchName, subDomain: church.subDomain },
+[7m   [0m [91m                                                ~~~~~~~~~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m125[0m:[93m36[0m - [91merror[0m[90m TS2339: [0mProperty 'personId' does not exist on type 'unknown'.
+
+[7m125[0m           person: { id: userChurch.personId, membershipStatus: "Guest" },
+[7m   [0m [91m                                   ~~~~~~~~[0m
+
+[96msrc/controllers/OAuthController.ts[0m:[93m159[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m159[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/OAuthController.ts[0m:[93m171[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m171[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/OAuthController.ts[0m:[93m184[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m184[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/OAuthController.ts[0m:[93m195[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m195[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/OAuthController.ts[0m:[93m207[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m207[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m17[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m17[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m22[0m:[93m15[0m - [91merror[0m[90m TS2740: [0mType '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m22[0m         const people: any[] = await this.repositories.person.loadByIdsOnly(peopleIds);
+[7m  [0m [91m              ~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m37[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m37[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m57[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m57[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m65[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m65[0m           tmpPeople,
+[7m  [0m [91m          ~~~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m69[0m:[93m32[0m - [91merror[0m[90m TS2740: [0mType '{}' is missing the following properties from type 'Group[]': length, pop, push, concat, and 35 more.
+
+[7m69[0m       if (groupIds.length > 0) result.groups = await this.repositories.group.loadByIds(au.churchId, groupIds);
+[7m  [0m [91m                               ~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m80[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m80[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m90[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m90[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m98[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m98[0m           data,
+[7m  [0m [91m          ~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m112[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m112[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m115[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m115[0m         await this.repositories.person.loadByHousehold(au.churchId, householdId),
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m126[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m126[0m     return this.actionWrapperAnon(req, res, async () => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m139[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m139[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m153[0m:[93m18[0m - [91merror[0m[90m TS2339: [0mProperty 'forEach' does not exist on type 'unknown'.
+
+[7m153[0m         dbPeople.forEach((dbPerson: Person) => {
+[7m   [0m [91m                 ~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m189[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m189[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m209[0m:[93m72[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m209[0m         return this.repositories.person.convertAllToModel(au.churchId, data, au.checkAccess(Permissions.people.edit));
+[7m   [0m [91m                                                                       ~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m219[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m219[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m227[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m227[0m           data,
+[7m   [0m [91m          ~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m240[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m240[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m246[0m:[93m21[0m - [91merror[0m[90m TS2339: [0mProperty 'length' does not exist on type 'unknown'.
+
+[7m246[0m         if (members.length === 0) {
+[7m   [0m [91m                    ~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m249[0m:[93m46[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m249[0m         const peopleIds = ArrayHelper.getIds(members, "personId");
+[7m   [0m [91m                                             ~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m250[0m:[93m9[0m - [91merror[0m[90m TS2740: [0mType '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m250[0m         data = await this.repositories.person.loadByIds(au.churchId, peopleIds);
+[7m   [0m [91m        ~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m266[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m266[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m294[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m294[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m299[0m:[93m83[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m299[0m       const result = this.repositories.person.convertAllToBasicModel(au.churchId, data);
+[7m   [0m [91m                                                                                  ~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m310[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m310[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m315[0m:[93m13[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m315[0m             await this.repositories.person.loadAll(au.churchId)
+[7m   [0m [91m            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m331[0m:[93m13[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m331[0m             await this.repositories.person.loadAll(au.churchId),
+[7m   [0m [91m            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m354[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m354[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m364[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m364[0m           data,
+[7m   [0m [91m          ~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m378[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m378[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m400[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m400[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m409[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m409[0m           data,
+[7m   [0m [91m          ~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m422[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m422[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m449[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m449[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m453[0m:[93m13[0m - [91merror[0m[90m TS2740: [0mType '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m453[0m         let data: any[] = await this.repositories.person.loadAll(au.churchId);
+[7m   [0m [91m            ~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m509[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m509[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m545[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m545[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/PersonController.ts[0m:[93m567[0m:[93m7[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m567[0m       await this.repositories.formSubmission.loadForContent(churchId, "person", person.id)
+[7m   [0m [91m      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m576[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m576[0m         await this.repositories.form.loadByIds(churchId, formIds)
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m666[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m666[0m         await this.repositories.setting.loadPublicSettings(churchId)
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m697[0m:[93m20[0m - [91merror[0m[90m TS2339: [0mProperty 'some' does not exist on type 'unknown'.
+
+[7m697[0m     return groups?.some((group: any) => personGroups.some((personGroup: any) => personGroup.groupId === group.groupId));
+[7m   [0m [91m                   ~~~~[0m
+
+[96msrc/controllers/PersonController.ts[0m:[93m697[0m:[93m54[0m - [91merror[0m[90m TS2339: [0mProperty 'some' does not exist on type 'unknown'.
+
+[7m697[0m     return groups?.some((group: any) => personGroups.some((personGroup: any) => personGroup.groupId === group.groupId));
+[7m   [0m [91m                                                     ~~~~[0m
+
+[96msrc/controllers/QuestionController.ts[0m:[93m14[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m14[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/QuestionController.ts[0m:[93m25[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m25[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/QuestionController.ts[0m:[93m35[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m35[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/QuestionController.ts[0m:[93m41[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m41[0m           await this.repositories.question.loadForUnrestrictedForm(formId)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/QuestionController.ts[0m:[93m52[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m52[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/QuestionController.ts[0m:[93m68[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m68[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/QuestionController.ts[0m:[93m74[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m74[0m           await this.repositories.question.loadForForm(au.churchId, formId)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/QuestionController.ts[0m:[93m84[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m84[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/QuestionController.ts[0m:[93m91[0m:[93m59[0m - [91merror[0m[90m TS2339: [0mProperty 'map' does not exist on type 'unknown'.
+
+[7m91[0m           const maxValue = Math.max(...availableQuestions.map((q: any) => q.sort));
+[7m  [0m [91m                                                          ~~~[0m
+
+[96msrc/controllers/QuestionController.ts[0m:[93m93[0m:[93m43[0m - [91merror[0m[90m TS2339: [0mProperty 'length' does not exist on type 'unknown'.
+
+[7m93[0m           const sort = availableQuestions.length > 0 ? maxValue + addBy : 1;
+[7m  [0m [91m                                          ~~~~~~[0m
+
+[96msrc/controllers/QuestionController.ts[0m:[93m110[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m110[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/RolePermissionController.ts[0m:[93m23[0m:[93m44[0m - [91merror[0m[90m TS2339: [0mProperty 'map' does not exist on type 'unknown'.
+
+[7m23[0m           permissions = everyonePermission.map((e: any) => {
+[7m  [0m [91m                                           ~~~[0m
+
+[96msrc/controllers/SettingController.ts[0m:[93m11[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m11[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/SettingController.ts[0m:[93m16[0m:[93m11[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m16[0m           await this.repositories.setting.loadAll(au.churchId)
+[7m  [0m [91m          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/SettingController.ts[0m:[93m27[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m27[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/SettingController.ts[0m:[93m50[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m50[0m         await this.repositories.setting.loadPublicSettings(churchId)
+[7m  [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/controllers/UserChurchController.ts[0m:[93m22[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'id' does not exist on type 'unknown'.
+
+[7m22[0m           id: existing?.id,
+[7m  [0m [91m                        ~~[0m
+
+[96msrc/controllers/UserChurchController.ts[0m:[93m24[0m:[93m30[0m - [91merror[0m[90m TS2339: [0mProperty 'personId' does not exist on type 'unknown'.
+
+[7m24[0m           personId: existing.personId,
+[7m  [0m [91m                             ~~~~~~~~[0m
+
+[96msrc/controllers/UserChurchController.ts[0m:[93m41[0m:[93m20[0m - [91merror[0m[90m TS2339: [0mProperty 'userId' does not exist on type 'unknown'.
+
+[7m41[0m         if (record.userId !== userId) return this.json({ message: "User already has a linked person record" }, 400);
+[7m  [0m [91m                   ~~~~~~[0m
+
+[96msrc/controllers/UserController.ts[0m:[93m144[0m:[93m41[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m144[0m       const person = ArrayHelper.getOne(allPeople, "id", uc.person.id);
+[7m   [0m [91m                                        ~~~~~~~~~[0m
+
+[96msrc/controllers/UserController.ts[0m:[93m146[0m:[93m41[0m - [91merror[0m[90m TS2345: [0mArgument of type 'unknown' is not assignable to parameter of type 'any[]'.
+  Type '{}' is missing the following properties from type 'any[]': length, pop, push, concat, and 35 more.
+
+[7m146[0m       const groups = ArrayHelper.getAll(allGroups, "personId", uc.person.id);
+[7m   [0m [91m                                        ~~~~~~~~~[0m
+
+[96msrc/controllers/UserController.ts[0m:[93m438[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m438[0m     return this.actionWrapper(req, res, async (au) => {
+[7m   [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/VisibilityPreferenceController.ts[0m:[93m13[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m13[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/VisibilityPreferenceController.ts[0m:[93m27[0m:[93m5[0m - [91merror[0m[90m TS2741: [0mProperty 'executeAsync' is missing in type '{}' but required in type 'IHttpActionResult'.
+
+[7m27[0m     return this.actionWrapper(req, res, async (au) => {
+[7m  [0m [91m    ~~~~~~[0m
+
+  [96mnode_modules/inversify-express-utils/lib/cjs/interfaces.d.ts[0m:[93m62[0m:[93m5[0m
+    [7m62[0m     executeAsync(): Promise<HttpResponseMessage>;
+    [7m  [0m [96m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'executeAsync' is declared here.
+
+[96msrc/controllers/VisibilityPreferenceController.ts[0m:[93m29[0m:[93m22[0m - [91merror[0m[90m TS2339: [0mProperty 'length' does not exist on type 'unknown'.
+
+[7m29[0m       return result?.length > 0 ? result[0] : [];
+[7m  [0m [91m                     ~~~~~~[0m
+
+
+Found 173 errors in 17 files.
+
+Errors  Files
+    12  src/controllers/ChurchController.ts[90m:152[0m
+     9  src/controllers/DomainController.ts[90m:12[0m
+    12  src/controllers/FormController.ts[90m:14[0m
+    12  src/controllers/FormSubmissionController.ts[90m:17[0m
+    18  src/controllers/GroupController.ts[90m:15[0m
+     9  src/controllers/GroupMemberController.ts[90m:11[0m
+     5  src/controllers/HouseholdController.ts[90m:15[0m
+     9  src/controllers/MemberPermissionController.ts[90m:14[0m
+     3  src/controllers/MembershipBaseController.ts[90m:18[0m
+    16  src/controllers/OAuthController.ts[90m:20[0m
+    43  src/controllers/PersonController.ts[90m:17[0m
+    11  src/controllers/QuestionController.ts[90m:14[0m
+     1  src/controllers/RolePermissionController.ts[90m:23[0m
+     4  src/controllers/SettingController.ts[90m:11[0m
+     3  src/controllers/UserChurchController.ts[90m:22[0m
+     3  src/controllers/UserController.ts[90m:144[0m
+     3  src/controllers/VisibilityPreferenceController.ts[90m:13[0m

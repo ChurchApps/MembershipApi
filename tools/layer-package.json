@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Lambda layer dependencies for membership-api",
   "dependencies": {
-    "@churchapps/apihelper": "0.0.24",
+    "@churchapps/apihelper": "^0.1.1",
     "@codegenie/serverless-express": "^4.16.0",
     "@hubspot/api-client": "^13.0.0",
     "axios": "^1.9.0",
@@ -16,7 +16,8 @@
     "inversify-express-utils": "^6.5.0",
     "jsonwebtoken": "^9.0.2",
     "node-geocoder": "^4.4.1",
+    "mysql2": "^3.14.1",
     "reflect-metadata": "^0.2.2",
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.4"
   }
 }

@@ -1,4 +1,4 @@
-import { controller, httpGet, interfaces } from "inversify-express-utils";
+import { controller, httpGet } from "inversify-express-utils";
 import express from "express";
 import { MembershipBaseController } from "./MembershipBaseController";
 import { Permissions } from "../helpers";
@@ -6,10 +6,7 @@ import { Permissions } from "../helpers";
 @controller("/answers")
 export class AnswerController extends MembershipBaseController {
   @httpGet("/")
-  public async getAll(
-    req: express.Request<{}, {}, null>,
-    res: express.Response
-  ): Promise<interfaces.IHttpActionResult> {
+  public async getAll(req: express.Request<{}, {}, null>, res: express.Response): Promise<unknown> {
     return this.actionWrapper(req, res, async (au) => {
       if (!au.checkAccess(Permissions.forms.admin) || !au.checkAccess(Permissions.forms.edit))
         return this.json({}, 401);

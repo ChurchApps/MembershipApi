@@ -6,9 +6,11 @@ import {
 import { Environment } from ".";
 import { AssociationTypes } from "@hubspot/api-client";
 
+// Type declarations for HubSpot client
+declare const require: any;
+
 export class HubspotHelper {
   private static getClient = () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const hubspot = require("@hubspot/api-client");
     const client = new hubspot.Client({ accessToken: Environment.hubspotKey });
     return client;

@@ -65,7 +65,7 @@ export class RolePermissionRepository {
       " WHERE rm.userId=?" +
       " GROUP BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId, p.membershipStatus, c.archivedDate" +
       " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action, uc.personId, p.membershipStatus, c.archivedDate";
-    const data = await DB.query(query, [userId]);
+    const data = (await DB.query(query, [userId])) as any[];
 
     const result: LoginUserChurch[] = [];
     let currentUserChurch: LoginUserChurch = null;
@@ -124,7 +124,7 @@ export class RolePermissionRepository {
       " WHERE c.id=?" +
       " GROUP BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action" +
       " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action";
-    const data = await DB.query(query, [churchId]);
+    const data = (await DB.query(query, [churchId])) as any[];
     let result: LoginUserChurch = null;
     let currentApi: Api = null;
     data.forEach((row: any) => {
@@ -171,7 +171,7 @@ export class RolePermissionRepository {
       " WHERE rm.userId=? AND rm.churchId=?" +
       " GROUP BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action" +
       " ORDER BY c.name, r.churchId, rp.apiName, rp.contentType, rp.contentId, rp.action";
-    const data = await DB.query(query, [userId, churchId]);
+    const data = (await DB.query(query, [userId, churchId])) as any[];
 
     let result: LoginUserChurch = null;
     let currentApi: Api = null;
@@ -214,7 +214,9 @@ export class RolePermissionRepository {
   }
 
   public loadByRoleId(churchId: string, roleId: string): Promise<RolePermission[]> {
-    return DB.query("SELECT * FROM rolePermissions WHERE churchId=? AND roleId=?", [churchId, roleId]);
+    return DB.query("SELECT * FROM rolePermissions WHERE churchId=? AND roleId=?", [churchId, roleId]) as Promise<
+      RolePermission[]
+    >;
   }
 
   // permissions applied to all the members of church

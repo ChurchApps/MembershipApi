@@ -4,13 +4,13 @@ import { UniqueIdHelper } from "../helpers";
 
 export class ChurchRepository {
   public async loadCount() {
-    const data = await DB.queryOne("SELECT COUNT(*) as count FROM churches", []);
+    const data = (await DB.queryOne("SELECT COUNT(*) as count FROM churches", [])) as { count: string };
     return parseInt(data.count, 0);
   }
 
   public loadAll() {
-    return DB.query("SELECT * FROM churches WHERE archivedDate IS NULL ORDER BY name", []).then((rows: Church[]) => {
-      return rows;
+    return DB.query("SELECT * FROM churches WHERE archivedDate IS NULL ORDER BY name", []).then((rows: unknown) => {
+      return rows as Church[];
     });
   }
 
@@ -27,19 +27,23 @@ export class ChurchRepository {
   }
 
   public loadContainingSubDomain(subDomain: string) {
-    return DB.query("SELECT * FROM churches WHERE subDomain like ? and archivedDate IS NULL;", [subDomain + "%"]);
+    return DB.query("SELECT * FROM churches WHERE subDomain like ? and archivedDate IS NULL;", [
+      subDomain + "%"
+    ]) as Promise<Church[]>;
   }
 
   public loadBySubDomain(subDomain: string) {
-    return DB.queryOne("SELECT * FROM churches WHERE subDomain=? and archivedDate IS NULL;", [subDomain]);
+    return DB.queryOne("SELECT * FROM churches WHERE subDomain=? and archivedDate IS NULL;", [
+      subDomain
+    ]) as Promise<Church>;
   }
 
   public loadById(id: string) {
-    return DB.queryOne("SELECT * FROM churches WHERE id=?;", [id]);
+    return DB.queryOne("SELECT * FROM churches WHERE id=?;", [id]) as Promise<Church>;
   }
 
   public loadByIds(ids: string[]) {
-    return DB.query("SELECT * FROM churches WHERE id IN (?) order by name;", [ids]);
+    return DB.query("SELECT * FROM churches WHERE id IN (?) order by name;", [ids]) as Promise<Church[]>;
   }
 
   public async loadForUser(userId: string) {
@@ -48,7 +52,7 @@ export class ChurchRepository {
       " inner join churches c on c.id=uc.churchId and c.archivedDate IS NULL" +
       " LEFT JOIN people p on p.id=uc.personId" +
       " where uc.userId=?";
-    const rows = await DB.query(sql, [userId]);
+    const rows = (await DB.query(sql, [userId])) as any[];
     const result: LoginUserChurch[] = [];
     rows.forEach((row: any) => {
       const apis: Api[] = [];
