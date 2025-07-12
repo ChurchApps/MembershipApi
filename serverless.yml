@@ -21,17 +21,20 @@ custom:
 provider:
   name: aws
   runtime: nodejs20.x
-  memorySize: 1024
+  memorySize: 512 # Reduced from 1024MB for cost optimization
   timeout: 10
   region: us-east-2
   iam:
     role: arn:aws:iam::428019619026:role/ChurchAppsRole
   environment:
     APP_ENV: ${self:custom.env}
+  logs:
+    httpApi:
+      logRetentionInDays: 1
   apiGateway:
     throttle:
-      rateLimit: 5     # 5 requests per second per IP
-      burstLimit: 20   # Allow bursts up to 20 requests per second
+      rateLimit: 5 # 5 requests per second per IP
+      burstLimit: 20 # Allow bursts up to 20 requests per second
 
 layers:
   nodeDependencies:
