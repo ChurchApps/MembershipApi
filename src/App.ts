@@ -8,14 +8,6 @@ import { CustomAuthProvider } from "@churchapps/apihelper";
 import cors from "cors";
 
 export const init = async () => {
-  /*
-  AWS.config.update({ region: 'us-east-2' });
-  const logger = winston.createLogger({
-      transports: [new WinstonCloudWatch({ logGroupName: 'AccessManagementStage', logStreamName: 'API' })],
-      format: winston.format.json()
-  });
-  logger.info("App Logger initialized");*/
-
   dotenv.config();
   const container = new Container();
   await container.loadAsync(bindings);

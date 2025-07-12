@@ -75,7 +75,6 @@ const updateEmailValidation = [
 export class UserController extends MembershipBaseController {
   @httpPost("/login")
   public async login(req: express.Request<{}, {}, LoginRequest>, res: express.Response): Promise<any> {
-    const start = new Date();
     try {
       let user: User = null;
       if (req.body.jwt !== undefined && req.body.jwt !== "") {
@@ -119,7 +118,6 @@ export class UserController extends MembershipBaseController {
   }
 
   private async getUserChurches(id: string): Promise<LoginUserChurch[]> {
-    const start = new Date();
     // Load user churches via Roles
     const roleUserChurches = await this.repositories.rolePermission.loadForUser(id, true); // Set to true so churches[0] is always a real church.  Not sre why it was false before.  If we need to change this make it a param on the login request
 
