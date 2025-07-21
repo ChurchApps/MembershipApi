@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     "/people": {
         "description": "Central authentication and people management service for a church management system",
         "parameters": {

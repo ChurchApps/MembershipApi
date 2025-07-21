@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import axios from "axios";
 import { Environment } from "./Environment";
-const MEMBERS_API_SCHEMA = require("../../tools/schemas/apiSchema");
+import MEMBERS_API_SCHEMA from "../../tools/schemas/apiSchema";
 
 export class OpenAiHelper {
   private static openai: OpenAI | null = null;
@@ -140,8 +140,7 @@ export class OpenAiHelper {
       const jsonStr = responseText.slice(jsonStart, jsonEnd);
       return JSON.parse(jsonStr);
     } catch (error) {
-      console.error("Failed to parse AI response: ", error);
-      throw new Error("Failed to interpret the query results");
+      throw new Error("Failed to interpret the query results: " + error);
     }
   }
 }
