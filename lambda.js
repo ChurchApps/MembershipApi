@@ -14,11 +14,16 @@ let handler;
 
 const universal = async function universal(event, context) {
   try {
+    console.log('Lambda invoked with event:', JSON.stringify(event, null, 2));
+    console.log('Event httpMethod:', event.httpMethod);
+    console.log('Event path:', event.path);
+    
     await checkPool();
     
     // Initialize the handler only once
     if (!handler) {
       const app = await init();
+      console.log('Express app initialized');
       handler = serverlessExpress({ 
         app,
         binarySettings: {
@@ -32,9 +37,12 @@ const universal = async function universal(event, context) {
         stripBasePath: false,
         resolutionMode: 'PROMISE'
       });
+      console.log('Serverless Express handler created');
     }
     
-    return handler(event, context);
+    const result = await handler(event, context);
+    console.log('Handler returned:', JSON.stringify(result, null, 2));
+    return result;
   } catch (error) {
     return {
       statusCode: 500,
