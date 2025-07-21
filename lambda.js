@@ -5,8 +5,11 @@ const { Environment } = require('./dist/src/helpers/Environment');
 
 const checkPool = async () => {
   if (!Environment.connectionString) {
+    console.log('Initializing environment with APP_ENV:', process.env.APP_ENV);
     await Environment.init(process.env.APP_ENV)
+    console.log('Environment initialized, connectionString:', Environment.connectionString ? 'set' : 'not set');
     Pool.initPool();
+    console.log('Pool initialized');
   }
 }
 
@@ -18,7 +21,12 @@ const universal = async function universal(event, context) {
     console.log('Event httpMethod:', event.httpMethod);
     console.log('Event path:', event.path);
     
-    await checkPool();
+    try {
+      await checkPool();
+    } catch (poolError) {
+      console.error('Error initializing pool:', poolError);
+      throw poolError;
+    }
     
     // Initialize the handler only once
     if (!handler) {

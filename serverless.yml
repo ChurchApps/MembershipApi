@@ -61,6 +61,10 @@ functions:
     vpc: ${self:custom.vpcSettings.current}
     package:
       patterns:
+        - "config/**"
+        - "dist/**"
+        - "lambda.js"
+        - "package.json"
         - "!package-lock.json"
         - "!tsconfig.json"
         - "!src/**"
