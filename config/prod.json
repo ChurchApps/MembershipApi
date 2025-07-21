@@ -8,5 +8,6 @@
   "s3Bucket": "churchapps-content",
   "supportEmail": "support@churchapps.org",
   "chumsRoot": "https://app.chums.org",
-  "messagingApi": "https://messagingapi.churchapps.org"
+  "messagingApi": "https://messagingapi.churchapps.org",
+  "aiProvider": "openai"
 }

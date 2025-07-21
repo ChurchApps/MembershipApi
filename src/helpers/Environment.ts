@@ -12,6 +12,9 @@ export class Environment extends EnvironmentBase {
   static hubspotKey: string;
   static caddyHost: string;
   static caddyPort: string;
+  static aiProvider: string;
+  static openRouterApiKey: string;
+  static openAiApiKey: string;
 
   static async init(environment: string) {
     let file = "dev.json";
@@ -33,5 +36,8 @@ export class Environment extends EnvironmentBase {
     this.hubspotKey = process.env.HUBSPOT_KEY || (await AwsHelper.readParameter(`/${environment}/hubspotKey`));
     this.caddyHost = process.env.CADDY_HOST || (await AwsHelper.readParameter(`/${environment}/caddyHost`));
     this.caddyPort = process.env.CADDY_PORT || (await AwsHelper.readParameter(`/${environment}/caddyPort`));
+    this.aiProvider = data.aiProvider;
+    this.openRouterApiKey = process.env.OPENROUTER_API_KEY || (await AwsHelper.readParameter(`/${environment}/openRouterApiKey`));
+    this.openAiApiKey = process.env.OPENAI_API_KEY || (await AwsHelper.readParameter(`/${environment}/openAiApiKey`));
   }
 }
