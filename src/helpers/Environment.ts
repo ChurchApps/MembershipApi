@@ -37,7 +37,8 @@ export class Environment extends EnvironmentBase {
     this.caddyHost = process.env.CADDY_HOST || (await AwsHelper.readParameter(`/${environment}/caddyHost`));
     this.caddyPort = process.env.CADDY_PORT || (await AwsHelper.readParameter(`/${environment}/caddyPort`));
     this.aiProvider = data.aiProvider;
-    this.openRouterApiKey = process.env.OPENROUTER_API_KEY || (await AwsHelper.readParameter(`/${environment}/openRouterApiKey`));
+    this.openRouterApiKey =
+      process.env.OPENROUTER_API_KEY || (await AwsHelper.readParameter(`/${environment}/openRouterApiKey`));
     this.openAiApiKey = process.env.OPENAI_API_KEY || (await AwsHelper.readParameter(`/${environment}/openAiApiKey`));
   }
 }

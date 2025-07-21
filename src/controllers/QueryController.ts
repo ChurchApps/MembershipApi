@@ -6,7 +6,6 @@ import { ArrayHelper, Permissions, PersonHelper } from "../helpers";
 
 @controller("/query")
 export class QueryController extends MembershipBaseController {
-
   @httpPost("/members")
   public async queryMembers(req: express.Request<{}, {}, any>, res: express.Response): Promise<any> {
     return this.actionWrapper(req, res, async (au) => {
