@@ -8,7 +8,7 @@
       "node_modules/@types"
     ],
     "lib": [
-      "ESNext"
+      "ES2020"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

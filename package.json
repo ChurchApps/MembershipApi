@@ -35,7 +35,7 @@
     "npm": ">=10.0.0"
   },
   "dependencies": {
-    "@churchapps/apihelper": "^0.1.4",
+    "@churchapps/apihelper": "0.1.5",
     "@codegenie/serverless-express": "^4.16.0",
     "@hubspot/api-client": "^13.0.0",
     "axios": "^1.9.0",
@@ -73,10 +73,5 @@
     "ts-node": "^10.9.2",
     "tsc-watch": "^7.1.1",
     "typescript": "^5.8.3"
-  },
-  "overrides": {
-    "@churchapps/apihelper": {
-      "mysql": "npm:mysql2@^3.14.1"
-    }
   }
 }
