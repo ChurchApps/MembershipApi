@@ -76,7 +76,8 @@
   },
   "overrides": {
     "@churchapps/apihelper": {
-      "mysql": "npm:mysql2@^3.14.1"
+      "mysql": "npm:mysql2@^3.14.1",
+      "@churchapps/helpers": "1.0.35"
     }
   }
 }
