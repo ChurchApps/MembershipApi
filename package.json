@@ -8,6 +8,7 @@
     "clean-layer": "rimraf layer",
     "codegen": "graphql-codegen",
     "copy-assets": "copyfiles -f src/apiBase/tools/templates/* dist/templates",
+    "copy-config": "copyfiles -u 1 config/* .",
     "build-layer": "mkdir -p layer/nodejs && cp tools/layer-package.json layer/nodejs/package.json && cd layer/nodejs && npm install --production",
     "exec-deploy-staging": "serverless deploy --stage Staging",
     "deploy-staging": "npm-run-all build copy-assets build-layer exec-deploy-staging",

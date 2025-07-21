@@ -21,8 +21,21 @@ export class Environment extends EnvironmentBase {
     if (environment === "staging") file = "staging.json";
     if (environment === "prod") file = "prod.json";
 
-    const relativePath = "../../config/" + file;
-    const physicalPath = path.resolve(__dirname, relativePath);
+    // In Lambda, __dirname is /var/task/dist/src/helpers
+    // Config files are at /var/task/config
+    let physicalPath: string;
+    
+    // Check if we're in actual Lambda (not serverless-local)
+    const isActualLambda = process.env.AWS_LAMBDA_FUNCTION_NAME && __dirname.startsWith("/var/task");
+    
+    if (isActualLambda) {
+      // In Lambda, config is at root level
+      physicalPath = path.resolve("/var/task/config", file);
+    } else {
+      // In local development, resolve from the project root
+      const projectRoot = path.resolve(__dirname, "../../../");
+      physicalPath = path.resolve(projectRoot, "config", file);
+    }
 
     const json = fs.readFileSync(physicalPath, "utf8");
     const data = JSON.parse(json);

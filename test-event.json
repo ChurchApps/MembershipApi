@@ -1,0 +1,24 @@
+{
+  "resource": "/{proxy+}",
+  "path": "/users/login",
+  "httpMethod": "POST",
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": "{\"email\":\"test@example.com\",\"password\":\"test\"}",
+  "isBase64Encoded": false,
+  "pathParameters": {
+    "proxy": "users/login"
+  },
+  "requestContext": {
+    "resourceId": "test",
+    "resourcePath": "/{proxy+}",
+    "httpMethod": "POST",
+    "path": "/test/users/login",
+    "accountId": "123456789",
+    "stage": "test",
+    "identity": {
+      "sourceIp": "127.0.0.1"
+    }
+  }
+}
