@@ -35,7 +35,7 @@
     "npm": ">=10.0.0"
   },
   "dependencies": {
-    "@churchapps/apihelper": "0.1.6",
+    "@churchapps/apihelper": "0.1.7",
     "@codegenie/serverless-express": "^4.16.0",
     "@hubspot/api-client": "^13.0.0",
     "axios": "^1.9.0",
