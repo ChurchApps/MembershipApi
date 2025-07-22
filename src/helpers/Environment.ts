@@ -24,16 +24,16 @@ export class Environment extends EnvironmentBase {
     // In Lambda, __dirname is /var/task/dist/src/helpers
     // Config files are at /var/task/config
     let physicalPath: string;
-    
+
     // Check if we're in actual Lambda (not serverless-local)
     const isActualLambda = process.env.AWS_LAMBDA_FUNCTION_NAME && __dirname.startsWith("/var/task");
-    
+
     if (isActualLambda) {
       // In Lambda, config is at root level
       physicalPath = path.resolve("/var/task/config", file);
     } else {
       // In local development, resolve from the project root
-      const projectRoot = path.resolve(__dirname, "../../../");
+      const projectRoot = path.resolve(__dirname, "../../");
       physicalPath = path.resolve(projectRoot, "config", file);
     }
 
