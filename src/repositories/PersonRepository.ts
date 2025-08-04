@@ -1,8 +1,7 @@
-import { injectable } from "inversify";
 import { DB } from "@churchapps/apihelper";
+import { injectable } from "inversify";
+import { DateHelper, PersonHelper, UniqueIdHelper } from "../helpers";
 import { Person } from "../models";
-import { PersonHelper, DateHelper } from "../helpers";
-import { UniqueIdHelper } from "../helpers";
 
 @injectable()
 export class PersonRepository {
@@ -17,7 +16,7 @@ export class PersonRepository {
     const anniversary = DateHelper.toMysqlDate(person.anniversary);
     const photoUpdated = DateHelper.toMysqlDate(person.photoUpdated);
     const sql =
-      "INSERT INTO people (id, churchId, displayName, firstName, middleName, lastName, nickName, prefix, suffix, birthDate, gender, maritalStatus, anniversary, membershipStatus, homePhone, mobilePhone, workPhone, email, nametagNotes, address1, address2, city, state, zip, photoUpdated, householdId, householdRole, conversationId, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);";
+      "INSERT INTO people (id, churchId, displayName, firstName, middleName, lastName, nickName, prefix, suffix, birthDate, gender, maritalStatus, anniversary, membershipStatus, homePhone, mobilePhone, workPhone, email, nametagNotes, address1, address2, city, state, zip, photoUpdated, householdId, householdRole, conversationId, removed, optedOut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?);";
     const params = [
       person.id,
       person.churchId,
@@ -46,7 +45,8 @@ export class PersonRepository {
       photoUpdated,
       person.householdId,
       person.householdRole,
-      person.conversationId
+      person.conversationId,
+      person.optedOut
     ];
     await DB.query(sql, params);
     return person;
@@ -63,7 +63,7 @@ export class PersonRepository {
     const anniversary = DateHelper.toMysqlDate(person.anniversary);
     const photoUpdated = DateHelper.toMysqlDate(person.photoUpdated);
     const sql =
-      "UPDATE people SET displayName=?, firstName=?, middleName=?, lastName=?, nickName=?, prefix=?, suffix=?, birthDate=?, gender=?, maritalStatus=?, anniversary=?, membershipStatus=?, homePhone=?, mobilePhone=?, workPhone=?, email=?, nametagNotes=?, address1=?, address2=?, city=?, state=?, zip=?, photoUpdated=?, householdId=?, householdRole=?, conversationId=? WHERE id=? and churchId=?";
+      "UPDATE people SET displayName=?, firstName=?, middleName=?, lastName=?, nickName=?, prefix=?, suffix=?, birthDate=?, gender=?, maritalStatus=?, anniversary=?, membershipStatus=?, homePhone=?, mobilePhone=?, workPhone=?, email=?, nametagNotes=?, address1=?, address2=?, city=?, state=?, zip=?, photoUpdated=?, householdId=?, householdRole=?, conversationId=?, optedOut=? WHERE id=? and churchId=?";
     const params = [
       person.name.display,
       person.name.first,
@@ -91,6 +91,7 @@ export class PersonRepository {
       person.householdId,
       person.householdRole,
       person.conversationId,
+      person.optedOut,
       person.id,
       person.churchId
     ];
